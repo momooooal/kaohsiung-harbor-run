@@ -88,31 +88,41 @@ export function ride(short=false){
  const keys=new Set(), select=document.querySelector('#mobility-mode'),button=id=>document.getElementById(id);
  const toolbar=document.createElement('div');toolbar.className='game-top';
  toolbar.innerHTML='<label>探索方式 <select id="travel"><option value="guided">路線導覽</option><option value="free">自由探索</option></select></label><label>選擇地點或路線 <select id="destination"><option value="-1">報告踩線全程</option></select></label>';
- stage.closest('.game-shell').prepend(toolbar);const help=document.querySelector('.game-help');help.textContent='路線導覽依所選路段前進。自由探索可在已建模步道內自行轉向與移動。拖曳畫面可環顧，WASD、方向鍵或觸控鍵可移動，E 或「觀察」觀看地標。';
+ stage.closest('.game-shell').prepend(toolbar);const help=document.querySelector('.game-help');help.textContent='路線導覽依所選路段前進。自由探索可在已建模步道內自行轉向與移動。拖曳畫面可環顧，WASD、方向鍵或觸控鍵可移動，按 E 或「觀察」看向附近地標：第一人稱留在原地，第三人稱可看全景。再按一次恢復視線，按前進即可繼續。';
  const destination=toolbar.querySelector('#destination'),travel=toolbar.querySelector('#travel');
- places.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
+ const destinations=[...places];
+ if(points.length>35)destinations.push({index:35,name:"大義回程",detail:"倉庫廊道、樹蔭與中庭線軸桌"});
+ destinations.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
- function relocate(){const place=places[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=lo;offset=yaw=pitch=0;viewing=false;paused=false;keys.clear();button('pause-toggle').textContent='暫停';
+ function relocate(){const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=lo;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
  destination.onchange=relocate;travel.onchange=()=>{free=travel.value==='free';relocate()};
  renderer.domElement.style.touchAction='none';
- renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
+ renderer.domElement.onpointerdown=e=>{setViewing(false);drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
  renderer.domElement.onpointermove=e=>{if(!drag)return;const delta=(e.clientX-drag[0])*.006;if(free)heading-=delta;else yaw-=delta;pitch=Math.max(-.85,Math.min(.85,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY]};
  renderer.domElement.onlostpointercapture=()=>drag=null;
  button('camera-toggle').textContent='第一人稱';
  select.onchange=()=>{scene.remove(actor);mode=select.value;actor=makeActor(mode);scene.add(actor);button('mode-description').textContent=MODES[mode].text};
- button('camera-toggle').onclick=e=>{first=!first;e.target.textContent=first?'第一人稱':'第三人稱'};
+ button('camera-toggle').onclick=e=>{setViewing(false);first=!first;e.target.textContent=first?'第一人稱':'第三人稱'};
  button('pause-toggle').onclick=e=>{paused=!paused;e.target.textContent=paused?'繼續':'暫停'};
  button('reset-game').onclick=relocate;
  button('quality-toggle').onclick=e=>{low=!low;renderer.setPixelRatio(low?1:Math.min(devicePixelRatio,2));e.target.textContent=low?'省電畫質':'標準畫質'};
  const bindings={w:'forward',s:'back',a:'left',d:'right',ArrowUp:'forward',ArrowDown:'back',ArrowLeft:'left',ArrowRight:'right'};
- function press(e){if(e.target!==renderer.domElement||!bindings[e.key])return;e.preventDefault();keys.add(bindings[e.key])}
+ function press(e){if(e.target!==renderer.domElement||!bindings[e.key])return;e.preventDefault();setViewing(false);keys.add(bindings[e.key])}
  function release(e){keys.delete(bindings[e.key])}
  document.addEventListener('keydown',press);document.addEventListener('keyup',release);
- let viewing=false;const observe=()=>{viewing=!viewing;keys.clear()};button('touch-interact').onclick=observe;
- renderer.domElement.onkeydown=e=>{if(e.key==='e')observe()};
- stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
+ let viewing=false;
+ function setViewing(active){
+   viewing=active;
+   const control=button('touch-interact');
+   control.textContent=active?'返回視線':'觀察';
+   control.setAttribute('aria-pressed',String(active));
+ }
+ setViewing(false);
+ const observe=()=>{setViewing(!viewing);keys.clear()};button('touch-interact').onclick=observe;
+ renderer.domElement.onkeydown=e=>{if(!e.repeat && e.key.toLowerCase()==='e')observe()};
+ stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
  const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix()});resize.observe(stage);
  function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*3;
  if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
@@ -125,10 +135,11 @@ export function ride(short=false){
 }
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;
  const a=points[i],b=points[i+1],angle=Math.atan2(b.x-a.x,b.z-a.z),pos=a.clone().lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));pos.x+=Math.cos(angle)*offset;pos.z-=Math.sin(angle)*offset;if(free)pos.copy(freePos);actor.position.copy(pos);actor.rotation.y=(free?heading:angle+yaw)+Math.PI;actor.visible=!first;
- const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=places.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);if(speed)viewing=false;
+ const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=destinations.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);
  if(viewing){const anchor=points[near.index],forward=anchor.clone().sub(points[near.index-1]).normalize(),side=new THREE.Vector3(forward.z,0,-forward.x);
- const target=anchor.clone().addScaledVector(side,near.index===14?-24:13);target.y=near.index===19?10:4;
- camera.position.copy(target).addScaledVector(forward,-32).addScaledVector(side,-25);camera.position.y=11;camera.lookAt(target);actor.visible=false}
+ const target=anchor.clone().addScaledVector(side,near.index===14?-24:13);if(near.index===35)target.addScaledVector(forward,24);target.y=near.index===19?10:near.index===35?1.2:4;
+ if(!first){camera.position.copy(target).addScaledVector(forward,-32).addScaledVector(side,-25);camera.position.y=11}
+ camera.lookAt(target);actor.visible=false}
  hint.textContent=near.name+'｜'+near.detail+'（3D 示意・通用港景）';sun.position.set(pos.x-36,pos.y+48,pos.z-19);sun.target.position.copy(pos);sky.update(camera);renderer.render(scene,camera);frame=requestAnimationFrame(tick)}frame=requestAnimationFrame(tick);
  return ()=>{cancelAnimationFrame(frame);resize.disconnect();document.removeEventListener('keydown',press);document.removeEventListener('keyup',release);scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});sky.dispose();renderer.dispose()};
 }
