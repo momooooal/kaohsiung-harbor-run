@@ -43,7 +43,7 @@ export function streetMaterials(scene, materials, points){
       const n=placed.length,waterside=i>=7 && i<=31;
       for(const side of [-1,1]){
         if(waterside || i<2 || i>=40)continue;
-        const [tx,tz]=pos(side*(i>=3&&i<=6?7.1:8+n%4));if(nearWalk(tx,tz))continue;
+        const [tx,tz]=pos(side*(i>=3&&i<=6?7.1:8+n%4));if(nearWalk(tx,tz) || (points[34] && Math.hypot(tx-points[34].x,tz-points[34].z)<53))continue;
         const h=(i>=3&&i<=6?12:5.8)+2*Math.sin(n*1.6);treePositions.push([tx,tz,h]);shadowPositions.push([tx+1.3,tz+1.5,h]);
       }
       if(waterside){
@@ -69,7 +69,13 @@ export function streetMaterials(scene, materials, points){
   const shadows=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:shade,transparent:true,depthWrite:false}),shadowPositions.length);
   const dummy=new THREE.Object3D();shadowPositions.forEach(([x,z,h],i)=>{dummy.position.set(x,.11,z);dummy.rotation.set(-Math.PI/2,0,.5);dummy.scale.set(h*.85,h*1.4,1);dummy.updateMatrix();shadows.setMatrixAt(i,dummy.matrix)});scene.add(shadows);
   let lastYaw=Infinity;
-  return {update(camera){sky.position.copy(camera.position);const dir=camera.getWorldDirection(dummy.position);const yaw=Math.atan2(dir.x,dir.z);if(Math.abs(yaw-lastYaw)<.025)return;lastYaw=yaw;treePositions.forEach(([x,z,h],i)=>{dummy.position.set(x,h/2-.1,z);dummy.rotation.set(0,yaw,0);dummy.scale.set(h*.64,h,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix)});trees.instanceMatrix.needsUpdate=true},dispose(){textures.forEach(t=>t.dispose())}};
+  return {update(camera){sky.position.copy(camera.position);
+    // Lift the generic photo horizon out of the low-rise C12 warehouse district.
+    if(points[34]){
+      const distance=camera.position.distanceTo(points[34]);
+      sky.material.map.offset.y=.20*(1-THREE.MathUtils.smoothstep(distance,65,130));
+    }
+    const dir=camera.getWorldDirection(dummy.position);const yaw=Math.atan2(dir.x,dir.z);if(Math.abs(yaw-lastYaw)<.025)return;lastYaw=yaw;treePositions.forEach(([x,z,h],i)=>{dummy.position.set(x,h/2-.1,z);dummy.rotation.set(0,yaw,0);dummy.scale.set(h*.64,h,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix)});trees.instanceMatrix.needsUpdate=true},dispose(){textures.forEach(t=>t.dispose())}};
 }
 
 

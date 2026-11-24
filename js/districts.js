@@ -17,17 +17,34 @@ export function addHarborDistricts(scene,points){
   for(const side of [-1,1]){for(let w=-3;w<=3;w+=1.6){beam([x+side*1.05,.76,z+w],[x+side*1.33,.76,z+w],.64,rust)}solid(x+side*1.36,.79,z, .11,.14,6.9,0xc1b598)}
   beam([x,2.65,z-2.6],[x,4,z-2.6],.34,iron);beam([x,3.78,z-2.6],[x,4.12,z-2.6],.49,iron);
  }
- anchor(1,-7,0);rails(0,0,62);engine(0,0);
+  anchor(1,7,5);
+ for(const lane of [0,4,8]) rails(lane,2,56);
+ engine(0,0);
+ // Parked freight stock gives the rail yard a continuous silhouette on approach.
+ for(const z of [0,10]){
+   solid(4,1.75,z,2.9,2.55,8.4,0x744632);
+   solid(4,3.12,z,3.1,.25,8.7,0x3f4441);
+   for(let rib=-3.6;rib<4;rib+=1.2)solid(4,1.78,z+rib,3,2.59,.11,0x544035);
+   for(const axle of [-2.6,2.6])beam([2.66,.58,z+axle],[5.34,.58,z+axle],.49,iron);
+ }
  // The park's red viewing bridge is composed in the sightline on arrival.
- anchor(0,0,-17);
- solid(0,.01,5,30,.16,29,0xbeb6a2);
+ anchor(0,1,33);
+
  solid(0,4.35,0,32,.48,3.1,rust);
  for(const z of [-1.3,1.3]){
    let prev;for(let x=-16;x<=16;x+=2){const y=4.7+5.3*(1-(x/16)**2);if(prev)beam(prev,[x,y,z],.23,0xa93a2c);beam([x,4.55,z],[x,y,z],.075,rust);prev=[x,y,z]}
  }
+ // Pale tensile shades sit within the preserved red arch of the Sky Balcony.
+ const canopy=new THREE.ConeGeometry(1,1,4,1,false,Math.PI/4);
+ for(const x of [-7,0,7]){
+   beam([x,4.55,0],[x,7.7,0],.085,cream);
+   item.position.set(x,7.64,0);item.rotation.set(0,0,0);item.scale.set(4.5,1.35,2.9);
+   add(canopy,0xf7f3e4);
+ }
  for(const x of [-12,12])solid(x,2.1,0,1.25,4.3,3.5,0xa5a294);
  for(const x of [-9,9]){solid(x,.32,8,4,.62,1.1,cream);beam([x,.1,3],[x,5.5,3],.16,iron);solid(x,4.8,3,.6,1.3,.4,iron)}
  // Sheltered station platform behind the viewing bridge, seen from the finish.
+ anchor(0,0,-17);
  solid(7,.26,-8,18,.5,7,0xb0aa92);solid(7,3.45,-8,19,.25,7.8,0x50635b);
  for(const x of [-1,4,10,15]){solid(x,1.85,-10,.18,3.2,.18,0x394c42);solid(x,1.85,-5.2,.18,3.2,.18,0x394c42)}
  for(const x of [3,9]){solid(x,.84,-8,3,.16,.72,0x806347);solid(x,1.22,-8.3,3,.65,.12,0x806347)}
@@ -49,7 +66,37 @@ export function addHarborDistricts(scene,points){
  solid(x+.25,y,z,.16,1.78,1.52,(col+row)%3===0?0x48707b:0x63828b)
  }}
  // Dayi return: low-floor tram and warehouse loading apron.
- if(points.length>35){anchor(34,-7,-17);rails(0,0,82);
+ if(points.length>35){ anchor(34,-8,-9);
+  // A cross street breaks the long pedestrian axis at the station entrance.
+ solid(0,.09,-15,48,.08,7,0x525453);
+ for(let z=-17.8;z<-12;z+=1.35)solid(8,.15,z,3.45,.035,.5,0xe1dccb);
+ rails(0,0,92);rails(-3.9,0,92);
+ // C12 has side platforms; leave the guided path outside the rail alignment.
+ for(const x of [3.3,-7.2]){
+   solid(x,.22,9,2.9,.44,37,0x999894);
+   solid(x,3.78,9,3.4,.24,27,0xbccaca);
+   solid(x,3.58,9,.27,.32,27,0x516663);
+   for(const z of [-2,5,12,20])solid(x,2,z,.19,3.45,.19,0x5b7069);
+ }
+ // Two gabled warehouse fronts open onto a lane and loading apron.
+ for(const x of [19,35]){
+   solid(x,3.1,20,13,6.2,28,0x9c624a);
+   for(const side of [-1,1]){
+     solid(x+side*3.4,7.24,20,7.4,.32,29.3,0x4d514e,-side*.30);
+     for(let bay=9;bay<33;bay+=6)solid(x+side*6.53,3,bay,.18,5.9,.42,0x744837);
+   }
+   for(const dx of [-3.5,3.5]){
+     solid(x+dx,2.1,5.94,4.35,4.2,.16,0x484c47);
+     for(let y=.6;y<4;y+=.56)solid(x+dx,y,5.8,4.24,.065,.10,0x6b6f66);
+   }
+   solid(x,4.62,5.2,12.7,.18,1.8,0x6c7168);
+   for(let dx=-4;dx<=4;dx+=2)solid(x+dx,5.47,5.9,1.55,.72,.17,0x607776);
+ }
+ // Rounded cab, dark wraparound glazing and paired headlamps face approaching runners.
+ beam([0,.98,-10],[0,1.33,-10],1.32,0x77ac47);
+ solid(0,1.68,-10.66,2.44,1.08,1.38,0x9fbf62);
+ solid(0,2.44,-10.62,2.38,1.04,1.25,0x253b43);
+ for(const x of [-.83,.83])solid(x,1.57,-11.37,.47,.13,.05,0xffedb9);
  for(let car=-1;car<=1;car++){const z=car*7.1;solid(0,1.05,z,2.7,1.45,6.9,0x77ac47);solid(0,2.32,z,2.65,1.42,6.65,0xe5e7dc);solid(0,2.43,z,2.72,1.06,6.25,0x344c52);solid(0,3.21,z,2.85,.36,6.75,0xe2e4d9);for(let j=-2.4;j<=2.4;j+=1.5)solid(0,2.44,z+j,2.77,1.16,.14,cream)}
  }
  for(const {shape,color,matrices} of batches.values()){const mesh=new THREE.InstancedMesh(shape,new THREE.MeshStandardMaterial({color,roughness:.76}),matrices.length);matrices.forEach((m,i)=>mesh.setMatrixAt(i,m));scene.add(mesh)}

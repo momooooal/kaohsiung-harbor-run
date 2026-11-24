@@ -25,7 +25,7 @@ export function ride(short=false){
  function block(x,y,z,w,h,d,color,angle=0){if(!materials.has(color))materials.set(color,new THREE.MeshLambertMaterial({color}));const obj=new THREE.Mesh(geo,materials.get(color));obj.position.set(x,y,z);obj.scale.set(w,h,d);obj.rotation.y=angle;scene.add(obj)}
  scene.add(new THREE.HemisphereLight(0xfff7e8,0x81745e,.76));block(650,-1,240,1800,1,700,0x88bab0);
  const lengths=[0];let total=0;
- points.slice(1).forEach((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,len=a.distanceTo(b),angle=Math.atan2(dx,dz);total+=len;lengths.push(total);block((a.x+b.x)/2,0,(a.z+b.z)/2,8,.15,len+.7,(i<2||i>=40)?0xb8ac92:(i<7||i>=36)?0xaaaca0:(i<16||i>=31)?0xa68260:0xc6c3b8,angle);})
+ points.slice(1).forEach((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,len=a.distanceTo(b),angle=Math.atan2(dx,dz);total+=len;lengths.push(total);block((a.x+b.x)/2,0,(a.z+b.z)/2,8,.15,len+.7,(i<2||i>=40)?0xb8ac92:(i<7||i>=36)?0xaaaca0:(i<16||i===31)?0xa68260:0xc6c3b8,angle);})
  const guide=document.createElement('details');
  guide.className='section-card';
  const title=document.createElement('summary');title.textContent='沿途地標與建模依據';guide.append(title);
@@ -35,6 +35,16 @@ export function ride(short=false){
    if(place.source){const a=document.createElement('a');a.href=place.source;a.textContent='高雄旅遊網地標介紹';a.target='_blank';a.rel='noopener';paragraph.append(a)}
    else paragraph.append('依成果報告第 33 頁路段名稱設計。');
    guide.append(paragraph);
+ }
+ for(const [description,label,url] of [
+   ['哈瑪星的舊站、保存股道與紅色景觀路橋取自鐵道文化園區特色。','高雄旅遊網｜哈瑪星鐵道文化園區','https://khh.travel/zh-tw/attractions/detail/206/'],
+   ['天空雲台保留紅拱結構，橋上的淺色遮陽棚也是這段的觀察線索。','高雄市政府｜天空雲台','https://takao.kcg.gov.tw/article/2070'],
+   ['回程以大義街路口的地面輕軌站及側式月台呈現街廓。車輛位置為示意。','高雄捷運｜C12 駁二大義','https://www.krtc.com.tw/KLRT/station_info?n=C12'],
+   ['路旁的成排倉庫與廊道呼應大義區 C8、C9 倉庫空間。','駁二藝術特區｜大義倉庫廊道','https://pier2.org/activity/info/1096/']
+ ]){
+   const p=document.createElement('p'),link=document.createElement('a');
+   link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener';
+   p.append(description,' ',link);guide.append(p);
  }
  const scale=document.createElement('p');scale.textContent='環境光景、樹形與鋪面採用通用實拍素材；實地位置請參考高雄旅遊網。全程按報告圖 46 示意描線。沿途建物的比例、朝向、植栽與路旁位置為導覽構圖。';guide.append(scale);const real=document.createElement('a');real.href='https://khh.travel/zh-tw/attractions/immersive-experience/';real.target='_blank';real.rel='noopener';real.className='link-arrow';real.textContent='高雄旅遊網｜現地環景導覽 ↗';const film=document.createElement('a');film.href='#/explore/film';film.className='btn dark';film.textContent='觀看港灣實拍步行影像';const actions=document.createElement('div');actions.className='bay-actions';actions.append(film,real);stage.closest('.game-shell').before(actions);
  stage.closest('.game-shell').after(guide);
