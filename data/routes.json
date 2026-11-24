@@ -1,0 +1,23 @@
+[
+  {
+    "id": "bay",
+    "name": "駁二 × 亞洲新灣區",
+    "kind": "示範場域",
+    "status": "demo",
+    "published": true,
+    "source": "使用者提供之專案資料；地圖中心參考 Wikimedia Commons 照片座標",
+    "verifiedAt": null,
+    "updatedAt": "2026-11-04",
+    "center": [22.618254, 120.279382],
+    "zoom": 14,
+    "gpx": null,
+    "path": null,
+    "activityDistanceLabel": "踩線約 4.5 公里（成果報告第 33 頁）", "distanceKm": null,
+    "start": null,
+    "end": null,
+    "summary": "以港灣、水岸與城市景觀為主題的首波示範場域。報告第 33 頁記載踩線路線與當日服務，精確軌跡及常態服務待查核。",
+    "image": "assets/kaohsiung-pier.jpg",
+    "imageAlt": "高雄港灣與城市天際線實景"
+  }
+]
+

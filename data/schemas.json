@@ -1,0 +1,8 @@
+{
+  "route": ["id", "name", "status", "published", "source", "verifiedAt", "updatedAt", "center", "path", "distanceKm"],
+  "facility": ["id", "name", "category", "lat", "lng", "routeIds", "status", "published", "source", "verifiedAt", "updatedAt"],
+  "store": ["id", "name", "branch", "address", "lat", "lng", "routeIds", "services", "offer", "limitations", "hours", "contact", "source", "verifiedAt", "updatedAt", "status", "published", "cooperationConfirmed"],
+  "surveyResult": ["id", "title", "question", "unit", "items", "source", "verifiedAt", "updatedAt", "status", "published"],
+  "communityResult": ["id", "title", "summary", "body", "source", "verifiedAt", "updatedAt", "status", "published"],
+  "gallery": ["id", "title", "summary", "image", "alt", "description", "source", "verifiedAt", "updatedAt", "status", "published"]
+}

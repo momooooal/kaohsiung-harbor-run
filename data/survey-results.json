@@ -1,0 +1,65 @@
+[
+  {
+    "id": "respondents",
+    "title": "有效問卷共 519 份",
+    "question": "回覆者組成",
+    "unit": "份",
+    "items": [
+      {
+        "label": "民眾、跑者與跑團",
+        "value": 494
+      },
+      {
+        "label": "店家",
+        "value": 25
+      }
+    ],
+    "source": "高雄友善跑步地圖公民參與計畫成果報告書，問卷調查章",
+    "verifiedAt": "2026-11-23",
+    "updatedAt": "2026-11-23",
+    "status": "verified",
+    "published": true
+  },
+  {
+    "published": true,
+    "updatedAt": "2026-11-23",
+    "unit": "%",
+    "title": "跑步途中最希望有的服務",
+    "id": "public-needs",
+    "status": "verified",
+    "verifiedAt": "2026-11-23",
+    "items": [
+      {
+        "label": "廁所",
+        "value": 76.3
+      },
+      {
+        "label": "飲水補給",
+        "value": 71.5
+      }
+    ],
+    "source": "成果報告第 13 頁，複選題，節錄前兩項",
+    "question": "跑步途中最希望有的服務"
+  },
+  {
+    "published": true,
+    "updatedAt": "2026-11-23",
+    "unit": "%",
+    "title": "最期待的店家服務",
+    "id": "shop-needs",
+    "status": "verified",
+    "verifiedAt": "2026-11-23",
+    "items": [
+      {
+        "label": "借用廁所",
+        "value": 77.7
+      },
+      {
+        "label": "免費飲水",
+        "value": 75.3
+      }
+    ],
+    "source": "成果報告第 13 頁，複選題，節錄前兩項",
+    "question": "最期待的店家服務"
+  }
+]
