@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "status": "verified",
+    "summary": "76.9% 希望標出補水站",
+    "published": true,
+    "image": "assets/card-map-priorities.svg",
+    "verifiedAt": "2026-11-24",
+    "title": "跑者最希望標出的資訊",
+    "alt": "78.5% 希望標出廁所。76.9% 希望標出補水站。跑者端 n=494，複選。成果報告第 13–14 頁。",
+    "updatedAt": "2026-11-24",
+    "id": "map-priorities",
+    "source": "跑者端 n=494，複選。成果報告第 13–14 頁。",
+    "description": "78.5% 希望標出廁所。76.9% 希望標出補水站。跑者端 n=494，複選。成果報告第 13–14 頁。"
+  },
+  {
+    "status": "verified",
+    "summary": "實際服務仍須個別確認",
+    "published": true,
+    "image": "assets/card-shop-interest.svg",
+    "verifiedAt": "2026-11-24",
+    "title": "店家的參與意願",
+    "alt": "21 / 25 受訪店家有意加入。實際服務仍須個別確認。店家端 n=25。成果報告第 15 頁。",
+    "updatedAt": "2026-11-24",
+    "id": "shop-interest",
+    "source": "店家端 n=25。成果報告第 15 頁。",
+    "description": "21 / 25 受訪店家有意加入。實際服務仍須個別確認。店家端 n=25。成果報告第 15 頁。"
+  }
+]

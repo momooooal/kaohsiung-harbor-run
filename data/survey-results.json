@@ -14,7 +14,7 @@
         "value": 25
       }
     ],
-    "source": "高雄友善跑步地圖公民參與計畫成果報告書，問卷調查章",
+    "source": "成果報告第 3、11 頁。有效問卷含跑者端 494 份及店家端 25 份。",
     "verifiedAt": "2026-11-23",
     "updatedAt": "2026-11-23",
     "status": "verified",
@@ -61,5 +61,51 @@
     ],
     "source": "成果報告第 13 頁，複選題，節錄前兩項",
     "question": "最期待的店家服務"
+  },
+  {
+    "items": [
+      {
+        "label": "廁所",
+        "value": 78.5
+      },
+      {
+        "label": "補水站",
+        "value": 76.9
+      },
+      {
+        "label": "附距離的跑步路線",
+        "value": 70.9
+      }
+    ],
+    "updatedAt": "2026-11-24",
+    "question": "跑者希望地圖標出什麼？",
+    "source": "第 13–14 頁，跑者端 n=494，複選，節錄三項。",
+    "published": true,
+    "id": "map-info",
+    "verifiedAt": "2026-11-24",
+    "title": "跑者希望地圖標出什麼？",
+    "status": "verified",
+    "unit": "%"
+  },
+  {
+    "items": [
+      {
+        "label": "公園或河堤",
+        "value": 75.9
+      },
+      {
+        "label": "學校操場",
+        "value": 61.3
+      }
+    ],
+    "updatedAt": "2026-11-24",
+    "question": "受訪者平常在哪裡跑？",
+    "source": "第 12 頁，跑者端 n=494，複選，節錄兩項。",
+    "published": true,
+    "id": "locations",
+    "verifiedAt": "2026-11-24",
+    "title": "受訪者平常在哪裡跑？",
+    "status": "verified",
+    "unit": "%"
   }
 ]

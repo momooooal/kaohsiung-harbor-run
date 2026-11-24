@@ -1341,3 +1341,12 @@ a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visib
 body:has(#game-stage) .site-header {
   position: relative;
 }
+
+.report-notes{padding-block:clamp(24px,5vw,64px)}
+.report-notes>p{max-width:60em}
+.report-notes details{border-top:1px solid #b9ccca;padding:.8rem .25rem}
+.report-notes summary{cursor:pointer;font-weight:700;padding:.35em 0;color:#164654}
+.report-notes small{color:#455b60}.report-notes>a{margin-top:1.2rem}
+.community-findings{display:grid;gap:1.3rem}
+#survey-results:not(.empty-box){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1.4rem 2.4rem}
+#discussion-results article+article{margin-top:1rem}

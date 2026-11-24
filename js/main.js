@@ -1,3 +1,4 @@
+import {notesSection} from './field-notes.js';
 import {reportMap,ride} from './report.js';
 import { loadData, publicItems, safeImagePath } from './data.js';
 import { mountMap } from './map.js';
@@ -26,7 +27,7 @@ function shell(path, content) {
   return `<div class="prototype-band">網站互動原型｜示範場景與地圖焦點並非現地查核結果</div>
     <header class="site-header"><div class="wrap header-row"><a class="brand" href="#/" aria-label="跑出你的高雄，回首頁">${logo}<span>跑出你的高雄<small>友善跑步地圖 · 互動原型</small></span></a><button class="menu-toggle" id="menu-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="nav-links">☰</button><nav class="nav-links" id="nav-links" aria-label="主要導覽">${nav}</nav></div></header>
     <main id="main" tabindex="-1">${content}</main>
-    <footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><div class="eyebrow light">KAOHSIUNG · MOVE TOGETHER</div><h3>跑出你的高雄</h3><p>從市民需求出發，逐步建立更清楚的城市運動資訊。本網站為互動原型，正式路線、設施、合作店家與調查結果須經確認後發布。</p></div><div><h3>探索網站</h3><div class="footer-links">${links.slice(1).map(([p,l])=>`<a href="${href(p)}">${l}</a>`).join('')}<a href="#/routes/bay">駁二示範場域</a></div></div><div><h3>資料與素材</h3><p class="small">目前狀態：成果報告已完成；本版資料更新：2026-11-23。主辦及合作單位資訊待正式確認。</p><p class="small">照片：<a href="https://commons.wikimedia.org/wiki/File:Kaohsiung_Harbour_-_KaohsiungHarbour4515.jpg" target="_blank" rel="noopener">lumoplank / Wikimedia Commons</a>（CC0）<br>地圖：© OpenStreetMap contributors</p></div></div><div class="footer-bottom">© 2026 跑出你的高雄 · 示範原型。3D 場景為原創風格化示意，與現地路況、坡度及無障礙條件可能不同。</div></div></footer>`;
+    <footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><div class="eyebrow light">KAOHSIUNG · MOVE TOGETHER</div><h3>跑出你的高雄</h3><p>從市民需求出發，逐步建立更清楚的城市運動資訊。本網站為互動原型，正式路線、設施、合作店家與調查結果須經確認後發布。</p></div><div><h3>探索網站</h3><div class="footer-links">${links.slice(1).map(([p,l])=>`<a href="${href(p)}">${l}</a>`).join('')}<a href="#/routes/bay">駁二示範場域</a></div></div><div><h3>資料與素材</h3><p class="small">目前狀態：成果報告已完成；本版資料更新：2026-11-24。計畫主辦：高雄市政府運動發展局（成果報告第 6 頁）。</p><p class="small">照片：<a href="https://commons.wikimedia.org/wiki/File:Kaohsiung_Harbour_-_KaohsiungHarbour4515.jpg" target="_blank" rel="noopener">lumoplank / Wikimedia Commons</a>（CC0）<br>地圖：© OpenStreetMap contributors</p></div></div><div class="footer-bottom">© 2026 跑出你的高雄 · 示範原型。3D 場景為原創風格化示意，與現地路況、坡度及無障礙條件可能不同。</div></div></footer>`;
 }
 
 function intro(label, title, description, crumb) {
@@ -43,7 +44,7 @@ function home() {
   </div></div></section>
   <section class="section bay-section"><div class="wrap bay-grid"><div class="bay-image"><img src="assets/kaohsiung-pier.jpg" alt="高雄港灣與城市天際線實景" loading="lazy"><a class="map-peek" href="#/map" aria-label="開啟駁二場域示意地圖"><span class="map-peek-art" aria-hidden="true"><i></i></span><strong>場域地圖預覽 <small>示意焦點 · 非正式路徑</small></strong><span aria-hidden="true">↗</span></a><span class="photo-credit">lumoplank / Wikimedia Commons · CC0</span></div><div class="bay-copy"><div class="eyebrow">02 / FIRST DEMONSTRATION AREA</div><h2>駁二 ×<br>亞洲新灣區</h2><p class="lead">從港灣到城市，先認識第一個示範場域。</p><p>從哈瑪星出發，經鹽埕綠廊道與真愛碼頭探索港灣。成果報告記載踩線約 4.5 公里，可在場域頁查看圖 46。</p><div class="info-rule">地圖圓形僅為示意焦點，並非正式路徑或可通行範圍。</div><div class="bay-actions"><a class="btn dark" href="#/routes/bay">查看場域介紹 ↗</a><a class="btn outline" href="#/explore">進入 3D 探索 ↗</a></div></div></div></section>
   <section class="section explore-promo"><div class="wrap explore-grid"><div><div class="eyebrow light">03 / MOVE IN YOUR OWN WAY</div><h2>同一座城市，<br>不同的移動視角。</h2><p class="lead">在原創 3D 示範場景中，切換移動方式與第一、第三人稱，觀察空間中的不同細節。</p><div class="mode-strip" aria-label="體驗模式"><span>跑步</span><span>健走</span><span>腳踏車</span><span>輪椅</span><span>拐杖／輔具</span></div><a class="btn primary" href="#/explore">進入沉浸式探索 ↗</a></div><div class="scene-preview" role="img" aria-label="原創風格化港灣步道場景示意圖"><span class="scene-sun"></span><span class="scene-person"></span><span class="scene-label">互動示範 · 非真實路況</span></div></div></section>
-  <section class="section progress-section"><div class="wrap"><div class="section-heading"><div class="eyebrow">04 / THE PROCESS</div><h2>市民的想法，<br>正在成為下一步。</h2><p class="lead muted">問卷共取得 519 份有效樣本，座談後亦辦理港灣踩線。</p></div><div class="progress-list"><div class="progress-step"><span class="step-no">01</span><h3>線上需求問卷</h3><p>已完成</p></div><div class="progress-step"><span class="step-no">02</span><h3>實體座談會</h3><p>已完成</p></div><div class="progress-step"><span class="step-no">03</span><h3>意見彙整</h3><p>已完成</p></div><div class="progress-step pending"><span class="step-no">04</span><h3>最終成果發布</h3><p>規劃中</p></div></div><p style="margin-top:36px"><a class="link-arrow" href="#/community">了解公民共創進度</a></p></div></section>`;
+  <section class="section progress-section"><div class="wrap"><div class="section-heading"><div class="eyebrow">04 / THE PROCESS</div><h2>市民的想法，<br>正在成為下一步。</h2><p class="lead muted">問卷共取得 519 份有效樣本，座談後亦辦理港灣踩線。</p></div><div class="progress-list"><div class="progress-step"><span class="step-no">01</span><h3>線上需求問卷</h3><p>已完成</p></div><div class="progress-step"><span class="step-no">02</span><h3>實體座談會</h3><p>已完成</p></div><div class="progress-step"><span class="step-no">03</span><h3>意見彙整</h3><p>已完成</p></div><div class="progress-step pending"><span class="step-no">04</span><h3>成果報告</h3><p>已完成</p></div></div><p style="margin-top:36px"><a class="link-arrow" href="#/community">了解公民共創進度</a></p></div></section>`;
 }
 
 function mapPage() {
@@ -73,7 +74,7 @@ function genericRoutePage(route) {
 
 function communityPage() {
   return `${intro('COMMUNITY IN ACTION', '公民共創成果', '從跑者、運動民眾與店家代表的想法出發，一起整理城市運動需求。', '公民共創成果')}
-  <div class="wrap page-body"><div class="status-note"><strong>公民參與成果報告已完成。</strong>本頁不顯示未確認的統計數字或座談結論。</div><div class="split" style="margin-top:28px"><div class="section-card"><h2>計畫背景</h2><p>線上問卷與實體座談蒐集運動路線、公共服務、友善店家及地圖資訊等需求，作為後續規劃參考。這些是調查主題，尚非調查結論。</p></div><div class="section-card"><h2>公民參與歷程</h2><div class="timeline"><article><strong>線上需求問卷 · 已完成</strong></article><article><strong>實體公民座談 · 已完成</strong></article><article><strong>意見彙整 · 已完成</strong></article><article><strong>成果報告 · 已完成</strong></article></div></div></div><div class="status-grid" style="margin-top:22px"><div class="section-card"><h3>問卷成果</h3><p>資料依成果報告整理，複選題的比例可重疊。</p><div id="survey-results" class="empty-box">尚未取得正式問卷結果。</div></div><div class="section-card"><h3>座談會成果</h3><div id="discussion-results" class="empty-box">座談成果報告已完成。</div></div><div class="section-card"><h3>路線推薦成果</h3><div class="empty-box">推薦路線待查核；目前不發布民眾提案為正式路線。</div></div></div><section style="margin-top:55px"><div class="section-heading"><div class="eyebrow">RESULT CARDS</div><h2>成果圖卡</h2><p>已核准公開的成果圖卡將陸續刊登。</p></div><div id="gallery" class="empty-box">成果圖卡尚未發布。</div></section><section style="margin-top:55px"><h2>後續辦理進度</h2><p>彙整問卷與座談意見後，再進行資料查核、圖卡製作與公開更新。</p><a class="link-arrow" href="#/about">了解計畫背景</a></section><dialog id="gallery-dialog" class="dialog" aria-label="成果圖卡放大檢視"><button type="button" id="gallery-close" class="btn dark">關閉</button><img id="gallery-large" alt=""><h3 id="gallery-title"></h3><p id="gallery-description"></p><div class="dialog-controls"><button type="button" class="btn outline" id="gallery-prev">← 上一張</button><button type="button" class="btn outline" id="gallery-next">下一張 →</button></div></dialog></div>`;
+  <div class="wrap page-body"><div class="status-note"><strong>519 份有效問卷、32 人參與座談。</strong>問卷涵蓋跑者端與店家端兩種對象；座談以三桌換桌討論，整理選線、店家與公共服務需求。（第 3、19 頁）</div><div class="split" style="margin-top:28px"><div class="section-card"><h2>計畫背景</h2><p>線上問卷與實體座談蒐集運動路線、公共服務、友善店家及地圖資訊等需求，作為後續規劃參考。這些是調查主題，尚非調查結論。</p></div><div class="section-card"><h2>公民參與歷程</h2><div class="timeline"><article><strong>線上需求問卷 · 已完成</strong></article><article><strong>實體公民座談 · 已完成</strong></article><article><strong>意見彙整 · 已完成</strong></article><article><strong>成果報告 · 已完成</strong></article></div></div></div><div class="community-findings" style="margin-top:22px"><div class="section-card"><h3>問卷成果</h3><p>資料依成果報告整理，複選題的比例可重疊。</p><div id="survey-results" class="empty-box">尚未取得正式問卷結果。</div></div><div class="section-card"><h3>座談會成果</h3><div id="discussion-results" class="empty-box">座談成果報告已完成。</div></div><div class="section-card"><h3>路線推薦成果</h3><div class="empty-box">座談參與者推薦愛河、衛武營、美術館、中山大學—西子灣、旗津，以及哈瑪星—美術館。這些是市民提案，路徑與設施仍待現勘。（第 26 頁，表 17）</div></div></div><section style="margin-top:55px"><div class="section-heading"><div class="eyebrow">RESULT CARDS</div><h2>成果圖卡</h2><p>依報告數據重繪，點選圖卡可放大閱讀。</p></div><div id="gallery" class="empty-box">成果圖卡尚未發布。</div></section><section style="margin-top:55px"><h2>後續辦理進度</h2><p>報告列出清晨盥洗、夜間照明及運動中心服務等待追蹤事項。後續須與場地方確認條件，核實後才會加入地圖。（第 26 頁，表 18）</p><a class="link-arrow" href="#/about">了解計畫背景</a></section><dialog id="gallery-dialog" class="dialog" aria-label="成果圖卡放大檢視"><button type="button" id="gallery-close" class="btn dark">關閉</button><img id="gallery-large" alt=""><h3 id="gallery-title"></h3><p id="gallery-description"></p><div class="dialog-controls"><button type="button" class="btn outline" id="gallery-prev">← 上一張</button><button type="button" class="btn outline" id="gallery-next">下一張 →</button></div></dialog></div>`;
 }
 
 function aboutPage() {
@@ -100,7 +101,7 @@ function renderResults() {
       const section = document.createElement('section');
       section.className = 'chart';
       const title = document.createElement('h3'); title.textContent = result.title; section.append(title);
-      const max = Math.max(...result.items.map(item => Number(item.value) || 0), 1);
+      const max = result.unit === '%' ? 100 : Math.max(...result.items.map(item => Number(item.value) || 0), 1);
       for (const item of result.items) {
         if (!Number.isFinite(item.value) || item.value < 0) continue;
         const row = document.createElement('div'); row.className = 'chart-row';
@@ -118,7 +119,7 @@ function renderResults() {
   if (discussionHost && discussions.length) {
     discussionHost.className = '';
     discussionHost.replaceChildren();
-    discussions.forEach(item => { const article = document.createElement('article'); const h = document.createElement('h3'); h.textContent = item.title; const p = document.createElement('p'); p.textContent = item.summary; article.append(h,p); discussionHost.append(article); });
+    discussions.forEach(item => { const article = document.createElement('article'); const h = document.createElement('h3'); h.textContent = item.title; const p = document.createElement('p'); p.textContent = item.summary; const source=document.createElement("small");source.textContent=item.source;article.append(h,p,source); discussionHost.append(article); });
   }
   const cards = publicItems(data.gallery, 'gallery').filter(item => safeImagePath(item.image));
   const gallery = document.getElementById('gallery');
@@ -157,6 +158,9 @@ function render() {
     document.querySelector('.game-help').textContent='點選畫面後用 WASD 或方向鍵移動及轉向，手機可按住方向鍵。按 E 或「觀察」可觀看鄰近地標全景，再按一次或前進即可返回。';
     dispose = ride(path.endsWith('/short'));
   }
+  if(path==='/about')document.querySelector('.page-intro').after(notesSection('about'));
+  if(path==='/map')document.querySelector('#main').append(notesSection('map'));
+  if(path==='/explore'||path==='/explore/short')document.querySelector('.game-shell').after(notesSection('explore'));
   if (path === '/community') renderResults();
   window.scrollTo(0, 0);
   document.title = `${path === '/' ? '跑出你的高雄' : document.querySelector('.page-intro h1')?.textContent || '跑出你的高雄'}｜友善跑步地圖互動原型`;
@@ -172,6 +176,9 @@ try {
   document.getElementById('load-error').textContent = error.message;
   console.error(error);
 }
+
+
+
 
 
 
