@@ -40,6 +40,8 @@ export function ride(short=false){
    ['哈瑪星的舊站、保存股道與紅色景觀路橋取自鐵道文化園區特色。','高雄旅遊網｜哈瑪星鐵道文化園區','https://khh.travel/zh-tw/attractions/detail/206/'],
    ['天空雲台保留紅拱結構，橋上的淺色遮陽棚也是這段的觀察線索。','高雄市政府｜天空雲台','https://takao.kcg.gov.tw/article/2070'],
    ['回程以大義街路口的地面輕軌站及側式月台呈現街廓。車輛位置為示意。','高雄捷運｜C12 駁二大義','https://www.krtc.com.tw/KLRT/station_info?n=C12'],
+   ['車頭的弧形擋風玻璃、棚架支柱與草軌參考停靠照片；列車配色為示意。','C12 月台與車頭現場照片','https://ihappyday.tw/blog/post/kaohsiung-2'],
+   ['倉庫模型以灰色外牆、局部露磚和高窗開口呈現大義區沿街尺度。','大義倉庫街廓照片','https://www.mobile01.com/topicdetail.php?f=204&t=5691456'],
    ['路旁的成排倉庫與廊道呼應大義區 C8、C9 倉庫空間。','駁二藝術特區｜大義倉庫廊道','https://pier2.org/activity/info/1096/']
  ]){
    const p=document.createElement('p'),link=document.createElement('a');

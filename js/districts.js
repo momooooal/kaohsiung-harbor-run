@@ -1,3 +1,4 @@
+import {buildDayiStation} from './dayi.js';
 // Local frames use metres in the illustrative scene, not surveyed coordinates.
 export function addHarborDistricts(scene,points){
  const box=new THREE.BoxGeometry(),tube=new THREE.CylinderGeometry(1,1,1,12),batches=new Map(),frame=new THREE.Object3D(),item=new THREE.Object3D();
@@ -65,39 +66,9 @@ export function addHarborDistricts(scene,points){
  for(let k=0;k<3;k++)beam(verts[k],verts[k+1],.10,0xe3e3d3);
  solid(x+.25,y,z,.16,1.78,1.52,(col+row)%3===0?0x48707b:0x63828b)
  }}
- // Dayi return: low-floor tram and warehouse loading apron.
- if(points.length>35){ anchor(34,-8,-9);
-  // A cross street breaks the long pedestrian axis at the station entrance.
- solid(0,.09,-15,48,.08,7,0x525453);
- for(let z=-17.8;z<-12;z+=1.35)solid(8,.15,z,3.45,.035,.5,0xe1dccb);
- rails(0,0,92);rails(-3.9,0,92);
- // C12 has side platforms; leave the guided path outside the rail alignment.
- for(const x of [3.3,-7.2]){
-   solid(x,.22,9,2.9,.44,37,0x999894);
-   solid(x,3.78,9,3.4,.24,27,0xbccaca);
-   solid(x,3.58,9,.27,.32,27,0x516663);
-   for(const z of [-2,5,12,20])solid(x,2,z,.19,3.45,.19,0x5b7069);
- }
- // Two gabled warehouse fronts open onto a lane and loading apron.
- for(const x of [19,35]){
-   solid(x,3.1,20,13,6.2,28,0x9c624a);
-   for(const side of [-1,1]){
-     solid(x+side*3.4,7.24,20,7.4,.32,29.3,0x4d514e,-side*.30);
-     for(let bay=9;bay<33;bay+=6)solid(x+side*6.53,3,bay,.18,5.9,.42,0x744837);
-   }
-   for(const dx of [-3.5,3.5]){
-     solid(x+dx,2.1,5.94,4.35,4.2,.16,0x484c47);
-     for(let y=.6;y<4;y+=.56)solid(x+dx,y,5.8,4.24,.065,.10,0x6b6f66);
-   }
-   solid(x,4.62,5.2,12.7,.18,1.8,0x6c7168);
-   for(let dx=-4;dx<=4;dx+=2)solid(x+dx,5.47,5.9,1.55,.72,.17,0x607776);
- }
- // Rounded cab, dark wraparound glazing and paired headlamps face approaching runners.
- beam([0,.98,-10],[0,1.33,-10],1.32,0x77ac47);
- solid(0,1.68,-10.66,2.44,1.08,1.38,0x9fbf62);
- solid(0,2.44,-10.62,2.38,1.04,1.25,0x253b43);
- for(const x of [-.83,.83])solid(x,1.57,-11.37,.47,.13,.05,0xffedb9);
- for(let car=-1;car<=1;car++){const z=car*7.1;solid(0,1.05,z,2.7,1.45,6.9,0x77ac47);solid(0,2.32,z,2.65,1.42,6.65,0xe5e7dc);solid(0,2.43,z,2.72,1.06,6.25,0x344c52);solid(0,3.21,z,2.85,.36,6.75,0xe2e4d9);for(let j=-2.4;j<=2.4;j+=1.5)solid(0,2.44,z+j,2.77,1.16,.14,cream)}
+ if(points.length>35){
+   anchor(34,-8,-9);
+   buildDayiStation(scene,frame,solid,beam);
  }
  for(const {shape,color,matrices} of batches.values()){const mesh=new THREE.InstancedMesh(shape,new THREE.MeshStandardMaterial({color,roughness:.76}),matrices.length);matrices.forEach((m,i)=>mesh.setMatrixAt(i,m));scene.add(mesh)}
 }
