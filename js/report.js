@@ -50,7 +50,7 @@ export function ride(short=false){
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
  function relocate(){const place=places[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=lo;offset=yaw=pitch=0;viewing=false;paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
- destination.onchange=relocate;travel.onchange=()=>{free=travel.value==='free';relocate();first=free;button('camera-toggle').textContent=first?'第一人稱':'第三人稱'};
+ destination.onchange=relocate;travel.onchange=()=>{free=travel.value==='free';relocate()};
  renderer.domElement.style.touchAction='none';
  renderer.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
  renderer.domElement.onpointermove=e=>{if(!drag)return;const delta=(e.clientX-drag[0])*.006;if(free)heading-=delta;else yaw-=delta;pitch=Math.max(-.85,Math.min(.85,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY]};
