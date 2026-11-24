@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "test": "node scripts/test-logic.mjs && node scripts/test-map.mjs"
+    "test": "node scripts/test-current.mjs && node scripts/test-scene-models.mjs && node scripts/test-map.mjs",
+    "test:legacy": "node scripts/test-logic.mjs"
   }
 }

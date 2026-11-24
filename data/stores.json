@@ -1,1 +1,94 @@
-[]
+[
+  {
+    "id": "coffee-five",
+    "name": "路人咖啡 5 號店",
+    "recordClass": "activity",
+    "evidenceType": "活動紀錄",
+    "activityDate": "2026-10-26",
+    "sourceDate": "2026-11",
+    "source": "高雄友善跑步地圖公民參與計畫成果報告書",
+    "sourceLocator": "第 33 頁，表 19",
+    "contentCheckedAt": "2026-11-24",
+    "updatedAt": "2026-11-24",
+    "serviceCheckedAt": null,
+    "serviceStatus": "現況待查",
+    "cooperationStatus": "未確認常態合作",
+    "coordinateAccuracy": "未定位",
+    "lat": null,
+    "lng": null,
+    "routeIds": [
+      "bay"
+    ],
+    "services": [
+      {
+        "name": "當日食物與飲水補給",
+        "cost": null,
+        "hours": "2026/10/26 活動期間",
+        "requiresPurchase": null,
+        "limitations": "報告當時紀錄，現行條件待確認",
+        "sourceLocator": "第 33 頁，表 19"
+      }
+    ],
+    "published": true,
+    "status": "verified",
+    "verifiedAt": "2026-11-24",
+    "category": "更衣及沐浴",
+    "branch": null,
+    "address": null,
+    "offer": null,
+    "limitations": "不保證目前仍提供",
+    "hours": null,
+    "contact": null,
+    "cooperationConfirmed": false,
+    "kind": "store"
+  },
+  {
+    "id": "fitness",
+    "name": "泓荒之力 Fitness Studio",
+    "recordClass": "reference",
+    "evidenceType": "報告介紹",
+    "activityDate": null,
+    "sourceDate": "2026-11",
+    "source": "高雄友善跑步地圖公民參與計畫成果報告書",
+    "sourceLocator": "第 22 頁圖 22",
+    "contentCheckedAt": "2026-11-24",
+    "updatedAt": "2026-11-24",
+    "serviceCheckedAt": null,
+    "serviceStatus": "現況待查",
+    "cooperationStatus": "未確認常態合作",
+    "coordinateAccuracy": "未定位",
+    "lat": null,
+    "lng": null,
+    "routeIds": [],
+    "services": [
+      {
+        "name": "置物、飲水、廁所、休息",
+        "cost": "免費",
+        "hours": null,
+        "requiresPurchase": null,
+        "limitations": "報告當時紀錄，現行條件待確認",
+        "sourceLocator": "第 22 頁圖 22"
+      },
+      {
+        "name": "熱水淋浴",
+        "cost": "每次 50 元",
+        "hours": null,
+        "requiresPurchase": null,
+        "limitations": "報告當時紀錄，現行條件待確認",
+        "sourceLocator": "第 22 頁圖 22"
+      }
+    ],
+    "published": true,
+    "status": "verified",
+    "verifiedAt": "2026-11-24",
+    "category": "更衣及沐浴",
+    "branch": null,
+    "address": null,
+    "offer": null,
+    "limitations": "不保證目前仍提供",
+    "hours": null,
+    "contact": null,
+    "cooperationConfirmed": false,
+    "kind": "store"
+  }
+]

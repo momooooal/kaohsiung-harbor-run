@@ -16,7 +16,7 @@
     "distanceKm": null,
     "start": null,
     "end": null,
-    "summary": "從哈瑪星經鹽埕綠廊道跑向港灣，沿大義輕軌回到起點。",
+    "summary": "從哈瑪星經鹽埕綠廊道前往真愛碼頭、高流，沿輕軌大義一帶返回哈瑪星。",
     "image": "assets/kaohsiung-pier.jpg",
     "imageAlt": "高雄港灣與城市天際線實景",
     "activityDate": "2026 年 10 月 26 日",
@@ -62,6 +62,15 @@
         "路人咖啡 5 號店",
         "這次踩線的食物與飲水補給點。平日服務與合作狀態仍待確認。"
       ]
-    ]
+    ],
+    "reportedDistanceKm": 4.5,
+    "geometryDistanceKm": null,
+    "sceneScale": 2,
+    "sceneDistance": 2903.512652830258,
+    "contentCheckedAt": "2026-11-24",
+    "serviceCheckedAt": null,
+    "sourceLocator": "成果報告第 33 頁，表 19、圖 46",
+    "returnAssumption": "場景最後接回起點僅供體驗閉合；報告終點為哈瑪星，未指定同一出口。",
+    "sceneUnit": "場景單位，非公尺"
   }
 ]

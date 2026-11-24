@@ -55,7 +55,7 @@ export function addHarborDistricts(scene,points){
  for(let j=-3;j<=3;j+=1.4){beam([side*5.9,.63,z+j],[side*5.5,1.04,z+j+.3],.10,0x83954b)}
  }}rails(8.5,0,106);
  // A timber wharf, piles and a low hull frame the two sails.
- anchor(14,-28);frame.rotateY(Math.PI);frame.updateMatrix();solid(5,-.29,0,48,.2,63,0x337c80);
+ anchor(14,28);frame.rotateY(Math.PI);frame.updateMatrix();solid(5,-.29,0,48,.2,63,0x337c80);
  for(let z=-19;z<=17;z+=1.15)solid(1,.17,z,13,.28,1.11,0x9f7b53);
  for(let z=-18;z<=17;z+=5){beam([7.6,-.3,z],[7.6,1,z],.25,iron);beam([7.6,.86,z],[7.6,1.07,z],.4,iron)}
  solid(12,.6,-4,3.5,1.35,12,0x244651);solid(12,1.65,-3,2.8,1.25,5.2,cream);solid(12,2,-3,2.85,.44,4.1,0x385e66);

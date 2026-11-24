@@ -19,7 +19,7 @@ const map={setView(){return this},fitBounds(){return this},invalidateSize(){},re
 const group=()=>({items:[],addTo(){return this},clearLayers(){this.items=[]}});
 globalThis.L={map:()=>map,tileLayer:()=>({addTo(){}}),layerGroup:group,circle:marker,circleMarker:marker,polyline:marker};
 globalThis.window={L};
-const verified={status:'verified',published:true,verifiedAt:'2026-11-04'};
+const verified={recordClass:'current',serviceCheckedAt:'2026-11-24',status:'verified',published:true,verifiedAt:'2026-11-04'};
 const data={
   routes:[
     {id:'bay',name:'駁二 × 亞洲新灣區',status:'demo',published:true,center:[22.618,120.279],summary:'示範場域',path:null,distanceKm:null},

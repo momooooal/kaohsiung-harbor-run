@@ -33,9 +33,9 @@ export function notesSection(key){
  const section=document.createElement('section');section.className='wrap report-notes';
  const title=document.createElement('h2');title.textContent=entry.title;
  const lead=document.createElement('p');lead.textContent=entry.lead;section.append(title,lead);
- for(const [heading,copy] of entry.rows){
+ for(const [heading,copy,source] of entry.rows){
    const row=document.createElement('details'),summary=document.createElement('summary'),text=document.createElement('p');
-   summary.textContent=heading;text.textContent=copy;row.append(summary,text);section.append(row);
+   summary.textContent=heading;text.textContent=copy+" 來源："+source;row.append(summary,text);section.append(row);
  }
  const link=document.createElement('a');link.className='link-arrow';[link.href,link.textContent]=entry.link;section.append(link);return section;
 }

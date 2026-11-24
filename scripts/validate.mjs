@@ -17,7 +17,7 @@ for (const [kind,file] of Object.entries(kinds)) {
     if (ids.has(item.id)) errors.push(`${file}: 重複 ID ${item.id}`);
     ids.add(item.id);
     if (item.published && item.status === 'verified' && !item.verifiedAt) errors.push(`${file}/${item.id}: 已公開資料缺少查核日期`);
-    if (kind === 'store' && item.published && (item.status !== 'verified' || !item.cooperationConfirmed)) errors.push(`${file}/${item.id}: 店家未確認合作，不得公開`);
+    if (kind === 'store' && item.recordClass === 'current' && item.published && (item.status !== 'verified' || !item.cooperationConfirmed)) errors.push(`${file}/${item.id}: 店家未確認合作，不得公開`);
     if (kind === 'route' && item.status === 'demo' && (item.distanceKm != null || item.path != null)) errors.push(`${file}/${item.id}: 示範場域不可填正式路徑或距離`);
     if (kind === 'route' && item.status === 'verified' && item.published) {
       if (item.kind !== 'activity' && (!Array.isArray(item.center) || item.center.length !== 2 || !item.center.every(Number.isFinite))) errors.push(`${file}/${item.id}: 地圖中心無效`);
@@ -25,7 +25,7 @@ for (const [kind,file] of Object.entries(kinds)) {
       if (item.distanceKm != null && (!Number.isFinite(item.distanceKm) || item.distanceKm <= 0)) errors.push(`${file}/${item.id}: 距離無效`);
     }
     if ((kind === 'facility' || kind === 'store') && item.published) {
-      if (!Number.isFinite(item.lat) || item.lat < -90 || item.lat > 90 || !Number.isFinite(item.lng) || item.lng < -180 || item.lng > 180) errors.push(`${file}/${item.id}: 座標無效`);
+      if ((!item.recordClass || item.recordClass === 'current') && (!Number.isFinite(item.lat) || item.lat < -90 || item.lat > 90 || !Number.isFinite(item.lng) || item.lng < -180 || item.lng > 180)) errors.push(`${file}/${item.id}: 座標無效`);
       if (!Array.isArray(item.routeIds)) errors.push(`${file}/${item.id}: routeIds 必須是陣列`);
     }
     if (kind === 'gallery' && item.image && !existsSync(join(root,item.image))) errors.push(`${file}/${item.id}: 圖片不存在`);

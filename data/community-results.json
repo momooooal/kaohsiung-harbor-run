@@ -12,16 +12,16 @@
     "sourceLocator": "成果報告第 25–26 頁，表 16、17"
   },
   {
-    "summary": "25 份店家回覆中，21 家有意加入。座談也指出清潔管理與營業時段是合作前要談清楚的事；意願調查不能直接當成合作名單。",
+    "summary": "座談討論清潔管理、使用責任與營業時段。合作條件仍需逐一確認。",
     "updatedAt": "2026-11-24",
     "published": true,
     "source": "公民座談共識",
     "verifiedAt": "2026-11-24",
     "id": "shops",
     "title": "願意加入的店家需要哪些條件？",
-    "body": "25 份店家回覆中，21 家有意加入。座談也指出清潔管理與營業時段是合作前要談清楚的事；意願調查不能直接當成合作名單。",
+    "body": "建議集中服務時段、評估低價淋浴與跨區使用方案。",
     "status": "verified",
-    "sourceLocator": "成果報告第 15、26 頁"
+    "sourceLocator": "成果報告第 25–26 頁"
   },
   {
     "summary": "參與者提到坑洞、機車占用人行道、飲水與夜間照明，也建議把設施、跑團與店家資訊整合到民眾常用的平台。",
@@ -34,5 +34,41 @@
     "body": "參與者提到坑洞、機車占用人行道、飲水與夜間照明，也建議把設施、跑團與店家資訊整合到民眾常用的平台。",
     "status": "verified",
     "sourceLocator": "成果報告第 25–26 頁，表 16、17"
+  },
+  {
+    "id": "conclusion-0",
+    "title": "推薦路線",
+    "summary": "駁二－海音館。路線資訊重點為照明、道路平整。",
+    "body": "這是當次座談會議結論，不代表全市票選排名；報告未提供此處票數。",
+    "source": "公民座談會議結論",
+    "sourceLocator": "成果報告第 23 頁",
+    "verifiedAt": "2026-11-24",
+    "updatedAt": "2026-11-24",
+    "status": "verified",
+    "published": true
+  },
+  {
+    "id": "conclusion-1",
+    "title": "店家服務與合作",
+    "summary": "首要服務為廁所，合作方式為跑者優惠。",
+    "body": "這是當次座談會議結論，不代表全市票選排名；報告未提供此處票數。",
+    "source": "公民座談會議結論",
+    "sourceLocator": "成果報告第 23 頁",
+    "verifiedAt": "2026-11-24",
+    "updatedAt": "2026-11-24",
+    "status": "verified",
+    "published": true
+  },
+  {
+    "id": "conclusion-2",
+    "title": "公共改善與推廣",
+    "summary": "公共改善重點為人行道，推廣重點為行銷友善店家。",
+    "body": "這是當次座談會議結論，不代表全市票選排名；報告未提供此處票數。",
+    "source": "公民座談會議結論",
+    "sourceLocator": "成果報告第 23 頁",
+    "verifiedAt": "2026-11-24",
+    "updatedAt": "2026-11-24",
+    "status": "verified",
+    "published": true
   }
 ]
