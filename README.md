@@ -102,3 +102,6 @@ python -m http.server 8000
 ## 步道材質與實景參考（11 月 23 日更新）
 第一人稱 3D 場景使用 Poly Haven 的 CC0 素材：herringbone_pavement、aerial_grass_rock、brick_wall_001、tree_small_02 及 docklands_02（https://polyhaven.com/a/ 加上素材名稱即可查看原始頁）。植栽為從來源模型渲染的透明貼圖；Docklands 影像作通用遠景，不代表高雄現地天際線。近景步道、模型與布置為示意。實拍步行影片在 #/explore/film 使用原平台播放器，高雄旅遊網環景由官方網站提供。兩者需連網。真正可任意移動的全程現地重建仍需沿線拍攝與定位的授權素材。
 
+
+## 第一人稱路段與終點
+依報告圖 46 的往返次序，以鐵道園區老火車、天空雲台紅拱橋、真愛碼頭雙帆、音浪塔、大義倉庫及輕軌組成視線參照。回到哈瑪星時，終點可見鐵道廣場及拱橋。地標的距離、相對位置、列車停放與植栽依第一人稱可讀性示意安排。模型批次繪製集中於 js/districts.js。來源：高雄旅遊網「哈瑪星鐵道文化園區」「真愛碼頭」「駁二藝術特區」，高雄流行音樂中心「參觀資訊」。鋪面使用 Poly Haven 的 CC0 素材 cobblestone_square、asphalt_02、wood_planks_grey、concrete_pavement_02。

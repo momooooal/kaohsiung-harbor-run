@@ -1,3 +1,4 @@
+import {addHarborDistricts} from './districts.js';
 import {streetMaterials} from './street.js';
 import {places,landmarks} from './landmarks.js';
 import {track} from './track.js';
@@ -24,7 +25,7 @@ export function ride(short=false){
  function block(x,y,z,w,h,d,color,angle=0){if(!materials.has(color))materials.set(color,new THREE.MeshLambertMaterial({color}));const obj=new THREE.Mesh(geo,materials.get(color));obj.position.set(x,y,z);obj.scale.set(w,h,d);obj.rotation.y=angle;scene.add(obj)}
  scene.add(new THREE.HemisphereLight(0xfff7e8,0x81745e,.76));block(650,-1,240,1800,1,700,0x88bab0);
  const lengths=[0];let total=0;
- points.slice(1).forEach((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,len=a.distanceTo(b),angle=Math.atan2(dx,dz);total+=len;lengths.push(total);block((a.x+b.x)/2,0,(a.z+b.z)/2,8,.15,len+.7,0xd9cbb3,angle);})
+ points.slice(1).forEach((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,len=a.distanceTo(b),angle=Math.atan2(dx,dz);total+=len;lengths.push(total);block((a.x+b.x)/2,0,(a.z+b.z)/2,8,.15,len+.7,(i<2||i>=40)?0xb8ac92:(i<7||i>=36)?0xaaaca0:(i<16||i>=31)?0xa68260:0xc6c3b8,angle);})
  const guide=document.createElement('details');
  guide.className='section-card';
  const title=document.createElement('summary');title.textContent='沿途地標與建模依據';guide.append(title);
@@ -37,7 +38,7 @@ export function ride(short=false){
  }
  const scale=document.createElement('p');scale.textContent='環境光景、樹形與鋪面採用通用實拍素材；實地位置請參考高雄旅遊網。全程按報告圖 46 示意描線。沿途建物的比例、朝向、植栽與路旁位置為導覽構圖。';guide.append(scale);const real=document.createElement('a');real.href='https://khh.travel/zh-tw/attractions/immersive-experience/';real.target='_blank';real.rel='noopener';real.className='link-arrow';real.textContent='高雄旅遊網｜現地環景導覽 ↗';const film=document.createElement('a');film.href='#/explore/film';film.className='btn dark';film.textContent='觀看港灣實拍步行影像';const actions=document.createElement('div');actions.className='bay-actions';actions.append(film,real);stage.closest('.game-shell').before(actions);
  stage.closest('.game-shell').after(guide);
- const sky=streetMaterials(scene,materials,points);landmarks(scene,points);const sun=scene.getObjectByName("sun");scene.traverse(o=>{if(o.isMesh && !o.material?.transparent && o.material?.fog!==false && o.geometry.type!=="SphereGeometry"){o.receiveShadow=true;o.castShadow=Boolean(o.customDepthMaterial)||o.geometry.type!=="PlaneGeometry"}});
+ const sky=streetMaterials(scene,materials,points);landmarks(scene,points);addHarborDistricts(scene,points);const sun=scene.getObjectByName("sun");scene.traverse(o=>{if(o.isMesh && !o.material?.transparent && o.material?.fog!==false && o.geometry.type!=="SphereGeometry"){o.receiveShadow=true;o.castShadow=Boolean(o.customDepthMaterial)||o.geometry.type!=="PlaneGeometry"}});
  let mode='run',actor=makeActor(mode),s=0,offset=0,yaw=0,first=true,paused=false,last=0,frame,low=true;scene.add(actor);
  const keys=new Set(), select=document.querySelector('#mobility-mode'),button=id=>document.getElementById(id);
  const toolbar=document.createElement('div');toolbar.className='game-top';
@@ -81,11 +82,13 @@ export function ride(short=false){
  const a=points[i],b=points[i+1],angle=Math.atan2(b.x-a.x,b.z-a.z),pos=a.clone().lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));pos.x+=Math.cos(angle)*offset;pos.z-=Math.sin(angle)*offset;if(free)pos.copy(freePos);actor.position.copy(pos);actor.rotation.y=(free?heading:angle+yaw)+Math.PI;actor.visible=!first;
  const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=places.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);if(speed)viewing=false;
  if(viewing){const anchor=points[near.index],forward=anchor.clone().sub(points[near.index-1]).normalize(),side=new THREE.Vector3(forward.z,0,-forward.x);
- const target=anchor.clone().addScaledVector(side,13);target.y=near.index===19?10:4;
+ const target=anchor.clone().addScaledVector(side,near.index===14?-24:13);target.y=near.index===19?10:4;
  camera.position.copy(target).addScaledVector(forward,-32).addScaledVector(side,-25);camera.position.y=11;camera.lookAt(target);actor.visible=false}
  hint.textContent=near.name+'｜'+near.detail+'（3D 示意・通用港景）';sun.position.set(pos.x-36,pos.y+48,pos.z-19);sun.target.position.copy(pos);sky.update(camera);renderer.render(scene,camera);frame=requestAnimationFrame(tick)}frame=requestAnimationFrame(tick);
  return ()=>{cancelAnimationFrame(frame);resize.disconnect();document.removeEventListener('keydown',press);document.removeEventListener('keyup',release);scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});sky.dispose();renderer.dispose()};
 }
+
+
 
 
 

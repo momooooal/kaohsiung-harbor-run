@@ -8,7 +8,7 @@ export function landmarks(scene,points){
  const light=new THREE.DirectionalLight(0xfff2d8,.68);light.position.set(-45,70,28);light.name="sun";light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-32,right:32,top:32,bottom:-32,near:1,far:145});light.shadow.camera.updateProjectionMatrix();light.shadow.bias=-.0004;light.shadow.normalBias=.035;scene.add(light,light.target);
  places.forEach(({index},k)=>{
  const root=new THREE.Group(),a=points[index],v=a.clone().sub(points[index-1]).normalize();
- root.position.copy(a);root.rotation.y=Math.atan2(v.x,v.z);root.translateX(13);scene.add(root);
+ root.position.copy(a);root.rotation.y=Math.atan2(v.x,v.z);root.translateX(k===2?-24:13);if(k===2)root.rotateY(Math.PI);scene.add(root);
  function part(geo,c,x,y,z){const m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:c,roughness:.78,side:THREE.DoubleSide}));m.position.set(x,y,z);root.add(m);return m}
  function box(w,h,d,c,x,y,z){return part(new THREE.BoxGeometry(w,h,d),c,x,y,z)}
  if(k===0){for(const x of [-2,0,4,6])box(.16,.2,40,0x586168,x,.16,0);
@@ -21,5 +21,6 @@ export function landmarks(scene,points){
  for(let i=0;i<4;i++)part(new THREE.IcosahedronGeometry(4+i%2,0),0xe9eadc,2+i*3,2,-20-i*3)}
  });
 }
+
 
 

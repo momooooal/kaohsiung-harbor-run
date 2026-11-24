@@ -13,8 +13,13 @@ export function streetMaterials(scene, materials, points){
     };
     mat.customProgramCacheKey=()=>file;
   }
-  projected(materials.get(0xd9cbb3),'herringbone_pavement.jpg',.34);
-  projected(materials.get(0x88bab0),'aerial_grass_rock.jpg',.13);
+    const surfaces=[
+    [0xb8ac92,'cobblestone_square.jpg',.24],
+    [0xaaaca0,'asphalt_02.jpg',.24],
+    [0xa68260,'wood_planks_grey.jpg',.32],
+    [0xc6c3b8,'concrete_pavement_02.jpg',.22]
+  ];
+  for(const [color,file,scale] of surfaces){if(materials.has(color))projected(materials.get(color),file,scale)}  projected(materials.get(0x88bab0),'aerial_grass_rock.jpg',.13);
   const brick=new THREE.MeshLambertMaterial();projected(brick,'brick_wall_001.jpg',.25,true);
   const sky=new THREE.Mesh(new THREE.SphereGeometry(550,64,32),new THREE.MeshBasicMaterial({map:load('harbor-light.jpg'),side:THREE.BackSide,fog:false,toneMapped:false}));
   sky.scale.x=-1;sky.rotation.y=1.2;scene.add(sky);
@@ -37,9 +42,9 @@ export function streetMaterials(scene, materials, points){
       function detail(side,y,w,h,l,color,fwd=0){const [px,pz]=pos(side,fwd);rect(px,y,pz,w,h,l,angle,color)}
       const n=placed.length,waterside=i>=7 && i<=31;
       for(const side of [-1,1]){
-        if(waterside && side===1)continue;
-        const [tx,tz]=pos(side*(8+n%4));if(nearWalk(tx,tz))continue;
-        const h=5.8+2*Math.sin(n*1.6);treePositions.push([tx,tz,h]);shadowPositions.push([tx+1.3,tz+1.5,h]);
+        if(waterside || i<2 || i>=40)continue;
+        const [tx,tz]=pos(side*(i>=3&&i<=6?7.1:8+n%4));if(nearWalk(tx,tz))continue;
+        const h=(i>=3&&i<=6?12:5.8)+2*Math.sin(n*1.6);treePositions.push([tx,tz,h]);shadowPositions.push([tx+1.3,tz+1.5,h]);
       }
       if(waterside){
         const [wx,wz]=pos(36);
@@ -47,7 +52,7 @@ export function streetMaterials(scene, materials, points){
       }
       if(n%3===0){detail(-5.8,2.15,.12,4.3,.12,0x414c4e);detail(-5.6,4.3,.65,.12,.34,0xe6dabd)}
       if(n%4===0){detail(-5.6,.5,1.1,.13,2.6,0x92603d);detail(-6.02,.86,.12,.7,2.6,0x92603d);for(const f of [-.82,.82])detail(-5.7,.24,.8,.48,.12,0x4e514b,f)}
-      if(n%4===1){
+      if(n%4===1 && (i===2||i>=32 && i<40)){
         const [hx,hz]=pos(-27);
         if(nearWalk(hx,hz))continue;
         const h=5+n%3;const wall=new THREE.Mesh(box,brick);wall.position.set(hx,h/2,hz);wall.rotation.y=angle;wall.scale.set(9,h,17);scene.add(wall);
@@ -66,4 +71,6 @@ export function streetMaterials(scene, materials, points){
   let lastYaw=Infinity;
   return {update(camera){sky.position.copy(camera.position);const dir=camera.getWorldDirection(dummy.position);const yaw=Math.atan2(dir.x,dir.z);if(Math.abs(yaw-lastYaw)<.025)return;lastYaw=yaw;treePositions.forEach(([x,z,h],i)=>{dummy.position.set(x,h/2-.1,z);dummy.rotation.set(0,yaw,0);dummy.scale.set(h*.64,h,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix)});trees.instanceMatrix.needsUpdate=true},dispose(){textures.forEach(t=>t.dispose())}};
 }
+
+
 
