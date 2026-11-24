@@ -1,3 +1,4 @@
+import {neighborhood} from './neighborhood.js';
 import {frontage} from './frontages.js';
 import {friendlyPlaces} from '../data/friendly-places.js';
 
@@ -20,6 +21,21 @@ export function cityStreet(record) {
   for(let x=-42;x<=42;x+=2)box(x,.008,4,.022,.016,13,0xa59f96);
   for(let x=-42;x<=42;x+=7)box(x,-.067,15,3,.03,.13,0xf0e0aa);
   frontage(type,{box,mesh});
-  return {scene,description:address+'｜依街景與照片建模，尺度及周邊為示意',dispose(){const geometries=new Set();scene.traverse(o=>{if(o.geometry)geometries.add(o.geometry)});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose())}};
+  const release=neighborhood(type,scene,box);
+  batchBoxes(scene,cube);
+  return {scene,description:address+'｜依街景與照片建模，尺度及周邊為示意',dispose(){release();const finishes=new Set();scene.traverse(o=>{if(o.material)finishes.add(o.material)});finishes.forEach(m=>m.dispose());const geometries=new Set();scene.traverse(o=>{if(o.geometry)geometries.add(o.geometry)});geometries.forEach(g=>g.dispose());cube.dispose()}};
 }
 export const cityPlaces=friendlyPlaces.filter(p=>p[2]!=='harbor');
+
+function batchBoxes(scene,cube){
+  const groups=new Map();
+  for(const child of [...scene.children]){
+    if(child.geometry!==cube)continue;
+    if(!groups.has(child.material))groups.set(child.material,[]);
+    child.updateMatrix();groups.get(child.material).push(child.matrix);scene.remove(child);
+  }
+  for(const [material,matrices] of groups){
+    const batch=new THREE.InstancedMesh(cube,material,matrices.length);
+    matrices.forEach((m,i)=>batch.setMatrixAt(i,m));batch.castShadow=batch.receiveShadow=true;scene.add(batch);
+  }
+}

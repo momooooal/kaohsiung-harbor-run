@@ -111,7 +111,7 @@ export function ride(short=false){
  if(local){scene.add(actor);local.dispose();local=null}
  if(destination.value.startsWith('city-')){
    local=cityStreet(cityPlaces[Number(destination.value.slice(5))]);local.scene.add(actor);
-   travel.value='free';free=true;freePos.set(-3,0,6.8);heading=Math.PI-.32;pitch=yaw=0;
+   travel.value='free';free=true;freePos.set(-18.235,0,8.755);heading=1.948;pitch=yaw=0;
    selectedService=null;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';return;
  }
  const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
