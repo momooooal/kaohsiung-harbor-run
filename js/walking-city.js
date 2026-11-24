@@ -48,7 +48,7 @@ export function walkingCity(start=0){
     shader.fragmentShader='varying vec3 streetPos; varying vec3 streetNormal;\n'+shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nif(abs(streetNormal.y)<0.2 && streetPos.y>1.0){float u=fract((abs(streetNormal.x)>0.65?streetPos.z:streetPos.x)/3.35);float v=fract(streetPos.y/3.2);if(u>.20 && u<.74 && v>.25 && v<.78) diffuseColor.rgb*=vec3(.39,.52,.58);}');
   };
   scene.add(new THREE.Mesh(geometry,m));
-  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));ground.rotation.x=-Math.PI/2;scene.add(ground);
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));const paving=new THREE.TextureLoader().load('assets/surfaces/concrete_pavement_02.jpg');paving.encoding=THREE.sRGBEncoding;paving.wrapS=paving.wrapT=THREE.RepeatWrapping;paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;scene.add(ground);
   const labels=[];
   stops.forEach(([name],i)=>{
     if(i===5)return; // The second coffee stop occupies the same physical site.
@@ -67,10 +67,11 @@ export function walkingCity(start=0){
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,advance(delta,pos){
+  return {scene,walk:true,get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
     at=Math.max(0,Math.min(total,at+delta));
     const [x,z,i]=sample(at),f=sample(Math.min(total,at+3.5)),b=sample(Math.max(0,at-.5));
     pos.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
-    return {heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
-  },dispose(){labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
+    const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
+    return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
+  },dispose(){paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
 }

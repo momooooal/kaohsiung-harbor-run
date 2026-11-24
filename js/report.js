@@ -1,3 +1,5 @@
+import {panoramaDialog} from './panorama-dialog.js';
+import {stops as walkStops} from '../data/shared-route.js';
 import {walkingCity} from './walking-city.js';
 import {walkingGuide} from './walking-guide.js';
 import {cityStreet,cityPlaces} from './city-street.js';
@@ -116,10 +118,21 @@ export function ride(short=false){
    stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true});
  },sharedStops,i=>{destination.value='itinerary';relocate(i);stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true})});
  stage.closest('.game-shell').before(sharedGuide);
+ const panel=document.createElement('div');panel.className='section-card';panel.hidden=true;
+ panel.innerHTML='<strong>沿途實景</strong><p>在 Google 街景查看目前位置與朝向。返程後可接續原本的步行進度。</p><div class="bay-actions"><a class="btn outline" target="_blank" rel="noopener">開啟目前位置的 Google 街景 ↗</a><button type="button" class="btn dark" hidden></button><button type="button" class="btn outline" hidden>回到十站步行</button></div>';
+ stage.closest('.game-shell').after(panel);
+ const panorama=panel.querySelector('a'),[enter,back]=panel.querySelectorAll('button');
+ const realView=panoramaDialog();panel.append(realView.dialog);
+ const realButton=document.createElement('button');realButton.type='button';realButton.className='btn dark';panel.querySelector('.bay-actions').prepend(realButton);
+ let nearestName='',nearKey=null,resume=null;
+ realButton.onclick=()=>{keys.clear();realView.open(nearestName)};
+ enter.onclick=()=>{if(!local?.walk||!nearKey)return;const distance=local.distance;destination.value=sharedStops.get(nearKey);relocate();resume=distance;panel.hidden=false;back.hidden=false;realButton.hidden=true;panorama.hidden=true;enter.hidden=true;if(selectedService)setViewing(true)};
+ back.onclick=()=>{const distance=resume;destination.value='itinerary';relocate();local.seek(distance)};
  let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
  function relocate(start=0){
+ resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
  if(local){scene.add(actor);local.dispose();local=null}
  if(destination.value==='itinerary'){
    local=walkingCity(Number.isInteger(start)?start:0);local.scene.add(actor);
@@ -170,7 +183,11 @@ export function ride(short=false){
 }
  if(local?.walk){
    if(!paused)yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
-   const step=local.advance(paused?0:speed*dt,freePos),angle=step.heading+yaw;
+   const step=local.advance(paused||realView.dialog.open?0:speed*dt,freePos),angle=step.heading+yaw;
+   const station=walkStops[step.nearest];nearestName=station[0];realButton.hidden=!step.near||!realView.available(nearestName);realButton.textContent='開啟'+nearestName+'附近實景';nearKey=step.near&&sharedStops.has(station[3])?station[3]:null;
+   enter.hidden=!nearKey;enter.textContent='走進'+station[0]+'周邊';
+   panorama.onfocus=panorama.onpointerenter=panorama.onclick=()=>{const lat=22.61-freePos.z/110750,lon=120.29+freePos.x/102820;panorama.href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+lat.toFixed(6)+','+lon.toFixed(6)+'&heading='+((180-angle*180/Math.PI+360)%360).toFixed(1)+'&pitch='+(pitch*180/Math.PI).toFixed(1)};
+   if(!panorama.hasAttribute('href'))panorama.onfocus();
    actor.position.copy(freePos);actor.rotation.y=step.heading+Math.PI;actor.visible=!first;
    const dx=Math.sin(angle),dz=Math.cos(angle);
    camera.position.set(freePos.x-dx*(first?0:4),first?MODES[mode].eye:3,freePos.z-dz*(first?0:4));
