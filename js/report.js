@@ -1,3 +1,4 @@
+import {walkingGuide} from './walking-guide.js';
 import {cityStreet,cityPlaces} from './city-street.js';
 import {addServiceStops} from './service-stops.js';
 import {addHarborDistricts} from './districts.js';
@@ -104,6 +105,15 @@ export function ride(short=false){
  destinations.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
  const cityGroup=document.createElement('optgroup');cityGroup.label='全市據點・當地自由探索';
  cityPlaces.forEach((p,i)=>cityGroup.append(new Option(p[0],'city-'+i)));destination.append(cityGroup);
+ const sharedStops=new Map();
+ cityPlaces.forEach((place,i)=>sharedStops.set(place[2],'city-'+i));
+ services.forEach(stop=>sharedStops.set(stop.id,String(destinations.indexOf(stop))));
+ const sharedGuide=walkingGuide(key=>{
+   destination.value=sharedStops.get(key);relocate();
+   if(selectedService)setViewing(true);
+   stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true});
+ },sharedStops);
+ stage.closest('.game-shell').before(sharedGuide);
  let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
