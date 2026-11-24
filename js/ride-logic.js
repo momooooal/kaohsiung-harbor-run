@@ -1,0 +1,12 @@
+export function project(position,points,preferred=0){let best={distance:Infinity};let progress=0;for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],dx=b.x-a.x,dz=b.z-a.z,l=Math.hypot(dx,dz);if(!l)continue;const t=Math.max(0,Math.min(1,((position.x-a.x)*dx+(position.z-a.z)*dz)/(l*l)));const x=a.x+t*dx,z=a.z+t*dz,distance=Math.hypot(position.x-x,position.z-z);if(distance<best.distance-1e-7 || Math.abs(distance-best.distance)<1e-7 && Math.abs(progress+t*l-preferred)<Math.abs(best.progress-preferred))best={distance,progress:progress+t*l,index:i-1,x,z,angle:Math.atan2(dx,dz),offset:((position.x-x)*dz-(position.z-z)*dx)/l};progress+=l}return best}
+export function canMove(p,points,obstacles=[],radius=.45){if(project(p,points).distance>4-radius)return false;return !obstacles.some(o=>{const dx=p.x-o.x,dz=p.z-o.z,c=Math.cos(o.angle||0),s=Math.sin(o.angle||0);return Math.abs(dx*c-dz*s)<o.w/2+radius&&Math.abs(dx*s+dz*c)<o.d/2+radius})}
+export function switchTravel(position,heading,points,progress=0){const p=project(position,points,progress);return {progress:p.progress,offset:p.offset,yaw:heading-p.angle,heading,position:{...position}}}
+export function movementKey(key){return ({w:'forward',s:'back',a:'left',d:'right',arrowup:'forward',arrowdown:'back',arrowleft:'left',arrowright:'right'})[key.toLowerCase()]}
+export const observations=[
+ {id:'lockers',poiId:'hamasen',index:0,title:'哈瑪星的活動寄物紀錄',text:'2026/10/26 記錄兩座收費櫃，共 62 格，大型 10、小型 52。大型 40 元／2 小時，小型 20 元／2 小時。來源：第 33 頁表 19。現況待查，不提供即時空櫃。'},
+ {id:'space',poiId:'greenway',index:5,title:'換個視角看通行空間',text:'可切換第一／第三人稱比較視野。座談重視人行道、道路平整與照明。來源：第 23、25–26 頁。模型路寬與障礙是示意，不是現地無障礙認證。'},
+ {id:'harbor',poiId:'music',index:20,title:'為什麼推薦港灣路段？',text:'第 23 頁會議結論推薦駁二－海音館，並重視照明、道路平整。這是當次座談結論，不是全市票選冠軍。高流造景與路線節點分開設定。'},
+ {id:'supply',poiId:'dayi',index:34,title:'活動補給回顧',text:'路人咖啡 5 號店於 2026/10/26 提供食物及飲水，來源：第 33 頁表 19。此處是活動回顧，非店址。跑者 n=494 的途中需求為廁所 76.3%、飲水 71.5%，可複選，來源：第 14 頁圖 12。'}
+];
+export function eligibleObservation(o,position,points){return !!points[o.index]&&Math.hypot(position.x-points[o.index].x,position.z-points[o.index].z)<35}
+export function disposeObject(root){const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material])if(m)materials.add(m);if(o.customDepthMaterial)materials.add(o.customDepthMaterial)});geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose())}

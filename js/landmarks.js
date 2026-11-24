@@ -1,14 +1,16 @@
+import {nodes} from './route-model.js';
 export const places=[
  {index:1,name:'哈瑪星',detail:'港區鐵道與舊驛意象',source:'https://khh.travel/zh-tw/attractions/detail/206/'},
  {index:5,name:'鹽埕綠廊道',detail:'報告記載路經綠廊；樹列與植栽為示意',source:null},
  {index:14,name:'真愛碼頭',detail:'愛河出海口的雙座風帆',source:'https://khh.travel/zh-tw/attractions/detail/1053/'},
  {index:19,name:'高雄流行音樂中心',detail:'海浪起伏的高低塔與珊瑚礁群意象',source:'https://khh.travel/zh-tw/attractions/detail/1175/'}
 ];
+places.forEach((p,i)=>{p.index=nodes[i].modelIndex;p.poiId=nodes[i].poiId});
 export function landmarks(scene,points){
  const light=new THREE.DirectionalLight(0xfff2d8,.68);light.position.set(-45,70,28);light.name="sun";light.castShadow=true;light.shadow.mapSize.set(1024,1024);Object.assign(light.shadow.camera,{left:-32,right:32,top:32,bottom:-32,near:1,far:145});light.shadow.camera.updateProjectionMatrix();light.shadow.bias=-.0004;light.shadow.normalBias=.035;scene.add(light,light.target);
  places.forEach(({index},k)=>{
  const root=new THREE.Group(),a=points[index],v=a.clone().sub(points[index-1]).normalize();
- root.position.copy(a);root.rotation.y=Math.atan2(v.x,v.z);root.translateX(k===2?-24:13);if(k===2)root.rotateY(Math.PI);scene.add(root);
+ root.position.copy(a);root.rotation.y=Math.atan2(v.x,v.z);root.translateX(k===2?24:13);if(k===2)root.rotateY(Math.PI);scene.add(root);
  function part(geo,c,x,y,z){const m=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:c,roughness:.78,side:THREE.DoubleSide}));m.position.set(x,y,z);root.add(m);return m}
  function box(w,h,d,c,x,y,z){return part(new THREE.BoxGeometry(w,h,d),c,x,y,z)}
  if(k===0){for(const x of [-2,0,4,6])box(.16,.2,40,0x586168,x,.16,0);

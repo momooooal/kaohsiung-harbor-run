@@ -19,7 +19,14 @@
     "updatedAt": "2026-11-23",
     "status": "verified",
     "published": true,
-    "sourceLocator": "成果報告第 3、11 頁。有效問卷含跑者端 494 份及店家端 25 份。"
+    "sourceLocator": "成果報告第 3、11 頁。有效問卷含跑者端 494 份及店家端 25 份。",
+    "contentCheckedAt": "2026-11-24",
+    "method": {
+      "type": "匿名線上自填，非隨機便利抽樣",
+      "period": "2026/7/10–11/4",
+      "incentive": "填答抽獎",
+      "sourceLocator": "成果報告第 3、11 頁"
+    }
   },
   {
     "published": true,
@@ -32,64 +39,258 @@
     "items": [
       {
         "label": "廁所",
-        "value": 76.3
+        "value": 76.3,
+        "count": 377
       },
       {
         "label": "飲水補給",
-        "value": 71.5
+        "value": 71.5,
+        "count": 353
+      },
+      {
+        "label": "跑步路線資訊",
+        "value": 37.9,
+        "count": 187
+      },
+      {
+        "label": "夜間照明",
+        "value": 34.4,
+        "count": 170
+      },
+      {
+        "label": "遮陽空間",
+        "value": 31.2,
+        "count": 154
+      },
+      {
+        "label": "置物櫃",
+        "value": 30,
+        "count": 148
+      },
+      {
+        "label": "沐浴設備",
+        "value": 23.7,
+        "count": 117
+      },
+      {
+        "label": "停車空間",
+        "value": 23.7,
+        "count": 117
+      },
+      {
+        "label": "休息座位",
+        "value": 22.3,
+        "count": 110
+      },
+      {
+        "label": "更衣空間",
+        "value": 21.5,
+        "count": 106
+      },
+      {
+        "label": "救護用品（冰敷／藥品／AED 等）",
+        "value": 20,
+        "count": 99
+      },
+      {
+        "label": "手機充電",
+        "value": 11.7,
+        "count": 58
+      },
+      {
+        "label": "免費 Wi-Fi",
+        "value": 6.9,
+        "count": 34
+      },
+      {
+        "label": "無任何需求",
+        "value": 4.9,
+        "count": 24
+      },
+      {
+        "label": "其他",
+        "value": 0.8,
+        "count": 4
       }
     ],
-    "source": "複選題，節錄前兩項",
+    "source": "本次受訪者，跑者端 n=494，可複選。比例可重疊，保留報告四捨五入。",
     "question": "跑步途中最希望有的服務",
-    "sourceLocator": "成果報告第 13 頁，複選題，節錄前兩項"
+    "sourceLocator": "成果報告第 14 頁，圖 12",
+    "contentCheckedAt": "2026-11-24",
+    "sampleSize": 494,
+    "audience": "跑者端",
+    "questionType": "複選",
+    "figure": 12,
+    "page": 14,
+    "method": {
+      "type": "匿名線上自填，非隨機便利抽樣",
+      "period": "2026/7/10–11/4",
+      "incentive": "填答抽獎",
+      "sourceLocator": "成果報告第 3、11 頁"
+    }
   },
   {
     "published": true,
     "updatedAt": "2026-11-23",
     "unit": "%",
-    "title": "最期待的店家服務",
+    "title": "跑者期待與店家自報可提供服務",
     "id": "shop-needs",
     "status": "verified",
     "verifiedAt": "2026-11-23",
     "items": [
       {
         "label": "借用廁所",
-        "value": 77.7
+        "value": 77.7,
+        "storeValue": 56
       },
       {
         "label": "免費飲水",
-        "value": 75.3
+        "value": 75.3,
+        "storeValue": 76
+      },
+      {
+        "label": "寄物服務",
+        "value": 37.4,
+        "storeValue": 16
+      },
+      {
+        "label": "借用更衣空間",
+        "value": 28.3,
+        "storeValue": 24
+      },
+      {
+        "label": "販售運動補給品",
+        "value": 27.1,
+        "storeValue": 32
+      },
+      {
+        "label": "借用沐浴空間",
+        "value": 24.1,
+        "storeValue": 8
+      },
+      {
+        "label": "停車空間",
+        "value": 23.9,
+        "storeValue": 8
+      },
+      {
+        "label": "簡易醫藥箱",
+        "value": 20.6,
+        "storeValue": 20
+      },
+      {
+        "label": "手機充電",
+        "value": 17.6,
+        "storeValue": 20
+      },
+      {
+        "label": "提供冰塊",
+        "value": 11.1,
+        "storeValue": 12
+      },
+      {
+        "label": "借用吹風機",
+        "value": 8.9,
+        "storeValue": 4
+      },
+      {
+        "label": "提供免費 Wi-Fi",
+        "value": 8.5,
+        "storeValue": 36
       }
     ],
-    "source": "複選題，節錄前兩項",
+    "source": "跑者需求 n=494；店家自報 n=25，兩端皆可複選。不是個別店家承諾。",
     "question": "最期待的店家服務",
-    "sourceLocator": "成果報告第 13 頁，複選題，節錄前兩項"
+    "sourceLocator": "成果報告第 15 頁，圖 14",
+    "contentCheckedAt": "2026-11-24",
+    "sampleSize": 494,
+    "audience": "跑者端",
+    "questionType": "複選",
+    "figure": 14,
+    "page": 15,
+    "storeSampleSize": 25,
+    "method": {
+      "type": "匿名線上自填，非隨機便利抽樣",
+      "period": "2026/7/10–11/4",
+      "incentive": "填答抽獎",
+      "sourceLocator": "成果報告第 3、11 頁"
+    }
   },
   {
     "items": [
       {
         "label": "廁所",
-        "value": 78.5
+        "value": 78.5,
+        "count": 388
       },
       {
         "label": "補水站",
-        "value": 76.9
+        "value": 76.9,
+        "count": 380
       },
       {
-        "label": "附距離的跑步路線",
-        "value": 70.9
+        "label": "跑步路線（含距離）",
+        "value": 70.9,
+        "count": 350
+      },
+      {
+        "label": "標註友善合作店家",
+        "value": 63.4,
+        "count": 313
+      },
+      {
+        "label": "合作店家服務",
+        "value": 48.2,
+        "count": 238
+      },
+      {
+        "label": "停車資訊",
+        "value": 33.4,
+        "count": 165
+      },
+      {
+        "label": "大眾運輸資訊",
+        "value": 32.4,
+        "count": 160
+      },
+      {
+        "label": "觀光景點",
+        "value": 26.1,
+        "count": 129
+      },
+      {
+        "label": "標註 LGBTQ+ 友善空間",
+        "value": 15.6,
+        "count": 77
+      },
+      {
+        "label": "其他",
+        "value": 0.4,
+        "count": 2
       }
     ],
     "updatedAt": "2026-11-24",
     "question": "跑者希望地圖標出什麼？",
-    "source": "跑者端 n=494，複選，節錄三項。",
+    "source": "本次受訪者，跑者端 n=494，可複選。比例可重疊，保留報告四捨五入。",
     "published": true,
     "id": "map-info",
     "verifiedAt": "2026-11-24",
     "title": "跑者希望地圖標出什麼？",
     "status": "verified",
     "unit": "%",
-    "sourceLocator": "第 13–14 頁，跑者端 n=494，複選，節錄三項。"
+    "sourceLocator": "成果報告第 14 頁，圖 13",
+    "contentCheckedAt": "2026-11-24",
+    "sampleSize": 494,
+    "audience": "跑者端",
+    "questionType": "複選",
+    "figure": 13,
+    "page": 14,
+    "method": {
+      "type": "匿名線上自填，非隨機便利抽樣",
+      "period": "2026/7/10–11/4",
+      "incentive": "填答抽獎",
+      "sourceLocator": "成果報告第 3、11 頁"
+    }
   },
   {
     "items": [
@@ -111,6 +312,13 @@
     "title": "受訪者平常在哪裡跑？",
     "status": "verified",
     "unit": "%",
-    "sourceLocator": "第 12 頁，跑者端 n=494，複選，節錄兩項。"
+    "sourceLocator": "第 12 頁，跑者端 n=494，複選，節錄兩項。",
+    "contentCheckedAt": "2026-11-24",
+    "method": {
+      "type": "匿名線上自填，非隨機便利抽樣",
+      "period": "2026/7/10–11/4",
+      "incentive": "填答抽獎",
+      "sourceLocator": "成果報告第 3、11 頁"
+    }
   }
 ]

@@ -1,7 +1,7 @@
 const assets='assets/surfaces/';
 export function streetMaterials(scene, materials, points){
   const loader=new THREE.TextureLoader();
-  const textures=[];
+  const textures=[],colliders=[];
   function load(file){const t=loader.load(assets+file);textures.push(t);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t}
   function projected(mat,file,scale,vertical=false){
     const t=load(file);t.wrapS=t.wrapT=THREE.RepeatWrapping;
@@ -26,6 +26,7 @@ export function streetMaterials(scene, materials, points){
   scene.fog=new THREE.FogExp2(0xe8dfcf,.0016);
   const box=new THREE.BoxGeometry(), cache=new Map(),batches=new Map();
   function rect(x,y,z,w,h,d,angle,color){
+    if(y+h/2>.3 && y-h/2<2 && h>.1)colliders.push({x,z,w,d,angle});
     if(!batches.has(color))batches.set(color,[]);
     const o=new THREE.Object3D();o.position.set(x,y,z);o.rotation.y=angle;o.scale.set(w,h,d);o.updateMatrix();batches.get(color).push(o.matrix);
   }
@@ -69,7 +70,7 @@ export function streetMaterials(scene, materials, points){
   const shadows=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:shade,transparent:true,depthWrite:false}),shadowPositions.length);
   const dummy=new THREE.Object3D();shadowPositions.forEach(([x,z,h],i)=>{dummy.position.set(x,.11,z);dummy.rotation.set(-Math.PI/2,0,.5);dummy.scale.set(h*.85,h*1.4,1);dummy.updateMatrix();shadows.setMatrixAt(i,dummy.matrix)});scene.add(shadows);
   let lastYaw=Infinity;
-  return {update(camera){sky.position.copy(camera.position);
+  return {colliders,update(camera){sky.position.copy(camera.position);
     // Lift the generic photo horizon out of the low-rise C12 warehouse district.
     if(points[34]){
       const distance=camera.position.distanceTo(points[34]);

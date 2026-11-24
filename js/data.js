@@ -11,7 +11,7 @@ function isValid(item, kind, required) {
   if (!['verified', 'pending', 'demo'].includes(item.status)) return false;
   if (typeof item.id !== 'string' || !/^[a-z0-9-]+$/.test(item.id) || typeof item.source !== 'string' || typeof item.published !== 'boolean') return false;
   if (kind === 'routes') return item.status === 'pending' || (item.kind === 'activity' && item.center === null && Array.isArray(item.stops) && item.stops.length > 0) || (Array.isArray(item.center) && item.center.length === 2 && item.center.every(Number.isFinite));
-  if (kind === 'facilities' || kind === 'stores') return !item.published || (Number.isFinite(item.lat) && Number.isFinite(item.lng));
+  if (kind === 'facilities' || kind === 'stores') return !item.published || (['activity','reference','current'].includes(item.recordClass) && !!item.sourceLocator) || (Number.isFinite(item.lat) && Number.isFinite(item.lng));
   return true;
 }
 
@@ -36,7 +36,7 @@ export async function loadData() {
 }
 
 export function publicItems(items, kind) {
-  return items.filter(item => item.published === true && item.status === 'verified' && !!item.verifiedAt && (kind !== 'stores' || item.cooperationConfirmed === true));
+  return items.filter(item => item.published === true && item.status === 'verified' && !!item.verifiedAt && (!['stores','facilities'].includes(kind) || (!item.recordClass || item.recordClass === 'current') && !!item.serviceCheckedAt && (kind !== 'stores' || item.cooperationConfirmed === true)));
 }
 
 export function safeImagePath(path) {
