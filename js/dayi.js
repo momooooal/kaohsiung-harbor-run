@@ -25,18 +25,28 @@ export function buildDayiStation(scene,frame,solid,beam){
     const surface=mesh(new THREE.PlaneGeometry(w,d),finish,x,y,z);
     surface.rotation.x=-Math.PI/2;
   }
-  ground(-1.95,0,7.6,86,.105,tile('aerial_grass_rock.jpg',2,18));
   ground(13.2,-1,6.2,72,.118,tile('herringbone_pavement.jpg',2,22));
   ground(1,-21,51,8,.13,tile('asphalt_02.jpg',12,2));
   for(let z=-24;z<-17;z+=1.25)solid(8,.145,z,3.6,.025,.48,0xe6e1d4);
+  // Shift the existing platform as one assembly. The cross street stays between
+  // the C8 storefront approach and the C12 platform in the return direction.
+  const station=new THREE.Group();station.position.z=43;district.add(station);
+  function stationGround(x,z,w,d,y,finish){
+    mesh(new THREE.PlaneGeometry(w,d),finish,x,y,z,station).rotation.x=-Math.PI/2;
+  }
+  frame.translateZ(43);frame.updateMatrix();
+  stationGround(-1.95,0,7.6,86,.105,tile('aerial_grass_rock.jpg',2,18));
+
+
+
   for(const center of [0,-3.9]){
     for(const side of [-.75,.75])solid(center+side,.17,0,.10,.09,88,0x757c74);
   }
   // Grass rails lead into the platform entrance, stopping at the paved crossing.
   const platformEntrance=tile('aerial_grass_rock.jpg',2,6);
   platformEntrance.color.setHex(0x709744);
-  ground(-1.95,-12,6.9,9.6,.15,platformEntrance);
-  ground(-1.95,12,6.9,38,.145,platformEntrance);
+  stationGround(-1.95,-12,6.9,9.6,.15,platformEntrance);
+  stationGround(-1.95,12,6.9,38,.145,platformEntrance);
   // Pale independent columns, cantilever ribs and a visibly sloped, thin fascia.
   for(const [x,side] of [[3.35,1],[-7.25,-1]]){
     solid(x,.24,8,2.9,.46,38,0xa09c8e);
@@ -88,7 +98,7 @@ export function buildDayiStation(scene,frame,solid,beam){
     const geo=new THREE.BufferGeometry();
     geo.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
     geo.setIndex(indices);geo.computeVertexNormals();finish.side=THREE.DoubleSide;
-    mesh(geo,finish,0,0,offset);
+    mesh(geo,finish,0,0,offset,station);
   }
   const ivory=material(0xe3e7da,.46),green=material(0x227950,.44),glass=material(0x243e43,.24);
   const outline=[[.4,.92],[.64,1.12],[.93,1.24],[1.35,1.32],[2.1,1.34],[2.9,1.26],[3.32,1.14],[3.52,.90]];
@@ -100,7 +110,7 @@ export function buildDayiStation(scene,frame,solid,beam){
     for(const [y,w] of outline)sidePos.push(side*w,y,noseDepth(w,y),side*w,y,-10.3);
     for(let j=0;j<outline.length-1;j++){const a=j*2;idx.push(a,a+1,a+2,a+1,a+3,a+2)}
     const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(sidePos,3));geo.setIndex(idx);geo.computeVertexNormals();
-    mesh(geo,ivory);
+    mesh(geo,ivory,0,0,0,station);
     solid(side*1.32,2.32,-11.9,.045,1.05,2.7,0x2f4649);
     const x=side*.99,y=1.08;
     beam([x,y,noseDepth(x,y)-.07],[x,y,noseDepth(x,y)-.17],.133,0x394944);
@@ -114,6 +124,7 @@ export function buildDayiStation(scene,frame,solid,beam){
     for(const dx of [-1.35,1.35])for(let bay=-2.7;bay<3;bay+=1.45)solid(dx,2.43,z+bay,.045,1.18,.105,0x828982);
   }
 
+  frame.translateZ(-43);frame.updateMatrix();
   // warehouseArcade: freestanding piers and recessed joinery keep the reveals visible in perspective.
   const masonry=tile('brick_wall_001.jpg',.78,1.8);
   masonry.color.setHex(0xbc8871);

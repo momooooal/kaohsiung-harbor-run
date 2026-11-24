@@ -31,6 +31,7 @@ export function streetMaterials(scene, materials, points){
   }
   const treePositions=[],placed=[],shadowPositions=[];
   const treeTex=load('tree.png');
+  function inStationApproach(x,z){return [34,35].some(i=>points[i] && Math.hypot(x-points[i].x,z-points[i].z)<54)}
   function nearWalk(x,z){return points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6.8})}
   const waterMat=new THREE.MeshPhongMaterial({color:0x477b74,specular:0xbccdd2,shininess:48});
   for(let i=0;i<points.length-1;i++){
@@ -43,15 +44,15 @@ export function streetMaterials(scene, materials, points){
       const n=placed.length,waterside=i>=7 && i<=31;
       for(const side of [-1,1]){
         if(waterside || i<2 || i>=40)continue;
-        const [tx,tz]=pos(side*(i>=3&&i<=6?7.1:8+n%4));if(nearWalk(tx,tz) || (points[34] && Math.hypot(tx-points[34].x,tz-points[34].z)<53))continue;
+        const [tx,tz]=pos(side*(i>=3&&i<=6?7.1:8+n%4));if(nearWalk(tx,tz) || inStationApproach(tx,tz))continue;
         const h=(i>=3&&i<=6?12:5.8)+2*Math.sin(n*1.6);treePositions.push([tx,tz,h]);shadowPositions.push([tx+1.3,tz+1.5,h]);
       }
       if(waterside){
         const [wx,wz]=pos(36);
         if(!nearWalk(wx,wz)){rect(wx,-.16,wz,49,.12,9,angle,waterMat);detail(10,.1,.6,.35,8.4,0xa99b89);detail(9.6,.76,.1,1.32,.11,0x414b49);detail(9.6,1.38,.11,.10,8.3,0x526361);detail(9.6,.85,.07,.07,8.3,0x526361)}
       }
-      if(n%3===0){detail(-5.8,2.15,.12,4.3,.12,0x414c4e);detail(-5.6,4.3,.65,.12,.34,0xe6dabd)}
-      if(n%4===0 && !(points[34] && Math.hypot(x-points[34].x,z-points[34].z)<52)){detail(-5.6,.5,1.1,.13,2.6,0x92603d);detail(-6.02,.86,.12,.7,2.6,0x92603d);for(const f of [-.82,.82])detail(-5.7,.24,.8,.48,.12,0x4e514b,f)}
+      if(n%3===0 && !inStationApproach(x,z)){detail(-5.8,2.15,.12,4.3,.12,0x414c4e);detail(-5.6,4.3,.65,.12,.34,0xe6dabd)}
+      if(n%4===0 && !inStationApproach(x,z)){detail(-5.6,.5,1.1,.13,2.6,0x92603d);detail(-6.02,.86,.12,.7,2.6,0x92603d);for(const f of [-.82,.82])detail(-5.7,.24,.8,.48,.12,0x4e514b,f)}
       if(n%4===1 && (i===2||i>=32 && i<40)){
         const [hx,hz]=pos(-27);
         if(nearWalk(hx,hz))continue;
