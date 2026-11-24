@@ -14,7 +14,7 @@ export const fieldNotes = {
     lead:'2026 年 10 月 26 日 16:40 至 17:30，座談後的 Social Run 共記錄 105 人次。你可以沿活動次序，在模型裡找出不同的觀察重點。',
     rows:[
       ['從哪裡出發？','先在南鼓山聯合里活動中心集合，再步行至哈瑪星站 2 號出口寄物。3D 從哈瑪星段開始。','第 3、33 頁'],
-      ['沿路看什麼？','去程由鹽埕綠廊道前往真愛碼頭及高雄流行音樂中心，沿輕軌大義一帶返回哈瑪星。圖 46 記載踩線約 4.5 公里。','第 33 頁，圖 46'],
+      ['沿路看什麼？','去程由鹽埕綠廊道前往真愛碼頭及高雄流行音樂中心，沿輕軌大義一帶返回哈瑪星。這次踩線約 4.5 公里。','第 33 頁，圖 46'],
       ['換個視角觀察','座談參與者關心路面高低差、人車分流、照明和休息空間。可切換輪椅或輔具視角，比較同一段路的可見範圍。實際寬度、坡度與通行許可仍需現勘。','第 25–26 頁；互動場景為示意']
     ],link:['#/map','對照報告原始踩線圖']
   },
@@ -33,9 +33,9 @@ export function notesSection(key){
  const section=document.createElement('section');section.className='wrap report-notes';
  const title=document.createElement('h2');title.textContent=entry.title;
  const lead=document.createElement('p');lead.textContent=entry.lead;section.append(title,lead);
- for(const [heading,copy,source] of entry.rows){
-   const row=document.createElement('details'),summary=document.createElement('summary'),text=document.createElement('p'),cite=document.createElement('small');
-   summary.textContent=heading;text.textContent=copy;cite.textContent='成果報告 '+source;row.append(summary,text,cite);section.append(row);
+ for(const [heading,copy] of entry.rows){
+   const row=document.createElement('details'),summary=document.createElement('summary'),text=document.createElement('p');
+   summary.textContent=heading;text.textContent=copy;row.append(summary,text);section.append(row);
  }
  const link=document.createElement('a');link.className='link-arrow';[link.href,link.textContent]=entry.link;section.append(link);return section;
 }

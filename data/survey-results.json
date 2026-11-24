@@ -14,11 +14,12 @@
         "value": 25
       }
     ],
-    "source": "成果報告第 3、11 頁。有效問卷含跑者端 494 份及店家端 25 份。",
+    "source": "有效問卷含跑者端 494 份及店家端 25 份。",
     "verifiedAt": "2026-11-23",
     "updatedAt": "2026-11-23",
     "status": "verified",
-    "published": true
+    "published": true,
+    "sourceLocator": "成果報告第 3、11 頁。有效問卷含跑者端 494 份及店家端 25 份。"
   },
   {
     "published": true,
@@ -38,8 +39,9 @@
         "value": 71.5
       }
     ],
-    "source": "成果報告第 13 頁，複選題，節錄前兩項",
-    "question": "跑步途中最希望有的服務"
+    "source": "複選題，節錄前兩項",
+    "question": "跑步途中最希望有的服務",
+    "sourceLocator": "成果報告第 13 頁，複選題，節錄前兩項"
   },
   {
     "published": true,
@@ -59,8 +61,9 @@
         "value": 75.3
       }
     ],
-    "source": "成果報告第 13 頁，複選題，節錄前兩項",
-    "question": "最期待的店家服務"
+    "source": "複選題，節錄前兩項",
+    "question": "最期待的店家服務",
+    "sourceLocator": "成果報告第 13 頁，複選題，節錄前兩項"
   },
   {
     "items": [
@@ -79,13 +82,14 @@
     ],
     "updatedAt": "2026-11-24",
     "question": "跑者希望地圖標出什麼？",
-    "source": "第 13–14 頁，跑者端 n=494，複選，節錄三項。",
+    "source": "跑者端 n=494，複選，節錄三項。",
     "published": true,
     "id": "map-info",
     "verifiedAt": "2026-11-24",
     "title": "跑者希望地圖標出什麼？",
     "status": "verified",
-    "unit": "%"
+    "unit": "%",
+    "sourceLocator": "第 13–14 頁，跑者端 n=494，複選，節錄三項。"
   },
   {
     "items": [
@@ -100,12 +104,13 @@
     ],
     "updatedAt": "2026-11-24",
     "question": "受訪者平常在哪裡跑？",
-    "source": "第 12 頁，跑者端 n=494，複選，節錄兩項。",
+    "source": "跑者端 n=494，複選，節錄兩項。",
     "published": true,
     "id": "locations",
     "verifiedAt": "2026-11-24",
     "title": "受訪者平常在哪裡跑？",
     "status": "verified",
-    "unit": "%"
+    "unit": "%",
+    "sourceLocator": "第 12 頁，跑者端 n=494，複選，節錄兩項。"
   }
 ]

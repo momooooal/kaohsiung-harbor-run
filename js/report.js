@@ -3,13 +3,45 @@ import {streetMaterials} from './street.js';
 import {places,landmarks} from './landmarks.js';
 import {track} from './track.js';
 import {makeActor,MODES} from './explore.js';
-export function reportMap(){
- const host=document.createElement('section');host.className='wrap section-card';
- host.innerHTML='<h2>踩線全程圖</h2><p>南鼓山聯合里活動中心出發，步行約 400 公尺至哈瑪星站 2 號出口集合，再沿鹽埕綠廊道、真愛碼頭、高雄流行音樂中心及輕軌大義沿線返回哈瑪星。報告記載約 4.5 公里。</p><div style="height:420px"></div><p>成果報告第 33 頁，圖 46、表 19。活動當日於哈瑪星站體驗寄物，路人咖啡 5 號店提供食物與飲水。常態服務待確認。</p><a href="#/explore">進入全程 3D 探索 ↗</a>';
+export function reportMap(route){
+ if(!route?.published || route.status!=='verified' || route.kind!=='activity')return ()=>{};
+ const host=document.createElement('section');host.className='wrap activity-guide';
+ host.innerHTML='<header><div class="eyebrow">港灣踩線</div><h2></h2><p class="activity-meta"></p></header><p class="assembly"></p><div class="stop-list" aria-label="聚焦沿途地點"></div><div class="activity-map" aria-label="港灣踩線去回程圖"></div><p class="stop-detail" aria-live="polite"></p><h3>踩線當日的寄物與補給</h3><div class="activity-services"></div><a class="btn dark" href="#/explore">沿路線進入 3D 探索 ↗</a>';
  document.querySelector('.page-intro').after(host);
- const bounds=[[0,0],[436,650]], map=L.map(host.querySelector('div'),{crs:L.CRS.Simple,minZoom:-3,maxZoom:3,scrollWheelZoom:false});
- L.imageOverlay('assets/report-route.jpg',bounds).addTo(map);map.fitBounds(bounds);
- return ()=>map.remove();
+ host.querySelector('h2').textContent=route.name;
+ host.querySelector('.activity-meta').textContent=route.activityDate+'　·　'+route.activityDistanceLabel;
+ host.querySelector('.assembly').textContent=route.assembly;
+ for(const [name,copy] of route.services){
+   const card=document.createElement('article'),h=document.createElement('h4'),p=document.createElement('p');
+   h.textContent=name;p.textContent=copy;card.append(h,p);host.querySelector('.activity-services').append(card);
+ }
+ const bounds=[[0,0],[436,650]],container=host.querySelector('.activity-map');
+ const map=window.L && L.map(container,{crs:L.CRS.Simple,minZoom:-3,maxZoom:3,zoomSnap:.1,scrollWheelZoom:false});
+ if(map)L.imageOverlay('assets/report-route.jpg',bounds,{alt:'哈瑪星經鹽埕、真愛碼頭至高流，沿大義返回的踩線原圖'}).addTo(map);
+ else container.innerHTML='<img style="width:100%" src="assets/report-route.jpg" alt="港灣踩線去回程圖">';
+ const detail=host.querySelector('.stop-detail'),list=host.querySelector('.stop-list');
+ function choose(button,text){
+   for(const other of list.children)other.setAttribute('aria-pressed',String(other===button));
+   detail.textContent=text;
+ }
+ function addButton(name,action){
+   const button=document.createElement('button');button.type='button';button.textContent=name;
+   button.onclick=()=>action(button);list.append(button);return button;
+ }
+ const reset=addButton('全程',button=>{
+   if(map){map.closePopup();map.fitBounds(bounds,{padding:[8,8],animate:false})}
+   choose(button,'去程從哈瑪星跑向高流，回程沿大義輕軌返回。點選地點可放大查看。');
+ });
+ for(const [name,copy,x,y] of route.stops){
+   const pos=[436-y,x],button=addButton(name,btn=>{
+     choose(btn,name+'｜'+copy);
+     if(map){map.setView(pos,Math.max(map.getBoundsZoom(bounds)+1,.3),{animate:false});marker.openPopup()}
+   });
+   const marker=map && L.circleMarker(pos,{radius:7,color:'#fff',weight:2,fillColor:'#0b665d',fillOpacity:1}).bindPopup(name).addTo(map);
+   if(marker)marker.on('click',()=>choose(button,name+'｜'+copy));
+ }
+ reset.click();
+ return ()=>map?.remove();
 }
 export function clampMovement(progress, lateral, total){
   return [Math.max(0,Math.min(total,progress)), Math.max(-3,Math.min(3,lateral))];
@@ -33,7 +65,7 @@ export function ride(short=false){
    const paragraph=document.createElement('p');
    paragraph.textContent=place.name+'｜'+place.detail+'。 ';
    if(place.source){const a=document.createElement('a');a.href=place.source;a.textContent='高雄旅遊網地標介紹';a.target='_blank';a.rel='noopener';paragraph.append(a)}
-   else paragraph.append('依成果報告第 33 頁路段名稱設計。');
+   else paragraph.append('依當天踩線經過的路段設計。');
    guide.append(paragraph);
  }
  for(const [description,label,url] of [
@@ -49,7 +81,7 @@ export function ride(short=false){
    link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener';
    p.append(description,' ',link);guide.append(p);
  }
- const scale=document.createElement('p');scale.textContent='環境光景、樹形與鋪面採用通用實拍素材；實地位置請參考高雄旅遊網。全程按報告圖 46 示意描線。沿途建物的比例、朝向、植栽與路旁位置為導覽構圖。';guide.append(scale);const real=document.createElement('a');real.href='https://khh.travel/zh-tw/attractions/immersive-experience/';real.target='_blank';real.rel='noopener';real.className='link-arrow';real.textContent='高雄旅遊網｜現地環景導覽 ↗';const film=document.createElement('a');film.href='#/explore/film';film.className='btn dark';film.textContent='觀看港灣實拍步行影像';const actions=document.createElement('div');actions.className='bay-actions';actions.append(film,real);stage.closest('.game-shell').before(actions);
+ const scale=document.createElement('p');scale.textContent='環境光景、樹形與鋪面採用通用實拍素材；實地位置請參考高雄旅遊網。全程依活動路線示意描繪。沿途建物的比例、朝向、植栽與路旁位置為導覽構圖。';guide.append(scale);const real=document.createElement('a');real.href='https://khh.travel/zh-tw/attractions/immersive-experience/';real.target='_blank';real.rel='noopener';real.className='link-arrow';real.textContent='高雄旅遊網｜現地環景導覽 ↗';const film=document.createElement('a');film.href='#/explore/film';film.className='btn dark';film.textContent='觀看港灣實拍步行影像';const actions=document.createElement('div');actions.className='bay-actions';actions.append(film,real);stage.closest('.game-shell').before(actions);
  stage.closest('.game-shell').after(guide);
  const sky=streetMaterials(scene,materials,points);landmarks(scene,points);addHarborDistricts(scene,points);const sun=scene.getObjectByName("sun");scene.traverse(o=>{if(o.isMesh && !o.material?.transparent && o.material?.fog!==false && o.geometry.type!=="SphereGeometry"){o.receiveShadow=true;o.castShadow=Boolean(o.customDepthMaterial)||o.geometry.type!=="PlaneGeometry"}});
  let mode='run',actor=makeActor(mode),s=0,offset=0,yaw=0,first=true,paused=false,last=0,frame,low=true;scene.add(actor);

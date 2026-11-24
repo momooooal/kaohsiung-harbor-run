@@ -149,8 +149,8 @@ export function buildDayiStation(scene,frame,solid,beam){
   // keep the successive gables visible from the guided path without turning.
   const warehouseFrontage=[
     [21,-6,.10],[39,5,.15],
-    [20.9,20,-.06],[33.5,47,.12],[22.7,78,-.19],
-    [23,108,.22],[25.6,136,-.18]
+    [21.3,10,.10],[35,39,-.15],[31,73,-.30],
+    [24,106,-.19],[25.6,136,-.18]
   ];
   ground(14,64,5.6,141,.119,tile('herringbone_pavement.jpg',2,42));
   // Swing-out perforated screens and gooseneck lights refer to the industrial facade photograph.
@@ -279,9 +279,19 @@ export function buildDayiStation(scene,frame,solid,beam){
   // Recessed courtyard between two lanes, kept outside the guided and free walking area.
   const courtyardPaving=tile('herringbone_pavement.jpg',8,12);
   courtyardPaving.color.setHex(0xd6b397);
-  ground(20.5,52.5,18.6,30,.156,courtyardPaving);
+    // The courtyard lane opens obliquely toward the forward camera. Align its
+  // brick edges and the far doorway to give the opening a readable vanishing point.
+  const courtyardLane=new THREE.Group();
+  courtyardLane.position.set(15.2,0,27);courtyardLane.rotation.y=.195;district.add(courtyardLane);
+  const courtSurface=mesh(new THREE.PlaneGeometry(12.8,66),courtyardPaving,2.2,.156,32,courtyardLane);
+  courtSurface.rotation.x=-Math.PI/2;
+  for(const edge of [-4.2,8.6])part(courtyardLane,edge,.17,32,.2,.07,66,lintel);
+  for(let z=9;z<64;z+=11)part(courtyardLane,2.2,.17,z,12.8,.022,.13,revealMetal);
+  // A recessed portal at the far end frames the sightline from the shopfronts.
+  for(const x of [0,6])part(courtyardLane,x,2.2,55,1.15,4.4,2.3,masonry);
+  part(courtyardLane,3,4.62,55,7.4,.52,2.55,plaster);
   ground(22.5,99,20,6,.153,courtyardPaving);
-  for(const [x,z,r] of [[17.5,45,.95],[23,55,.84]]){
+  for(const [x,z,r] of [[14.3,34,1.10],[15.5,55,1.03],[18,73,1.03]]){
     for(const [h,radius,height] of [[.22,r,.12],[.72,r*.46,.94],[1.21,r,.10]])
       mesh(new THREE.CylinderGeometry(radius,radius,height,24),wood,x,h,z);
     for(const a of [0,2.1,4.2]){
@@ -291,10 +301,10 @@ export function buildDayiStation(scene,frame,solid,beam){
         beam([sx+dx*1.3,.16,sz+dz*1.3],[sx+dx,.78,sz+dz],.025,0x382f28);
     }
   }
-  for(const [x,z,h] of [[17.8,41,7.1],[23,61,8.2],[21,98,5.9]]){
+  for(const [x,z,h] of [[18.9,32,9.1],[17.9,49,9.7],[20.8,70,9.2],[23,85,7.7],[21,98,5.9]]){
     const crown=mesh(new THREE.PlaneGeometry(h*.77,h),leaves,x,.16+h/2,z);
     crown.rotation.y=.43;
-    ground(x-.5,z+.6,h*.81,h*.72,.172,shadowMat);
+    ground(x-3.6,z+1.9,h*1.35,h*1.16,.185,shadowMat);
   }
   district.updateWorldMatrix(true,true);
   for(const [finish,parts] of surfaces){

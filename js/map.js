@@ -7,9 +7,9 @@ export function mountMap(data, { compact = false } = {}) {
     container.textContent = '地圖程式庫無法載入。請查看下方文字版場域資訊。';
     return () => {};
   }
-  const routes = data.routes.filter(route => route.published === true && (route.status === 'demo' || (route.status === 'verified' && !!route.verifiedAt)));
+  const routes = data.routes.filter(route => route.kind !== 'activity' && route.published === true && (route.status === 'demo' || (route.status === 'verified' && !!route.verifiedAt)));
   const bay = routes.find(route => route.id === 'bay');
-  const map = L.map(container, { scrollWheelZoom: false }).setView(bay.center, compact ? 14 : 13);
+  const map = L.map(container, { scrollWheelZoom: false }).setView(bay?.center || [22.625,120.303], compact ? 14 : 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'
   }).addTo(map);

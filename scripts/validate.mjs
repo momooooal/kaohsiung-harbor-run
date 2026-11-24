@@ -20,7 +20,7 @@ for (const [kind,file] of Object.entries(kinds)) {
     if (kind === 'store' && item.published && (item.status !== 'verified' || !item.cooperationConfirmed)) errors.push(`${file}/${item.id}: 店家未確認合作，不得公開`);
     if (kind === 'route' && item.status === 'demo' && (item.distanceKm != null || item.path != null)) errors.push(`${file}/${item.id}: 示範場域不可填正式路徑或距離`);
     if (kind === 'route' && item.status === 'verified' && item.published) {
-      if (!Array.isArray(item.center) || item.center.length !== 2 || !item.center.every(Number.isFinite)) errors.push(`${file}/${item.id}: 地圖中心無效`);
+      if (item.kind !== 'activity' && (!Array.isArray(item.center) || item.center.length !== 2 || !item.center.every(Number.isFinite))) errors.push(`${file}/${item.id}: 地圖中心無效`);
       if (item.path != null && (!Array.isArray(item.path) || item.path.length < 2 || !item.path.every(p=>Array.isArray(p) && p.length===2 && p.every(Number.isFinite)))) errors.push(`${file}/${item.id}: 軌跡座標無效`);
       if (item.distanceKm != null && (!Number.isFinite(item.distanceKm) || item.distanceKm <= 0)) errors.push(`${file}/${item.id}: 距離無效`);
     }

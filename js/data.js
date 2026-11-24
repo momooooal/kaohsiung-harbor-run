@@ -10,7 +10,7 @@ function isValid(item, kind, required) {
   if (!item || typeof item !== 'object' || !required.every(key => Object.hasOwn(item, key))) return false;
   if (!['verified', 'pending', 'demo'].includes(item.status)) return false;
   if (typeof item.id !== 'string' || !/^[a-z0-9-]+$/.test(item.id) || typeof item.source !== 'string' || typeof item.published !== 'boolean') return false;
-  if (kind === 'routes') return item.status === 'pending' || (Array.isArray(item.center) && item.center.length === 2 && item.center.every(Number.isFinite));
+  if (kind === 'routes') return item.status === 'pending' || (item.kind === 'activity' && item.center === null && Array.isArray(item.stops) && item.stops.length > 0) || (Array.isArray(item.center) && item.center.length === 2 && item.center.every(Number.isFinite));
   if (kind === 'facilities' || kind === 'stores') return !item.published || (Number.isFinite(item.lat) && Number.isFinite(item.lng));
   return true;
 }
