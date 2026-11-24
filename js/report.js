@@ -1,3 +1,4 @@
+import {cityStreet,cityPlaces} from './city-street.js';
 import {addServiceStops} from './service-stops.js';
 import {addHarborDistricts} from './districts.js';
 import {streetMaterials} from './street.js';
@@ -101,17 +102,27 @@ export function ride(short=false){
  const landmarksForHints=destinations.slice();
  destinations.push(...services);
  destinations.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
+ const cityGroup=document.createElement('optgroup');cityGroup.label='全市據點・當地自由探索';
+ cityPlaces.forEach((p,i)=>cityGroup.append(new Option(p[0],'city-'+i)));destination.append(cityGroup);
+ let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
- function relocate(){const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
+ function relocate(){
+ if(local){scene.add(actor);local.dispose();local=null}
+ if(destination.value.startsWith('city-')){
+   local=cityStreet(cityPlaces[Number(destination.value.slice(5))]);local.scene.add(actor);
+   travel.value='free';free=true;freePos.set(-3,0,6.8);heading=Math.PI-.32;pitch=yaw=0;
+   selectedService=null;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';return;
+ }
+ const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
- destination.onchange=relocate;travel.onchange=()=>{free=travel.value==='free';relocate()};
+ destination.onchange=relocate;travel.onchange=()=>{if(local&&travel.value==='guided')destination.value='-1';free=travel.value==='free';relocate()};
  renderer.domElement.style.touchAction='none';
  renderer.domElement.onpointerdown=e=>{setViewing(false);drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
  renderer.domElement.onpointermove=e=>{if(!drag)return;const delta=(e.clientX-drag[0])*.006;if(free)heading-=delta;else yaw-=delta;pitch=Math.max(-.85,Math.min(.85,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY]};
  renderer.domElement.onlostpointercapture=()=>drag=null;
  button('camera-toggle').textContent='第一人稱';
- select.onchange=()=>{scene.remove(actor);mode=select.value;actor=makeActor(mode);scene.add(actor);button('mode-description').textContent=MODES[mode].text};
+ select.onchange=()=>{actor.parent.remove(actor);mode=select.value;actor=makeActor(mode);(local?.scene||scene).add(actor);button('mode-description').textContent=MODES[mode].text};
  button('camera-toggle').onclick=e=>{setViewing(false);first=!first;e.target.textContent=first?'第一人稱':'第三人稱'};
  button('pause-toggle').onclick=e=>{paused=!paused;e.target.textContent=paused?'繼續':'暫停'};
  button('reset-game').onclick=relocate;
@@ -133,7 +144,7 @@ export function ride(short=false){
  stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
  const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix()});resize.observe(stage);
  function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*3;
- if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
+ if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
  const swing=paused||!speed?0:Math.sin(now*.006);if(!paused){
       if(actor.userData.legs)actor.userData.legs.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.65:mode==='cane'?.26:.38));
       if(actor.userData.arms)actor.userData.arms.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.55:mode==='wheelchair'?.32:.28));
@@ -146,13 +157,19 @@ export function ride(short=false){
  const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=landmarksForHints.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);
  const nearby=services.reduce((best,item)=>item.target.distanceToSquared(pos)<(best?best.target.distanceToSquared(pos):28*28)?item:best,null);
  const service=selectedService||nearby;
+ if(local){
+   hint.textContent=local.description;
+   if(viewing)camera.lookAt(0,2,-2);
+   button('game-state').textContent='街區自由探索';
+   renderer.render(local.scene,camera);frame=requestAnimationFrame(tick);return;
+ }
  if(viewing){const anchor=points[near.index],forward=anchor.clone().sub(points[near.index-1]).normalize(),side=new THREE.Vector3(forward.z,0,-forward.x);
  const target=anchor.clone().addScaledVector(side,near.index===14?-24:13);if(near.index===35)target.addScaledVector(forward,24);target.y=near.index===19?10:near.index===35?1.2:4;
  if(service)target.copy(service.target);
  if(!first){camera.position.copy(target).addScaledVector(forward,-32).addScaledVector(side,-25);camera.position.y=11}
  camera.lookAt(target);actor.visible=false}
  hint.textContent=service?service.name+'｜'+service.tag:near.name+'｜'+(near.detail||near.tag)+'（3D 示意）';sun.position.set(pos.x-36,pos.y+48,pos.z-19);sun.target.position.copy(pos);sky.update(camera);renderer.render(scene,camera);frame=requestAnimationFrame(tick)}frame=requestAnimationFrame(tick);
- return ()=>{cancelAnimationFrame(frame);resize.disconnect();document.removeEventListener('keydown',press);document.removeEventListener('keyup',release);scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});sky.dispose();renderer.dispose()};
+ return ()=>{cancelAnimationFrame(frame);if(local){scene.add(actor);local.dispose()}resize.disconnect();document.removeEventListener('keydown',press);document.removeEventListener('keyup',release);scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});sky.dispose();renderer.dispose()};
 }
 
 
