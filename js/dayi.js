@@ -145,14 +145,31 @@ export function buildDayiStation(scene,frame,solid,beam){
   const shadeMap=new THREE.CanvasTexture(shade);
   const contact=new THREE.MeshBasicMaterial({map:shadeMap,transparent:true,depthWrite:false});
   contact.addEventListener('dispose',()=>shadeMap.dispose());
-  for(const [x,z] of [[21,-6],[39,5]]){
-    const shed=new THREE.Group();shed.position.set(x,0,z);shed.rotation.y=.15;district.add(shed);
+  // The frontage continues past both ends of the platform. Narrow cross aisles
+  // keep the successive gables visible from the guided path without turning.
+  const warehouseFrontage=[
+    [21,-6,.10],[39,5,.15],
+    [21.8,21,-.025],[20.6,47.5,.025],[22.2,76,-.07],
+    [21.3,103,.02],[25.6,132,-.18]
+  ];
+  ground(14,64,5.6,141,.119,tile('herringbone_pavement.jpg',2,42));
+  for(const [row,[x,z,heading]] of warehouseFrontage.entries()){
+    const shed=new THREE.Group();shed.position.set(x,0,z);shed.rotation.y=heading;district.add(shed);
     // The inner shell ends behind the openings. A solid outer box would occlude the recesses.
     part(shed,.82,2.96,10.85,11.1,5.9,20.9,inside);
     const gable=new THREE.Shape();gable.moveTo(-6.45,5.95);gable.lineTo(0,7.28);gable.lineTo(6.45,5.95);gable.closePath();
     mesh(new THREE.ExtrudeGeometry(gable,{depth:23,bevelEnabled:false}),plaster,0,0,-1.5,shed);
     for(const side of [-1,1]){
       part(shed,side*3.25,6.63,10,6.9,.2,24,metal).rotation.z=-side*.20;
+    }
+    // Industrial loading canopies reappear on alternate blocks around the side lanes.
+    if(row>=2 && row%2===0){
+      part(shed,-7.24,4.36,9,2.65,.16,19,metal).rotation.z=.075;
+      part(shed,-8.49,4.19,9,.13,.27,19,lintel);
+      for(const postZ of [1,7,13,18]){
+        const brace=part(shed,-7.2,3.82,postZ,1.93,.13,.12,lintel);
+        brace.rotation.z=-.42;
+      }
     }
     const bays=[[-4.2,-1.52,0],[0,-1.52,0],[4.2,-1.52,0],...Array.from({length:5},(_,i)=>[-6.34,i*4.35+.68,Math.PI/2])];
     bays.forEach(([bx,bz,angle],index)=>{
@@ -175,11 +192,11 @@ export function buildDayiStation(scene,frame,solid,beam){
       part(bay,0,5.30,-1.01,4.25,.16,.88,plaster);
       part(bay,0,5.19,-1.03,4.21,.075,.86,inside);
       for(const dx of [-1.76,1.76])part(bay,dx,4.99,-.96,.10,.13,.77,lintel);
-      if(index===1 || index===5){
+      if((index+row)%5===1){
         for(let row=0;row<9;row++)
           part(bay,0,3.8-row*.16,.80,3.09,.13,.10,row%2===0?lintel:revealMetal);
       }
-      if(index%3===0){
+      if((index+row)%3===0){
         part(bay,-1.67,3.07,-.88,.17,.43,.19,dark);
         const board=part(bay,1.32,.76,-1.49,.56,.78,.05,lintel);board.rotation.x=.12;
         part(bay,1.32,.8,-1.54,.46,.51,.03,concrete);
