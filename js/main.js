@@ -1,3 +1,4 @@
+import { friendlyDirectory } from './friendly-directory.js';
 import {notesSection} from './field-notes.js';
 import {reportMap,ride} from './report.js';
 import { loadData, publicItems, safeImagePath } from './data.js';
@@ -163,6 +164,7 @@ function render() {
     document.querySelector('.status-note').innerHTML = '沿著港灣踩線路線探索，場景比例、路寬與街景為示意。 <a href="#/explore/short">去程練習</a> · <a href="#/explore">完整往返</a>';
     document.querySelector('#mission-list').innerHTML='<li>從哈瑪星出發，沿紅線走訪港灣。</li><li>在去程末端觀察折返方向。</li><li>全程模式沿回程路徑返回哈瑪星。</li>';
     document.querySelector('.game-help').textContent='點選畫面後用 WASD 或方向鍵移動及轉向，手機可按住方向鍵。按 E 或「觀察」可觀看鄰近地標全景，再按一次或前進即可返回。';
+    document.querySelector('.game-shell').before(friendlyDirectory());
     dispose = ride(path.endsWith('/short'));
   }
   if(path==='/about')document.querySelector('.page-intro').after(notesSection('about'));
