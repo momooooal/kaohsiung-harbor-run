@@ -1336,3 +1336,8 @@ a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visib
   font-size:.89rem;
   margin:10px 0
 }
+
+/* Keep navigation in document flow so it cannot cover the route HUD while playing. */
+body:has(#game-stage) .site-header {
+  position: relative;
+}
