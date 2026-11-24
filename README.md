@@ -45,8 +45,8 @@ python -m http.server 8000
 ## GitHub Pages 部署
 
 1. 將**本目錄內容**放在 GitHub 儲存庫根目錄，推送到 `main` 分支。勿只上傳外層 `outputs` 目錄。
-2. 在儲存庫 **Settings → Pages → Build and deployment** 選擇 **GitHub Actions**。
-3. 推送後 `.github/workflows/pages.yml` 會先執行資料檢查，再部署靜態檔案。
+2. 在儲存庫 **Settings → Pages → Build and deployment** 選擇 **Deploy from a branch → main → / (root)**。
+3. 推送後 `.github/workflows/pages.yml` 負責資料檢查與測試；Pages 從 main 根目錄發布靜態檔案。
 4. 網站可位於 `https://使用者.github.io/儲存庫名稱/`；連結採 `#/map` 等形式，能在子路徑重新整理。
 5. 發布前檢查照片授權、所有資料來源與查核日期，並由計畫方確認主辦單位及正式對外文案。
 
@@ -101,3 +101,4 @@ python -m http.server 8000
 
 ## 步道材質與實景參考（11 月 23 日更新）
 第一人稱 3D 場景使用 Poly Haven 的 CC0 素材：herringbone_pavement、aerial_grass_rock、brick_wall_001、tree_small_02 及 docklands_02（https://polyhaven.com/a/ 加上素材名稱即可查看原始頁）。植栽為從來源模型渲染的透明貼圖；Docklands 影像作通用遠景，不代表高雄現地天際線。近景步道、模型與布置為示意。實拍步行影片在 #/explore/film 使用原平台播放器，高雄旅遊網環景由官方網站提供。兩者需連網。真正可任意移動的全程現地重建仍需沿線拍攝與定位的授權素材。
+
