@@ -32,6 +32,11 @@ export function buildDayiStation(scene,frame,solid,beam){
   for(const center of [0,-3.9]){
     for(const side of [-.75,.75])solid(center+side,.17,0,.10,.09,88,0x757c74);
   }
+  // Grass rails lead into the platform entrance, stopping at the paved crossing.
+  const platformEntrance=tile('aerial_grass_rock.jpg',2,6);
+  platformEntrance.color.setHex(0x709744);
+  ground(-1.95,-12,6.9,9.6,.15,platformEntrance);
+  ground(-1.95,12,6.9,38,.145,platformEntrance);
   // Pale independent columns, cantilever ribs and a visibly sloped, thin fascia.
   for(const [x,side] of [[3.35,1],[-7.25,-1]]){
     solid(x,.24,8,2.9,.46,38,0xa09c8e);
@@ -44,6 +49,12 @@ export function buildDayiStation(scene,frame,solid,beam){
       beam([x+side*.93,.46,z],[x+side*.93,4.22,z],.105,0xbac1b7);
       beam([x+side*.9,3.49,z],[x-side*1.75,4.39,z],.072,0x747e76);
       beam([x+side*1.23,4.12,z],[x-side*1.78,4.4,z],.075,0xb2b9b0);
+    }
+    for(let z=-9;z<20;z+=1.45){
+      solid(x,4.16,z,3.62,.13,.08,0x697a74,slope);
+    }
+    for(const z of [-6,8,17]){
+      solid(x,3.97,z,.19,.085,1.38,0xe9e6d5);
     }
     for(const z of [0,11])solid(x,.98,z,.69,.12,2.5,0xa79575);
     // Open entrance and white tubular approach railings.
