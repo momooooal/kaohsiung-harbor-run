@@ -149,10 +149,52 @@ export function buildDayiStation(scene,frame,solid,beam){
   // keep the successive gables visible from the guided path without turning.
   const warehouseFrontage=[
     [21,-6,.10],[39,5,.15],
-    [21.8,21,-.025],[20.6,47.5,.025],[22.2,76,-.07],
-    [21.3,103,.02],[25.6,132,-.18]
+    [20.9,20,-.06],[33.5,47,.12],[22.7,78,-.19],
+    [23,108,.22],[25.6,136,-.18]
   ];
   ground(14,64,5.6,141,.119,tile('herringbone_pavement.jpg',2,42));
+  // Swing-out perforated screens and gooseneck lights refer to the industrial facade photograph.
+  const sheet=document.createElement('canvas');sheet.width=64;sheet.height=64;
+  const painter=sheet.getContext('2d');painter.fillStyle='#a6aaa5';painter.fillRect(0,0,64,64);
+  painter.fillStyle='#444b47';
+  for(let y=2;y<64;y+=8)for(let x=2;x<64;x+=8){
+    painter.beginPath();painter.arc(x+(y%16===2?0:4),y,2.1,0,Math.PI*2);painter.fill();
+  }
+  const punchedTexture=new THREE.CanvasTexture(sheet);
+  punchedTexture.encoding=THREE.sRGBEncoding;punchedTexture.wrapS=punchedTexture.wrapT=THREE.RepeatWrapping;
+  punchedTexture.repeat.set(2,7);punchedTexture.anisotropy=4;
+  const perforated=new THREE.MeshStandardMaterial({map:punchedTexture,roughness:.67,metalness:.22});
+  perforated.addEventListener('dispose',()=>punchedTexture.dispose());
+  const umber=material(0x514031), brickRed=material(0x875944);
+  function industrialBay(bay,index){
+    part(bay,0,2.58,.77,4.32,5.16,1.08,inside);
+    part(bay,-1.88,2.96,-.1,.58,5.92,1.28,plaster);
+    part(bay,0,5.38,-.03,4.28,1.1,1.3,plaster);
+    part(bay,1.93,2.55,0,.42,5.1,1.14,plaster);
+    for(const sign of [-1,1]){
+      const hinge=new THREE.Group();
+      hinge.position.set(sign*1.64,0,-.44);
+      hinge.rotation.y=-sign*(index%2===0?.92:.57);
+      bay.add(hinge);part(hinge,-sign*.78,2.21,0,1.56,4.14,.12,perforated);
+      part(hinge,-sign*1.53,2.21,0,.065,4.17,.16,metal);
+    }
+    part(bay,0,4.71,-.69,.075,.27,.64,dark);
+    part(bay,0,4.52,-1,.4,.12,.34,dark);
+  }
+  function brickBay(bay,index){
+    part(bay,0,2.9,.34,4.35,5.8,.96,masonry);
+    part(bay,-1.98,2.89,-.19,.27,5.78,.28,brickRed);
+    if(index%3===0){
+      part(bay,0,2,-.21,3.36,3.92,.23,umber);
+      for(const offset of [-1.52,0,1.52])part(bay,offset,2,-.36,.10,3.9,.11,dark);
+      part(bay,0,4.13,-.34,3.95,.12,.18,dark);
+    }else{
+      part(bay,0,3.6,-.19,2.71,1.65,.2,pane);
+      for(const offset of [-.88,0,.88])part(bay,offset,3.6,-.32,.07,1.68,.08,metal);
+      part(bay,0,3.55,-.32,2.73,.07,.10,metal);
+      part(bay,0,2.72,-.25,2.92,.16,.44,plaster);
+    }
+  }
   for(const [row,[x,z,heading]] of warehouseFrontage.entries()){
     const shed=new THREE.Group();shed.position.set(x,0,z);shed.rotation.y=heading;district.add(shed);
     // The inner shell ends behind the openings. A solid outer box would occlude the recesses.
@@ -163,7 +205,7 @@ export function buildDayiStation(scene,frame,solid,beam){
       part(shed,side*3.25,6.63,10,6.9,.2,24,metal).rotation.z=-side*.20;
     }
     // Industrial loading canopies reappear on alternate blocks around the side lanes.
-    if(row>=2 && row%2===0){
+    if(row===4){
       part(shed,-7.24,4.36,9,2.65,.16,19,metal).rotation.z=.075;
       part(shed,-8.49,4.19,9,.13,.27,19,lintel);
       for(const postZ of [1,7,13,18]){
@@ -175,6 +217,8 @@ export function buildDayiStation(scene,frame,solid,beam){
     bays.forEach(([bx,bz,angle],index)=>{
       const bay=new THREE.Group();bay.position.set(bx,0,bz);bay.rotation.y=angle;shed.add(bay);
       part(bay,0,.10,-.86,4.25,.12,4.65,floor);
+      if(row===2){industrialBay(bay,index);return}
+      if(row===4||row===6){brickBay(bay,index);return}
       part(bay,0,5.49,.08,4.27,.91,1.82,plaster);
       part(bay,0,4.98,-.16,4.30,.17,1.92,lintel);
       part(bay,-1.86,2.52,.04,.55,5.02,1.7,plaster);
@@ -232,6 +276,26 @@ export function buildDayiStation(scene,frame,solid,beam){
   const shadowMat=new THREE.MeshBasicMaterial({map:shadowMap,transparent:true,depthWrite:false});
   shadowMat.addEventListener('dispose',()=>shadowMap.dispose());
   ground(16.6,-14.1,6.6,5.5,.153,shadowMat);
+  // Recessed courtyard between two lanes, kept outside the guided and free walking area.
+  const courtyardPaving=tile('herringbone_pavement.jpg',8,12);
+  courtyardPaving.color.setHex(0xd6b397);
+  ground(20.5,52.5,18.6,30,.156,courtyardPaving);
+  ground(22.5,99,20,6,.153,courtyardPaving);
+  for(const [x,z,r] of [[17.5,45,.95],[23,55,.84]]){
+    for(const [h,radius,height] of [[.22,r,.12],[.72,r*.46,.94],[1.21,r,.10]])
+      mesh(new THREE.CylinderGeometry(radius,radius,height,24),wood,x,h,z);
+    for(const a of [0,2.1,4.2]){
+      const sx=x+Math.cos(a)*(r+.53),sz=z+Math.sin(a)*(r+.53);
+      part(district,sx,.78,sz,.44,.08,.44,dark);
+      for(const dx of [-.15,.15])for(const dz of [-.15,.15])
+        beam([sx+dx*1.3,.16,sz+dz*1.3],[sx+dx,.78,sz+dz],.025,0x382f28);
+    }
+  }
+  for(const [x,z,h] of [[17.8,41,7.1],[23,61,8.2],[21,98,5.9]]){
+    const crown=mesh(new THREE.PlaneGeometry(h*.77,h),leaves,x,.16+h/2,z);
+    crown.rotation.y=.43;
+    ground(x-.5,z+.6,h*.81,h*.72,.172,shadowMat);
+  }
   district.updateWorldMatrix(true,true);
   for(const [finish,parts] of surfaces){
     const batch=new THREE.InstancedMesh(unit,finish,parts.length);
