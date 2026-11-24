@@ -1,3 +1,4 @@
+import {addServiceStops} from './service-stops.js';
 import {addHarborDistricts} from './districts.js';
 import {streetMaterials} from './street.js';
 import {places,landmarks} from './landmarks.js';
@@ -90,12 +91,19 @@ export function ride(short=false){
  toolbar.innerHTML='<label>探索方式 <select id="travel"><option value="guided">路線導覽</option><option value="free">自由探索</option></select></label><label>選擇地點或路線 <select id="destination"><option value="-1">報告踩線全程</option></select></label>';
  stage.closest('.game-shell').prepend(toolbar);const help=document.querySelector('.game-help');help.textContent='路線導覽依所選路段前進。自由探索可在已建模步道內自行轉向與移動。拖曳畫面可環顧，WASD、方向鍵或觸控鍵可移動，按 E 或「觀察」看向附近地標：第一人稱留在原地，第三人稱可看全景。再按一次恢復視線，按前進即可繼續。';
  const destination=toolbar.querySelector('#destination'),travel=toolbar.querySelector('#travel');
+ let selectedService=null;
+ const services=addServiceStops(scene,points,stage.closest(".game-shell"),stop=>{
+   destination.value=String(destinations.indexOf(stop));relocate();selectedService=stop;setViewing(true);
+   stage.scrollIntoView({block:"center"});renderer.domElement.focus({preventScroll:true});
+ });
  const destinations=[...places];
  if(points.length>35)destinations.push({index:35,name:"大義回程",detail:"倉庫廊道、樹蔭與中庭線軸桌"});
+ const landmarksForHints=destinations.slice();
+ destinations.push(...services);
  destinations.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
- function relocate(){const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=lo;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
+ function relocate(){const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
  destination.onchange=relocate;travel.onchange=()=>{free=travel.value==='free';relocate()};
  renderer.domElement.style.touchAction='none';
@@ -135,12 +143,15 @@ export function ride(short=false){
 }
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;
  const a=points[i],b=points[i+1],angle=Math.atan2(b.x-a.x,b.z-a.z),pos=a.clone().lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));pos.x+=Math.cos(angle)*offset;pos.z-=Math.sin(angle)*offset;if(free)pos.copy(freePos);actor.position.copy(pos);actor.rotation.y=(free?heading:angle+yaw)+Math.PI;actor.visible=!first;
- const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=destinations.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);
+ const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=landmarksForHints.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);
+ const nearby=services.reduce((best,item)=>item.target.distanceToSquared(pos)<(best?best.target.distanceToSquared(pos):28*28)?item:best,null);
+ const service=selectedService||nearby;
  if(viewing){const anchor=points[near.index],forward=anchor.clone().sub(points[near.index-1]).normalize(),side=new THREE.Vector3(forward.z,0,-forward.x);
  const target=anchor.clone().addScaledVector(side,near.index===14?-24:13);if(near.index===35)target.addScaledVector(forward,24);target.y=near.index===19?10:near.index===35?1.2:4;
+ if(service)target.copy(service.target);
  if(!first){camera.position.copy(target).addScaledVector(forward,-32).addScaledVector(side,-25);camera.position.y=11}
  camera.lookAt(target);actor.visible=false}
- hint.textContent=near.name+'｜'+near.detail+'（3D 示意・通用港景）';sun.position.set(pos.x-36,pos.y+48,pos.z-19);sun.target.position.copy(pos);sky.update(camera);renderer.render(scene,camera);frame=requestAnimationFrame(tick)}frame=requestAnimationFrame(tick);
+ hint.textContent=service?service.name+'｜'+service.tag:near.name+'｜'+(near.detail||near.tag)+'（3D 示意）';sun.position.set(pos.x-36,pos.y+48,pos.z-19);sun.target.position.copy(pos);sky.update(camera);renderer.render(scene,camera);frame=requestAnimationFrame(tick)}frame=requestAnimationFrame(tick);
  return ()=>{cancelAnimationFrame(frame);resize.disconnect();document.removeEventListener('keydown',press);document.removeEventListener('keyup',release);scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()});sky.dispose();renderer.dispose()};
 }
 

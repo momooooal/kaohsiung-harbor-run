@@ -1358,3 +1358,4 @@ body:has(#game-stage) .site-header {
 .activity-map{height:clamp(245px,42vw,440px);background:#eef2ed}.stop-detail{min-height:2.8em}
 .activity-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1em;margin:1em 0 1.5em}
 .activity-services article{border-left:4px solid #37978c;padding:.6em 1em;background:#eef5f2}.activity-services h4,.activity-services p{margin:.35em 0}
+.service-stops{margin-block:1.2rem}.service-stops details{border-top:1px solid #bbcfca;padding:.85rem 0}.service-stops summary{cursor:pointer;font-weight:700}.service-stops .bay-actions{align-items:center}
