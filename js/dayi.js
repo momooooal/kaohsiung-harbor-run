@@ -103,41 +103,118 @@ export function buildDayiStation(scene,frame,solid,beam){
     for(const dx of [-1.35,1.35])for(let bay=-2.7;bay<3;bay+=1.45)solid(dx,2.43,z+bay,.045,1.18,.105,0x828982);
   }
 
-  // Photographs show worn rendered piers, exposed brick reveals and tall recessed glazing.
-  const plaster=tile('concrete_pavement_02.jpg',3,2);
-  plaster.color.setHex(0xb5aa91);
-  const masonry=tile('brick_wall_001.jpg',1,2);
-  const dark=material(0x322e29),pane=material(0x2c4344,.31);
-  const reveal=material(0x574c40),reflect=material(0x728887);
-  const unit=new THREE.BoxGeometry();
-  const surfaces=new Map();
+  // warehouseArcade: freestanding piers and recessed joinery keep the reveals visible in perspective.
+  const masonry=tile('brick_wall_001.jpg',.78,1.8);
+  masonry.color.setHex(0xbc8871);
+  const dark=material(0x2c2824),inside=material(0x322f29),pane=material(0x253c3b,.36);
+  const warmGlass=material(0x454339,.38),reflect=material(0x778781,.45);
+  // Original patchy render over running-bond brick, with erosion concentrated at the foot.
+  const face=document.createElement('canvas');face.width=256;face.height=512;
+  const ctx=face.getContext('2d');let seed=211;
+  function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296}
+  ctx.fillStyle='#a19787';ctx.fillRect(0,0,256,512);
+  for(let i=0;i<18500;i++){
+    const n=random(),x=random()*256,y=random()*512;
+    ctx.fillStyle=n>.49?'rgba(237,226,203,.17)':'rgba(54,49,41,.19)';
+    ctx.fillRect(x,y,1+random()*7,1+random()*6);
+  }
+  for(let i=0;i<240;i++){ctx.fillStyle='rgba(60,54,41,.07)';ctx.fillRect(random()*256,random()*512,1+random()*4,9+random()*81)}
+  for(let row=0;row<40;row++){
+    const erosion=13+row*.56+11*Math.sin(row*.43)+8*Math.sin(row*.7);
+    for(let col=0;col<9;col++){
+      const x=col*33-(row%2)*16;
+      if(x>erosion && x<238+8*Math.sin(row*.38))continue;
+      ctx.fillStyle=['#975e49','#986d54','#a27358','#805a48'][Math.floor(random()*4)];
+      ctx.fillRect(x+1,row*13+1,30,10);
+    }
+  }
+  const finishTexture=new THREE.CanvasTexture(face);finishTexture.encoding=THREE.sRGBEncoding;finishTexture.anisotropy=4;
+  const plaster=new THREE.MeshStandardMaterial({map:finishTexture,roughness:1});
+  plaster.addEventListener('dispose',()=>finishTexture.dispose());
+  const unit=new THREE.BoxGeometry(),surfaces=new Map();
   function part(parent,x,y,z,w,h,d,mat){
     const obj=new THREE.Object3D();obj.position.set(x,y,z);obj.scale.set(w,h,d);parent.add(obj);
     if(!surfaces.has(mat))surfaces.set(mat,[]);surfaces.get(mat).push(obj);return obj;
   }
-  for(const [x,z] of [[21,5],[39,10]]){
-    const shed=new THREE.Group();shed.position.set(x,0,z);district.add(shed);
-    part(shed,0,3,10,12.8,6,23,plaster);
-    const gable=new THREE.Shape();gable.moveTo(-6.4,6);gable.lineTo(0,7.3);gable.lineTo(6.4,6);gable.closePath();
-    mesh(new THREE.ExtrudeGeometry(gable,{depth:23,bevelEnabled:false}),concrete,0,0,-1.5,shed);
+  const revealMetal=material(0x7d7668);
+  const floor=tile('herringbone_pavement.jpg',2,3),lintel=material(0x645d50);
+  const shade=document.createElement('canvas');shade.width=8;shade.height=128;
+  const sc=shade.getContext('2d'),fade=sc.createLinearGradient(0,0,0,128);
+  fade.addColorStop(0,'rgba(41,34,27,.76)');fade.addColorStop(.67,'rgba(50,42,34,.43)');fade.addColorStop(1,'rgba(50,42,34,0)');
+  sc.fillStyle=fade;sc.fillRect(0,0,8,128);
+  const shadeMap=new THREE.CanvasTexture(shade);
+  const contact=new THREE.MeshBasicMaterial({map:shadeMap,transparent:true,depthWrite:false});
+  contact.addEventListener('dispose',()=>shadeMap.dispose());
+  for(const [x,z] of [[21,-6],[39,5]]){
+    const shed=new THREE.Group();shed.position.set(x,0,z);shed.rotation.y=.15;district.add(shed);
+    // The inner shell ends behind the openings. A solid outer box would occlude the recesses.
+    part(shed,.82,2.96,10.85,11.1,5.9,20.9,inside);
+    const gable=new THREE.Shape();gable.moveTo(-6.45,5.95);gable.lineTo(0,7.28);gable.lineTo(6.45,5.95);gable.closePath();
+    mesh(new THREE.ExtrudeGeometry(gable,{depth:23,bevelEnabled:false}),plaster,0,0,-1.5,shed);
     for(const side of [-1,1]){
-      const roof=part(shed,side*3.28,6.6,10,6.9,.24,24,metal);roof.rotation.z=-side*.20;
+      part(shed,side*3.25,6.63,10,6.9,.2,24,metal).rotation.z=-side*.20;
     }
-    for(const [bx,bz,angle] of [[-4.2,-1.56,0],[0,-1.56,0],[4.2,-1.56,0],...Array.from({length:5},(_,i)=>[-6.48,i*4.35+.5,Math.PI/2])]){
+    const bays=[[-4.2,-1.52,0],[0,-1.52,0],[4.2,-1.52,0],...Array.from({length:5},(_,i)=>[-6.34,i*4.35+.68,Math.PI/2])];
+    bays.forEach(([bx,bz,angle],index)=>{
       const bay=new THREE.Group();bay.position.set(bx,0,bz);bay.rotation.y=angle;shed.add(bay);
-      part(bay,0,2.62,-.04,3.37,5.18,.14,dark);
-      part(bay,0,2.04,-.13,2.92,3.72,.08,pane);
-      part(bay,0,4.69,-.13,2.95,.90,.09,pane);
-      part(bay,-1.82,2.88,-.21,.40,5.76,.48,concrete);
-      part(bay,1.62,2.67,-.24,.36,4.97,.22,masonry);
-      part(bay,0,4.02,-.27,3.22,.20,.24,metal);
-      part(bay,0,1.96,-.21,.075,3.65,.08,dark);
-      part(bay,-1.42,2.08,-.23,.10,3.7,.11,reveal);
-      part(bay,.68,2.13,-.23,.045,3.35,.08,reflect);
-      part(bay,.15,1.35,-.31,.065,.45,.09,metal);
-      for(const h of [1.1,3.78,4.93])part(bay,0,h,-.22,2.95,.06,.08,dark);
-    }
+      part(bay,0,.10,-.86,4.25,.12,4.65,floor);
+      part(bay,0,5.49,.08,4.27,.91,1.82,plaster);
+      part(bay,0,4.98,-.16,4.30,.17,1.92,lintel);
+      part(bay,-1.86,2.52,.04,.55,5.02,1.7,plaster);
+      part(bay,1.88,2.51,.07,.46,5.02,1.64,masonry);
+      part(bay,0,2.52,1.18,3.47,5.02,.14,dark);
+      part(bay,0,2.0,1.04,3.11,3.66,.10,index%3===0?warmGlass:pane);
+      part(bay,0,4.43,1.04,3.12,.81,.10,pane);
+      part(bay,0,3.95,.91,3.38,.26,.23,metal);
+      for(const dx of [-1.42,.18,1.45])part(bay,dx,1.98,.91,.084,3.58,.13,dark);
+      part(bay,.34,1.32,.82,.07,.48,.09,reflect);
+      part(bay,0,1.05,.92,3.10,.065,.10,dark);
+      const shadow=mesh(new THREE.PlaneGeometry(4.22,3.6),contact,0,.168,-.66,bay);
+      shadow.rotation.x=-Math.PI/2;shadow.rotation.z=Math.PI;
+      // Projecting fascia and soffit read as separate planes even on a narrow screen.
+      part(bay,0,5.30,-1.01,4.25,.16,.88,plaster);
+      part(bay,0,5.19,-1.03,4.21,.075,.86,inside);
+      for(const dx of [-1.76,1.76])part(bay,dx,4.99,-.96,.10,.13,.77,lintel);
+      if(index===1 || index===5){
+        for(let row=0;row<9;row++)
+          part(bay,0,3.8-row*.16,.80,3.09,.13,.10,row%2===0?lintel:revealMetal);
+      }
+      if(index%3===0){
+        part(bay,-1.67,3.07,-.88,.17,.43,.19,dark);
+        const board=part(bay,1.32,.76,-1.49,.56,.78,.05,lintel);board.rotation.x=.12;
+        part(bay,1.32,.8,-1.54,.46,.51,.03,concrete);
+        part(bay,1.32,.31,-1.41,.08,.52,.08,dark);
+      }
+    });
   }
+  // Courtyard furniture interprets the photographed spool table on the brick apron.
+  ground(17.6,-12.6,10.8,8.2,.137,tile('herringbone_pavement.jpg',4,3));
+  const wood=tile('wood_planks_grey.jpg',1,1);wood.color.setHex(0xb28761);
+  for(const [y,r,h] of [[.22,.72,.12],[.72,.39,.94],[1.21,.84,.10]]){
+    mesh(new THREE.CylinderGeometry(r,r,h,24),wood,15.5,y,-13.8);
+  }
+  for(const [x,z] of [[14.4,-13.75],[16.63,-13.65],[15.55,-12.7]]){
+    part(district,x,.84,z,.42,.075,.42,dark);
+    for(const dx of [-.15,.15])for(const dz of [-.15,.15])
+      beam([x+dx*1.33,.15,z+dz*1.33],[x+dx,.82,z+dz],.022,0x312d26);
+  }
+  const foliage=new THREE.TextureLoader().load('assets/surfaces/tree.png');
+  foliage.encoding=THREE.sRGBEncoding;
+  const leaves=new THREE.MeshLambertMaterial({map:foliage,alphaTest:.4,side:THREE.DoubleSide});
+  leaves.addEventListener('dispose',()=>foliage.dispose());
+  const tree=mesh(new THREE.PlaneGeometry(5.9,7.9),leaves,19.4,4.06,-14.9);
+  tree.rotation.y=.32;
+  const pavingShadow=document.createElement('canvas');pavingShadow.width=pavingShadow.height=128;
+  const pc=pavingShadow.getContext('2d');
+  for(let i=0;i<600;i++){
+    const angle=random()*Math.PI*2,r=Math.sqrt(random())*51;
+    pc.fillStyle='rgba(33,37,25,.19)';pc.beginPath();
+    pc.ellipse(64+Math.cos(angle)*r,64+Math.sin(angle)*r,2+random()*6,2+random()*3,angle,0,Math.PI*2);pc.fill();
+  }
+  const shadowMap=new THREE.CanvasTexture(pavingShadow);
+  const shadowMat=new THREE.MeshBasicMaterial({map:shadowMap,transparent:true,depthWrite:false});
+  shadowMat.addEventListener('dispose',()=>shadowMap.dispose());
+  ground(16.6,-14.1,6.6,5.5,.153,shadowMat);
   district.updateWorldMatrix(true,true);
   for(const [finish,parts] of surfaces){
     const batch=new THREE.InstancedMesh(unit,finish,parts.length);

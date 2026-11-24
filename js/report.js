@@ -42,6 +42,7 @@ export function ride(short=false){
    ['回程以大義街路口的地面輕軌站及側式月台呈現街廓。車輛位置為示意。','高雄捷運｜C12 駁二大義','https://www.krtc.com.tw/KLRT/station_info?n=C12'],
    ['車頭的弧形擋風玻璃、棚架支柱與草軌參考停靠照片；列車配色為示意。','C12 月台與車頭現場照片','https://ihappyday.tw/blog/post/kaohsiung-2'],
    ['倉庫模型以灰色外牆、局部露磚和高窗開口呈現大義區沿街尺度。','大義倉庫街廓照片','https://www.mobile01.com/topicdetail.php?f=204&t=5691456'],
+   ['線軸桌、高腳凳與樹下磚鋪面參考倉庫中庭照片；街角配置為場景示意。','大義倉庫中庭現場照片','https://th.trip.com/moments/detail/kaohsiung-756-119795647/'],
    ['路旁的成排倉庫與廊道呼應大義區 C8、C9 倉庫空間。','駁二藝術特區｜大義倉庫廊道','https://pier2.org/activity/info/1096/']
  ]){
    const p=document.createElement('p'),link=document.createElement('a');
