@@ -6,13 +6,13 @@ export function cityStreet(record) {
   const [name,address,type]=record, scene=new THREE.Scene();
   scene.background=new THREE.Color(0xbad7df);
   scene.fog=new THREE.FogExp2(0xd6ddd5,.022);
-  scene.add(new THREE.HemisphereLight(0xfff6dd,0x93968f,1.35));
-  const sun=new THREE.DirectionalLight(0xffedc9,1.4);
-  sun.position.set(-9,12,7);scene.add(sun);
+  scene.add(new THREE.HemisphereLight(0xfff6dd,0x777268,.62));
+  const sun=new THREE.DirectionalLight(0xffedc9,.93);
+  sun.position.set(-9,12,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-20,right:20,top:16,bottom:-16});sun.shadow.mapSize.set(1024,1024);sun.shadow.bias=-.0006;scene.add(sun);
   const materials=new Map(), cube=new THREE.BoxGeometry();
   function mesh(geometry,x,y,z,color){
-    if(!materials.has(color))materials.set(color,new THREE.MeshStandardMaterial({color,roughness:.72}));
-    const m=new THREE.Mesh(geometry,materials.get(color));m.position.set(x,y,z);scene.add(m);return m;
+    if(!materials.has(color))materials.set(color,new THREE.MeshStandardMaterial({color:new THREE.Color(color).convertSRGBToLinear(),roughness:.82}));
+    const m=new THREE.Mesh(geometry,materials.get(color));m.receiveShadow=true;m.castShadow=true;m.position.set(x,y,z);scene.add(m);return m;
   }
   function box(x,y,z,w,h,d,color){const m=mesh(cube,x,y,z,color);m.scale.set(w,h,d);return m}
   box(0,-.23,0,160,.3,100,0x676c6b);
