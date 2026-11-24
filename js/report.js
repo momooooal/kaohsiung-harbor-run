@@ -1,3 +1,4 @@
+import {walkingCity} from './walking-city.js';
 import {walkingGuide} from './walking-guide.js';
 import {cityStreet,cityPlaces} from './city-street.js';
 import {addServiceStops} from './service-stops.js';
@@ -105,6 +106,7 @@ export function ride(short=false){
  destinations.forEach((p,i)=>destination.add(new Option(p.name+'周邊',String(i))));
  const cityGroup=document.createElement('optgroup');cityGroup.label='全市據點・當地自由探索';
  cityPlaces.forEach((p,i)=>cityGroup.append(new Option(p[0],'city-'+i)));destination.append(cityGroup);
+ destination.add(new Option('十站連續步行｜昆仲公園至哈瑪星','itinerary'));
  const sharedStops=new Map();
  cityPlaces.forEach((place,i)=>sharedStops.set(place[2],'city-'+i));
  services.forEach(stop=>sharedStops.set(stop.id,String(destinations.indexOf(stop))));
@@ -112,13 +114,17 @@ export function ride(short=false){
    destination.value=sharedStops.get(key);relocate();
    if(selectedService)setViewing(true);
    stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true});
- },sharedStops);
+ },sharedStops,i=>{destination.value='itinerary';relocate(i);stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true})});
  stage.closest('.game-shell').before(sharedGuide);
  let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
- function relocate(){
+ function relocate(start=0){
  if(local){scene.add(actor);local.dispose();local=null}
+ if(destination.value==='itinerary'){
+   local=walkingCity(Number.isInteger(start)?start:0);local.scene.add(actor);
+   travel.value='guided';free=false;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
+ }
  if(destination.value.startsWith('city-')){
    local=cityStreet(cityPlaces[Number(destination.value.slice(5))]);local.scene.add(actor);
    travel.value='free';free=true;freePos.set(-18.235,0,8.755);heading=1.948;pitch=yaw=0;
@@ -126,7 +132,7 @@ export function ride(short=false){
  }
  const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
- destination.onchange=relocate;travel.onchange=()=>{if(local&&travel.value==='guided')destination.value='-1';free=travel.value==='free';relocate()};
+ destination.onchange=relocate;travel.onchange=()=>{if(local&&(local.walk||travel.value==='guided'))destination.value='-1';free=travel.value==='free';relocate()};
  renderer.domElement.style.touchAction='none';
  renderer.domElement.onpointerdown=e=>{setViewing(false);drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
  renderer.domElement.onpointermove=e=>{if(!drag)return;const delta=(e.clientX-drag[0])*.006;if(free)heading-=delta;else yaw-=delta;pitch=Math.max(-.85,Math.min(.85,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY]};
@@ -154,7 +160,7 @@ export function ride(short=false){
  stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
  const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix()});resize.observe(stage);
  function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*3;
- if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
+ if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused&&!local?.walk){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
  const swing=paused||!speed?0:Math.sin(now*.006);if(!paused){
       if(actor.userData.legs)actor.userData.legs.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.65:mode==='cane'?.26:.38));
       if(actor.userData.arms)actor.userData.arms.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.55:mode==='wheelchair'?.32:.28));
@@ -162,6 +168,17 @@ export function ride(short=false){
       if(actor.userData.person?.userData.legs)actor.userData.person.userData.legs.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*.25);
       if(actor.userData.cane)actor.userData.cane.rotation.x=swing*.14;
 }
+ if(local?.walk){
+   if(!paused)yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
+   const step=local.advance(paused?0:speed*dt,freePos),angle=step.heading+yaw;
+   actor.position.copy(freePos);actor.rotation.y=step.heading+Math.PI;actor.visible=!first;
+   const dx=Math.sin(angle),dz=Math.cos(angle);
+   camera.position.set(freePos.x-dx*(first?0:4),first?MODES[mode].eye:3,freePos.z-dz*(first?0:4));
+   camera.lookAt(freePos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),freePos.z+dz*6);
+   if(viewing){camera.position.set(freePos.x-dx*12,17,freePos.z-dz*12);camera.lookAt(freePos.x+dx*8,0,freePos.z+dz*8)}
+   button('game-state').textContent=step.status;hint.textContent=step.hint+' · © OpenStreetMap 貢獻者';button('game-dot').parentElement.hidden=true;
+   renderer.render(local.scene,camera);frame=requestAnimationFrame(tick);return;
+ }
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;
  const a=points[i],b=points[i+1],angle=Math.atan2(b.x-a.x,b.z-a.z),pos=a.clone().lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));pos.x+=Math.cos(angle)*offset;pos.z-=Math.sin(angle)*offset;if(free)pos.copy(freePos);actor.position.copy(pos);actor.rotation.y=(free?heading:angle+yaw)+Math.PI;actor.visible=!first;
  const dx=Math.sin(free?heading:angle+yaw),dz=Math.cos(free?heading:angle+yaw);camera.position.set(pos.x-dx*(first?0:4),first?MODES[mode].eye:3,pos.z-dz*(first?0:4));camera.lookAt(pos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),pos.z+dz*6);button('game-state').textContent=free?'自由探索':destination.selectedOptions[0].text+' · '+Math.floor((s-lo)/(hi-lo)*100)+'%';button('game-dot').parentElement.hidden=free;button('game-dot').style.top=(90-80*s/total)+'%';const near=landmarksForHints.reduce((best,p)=>points[p.index].distanceToSquared(pos)<points[best.index].distanceToSquared(pos)?p:best);

@@ -1,9 +1,9 @@
 import { sharedRoute, stops } from '../data/shared-route.js';
 
-export function walkingGuide(visit, available) {
+export function walkingGuide(visit, available, begin) {
   const guide = document.createElement('details');
   guide.className = 'section-card';
-  guide.innerHTML = '<summary>從台塑王氏昆仲公園走到哈瑪星｜沿途景點與街景</summary><p>依分享的步行行程，路人咖啡五號店會經過兩次。選一站看前後順序，或開啟整條路線查看實際轉彎。</p><label>沿途停靠點 <select></select></label><p aria-live="polite"></p><div class="bay-actions"></div>';
+  guide.innerHTML = '<summary>從台塑王氏昆仲公園走到哈瑪星｜沿途景點與街景</summary><p>依分享的步行行程，路人咖啡五號店會經過兩次。連續 3D 依這十站重算步行路網。沿金色線前進；道路及建物輪廓取自 OpenStreetMap，外觀與缺少記錄的樓高為示意。Google 地圖的選路可能不同。</p><label>沿途停靠點 <select></select></label><p aria-live="polite"></p><div class="bay-actions"></div>';
   const menu = guide.querySelector('select'), detail = guide.querySelector('[aria-live]'), actions = guide.querySelector('.bay-actions');
   stops.forEach(([name], i) => menu.add(new Option((i+1)+'．'+name, i)));
   function external(label,url) {
@@ -15,6 +15,7 @@ export function walkingGuide(visit, available) {
     const i=menu.selectedIndex,[name,lat,lon,key]=stops[i];
     detail.textContent=[i ? '上一站：'+stops[i-1][0] : '起點', name, i+1<stops.length ? '下一站：'+stops[i+1][0] : '終點'].join('　→　');
     actions.replaceChildren();
+    const run=document.createElement('button');run.type='button';run.className='btn dark';run.textContent=i===9?'查看連續路線終點':'從本站開始連續 3D';run.onclick=()=>begin(i);actions.append(run);
     external('開啟本站附近街景','https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+lat+','+lon);
     external('查看整條步行路線',sharedRoute);
     if(available.has(key)){
@@ -22,5 +23,5 @@ export function walkingGuide(visit, available) {
       button.onclick=()=>visit(key);actions.append(button);
     }
   }
-  menu.onchange=show;show();return guide;
+  const credit=document.createElement("a");credit.href="https://www.openstreetmap.org/copyright";credit.textContent="© OpenStreetMap 貢獻者 · ODbL";guide.append(credit);menu.onchange=show;show();return guide;
 }
