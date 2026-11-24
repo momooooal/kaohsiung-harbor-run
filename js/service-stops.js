@@ -40,37 +40,64 @@ export function addServiceStops(scene,points,host,visit){
      block(-4.16,2.46,3.6,.32,4.9,11.4,shell);
      block(0,2.46,9.18,8.6,4.9,.28,render);
      block(0,4.97,3.6,8.8,.23,11.65,shell);
-     for(const z of [-1.96,3.46,9.06]){
-       block(4.05,2.53,z,.46,5.04,.45,shell);
-       for(let row=0;row<15;row++)block(4.305,.36+row*.21,z,.055,.14,row%2?.34:.22,brick);
+     // A single sheet per opening avoids stacked transparent faces turning the interior grey.
+     function windowPane(x,y,z,w,h,rotation=0){
+       part(new THREE.PlaneGeometry(w,h),x,y,z,harbourWindow).rotation.y=rotation;
+     }
+     const windowBench=new THREE.MeshStandardMaterial({color:0x6a6c69,roughness:.96});
+     const tabletop=new THREE.MeshStandardMaterial({color:0x4c5251,roughness:.38,metalness:.26});
+     const sill=new THREE.MeshStandardMaterial({color:0x948e81,roughness:.87});
+     for(const z of [3.46,9.06]){
+       block(4.05,2.53,z,.38,5.04,.36,shell);
+       for(let row=0;row<15;row++)block(4.25,.36+row*.21,z,.045,.14,row%2?.32:.20,brick);
      }
      for(const z of [.75,6.25]){
-       block(4.02,2.45,z,.055,4.42,4.88,harbourWindow);
-       block(4.06,3.80,z,.12,.16,4.98,iron);
-       block(4.06,2.3,z,.13,4.36,.13,iron);
-       block(4.05,.39,z,.23,.25,4.98,iron);
+       windowPane(4.04,2.4,z,5.18,4.28,Math.PI/2);
+       block(4.08,3.85,z,.12,.14,5.18,iron);
+       block(4.09,.34,z,.31,.18,5.18,sill);
+       block(4.08,2.12,z,.08,3.43,.08,iron);
      }
-     for(const x of [-3.96,-.85,3.86])block(x,2.5,-1.99,.23,4.9,.28,iron);
-     block(.02,3.87,-1.99,8,.20,.31,iron);
-     block(.1,2.48,-1.97,7.55,4.35,.045,harbourWindow);
-     block(-.28,2.69,1.23,6.38,4.2,.12,render);
-     block(-1.06,2.60,1.12,4.18,3.61,.09,glazing);
-     for(const x of [-3.14,-1.73,-.34,1.04])block(x,2.58,.99,.07,3.69,.11,chalk);
-     for(const y of [.74,2.78,4.39])block(-1.05,y,.99,4.22,.075,.11,chalk);
-     part(new THREE.CylinderGeometry(.78,.78,.08,48),2.04,3.13,1.08,chalk).rotation.x=Math.PI/2;
-     // Slim two-person tables and upholstered seats at the tall side windows.
-     for(const z of [2.7,6.35]){
-       block(2.73,.96,z,1.08,.075,.9,steel);
-       block(2.73,.55,z,.1,.79,.15,steel);
-       for(const dz of [-.82,.82]){
-         block(2.75,.58,z+dz,.68,.14,.62,chalk);
-         block(2.75,.91,z+dz+Math.sign(dz)*.27,.66,.53,.10,chalk);
-         for(const dx of [-.25,.25])block(2.75+dx,.36,z+dz,.045,.39,.43,steel);
-       }
+     block(4.03,2.5,-1.96,.145,4.9,.145,iron);
+     for(const x of [-3.96,-1.1])block(x,2.5,-1.99,.17,4.9,.21,iron);
+     block(.02,3.87,-1.99,8,.15,.20,iron);
+     windowPane(.02,2.48,-1.97,7.96,4.35);
+     // Set the roasting-room partition behind the seating, leaving the corner sightline open.
+     block(-.24,2.68,7.92,7.64,4.23,.15,render);
+     block(-1.33,2.67,7.79,4.79,3.61,.10,glazing);
+     for(const x of [-3.69,-2.14,-.55,1.02])block(x,2.65,7.68,.075,3.71,.11,chalk);
+     for(const y of [.82,2.78,4.46])block(-1.33,y,7.68,4.81,.085,.12,chalk);
+     part(new THREE.CylinderGeometry(.76,.76,.08,48),2.13,3.19,7.76,chalk).rotation.x=Math.PI/2;
+     // Upholstered continuous seat and individual curved backs, as in the window photographs.
+     block(3.15,.46,3.58,.78,.27,9.64,windowBench);
+     block(3.48,.90,3.58,.17,.72,9.56,windowBench);
+     function cushion(w,h,d,r){
+       const profile=new THREE.Shape();profile.moveTo(-w/2+r,0);profile.lineTo(w/2-r,0);
+       profile.quadraticCurveTo(w/2,0,w/2,r);profile.lineTo(w/2,h-r);
+       profile.quadraticCurveTo(w/2,h,w/2-r,h);profile.lineTo(-w/2+r,h);
+       profile.quadraticCurveTo(-w/2,h,-w/2,h-r);profile.lineTo(-w/2,r);
+       profile.quadraticCurveTo(-w/2,0,-w/2+r,0);
+       return new THREE.ExtrudeGeometry(profile,{depth:d,bevelEnabled:false,curveSegments:5});
      }
-     block(-.65,.70,-.86,4.12,1.36,.92,chalk);
-     block(-2.65,.70,-.03,.70,1.36,1.64,chalk);
-     block(-.65,1.41,-.86,4.18,.10,.98,steel);
+     const seatBack=cushion(.72,.60,.13,.19);
+     for(const z of [-.75,2.4,5.65]){
+       block(2.25,.91,z,1.07,.067,1.03,tabletop);
+       part(new THREE.CylinderGeometry(.065,.065,.70,10),2.25,.55,z,steel);
+       block(2.25,.25,z,.49,.06,.47,steel);
+       block(1.33,.57,z,.70,.13,.72,chalk);
+       part(seatBack,.96,.59,z-.36,chalk).rotation.y=-Math.PI/2;
+       for(const dx of [-.24,.24])block(1.33+dx,.39,z,.05,.34,.55,steel);
+     }
+     // Rounded, tiled counter with a dark recessed toe kick and a continuous steel lip.
+     const counter=new THREE.Shape();
+     counter.moveTo(-3.47,0);counter.lineTo(-.08,0);counter.quadraticCurveTo(.31,0,.31,.42);
+     counter.lineTo(.31,3.42);counter.lineTo(-.61,3.42);counter.lineTo(-.61,.94);
+     counter.lineTo(-3.47,.94);counter.closePath();
+     const bar=part(new THREE.ExtrudeGeometry(counter,{depth:1.09,bevelEnabled:false}),0,1.44,-.81,chalk);
+     bar.rotation.x=Math.PI/2;
+     const lip=part(new THREE.ExtrudeGeometry(counter,{depth:.06,bevelEnabled:false}),0,1.50,-.81,tabletop);
+     lip.rotation.x=Math.PI/2;
+     block(-1.62,.28,-.34,3.45,.15,.70,iron);
+     for(let x=-3.2;x<-.1;x+=.34)block(x,.91,-.817,.013,1.04,.018,sill);
      block(1.26,1.05,-.11,1.8,.14,1.2,steel);
      for(const x of [-1.68,-1.19]){
        part(new THREE.CylinderGeometry(.12,.075,.18,16),x,1.55,-.91,chalk);
