@@ -1,3 +1,5 @@
+import {citySkyline} from './city-skyline.js';
+import {surfaceTexture} from './daylight.js';
 import {streetFrontages} from './street-frontages.js';
 import streets from '../data/route-streets.js';
 import {streetGround} from './street-ground.js';
@@ -13,6 +15,21 @@ export function mappedSurroundings(project,scene,points,city){
  const south=project([22.61-1/110750,120.29]).z-origin.z;
  const group=new THREE.Group();scene.add(group);
  const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558].map(color=>new THREE.MeshLambertMaterial({color:new THREE.Color(color).convertSRGBToLinear(),side:THREE.DoubleSide}));
+ const grass=surfaceTexture('aerial_grass_rock.jpg');grass.wrapS=grass.wrapT=THREE.RepeatWrapping;grass.repeat.set(.19,.19);materials[5].map=grass;materials[5].color.setHex(0xc4ccac).convertSRGBToLinear();
+ // Vary the water with the viewing angle and metre-scale ripples. It is drawn
+ // only inside the mapped water polygons, underneath decks and quay walls.
+ materials[3].onBeforeCompile=shader=>{
+   shader.vertexShader='varying vec3 waterSite;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nwaterSite=(modelMatrix*vec4(position,1.)).xyz;');
+   shader.fragmentShader='varying vec3 waterSite;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+     vec2 uv=waterSite.xz;float distanceToEye=distance(waterSite,cameraPosition);
+     float atten=1.-smoothstep(8.,145.,distanceToEye);
+     float ripple=.5+.5*sin(uv.x*2.7+uv.y*5.4+2.4*sin(uv.x*.62-uv.y*.83)+sin(uv.y*2.1));
+     float grazing=pow(1.-abs(normalize(cameraPosition-waterSite).y),4.);
+     diffuseColor.rgb=mix(vec3(.045,.11,.13),vec3(.225,.297,.30),.22+.73*grazing);
+     diffuseColor.rgb+=vec3(.13,.14,.13)*(pow(ripple,6.)-.30)*atten;
+   `);
+ };
+ const skyline=citySkyline(scene,points);
  const facade=document.createElement('canvas');facade.width=128;facade.height=96;
  const ink=facade.getContext('2d');ink.fillStyle='#d9d2bf';ink.fillRect(0,0,128,96);ink.fillStyle='#a8a598';ink.fillRect(0,84,128,10);
  for(const x of [12,70]){ink.fillStyle='#736f66';ink.fillRect(x,23,40,47);ink.fillStyle='#718b92';ink.fillRect(x+3,26,34,39);ink.fillStyle='#b6c3c2';ink.fillRect(x+18,26,3,39);ink.fillRect(x-2,69,44,3);}
@@ -58,7 +75,7 @@ export function mappedSurroundings(project,scene,points,city){
  }
  let last=new THREE.Vector2(Infinity,Infinity);
  return {
-  update(position){roads.update(position);frontages.update(position);const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
+  update(position){skyline.update(position);roads.update(position);frontages.update(position);const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
    for(const site of sites){const near=site.bounds.distanceToPoint(point)<280;if(near&&!site.object)site.object=mesh(site);if(!near&&site.object){group.remove(site.object);site.object.geometry.dispose();site.object=null;}} },
   leavesBank(from,to){
     const p=new THREE.Vector2(to.x,to.z);
@@ -67,6 +84,6 @@ export function mappedSurroundings(project,scene,points,city){
     return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to,s.ring)&&!inRing(from,s.ring));
   },
   buildings:group,
-  dispose(){roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
+  dispose(){skyline.dispose();grass.dispose();roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
  };
 }

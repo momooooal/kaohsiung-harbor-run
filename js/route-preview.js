@@ -6,7 +6,7 @@ import {MODES} from './explore.js';
 
 export function previewPage(data,route){
  const names=new Map(data.pois.map(p=>[p.poiId,p.name]));
- return `<section class="wrap page-body"><h1>3D 路線探索</h1><label>選擇路線 <select id="preview-route">${data.routes.map(r=>`<option value="${r.variantId}" ${r===route?'selected':''}>${r.name}</option>`).join('')}</select></label><h2>${route.name}</h2><p>${route.display.journey} · ${route.display.description}</p><p>場景供路線預覽，實際通行請依現場指示。騎乘與無障礙條件請在出發前確認。</p><button class="btn dark" id="preview-start">開始探索</button> <a href="#/run/${route.variantId}">查看路線與資源</a><output id="preview-error" role="status"></output><section id="preview-controls" hidden><div class="run-actions"><label>移動方式 <select id="preview-mode">${Object.entries(MODES).map(([id,m])=>`<option value="${id}">${m.name}</option>`).join('')}</select></label><select aria-label="探索方式" id="preview-travel"><option>路線導覽</option><option>自由探索</option></select><button id="preview-camera">切換至第三人稱</button><button id="preview-pause">暫停</button><label>前往沿途地點 <select id="preview-stop"><option value="">選擇地點</option></select></label><label>陰影 <select id="preview-quality"><option value="off">標準</option><option value="on">細緻</option></select></label><button id="preview-reset">回到起點</button></div><div id="preview-stage" tabindex="0" aria-label="可用方向鍵移動的路線場景"><canvas id="preview-mini" width="150" height="110" aria-label="路徑與面向"></canvas></div><div class="run-actions" aria-label="移動控制">${['←','↑','↓','→'].map((t,i)=>`<button class="btn outline" data-move="${['a','w','s','d'][i]}">${t}</button>`).join('')}</div><output id="preview-position"></output><small> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://github.com/momooooal/kaohsiung-harbor-run/blob/main/DATA-SOURCES.md">場景素材署名</a></small></section><h2>沿途經過</h2><p>${route.stopIds.map(id=>names.get(id)).join(' → ')}</p><a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/activity">港灣踩線活動體驗</a></section>`;
+ return `<section class="wrap page-body"><h1>3D 路線探索</h1><label>選擇路線 <select id="preview-route">${data.routes.map(r=>`<option value="${r.variantId}" ${r===route?'selected':''}>${r.name}</option>`).join('')}</select></label><h2>${route.name}</h2><p>${route.display.journey} · ${route.display.description}</p><p>場景供路線預覽，實際通行請依現場指示。騎乘與無障礙條件請在出發前確認。</p><button class="btn dark" id="preview-start">開始探索</button> <a href="#/run/${route.variantId}">查看路線與資源</a><output id="preview-error" role="status"></output><section id="preview-controls" hidden><div class="run-actions"><label>移動方式 <select id="preview-mode">${Object.entries(MODES).map(([id,m])=>`<option value="${id}">${m.name}</option>`).join('')}</select></label><select aria-label="探索方式" id="preview-travel"><option>路線導覽</option><option>自由探索</option></select><button id="preview-camera">切換至第三人稱</button><button id="preview-pause">暫停</button><label>前往沿途地點 <select id="preview-stop"><option value="">選擇地點</option></select></label><label>陰影 <select id="preview-quality"><option value="near">近景日照</option><option value="on">細緻</option><option value="off">關閉陰影</option></select></label><label><input type="checkbox" id="preview-guides"> 顯示地面導引</label><button id="preview-reset">回到起點</button></div><div id="preview-stage" tabindex="0" aria-label="可用方向鍵移動的路線場景"><canvas id="preview-mini" width="150" height="110" aria-label="路徑與面向"></canvas></div><div class="run-actions" aria-label="移動控制">${['←','↑','↓','→'].map((t,i)=>`<button class="btn outline" data-move="${['a','w','s','d'][i]}">${t}</button>`).join('')}</div><output id="preview-position"></output><small> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://github.com/momooooal/kaohsiung-harbor-run/blob/main/DATA-SOURCES.md">場景素材署名</a></small></section><h2>沿途經過</h2><p>${route.stopIds.map(id=>names.get(id)).join(' → ')}</p><a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/activity">港灣踩線活動體驗</a></section>`;
 }
 
 export function mountPreview(data,route){
@@ -25,10 +25,10 @@ export function mountPreview(data,route){
   let renderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{retry();return;}
   button.hidden=true;el('preview-controls').hidden=false;
-  const stage=el('preview-stage'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(62,1,.12,320);
+  const stage=el('preview-stage'),scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(62,1,.12,1580);
   stage.prepend(renderer.domElement);stage.focus({preventScroll:true});stage.scrollIntoView({block:'center'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
   renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMappingExposure=.85;const skyDome=daylightSky(scene);skyDome.scale.multiplyScalar(.45);const sky=0xcadfe6;scene.background=new THREE.Color(sky);scene.fog=new THREE.Fog(sky,100,280);
-  scene.add(new THREE.HemisphereLight(0xfffbef,0x879188,1.2));const sun=new THREE.DirectionalLight(0xffedcc,.9);sun.position.set(-30,60,25);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(768,768);Object.assign(sun.shadow.camera,{left:-28,right:28,top:28,bottom:-28,far:150});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.0008;
+  scene.add(new THREE.HemisphereLight(0xfffbef,0x879188,1.02));const sun=new THREE.DirectionalLight(0xffedcc,1.22);sun.position.set(-30,60,25);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(768,768);Object.assign(sun.shadow.camera,{left:-28,right:28,top:28,bottom:-28,far:150});sun.shadow.camera.updateProjectionMatrix();sun.shadow.bias=-.0008;
   const raw=route.geometry.flatMap(g=>g.coordinates);
   const project=([y,x])=>new THREE.Vector3((x-120.29)*102820,0,(22.61-y)*110750);
   const points=[],lengths=[];let total=0;
@@ -48,6 +48,8 @@ export function mountPreview(data,route){
   const chunks=new Map();
   const grass=surfaceTexture('aerial_grass_rock.jpg');grass.wrapS=grass.wrapT=THREE.RepeatWrapping;grass.repeat.set(90,90);
   const land=new THREE.MeshLambertMaterial({map:grass,color:0xadba99});
+  const guides=el('preview-guides');guides.checked=false;
+  guides.onchange=()=>{for(const mesh of chunks.values())mesh.visible=guides.checked;dirty=true;};
   const guide=new THREE.MeshBasicMaterial({color:0xecc87b});
   function build(index){
     const marks=[],end=Math.min(points.length-1,(index+1)*16);
@@ -59,7 +61,7 @@ export function mountPreview(data,route){
       }
     }
     const mesh=new THREE.InstancedMesh(box,guide,marks.length);marks.forEach((matrix,i)=>mesh.setMatrixAt(i,matrix));
-    mesh.frustumCulled=false;scene.add(mesh);chunks.set(index,mesh);
+    mesh.visible=guides.checked;mesh.frustumCulled=false;scene.add(mesh);chunks.set(index,mesh);
   }
   const fixed=new THREE.Group();scene.add(fixed);
   const structures=routeLandmarks(fixed,points);
@@ -95,16 +97,25 @@ export function mountPreview(data,route){
   }
   function relocate(d){distance=d;offset=yaw=look=pitch=0;lastHeading=null;keys.clear();dirty=true;}
   destination.onchange=()=>{if(destination.value!=='')relocate(Number(destination.value));destination.value='';};
-  el('preview-quality').value='off';
-  el('preview-quality').onchange=e=>{
-    renderer.shadowMap.enabled=e.target.value==='on';renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-    scene.traverse(o=>{if(o.isMesh&&o.material?.fog!==false&&!o.material?.transparent){o.receiveShadow=true;if(o!==ground)o.castShadow=true;}});
-    dirty=true;
-  };
+  const quality=el('preview-quality');quality.value='near';
+  let shadowX=Infinity,shadowZ=Infinity;
+  function sunlight(){
+    const detailed=quality.value==='on',span=detailed?32:23;
+    renderer.shadowMap.enabled=quality.value!=='off';renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+    renderer.shadowMap.autoUpdate=detailed;renderer.shadowMap.needsUpdate=true;
+    Object.assign(sun.shadow.camera,{left:-span,right:span,top:span,bottom:-span});sun.shadow.camera.updateProjectionMatrix();
+    scene.traverse(o=>{
+      if(!o.isMesh||o===skyDome||o.material?.isShaderMaterial||o.material?.transparent||o.material?.isMeshBasicMaterial)return;
+      o.receiveShadow=true;o.castShadow=o!==ground&&o.geometry?.type!=='PlaneGeometry';
+    });
+    avatar.root.traverse(o=>{if(o.isMesh)o.castShadow=detailed;});
+    shadowX=shadowZ=Infinity;dirty=true;
+  }
+  quality.onchange=sunlight;sunlight();
   function pause(value){paused=value;keys.clear();drag=null;dirty=true;el('preview-pause').textContent=paused?'繼續':'暫停';}
   el('preview-mode').value=mode;el('preview-travel').selectedIndex=0;
   el('preview-camera').textContent='切換至第三人稱';pause(false);
-  el('preview-mode').onchange=e=>{avatar.dispose();mode=e.target.value;avatar=routeActor(mode);scene.add(avatar.root);dirty=true;};
+  el('preview-mode').onchange=e=>{avatar.dispose();mode=e.target.value;avatar=routeActor(mode);scene.add(avatar.root);avatar.root.traverse(o=>{if(o.isMesh)o.castShadow=quality.value==='on';});dirty=true;};
   el('preview-camera').onclick=e=>{third=!third;dirty=true;e.currentTarget.textContent=third?'切換至第一人稱':'切換至第三人稱';};
   el('preview-camera').onpointerdown=e=>{if(document.activeElement===stage)e.preventDefault();};
   el('preview-reset').onclick=()=>relocate(0);
@@ -177,7 +188,14 @@ export function mountPreview(data,route){
     const {index,p,tangent}=pose,chunk=Math.floor(index/16);
     for(const [i,g] of chunks)if(Math.abs(i-chunk)>2){scene.remove(g);g.dispose?.();chunks.delete(i);}
     for(let i=Math.max(0,chunk-2);i<=Math.min(Math.floor((points.length-2)/16),chunk+2);i++)if(!chunks.has(i))build(i);
-    sun.position.set(p.x-34,55,p.z+22);sun.target.position.set(p.x,0,p.z);mapped.update(p);structures.update(p);city?.center(p.x,p.z);
+    mapped.update(p);structures.update(p);city?.center(p.x,p.z);
+    // Cache the near shadow map between route cells. Camera pans and paused
+    // frames reuse the static street shadows without a second geometry pass.
+    const sx=Math.round(p.x/5)*5,sz=Math.round(p.z/5)*5;
+    if(sx!==shadowX||sz!==shadowZ){
+      shadowX=sx;shadowZ=sz;sun.position.set(sx+32,48,sz-24);sun.target.position.set(sx,0,sz);
+      renderer.shadowMap.needsUpdate=true;
+    }
     const heading=Math.atan2(tangent.x,tangent.z)-yaw;
     if(lastHeading===null)lastHeading=heading;
     const angle=heading-lastHeading;

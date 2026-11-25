@@ -82,3 +82,16 @@
 | 愛河之心願景橋線 | [22.6496915, 120.2894705](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.649652,120.289431&heading=284.8&pitch=0) | 284.8° | 2024年4月 |
 | 愛河之心願景橋線 | [22.6510048, 120.2987292](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.651391,120.298718&heading=98.8&pitch=0) | 98.8° | 2024年7月 |
 | 愛河之心願景橋線 | [22.6544274, 120.3033951](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.654525,120.303361&heading=16.7&pitch=0) | 16.7° | 2026年1月 |
+
+### 港灣、河東路與大義倉庫的第一人稱街景
+
+步道中心沿用 OpenStreetMap 路網。材質、樹冠輪廓、欄杆間距、店面深度及家具位置依下列影像解讀；可用服務和當日通行狀況另以現場為準。近景紋理沿用本專案已署名的鋪面、木板及樹木素材。
+
+| 位置與方向 | 影像日期 | 用於建模的特徵 |
+|---|---|---|
+| [港灣景觀線水岸步道，朝 332°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.604715,120.2972713&heading=332.1&pitch=0) | 2022-07 | 曲線鋪磚步道、兩側草帶、灌木、高低植栽、座椅及分岔燈架。 |
+| [河東路愛之船岸邊，朝 345°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62385,120.2901767&heading=345.1&pitch=0) | 2016-07 | 臨水木棧道、金屬護欄、陸側樹穴、植栽與石材步道。面寬、岸面高差為視覺估計。 |
+| [大義倉庫間通道，朝 295°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6178921,120.2858142&heading=295.1&pitch=0) | 2020-01 | 舊混凝土牆、外露桁架與防撞欄、紅磚鋪面、倉庫門框和門楣。鋼架與護欄依歷史畫面示意。 |
+| [近大義街口，朝 295°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6183338,120.2847519&heading=295&pitch=0) | 2020-11 | 倉庫外牆、深色窗框與紅磚廣場至街口的交界。 |
+
+遠景資料由 scripts/build-distant-buildings.py 整理自 [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright)。有高度時沿用高度，有樓層時以每層 3.15 公尺換算，其餘較大建物僅以概略低層量體補足街廓。八五大樓採 [原圖外框](https://www.openstreetmap.org/way/34170948) 與六個 building:part，以各自的高度及底部高度組合兩翼、塔身、塔冠與桅桿。近景仍使用原街道模型。日照方向用於呈現物件立體感；時刻及季節未經模擬。

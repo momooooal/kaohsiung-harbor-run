@@ -1,3 +1,4 @@
+import {waterfrontWalks} from './waterfront-walks.js';
 import {surfaceTexture} from './daylight.js';
 import streets from '../data/route-streets.js';
 import survey from '../data/preview-landmarks.js';
@@ -109,10 +110,10 @@ export function routeLandmarks(parent,points) {
   for(const [kind,line] of survey.edges)if(kind==='railing')for(let i=1;i<line.length;i++)if(nearby.has(key(...line[i])))rail(line[i-1],line[i]);
   const foliage=surfaceTexture('tree.png');
   const leaves=new THREE.SpriteMaterial({map:foliage,transparent:true,alphaTest:.18,depthWrite:false});
-  function tree(x,z,scale=1){
+  function tree(x,z,scale=1,width=1){
     if(!nearby.has(key(x,z)))return;
     const height=(6.6+Math.abs(Math.round(x+z))%3)*scale;
-    const tree=new THREE.Sprite(leaves);tree.position.set(x,height/2,z);tree.scale.set(height*.87,height,1);group(x,z).add(tree);
+    const tree=new THREE.Sprite(leaves);tree.position.set(x,height/2,z);tree.scale.set(height*.87*width,height,1);group(x,z).add(tree);
   }
   for(const [kind,p] of streets.fixtures){
     const [x,z]=p;if(!nearby.has(key(x,z)))continue;
@@ -139,9 +140,7 @@ export function routeLandmarks(parent,points) {
   const plantedViews=[
     [22.5983711,120.3139651,233.8,'avenue',-8,22],
     [22.605653,120.3024683,250.8,'avenue',-10,35],
-    [22.604715,120.2972713,332.1,'park',4,44],
     [22.6092312,120.3025234,250.4,'avenue',8,34],
-    [22.62385,120.2901767,345.1,'river',-2.3,34],
     [22.6239228,120.2918809,252.1,'avenue',6.5,27],
     [22.6238832,120.2987095,153,'garden',-5,38],
     [22.6238832,120.2987095,153,'garden',9,33],
@@ -168,12 +167,14 @@ export function routeLandmarks(parent,points) {
       if(kind==='park')tree(...site(right+2.7,d+4));
     }
   }
+  const releaseWalks=waterfrontWalks({nearby,key,group,panel,beam,P,tree});
   const color=new THREE.Color();
   for(const {g,shape,rows} of batches.values()){
     const mesh=new THREE.InstancedMesh(shape,material,rows.length);
     rows.forEach(([m,c],i)=>{mesh.setMatrixAt(i,m);mesh.setColorAt(i,color.setHex(c).convertSRGBToLinear());});mesh.frustumCulled=false;g.add(mesh);
   }
   return {update(p){for(const g of groups.values()){const [x,z]=g.userData.center;g.visible=Math.hypot(x-p.x,z-p.z)<360;}},dispose(){
+    releaseWalks();
     for(const g of groups.values())g.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh){o.geometry.dispose();o.material.dispose();}});
     foliage.dispose();leaves.dispose();box.dispose();round.dispose();material.dispose();
   }};

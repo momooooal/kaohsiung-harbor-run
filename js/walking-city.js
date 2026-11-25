@@ -151,7 +151,10 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
         float grain=texture2D(roadTexture,uv*.23).r;
         if(abs(streetPos.y-.012)<.0006 || abs(streetPos.y-.010)<.0006){
           float ripple=.5+.5*sin(uv.y*5.+2.4*sin(uv.x*.41)+3.8*grain);
-          diffuseColor.rgb=mix(vec3(.062,.185,.19),vec3(.20,.36,.35),ripple*.54+grain*.4);
+          float farWater=1.-smoothstep(12.,150.,distance(cameraPosition,streetPos));
+          float grazing=pow(1.-abs(normalize(cameraPosition-streetPos).y),4.);
+          diffuseColor.rgb=mix(vec3(.048,.12,.145),vec3(.23,.31,.325),.15+.76*grazing);
+          diffuseColor.rgb+=vec3(.12)*(pow(ripple,6.)-.3)*farWater;
         }else if(abs(streetPos.y-.029)<.0006 || (abs(streetPos.y-.020)<.0006 && vColor.g>vColor.r*1.2)){
           diffuseColor.rgb*=.36+1.5*texture2D(lawn,uv*.20).g;
         }else if(abs(streetPos.y-.035)<.001)diffuseColor.rgb*=.37+grain*1.12;
@@ -164,7 +167,14 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
         if(style>2.5 && style<3.5){
           float bay=fract(along/7.6);
           if(streetPos.y<3.2 && bay>.20 && bay<.78)diffuseColor.rgb*=vec3(.19,.22,.21);
-          else diffuseColor.rgb=texture2D(masonry,vec2(along,streetPos.y)*.33).rgb*vec3(.88,.70,.58);
+          else {
+            vec2 wallUV=vec2(along,streetPos.y);vec3 brick=texture2D(masonry,wallUV*.38).rgb;
+            float grain=texture2D(paverTexture,wallUV*.23).r;
+            float patches=smoothstep(.24,.57,texture2D(roadTexture,wallUV*.043).r*.77+grain*.28);
+            vec3 render=vec3(.43,.39,.32)*(.64+.72*grain);
+            diffuseColor.rgb=mix(brick*vec3(.71,.53,.40),render,patches*.94);
+            diffuseColor.rgb*=.69+.31*smoothstep(.02,1.45,streetPos.y);
+          }
         }else if(style>6.5){
           diffuseColor.rgb=vec3(.45,.41,.34)*(.77+.23*texture2D(masonry,vec2(along,streetPos.y)*.38).r);
         }else if(style>5.5){

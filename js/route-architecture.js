@@ -138,6 +138,27 @@ export function addRouteArchitecture(scene, buildings, legs, profiles, coffeeInt
             if(fromCorner<12)continue;
           }
           const w=bay*(coffee?.83:lodge?.61:.69),base=lodge?.72:.25,top=lodge?2.36:3.48;
+          if(warehouse&&coffeeInterior&&!coffee){
+            // Deep jambs and a shaded transom read from an oblique, running-height camera.
+            const shutter=(k+seed)%4===0, lintel=top+((seed+k)%3)*.28;
+            const concrete=[0x9a9180,0xada08c,0x918977][(k+seed)%3];
+            box(s,.08,lintel/2,w,lintel,.18,shutter?0x556260:0x354041);
+            for(const hand of [-1,1]){
+              box(s+hand*(w*.5+.10),.28,lintel/2,.26,lintel,.56,concrete);
+              box(s+hand*(w*.5-.08),.20,lintel/2,.10,lintel,.17,0x564c42);
+            }
+            box(s,.34,lintel+.13,w+.62,.26,.68,concrete);
+            box(s,.48,.19,w+.45,.22,.91,0x918b7b);
+            if(shutter){
+              for(let y=.4;y<lintel-.12;y+=.24)box(s,.18,y,w-.22,.024,.08,0x82908a);
+            }else{
+              for(const fraction of [-.31,0,.31])box(s+w*fraction,.22,lintel*.51,.057,lintel*.91,.14,0x625c51);
+              for(const y of [.94,lintel-.56])box(s,.23,y,w-.13,.066,.13,0x686053);
+              box(s,.19,lintel-.27,w-.25,.40,.06,0x737e78);
+              if((k+seed)%3===1)box(s+w*.18,.29,1.09,.043,.34,.11,0xb8b3a5);
+            }
+            continue;
+          }
           box(s,.058,(base+top)/2,w,top-base,.12,lodge?0x364241:0x303a38);
           box(s,.14,base,w+.10,.13,.32,lodge?0x54483c:0x8f8273);
           for(const t of [-.5,0,.5])box(s+w*t,.13,(base+top)/2,.09,top-base,.16,lodge?0x72553c:0x48514c);
