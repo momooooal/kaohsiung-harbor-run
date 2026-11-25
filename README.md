@@ -114,3 +114,6 @@ python -m http.server 8000
 
 ### 濱海一路：福泉冰店至鼓山輪渡站
 這段由 js/ferry-street.js 產生店面、招牌、騎樓、路面與渡輪站入口。定位沿用十站路線；模型比例、陳設與停車是示意。街屋層次及入口配色核對 Google 街景（濱海一路 87、84、98 號周邊）、[福泉店面實拍](https://ameblo.jp/sakky717/entry-12855851376.html)、[從街口看渡輪站](https://fullfenblog.tw/gushan-ferry-boat/)與[渡輪站入口實拍](https://blog.udn.com/Kevin218/184997994)。招牌與材質為自行繪製。十站連續模式可在「沿途實景」取消勾選「顯示步行地名提示」，隱藏浮空標記與畫面左上提示。
+
+### 十站連續 3D 街廓與山景
+可分享 `#/explore/walk` 直接從第一站開始。js/route-architecture.js 依建物面向、距離和用途建立近景立面，依玩家位置顯示鄰近批次。js/walking-city.js 組合街區、沿途路徑及濱海一路街景。換站時沿用同一座場景。補充建物外框、遠景高程、資料授權與建模範圍見 [十站圖資說明](DATA-SOURCES.md)。

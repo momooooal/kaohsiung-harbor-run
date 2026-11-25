@@ -52,7 +52,7 @@ export function reportMap(route){
 export function clampMovement(progress, lateral, total){
   return [Math.max(0,Math.min(total,progress)), Math.max(-3,Math.min(3,lateral))];
 }
-export function ride(short=false){
+export function ride(short=false,startWalking=false){
  const stage=document.querySelector('#game-stage'),hint=document.querySelector('#game-hint');
  const points=(short?track.slice(0,20):track).map(([x,z])=>new THREE.Vector3(x*2,0,z*2));
  let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true})}catch{hint.textContent='裝置無法啟動 WebGL，請使用場域頁的踩線全程圖。';return ()=>{}}
@@ -141,9 +141,11 @@ export function ride(short=false){
  function relocate(start=0){
  walkHeading=null;
  resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
- if(local){scene.add(actor);local.dispose();local=null}syncPlaceHints();
+ if(local&&!(local.walk&&destination.value==='itinerary')){scene.add(actor);local.dispose();local=null}syncPlaceHints();
  if(destination.value==='itinerary'){
-   local=walkingCity(Number.isInteger(start)?start:0);local.scene.add(actor);syncPlaceHints();
+   if(local)local.startAt(Number.isInteger(start)?start:0);
+   else local=walkingCity(Number.isInteger(start)?start:0);
+   local.scene.add(actor);syncPlaceHints();
    travel.value='guided';free=false;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
  }
  if(destination.value.startsWith('city-')){
@@ -176,6 +178,10 @@ export function ride(short=false){
    control.setAttribute('aria-pressed',String(active));
  }
  setViewing(false);
+ if(startWalking){
+   destination.value='itinerary';relocate();
+   document.querySelector('#mission-list').innerHTML='<li>從昆仲公園沿金色線出發。</li><li>在駁二比較兩次經過五號店時的街景。</li><li>經鼓山輪渡站、隧道口走到哈瑪星站。</li>';
+ }
  const observe=()=>{setViewing(!viewing);keys.clear()};button('touch-interact').onclick=observe;
  renderer.domElement.onkeydown=e=>{if(!e.repeat && e.key.toLowerCase()==='e')observe()};
  stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});

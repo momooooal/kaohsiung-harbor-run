@@ -1,5 +1,7 @@
 import {ferryStreet,detailedFerryBuildings} from './ferry-street.js';
 import {walkingScenery} from './walking-scenery.js';
+import {addRouteArchitecture} from './route-architecture.js';
+import infill from '../data/walking-infill.js';
 import environment from '../data/walking-environment.js';
 import legs from '../data/walking-legs.js';
 import blocks from '../data/walking-blocks.js';
@@ -13,6 +15,7 @@ export function walkingCity(start=0){
   scene.add(new THREE.HemisphereLight(0xfff4e2,0xa5b5ad,1));
   const sun=new THREE.DirectionalLight(0xffe5bb,.66);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(512,512);
   Object.assign(sun.shadow.camera,{left:-56,right:56,top:56,bottom:-56,far:210});sun.shadow.bias=-.0013;sun.shadow.normalBias=.12;
+  sun.shadow.camera.updateProjectionMatrix();
   const positions=[],colors=[],styles=[];let style=0;
   function tri(a,b,c,color){positions.push(...a,...b,...c);styles.push(style,style,style);for(let i=0;i<3;i++)colors.push(color.r,color.g,color.b)}
   const tint=n=>new THREE.Color(n).convertSRGBToLinear();
@@ -29,14 +32,29 @@ export function walkingCity(start=0){
   }
   const roof=tint(0xc4b9ac),facades=[0xb89f83,0xb9b6ab,0xc7b49c,0xacb4ae].map(tint);
   const profiles=new Map(environment.profiles.map(([p,type])=>[p.join(),type]));
-  const buildings=blocks.buildings.concat(environment.mappedBuildings);
+  // OSM layer / location tags distinguish the subway boxes under these streets.
+  const underground=new Set(['-1713,-1360','-682,-1406','1174,-1767','2624,1558','1789,372','1492,-506']);
+  const shelters=new Set(['-1169,-1839','-1160,-1832','-2071,-1535','-12,-1626','1535,1667','1529,1669']);
+  const entrances=new Set(['-1505,-1288','-1715,-1334']);
+  const surfaceBuildings=blocks.buildings.filter(([,p])=>!underground.has(p[0].join())).map(record=>{
+    const key=record[1][0].join();
+    if(shelters.has(key))return [2.7,record[1],'shelter'];
+    if(entrances.has(key))return [3.5,record[1],'station-entry'];
+    return record;
+  });
+  const buildings=surfaceBuildings.concat(environment.mappedBuildings, infill.map(points=>{
+    const [x,z]=points[0];
+    // These footprints have no measured height. Use a stable low-rise profile.
+    return [5.9+Math.abs(x*13+z*7)%4*2.85,points];
+  }));
+  const centerArchitecture=addRouteArchitecture(scene,buildings,legs,profiles);
   buildings.forEach(([h,points,kind],i)=>{
-    if(detailedFerryBuildings.has(points[0].join()))return;
+    if(['hall','shelter','station-entry'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
     if(parkHouse)h=3.45;
     style=0;polygon(points,h,roof);
     const profile=kind||profiles.get(points[0].join());
-    style=x===2017&&z===1360?6:profile==='warehouse'?3:profile==='hall'?4:profile==='terminal'?5:2;
+    style=parkHouse?7:x===2017&&z===1360?6:profile==='warehouse'?3:profile==='terminal'?5:2;
     if(parkHouse||profile==='warehouse'){
       // Clip both faces of the pitched roof at its ridge so that irregular footprints retain their outline.
       let ax=1,az=0,longest=0;
@@ -70,7 +88,8 @@ export function walkingCity(start=0){
       }phase=(phase+length)%10;
     });
   }
-  const releaseFerry=ferryStreet(scene);
+  const ferryGroup=new THREE.Group();scene.add(ferryGroup);
+  const releaseFerry=ferryStreet(ferryGroup);
   const scenery=walkingScenery(scene,{polygon,ribbon,tint});
   const path=[],dist=[],ends=[],names=[],guide=tint(0xf7bb64);
   let total=0;
@@ -88,12 +107,19 @@ export function walkingCity(start=0){
   m.onBeforeCompile=shader=>{
     shader.uniforms.roadTexture={value:scenery.asphalt};
     shader.uniforms.paverTexture={value:scenery.brick};
+    shader.uniforms.masonry={value:scenery.masonry};
+    shader.uniforms.lawn={value:scenery.lawn};
     shader.vertexShader='attribute float facadeStyle; varying float style; varying vec3 streetPos; varying vec3 streetNormal;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nstreetPos=position;streetNormal=normal;style=facadeStyle;');
-    shader.fragmentShader='uniform sampler2D roadTexture; uniform sampler2D paverTexture; varying float style; varying vec3 streetPos; varying vec3 streetNormal;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+    shader.fragmentShader='uniform sampler2D roadTexture,paverTexture,masonry,lawn; varying float style; varying vec3 streetPos; varying vec3 streetNormal;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
       vec2 uv=streetPos.xz;
       if(streetPos.y<.1 && abs(streetNormal.y)>.9){
         float grain=texture2D(roadTexture,uv*.23).r;
-        if(abs(streetPos.y-.035)<.001)diffuseColor.rgb*=.37+grain*1.12;
+        if(abs(streetPos.y-.012)<.0006 || abs(streetPos.y-.010)<.0006){
+          float ripple=.5+.5*sin(uv.y*5.+2.4*sin(uv.x*.41)+3.8*grain);
+          diffuseColor.rgb=mix(vec3(.062,.185,.19),vec3(.20,.36,.35),ripple*.54+grain*.4);
+        }else if(abs(streetPos.y-.029)<.0006 || (abs(streetPos.y-.020)<.0006 && vColor.g>vColor.r*1.2)){
+          diffuseColor.rgb*=.36+1.5*texture2D(lawn,uv*.20).g;
+        }else if(abs(streetPos.y-.035)<.001)diffuseColor.rgb*=.37+grain*1.12;
         else if((abs(streetPos.y-.075)<.001 || abs(streetPos.y-.044)<.001))diffuseColor.rgb*=.32+texture2D(paverTexture,uv*.19).r*1.15;
         else diffuseColor.rgb*=.74+grain*.49;
       }
@@ -103,7 +129,9 @@ export function walkingCity(start=0){
         if(style>2.5 && style<3.5){
           float bay=fract(along/7.6);
           if(streetPos.y<3.2 && bay>.20 && bay<.78)diffuseColor.rgb*=vec3(.19,.22,.21);
-          else diffuseColor.rgb*=vec3(.87,.65,.50)*(.56+.6*texture2D(paverTexture,vec2(along,streetPos.y)*.36).r);
+          else diffuseColor.rgb=texture2D(masonry,vec2(along,streetPos.y)*.33).rgb*vec3(.88,.70,.58);
+        }else if(style>6.5){
+          diffuseColor.rgb=vec3(.45,.41,.34)*(.77+.23*texture2D(masonry,vec2(along,streetPos.y)*.38).r);
         }else if(style>5.5){
           if(streetPos.y>3.8)diffuseColor.rgb=vec3(.018,.095,.21);
           else diffuseColor.rgb=mix(vec3(.06,.12,.15),vec3(.31,.36,.36),step(.94,u));
@@ -138,10 +166,12 @@ export function walkingCity(start=0){
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
+  return {scene,walk:true,startAt(index){at=index?ends[index-1]:0},showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
     at=Math.max(0,Math.min(total,at+delta));
     const [x,z,i]=sample(at),f=sample(Math.min(total,at+3.5)),b=sample(Math.max(0,at-.5));
-    pos.set(x,0,z);scenery.setCenter(x,z);sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
+    pos.set(x,0,z);scenery.setCenter(x,z);centerArchitecture(x,z);
+    ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
+    sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
     const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
     return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
   },dispose(){releaseFerry();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};

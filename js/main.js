@@ -148,7 +148,7 @@ function renderResults() {
 function render() {
   dispose(); dispose = () => {};
   const path = (location.hash.slice(1) || '/').replace(/\/$/, '') || '/';
-  const pages = { '/': home, '/map': mapPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
+  const pages = { '/': home, '/map': mapPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
   const routeId = path.startsWith('/routes/') ? path.slice('/routes/'.length) : null;
   const extraRoute = routeId && routeId !== 'bay' ? data.routes.find(item => item.id === routeId && item.status === 'verified' && item.published && item.verifiedAt) : null;
   app.innerHTML = shell(path, pages[path] ? pages[path]() : extraRoute ? genericRoutePage(extraRoute) : `${intro('404', '找不到這個頁面', '請回首頁繼續探索。')}<div class="wrap page-body"><a class="btn dark" href="#/">返回首頁</a></div>`);
@@ -160,18 +160,20 @@ function render() {
     const clearBase = dispose, clearReport = reportMap(data.routes.find(r=>r.id==='bay'));
     dispose = () => { clearBase(); clearReport(); };
   }
-  if (path === '/explore' || path === '/explore/short') {
-    document.querySelector('.status-note').innerHTML = '沿著港灣踩線路線探索，場景比例、路寬與街景為示意。 <a href="#/explore/short">去程練習</a> · <a href="#/explore">完整往返</a>';
+  const isGame=['/explore','/explore/short','/explore/walk'].includes(path);
+  if (isGame) {
+    document.querySelector('.status-note').innerHTML = '選擇 3D 行程： <a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/short">港灣去程練習</a> · <a href="#/explore">港灣完整往返</a>';
     document.querySelector('#mission-list').innerHTML='<li>從哈瑪星出發，沿紅線走訪港灣。</li><li>在去程末端觀察折返方向。</li><li>全程模式沿回程路徑返回哈瑪星。</li>';
     document.querySelector('.game-help').textContent='點選畫面後用 WASD 或方向鍵移動及轉向，手機可按住方向鍵。按 E 或「觀察」可觀看鄰近地標全景，再按一次或前進即可返回。';
     document.querySelector('.game-shell').before(friendlyDirectory());
-    dispose = ride(path.endsWith('/short'));
+    dispose = ride(path.endsWith('/short'),path.endsWith('/walk'));
   }
   if(path==='/about')document.querySelector('.page-intro').after(notesSection('about'));
 
-  if(path==='/explore'||path==='/explore/short')document.querySelector('.game-shell').after(notesSection('explore'));
+  if(isGame)document.querySelector('.game-shell').after(notesSection('explore'));
   if (path === '/community') renderResults();
   window.scrollTo(0, 0);
+  if(path==='/explore/walk')document.querySelector('#game-stage')?.scrollIntoView({block:'center'});
   document.title = `${path === '/' ? '跑出你的高雄' : document.querySelector('.page-intro h1')?.textContent || '跑出你的高雄'}｜友善跑步地圖互動原型`;
 }
 
