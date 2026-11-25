@@ -282,9 +282,16 @@
       "id": "qr-0",
       "coverage": "圖卡完整路線連結；手機途經點保留情形待實機確認",
       "browserVerified": true,
-      "browserTitle": "Google 地圖",
+      "browserTitle": "高雄市立圖書館總館 至 高雄市立圖書館總館 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E5%BB%BA%E9%9A%86%E9%87%8C%E6%9E%97%E6%A3%AE%E5%9B%9B%E8%B7%AF132%E8%99%9F/806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E5%BB%BA%E9%9A%86%E9%87%8C%E5%95%9F%E8%81%96%E8%A1%97/806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E9%8E%AE%E5%8C%97%E9%87%8C%E5%BE%A9%E8%88%88%E5%9B%9B%E8%B7%AF4%E8%99%9F/%E9%AF%A8%E9%AD%9A%E5%A0%A4%E5%B2%B8+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E8%8B%93%E6%9D%B1%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF15%E8%99%9F/%E9%AB%98%E9%9B%84%E6%B5%81%E8%A1%8C%E9%9F%B3%E6%A8%82%E4%B8%AD%E5%BF%83+%E7%8F%8A%E7%91%9A%E7%A4%81%E7%BE%A4+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E5%8D%9A%E4%BB%81%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF110%E8%99%9F/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/@22.6112398,120.2867459,15z/data=!3m1!4b1!4m44!4m43!1m5!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!1m5!1m1!1s0x346e037914b9c549:0x1e455e7b3e8f2d7b!2m2!1d120.3016973!2d22.608907!1m5!1m1!1s0x346e037999ad53fd:0xf8654115fd90b538!2m2!1d120.3018585!2d22.6073658!1m5!1m1!1s0x346e037790d5da5d:0x3b9792306fc6b795!2m2!1d120.298531!2d22.6040582!1m5!1m1!1s0x346e03afcd2e5363:0x9f31bb6488d2171e!2m2!1d120.2920764!2d22.6159666!1m5!1m1!1s0x346e0478ac8337a3:0x26ece851772c7420!2m2!1d120.2919319!2d22.6184221!1m5!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!3e2!5m1!1e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 5.3,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "圖卡完整路線連結；手機途經點保留情形待實機確認",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     },
     {
       "file": "高雄路跑地圖-02(1).png",
@@ -301,7 +308,14 @@
       "browserVerified": true,
       "browserTitle": "高雄市立圖書館總館 至 高雄市高雄橋 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/%E9%AB%98%E9%9B%84%E6%B8%AF%E6%97%85%E9%81%8B%E4%B8%AD%E5%BF%83+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E8%8B%93%E4%B8%AD%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF5%E8%99%9F/%E5%85%89%E6%A6%AE%E7%A2%BC%E9%A0%AD+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80/%E9%AB%98%E9%9B%84%E5%B8%82%E9%AB%98%E9%9B%84%E6%A9%8B/@22.6153237,120.2908798,16z/data=!3m1!4b1!4m31!4m30!1m10!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!3m4!1m2!1d120.2985677!2d22.6118604!3s0x346e037f46195daf:0x95516b4651d4151d!1m5!1m1!1s0x346e0383c7389177:0x79ae6c819df018fc!2m2!1d120.2935234!2d22.6110431!1m5!1m1!1s0x346e038095fdeeab:0x73680c9d86ac43a0!2m2!1d120.2932385!2d22.6167885!1m5!1m1!1s0x346e0478de1de16d:0x485df3780f916c41!2m2!1d120.2902818!2d22.6206553!3e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 2.4,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "總館至高雄橋共同前段",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     },
     {
       "file": "高雄路跑地圖-02(1).png",
@@ -318,7 +332,14 @@
       "browserVerified": true,
       "browserTitle": "高雄市立圖書館總館 至 高雄市中正橋 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/%E9%AB%98%E9%9B%84%E6%B8%AF%E6%97%85%E9%81%8B%E4%B8%AD%E5%BF%83+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E8%8B%93%E4%B8%AD%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF5%E8%99%9F/%E5%85%89%E6%A6%AE%E7%A2%BC%E9%A0%AD+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80/22.6271351,120.2889276/%E9%AB%98%E9%9B%84%E5%B8%82%E4%B8%AD%E6%AD%A3%E6%A9%8B/@22.6120232,120.2964432,16.96z/data=!4m32!4m31!1m10!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!3m4!1m2!1d120.2985677!2d22.6118604!3s0x346e037f46195daf:0x95516b4651d4151d!1m5!1m1!1s0x346e0383c7389177:0x79ae6c819df018fc!2m2!1d120.2935234!2d22.6110431!1m5!1m1!1s0x346e038095fdeeab:0x73680c9d86ac43a0!2m2!1d120.2932385!2d22.6167885!1m0!1m5!1m1!1s0x346e047afed5f6e3:0x79ba426db9b0aeb7!2m2!1d120.2883725!2d22.6269043!3e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 3.2,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "總館至中正橋方向；未含返回總館",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     },
     {
       "file": "高雄路跑地圖-02(1).png",
@@ -335,7 +356,14 @@
       "browserVerified": true,
       "browserTitle": "高雄市立圖書館總館 至 駁二大義 803高雄市鹽埕區 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/%E9%AB%98%E9%9B%84%E6%B8%AF%E6%97%85%E9%81%8B%E4%B8%AD%E5%BF%83+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E8%8B%93%E4%B8%AD%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF5%E8%99%9F/%E5%85%89%E6%A6%AE%E7%A2%BC%E9%A0%AD+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80/%E9%AB%98%E9%9B%84%E5%B8%82%E9%AB%98%E9%9B%84%E6%A9%8B/%E9%A7%81%E4%BA%8C%E5%A4%A7%E7%BE%A9+803%E9%AB%98%E9%9B%84%E5%B8%82%E9%B9%BD%E5%9F%95%E5%8D%80/@22.6177081,120.2863827,16.75z/data=!4m37!4m36!1m10!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!3m4!1m2!1d120.2985677!2d22.6118604!3s0x346e037f46195daf:0x95516b4651d4151d!1m5!1m1!1s0x346e0383c7389177:0x79ae6c819df018fc!2m2!1d120.2935234!2d22.6110431!1m5!1m1!1s0x346e038095fdeeab:0x73680c9d86ac43a0!2m2!1d120.2932385!2d22.6167885!1m5!1m1!1s0x346e0478de1de16d:0x485df3780f916c41!2m2!1d120.2902818!2d22.6206553!1m5!1m1!1s0x346e03883c3cce59:0x2713f46653c84c50!2m2!1d120.284154!2d22.618553!3e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 3.3,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "總館至駁二大義；未含返回總館",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     },
     {
       "file": "高雄路跑地圖-03_0.png",
@@ -352,7 +380,14 @@
       "browserVerified": true,
       "browserTitle": "高雄市立圖書館總館 至 高雄市立圖書館總館 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/%E9%AB%98%E9%9B%84%E6%B8%AF%E6%97%85%E9%81%8B%E4%B8%AD%E5%BF%83+802%E9%AB%98%E9%9B%84%E5%B8%82%E8%8B%93%E9%9B%85%E5%8D%80%E8%8B%93%E4%B8%AD%E9%87%8C%E6%B5%B7%E9%82%8A%E8%B7%AF5%E8%99%9F/%E9%AB%98%E9%9B%84%E5%B8%82%E9%AB%98%E9%9B%84%E6%A9%8B/801%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%87%91%E5%8D%80%E7%A4%BE%E8%A5%BF%E9%87%8C%E6%B0%91%E7%94%9F%E4%BA%8C%E8%B7%AF201-1%E8%99%9F/%E9%AB%98%E9%9B%84%E6%96%87%E5%AD%B8%E9%A4%A8+Kaohsiung+Literature+Library+801%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%87%91%E5%8D%80%E9%95%B7%E7%94%9F%E9%87%8C%E6%B0%91%E7%94%9F%E4%BA%8C%E8%B7%AF39%E8%99%9F/%E9%95%B7%E7%94%9F%E9%87%8C+801%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%87%91%E5%8D%80/%E4%B8%89%E5%A4%9A%E5%95%86%E5%9C%88+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E4%B8%AD%E5%B1%B1%E4%BA%8C%E8%B7%AF268%E8%99%9F/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8+806%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E6%8C%AF%E8%88%88%E9%87%8C%E6%96%B0%E5%85%89%E8%B7%AF61%E8%99%9F/@22.6219316,120.297913,17.75z/data=!4m50!4m49!1m5!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!1m5!1m1!1s0x346e0383c7389177:0x79ae6c819df018fc!2m2!1d120.2935234!2d22.6110431!1m5!1m1!1s0x346e0478de1de16d:0x485df3780f916c41!2m2!1d120.2902818!2d22.6206553!1m5!1m1!1s0x346e047c073de51f:0x5d7c296344f2e424!2m2!1d120.2917564!2d22.6237195!1m5!1m1!1s0x346e04878fb3027d:0x1fc67fbf860a2435!2m2!1d120.2979812!2d22.6254997!1m5!1m1!1s0x346e04877669c595:0xee47e16f7c858c3d!2m2!1d120.2981408!2d22.6239974!1m5!1m1!1s0x346e037dc02783df:0xf8af5ae02f3e402c!2m2!1d120.304587!2d22.6139575!1m5!1m1!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!2m2!1d120.3017989!2d22.6104438!3e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 6,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "總館出發返回總館；道路對應待逐段核對",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     },
     {
       "file": "高雄路跑地圖-04_0.png",
@@ -369,7 +404,14 @@
       "browserVerified": true,
       "browserTitle": "凹子底 804高雄市鼓山區 至 願景橋 - Google 地圖",
       "browserUrl": "https://www.google.com/maps/dir/%E5%87%B9%E5%AD%90%E5%BA%95+804%E9%AB%98%E9%9B%84%E5%B8%82%E9%BC%93%E5%B1%B1%E5%8D%80/%E6%84%9B%E6%B2%B3%E4%B9%8B%E5%BF%83+804%E9%AB%98%E9%9B%84%E5%B8%82%E9%BC%93%E5%B1%B1%E5%8D%80%E5%AE%89%E6%B3%B0%E9%87%8C%E9%BE%8D%E5%BE%B7%E8%B7%AF2%E8%99%9F/%E9%AB%98%E9%9B%84%E5%B8%82%E9%BE%8D%E5%BF%83%E6%A9%8B/%E7%9B%A4%E8%8A%B1%E5%85%AC%E5%9C%92%E5%85%AC%E5%BB%81+807%E9%AB%98%E9%9B%84%E5%B8%82%E4%B8%89%E6%B0%91%E5%8D%80%E5%AE%89%E5%AE%9C%E9%87%8C%E5%90%8C%E7%9B%9F%E4%BA%8C%E8%B7%AF215%E8%99%9F/%E7%9B%A4%E8%8A%B1%E5%85%AC%E5%9C%92%E8%97%9D%E8%A1%93%E6%AB%A5%E7%AA%97+804%E9%AB%98%E9%9B%84%E5%B8%82%E9%BC%93%E5%B1%B1%E5%8D%80%E9%BE%8D%E5%AD%90%E9%87%8C%E4%B8%AD%E8%8F%AF%E4%B8%80%E8%B7%AF2133%E5%B7%B712%E4%B9%8B3%E8%99%9F/%E9%A1%98%E6%99%AF%E6%A9%8B+807%E9%AB%98%E9%9B%84%E5%B8%82%E4%B8%89%E6%B0%91%E5%8D%80%E9%A1%98%E6%99%AF%E6%A9%8B/@22.6539536,120.2949608,16.17z/data=!4m38!4m37!1m5!1m1!1s0x346e04fe0acac2b3:0x21fad7ae686b2ddd!2m2!1d120.3032583!2d22.6570745!1m5!1m1!1s0x346e04fbf8f2c8b5:0x73152b08ce5a4a9a!2m2!1d120.3031609!2d22.6526835!1m5!1m1!1s0x346e04f93bf8b5fb:0x2298e2a6ac5ef589!2m2!1d120.3013405!2d22.6524996!1m5!1m1!1s0x346e050029833389:0x1aff7b5fa81895b9!2m2!1d120.2963327!2d22.6520207!1m5!1m1!1s0x346e050064e69d53:0x477b0b664ba6c65e!2m2!1d120.2949842!2d22.6512073!1m5!1m1!1s0x346e045a9ac79833:0x16552fecacc22f86!2m2!1d120.2879938!2d22.6503434!3e2?entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
-      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證"
+      "browserNote": "桌機瀏覽器可開啟來源頁；不代表路徑與原圖逐段一致或手機 App 途經點已驗證",
+      "distanceObservation": {
+        "km": 2.5,
+        "checkedAt": "2026-11-25",
+        "provider": "Google Maps 網頁步行規劃",
+        "scope": "凹子底至願景橋去程；未含回程",
+        "note": "可隨 Google 重新規劃改變；不是實測距離，也不替換圖卡里程"
+      }
     }
   ],
   "pois": [
@@ -384,7 +426,18 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "arrival": {
+        "label": "捷運 R7 獅甲站 1 號出口",
+        "description": "網站建議集合出口；官方列為台灣塑膠公司／獅甲國中方向。原圖的站與公園為合併標籤，公園公廁須另外步行前往。",
+        "source": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
+        "checkedAt": "2026-11-25",
+        "precision": "OSM 出口節點，官方核對出口名稱",
+        "coordinates": [
+          22.605399,
+          120.3082605
+        ]
+      }
     },
     {
       "poiId": "kaixuan",
@@ -410,7 +463,13 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "venueHours": "每日 10:00–22:00",
+      "venueSource": "https://www.google.com/maps/search/?api=1&query=%E8%BF%AA%E5%8D%A1%E5%84%82%20%E4%BA%9E%E7%81%A3%E5%BA%97%20%E6%99%82%E4%BB%A3%E5%A4%A7%E9%81%9333%E8%99%9F",
+      "venueSourceType": "Google Maps 商家時段（非店家逐項服務承諾）",
+      "venueCheckedAt": "2026-11-25",
+      "phone": "07-262-1292",
+      "venueNote": "已核對指定地址與分店。營業時間可能臨時異動；圖卡所列服務之收費與是否需消費並未在此商家資料中公布。"
     },
     {
       "poiId": "exhibition",
@@ -423,7 +482,15 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "arrival": {
+        "label": "高雄展覽館一樓東門服務中心",
+        "description": "官方指定服務中心位於一樓東門入口。飲水機的公開借用範圍請向服務中心確認，不能將主辦單位辦公室設備視為公共設施。",
+        "source": "https://www.kecc.com.tw/zh-tw/visitors-facility",
+        "checkedAt": "2026-11-25",
+        "precision": "入口名稱已確認，座標仍為場館",
+        "coordinates": null
+      }
     },
     {
       "poiId": "music",
@@ -449,7 +516,12 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "https://www.ruhcafe.com/pages/store-guidance",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "venueHours": "週一至五 13:00–18:00；週六、日 11:00–19:00",
+      "venueSource": "https://www.ruhcafe.com/pages/ruhcafe-no5",
+      "phone": "07-521-4325",
+      "venueNote": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
+      "venueCheckedAt": "2026-11-25"
     },
     {
       "poiId": "ice",
@@ -462,7 +534,13 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "venueHours": "週一、二、四至日 10:30–22:30；週三休息",
+      "venueSource": "https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97%20%E6%BF%B1%E6%B5%B7%E4%B8%80%E8%B7%AF91%E8%99%9F%20%E9%AB%98%E9%9B%84",
+      "venueSourceType": "Google Maps 商家時段（非店家逐項服務承諾）",
+      "venueCheckedAt": "2026-11-25",
+      "phone": "07-521-4206",
+      "venueNote": "已核對指定地址與分店。營業時間可能臨時異動；圖卡所列服務之收費與是否需消費並未在此商家資料中公布。"
     },
     {
       "poiId": "ferry",
@@ -501,7 +579,18 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "arrival": {
+        "label": "捷運 O1 哈瑪星站 2 號出口",
+        "description": "連接輕軌 C14 與舊打狗驛方向。原圖終點未指定出口，本站提供此出口作返程接駁參考。",
+        "source": "https://www.krtc.com.tw/Guide/station_info?n=O1",
+        "checkedAt": "2026-11-25",
+        "precision": "OSM 出口節點",
+        "coordinates": [
+          22.6215501,
+          120.2753859
+        ]
+      }
     },
     {
       "poiId": "qianjin",
@@ -514,7 +603,12 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "venueHours": "每日 09:00–23:00（中心服務時段）",
+      "venueSource": "https://www.cianjin-sc.com/toll.html",
+      "phone": "07-281-8566",
+      "venueNote": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
+      "venueCheckedAt": "2026-11-25"
     },
     {
       "poiId": "gym",
@@ -527,7 +621,10 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "phone": "07-338-9103",
+      "venueSource": "https://honhuangpower.wixsite.com/honhuangpower",
+      "venueCheckedAt": "2026-11-25"
     },
     {
       "poiId": "library",
@@ -540,17 +637,45 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-0",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "venueHours": "週二至日 10:00–22:00；國定假日 10:00–17:00；週一例行休館，特殊開休館依當日公告",
+      "venueSource": "https://www.ksml.edu.tw/content/index.aspx?Parser=1,3,45,27",
+      "phone": "07-536-0238",
+      "venueNote": "櫃台於閉館前 15 分鐘停止服務。2026/11/28 選舉日開館 10:00–17:00。",
+      "venueCheckedAt": "2026-11-25",
+      "venueExceptions": [
+        {
+          "date": "2026-11-28",
+          "hours": "10:00–17:00",
+          "source": "https://www.ksml.edu.tw/sub/Latestevent/Details.aspx?Parser=9%2C23%2C212%2C157%2C%2C%2C15495%2C%2C%2C%2C7"
+        }
+      ],
+      "arrival": {
+        "label": "新光路 61 號總館一樓廣場",
+        "description": "由輕軌 C8 高雄展覽館站沿新光路步行約 300 公尺。原圖未指定廣場內集合點；導航仍為總館位置，不冒充門口測量點。",
+        "source": "https://www.ksml.edu.tw/mainlibrary/content/index.aspx?Parser=1,23,260,156",
+        "checkedAt": "2026-11-25",
+        "precision": "場館地址；廣場集合區",
+        "coordinates": null
+      }
     },
     {
       "poiId": "starlight",
       "name": "星光水岸公園",
-      "coordinates": null,
-      "address": "入口待確認",
-      "precision": "尚未定位",
-      "locationSource": "card-1（未解析精確入口）",
+      "coordinates": [
+        22.6023276,
+        120.3022655
+      ],
+      "address": "前鎮區鎮北里成功二路（觀光局園區參考位置）",
+      "precision": "觀光局 Google Maps 園區參考點，非精確入口或廁所位置",
+      "locationSource": "https://khh.travel/zh-tw/attractions/detail/1334/",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapsLink": "https://www.google.com/maps/place/22.6023276,120.3022655?hl=zh-tw",
+      "venueHours": "戲水區：4/1–10/31，每週五至日 10:00–12:00、14:00–19:00；週一至四休園",
+      "venueSource": "https://khh.travel/zh-tw/attractions/detail/1334/",
+      "venueCheckedAt": "2026-11-25",
+      "venueNote": "園內有更衣間、公廁與戶外沖洗區。此時段為戲水園區公告，不保證區外步道或廁所全年可借用；11 月至隔年 3 月不在公告開放季。"
     },
     {
       "poiId": "terminal",
@@ -680,7 +805,15 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-5",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "arrival": {
+        "label": "捷運 R13 凹子底站 1 號出口",
+        "description": "網站建議由南側 1 號出口出站，往博愛二路與愛河之心方向。官方列龍華國小、輕軌 C24 順行方向，附電梯與廁所圖示。Google 搜尋仍回傳整站，故未將站中心升級為出口座標。",
+        "source": "https://www.krtc.com.tw/Guide/station_info?id=e667c52c74cc4b0db9f7ad4b2ce53cdb",
+        "checkedAt": "2026-11-25",
+        "precision": "出口身分已核對；地圖為車站位置",
+        "coordinates": null
+      }
     },
     {
       "poiId": "heart",
@@ -707,6 +840,64 @@
       "locationSource": "qr-5",
       "checkedAt": "2026-11-25",
       "entranceVerified": false
+    },
+    {
+      "address": "台塑王氏昆仲公園，日月私饗旁（間數較多）",
+      "precision": "官方位置連結指向設施，非測量入口",
+      "checkedAt": "2026-11-25",
+      "entranceVerified": false,
+      "poiId": "park-g-toilet",
+      "name": "台塑公園 G 棟公廁",
+      "coordinates": [
+        22.6032925,
+        120.3095295
+      ],
+      "locationSource": "https://www.formosawangbrotherspark.com/參觀須知",
+      "mapsLink": "https://maps.app.goo.gl/MSo23mcoeJdqg9qX8"
+    },
+    {
+      "address": "台塑王氏昆仲公園，王創辦人辦公室旁",
+      "precision": "官方位置連結指向設施，非測量入口",
+      "checkedAt": "2026-11-25",
+      "entranceVerified": false,
+      "poiId": "park-office-toilet",
+      "name": "台塑公園公廁（創辦人辦公室旁）",
+      "coordinates": [
+        22.6031087,
+        120.3081062
+      ],
+      "locationSource": "https://www.formosawangbrotherspark.com/參觀須知",
+      "mapsLink": "https://maps.app.goo.gl/MVpj494QFwBH8Wwz7"
+    },
+    {
+      "address": "中山三路 150 號地下一層，依站內指標",
+      "precision": "4 號出口參考點，非地下廁所門口",
+      "checkedAt": "2026-11-25",
+      "entranceVerified": false,
+      "poiId": "shihjia-toilet",
+      "name": "獅甲站廁所（4 號出口資訊）",
+      "coordinates": [
+        22.6064106,
+        120.3074988
+      ],
+      "locationSource": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66"
+    },
+    {
+      "address": "前鎮區中華五路 789 號",
+      "precision": "官方地址與樓層已核對；未指定精確出入口",
+      "checkedAt": "2026-11-25",
+      "entranceVerified": false,
+      "poiId": "dreammall",
+      "name": "夢時代購物中心公廁",
+      "coordinates": null,
+      "locationSource": "https://www.dreammall.com.tw/service/service",
+      "mapsLink": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A2%E6%99%82%E4%BB%A3%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83%20%E9%AB%98%E9%9B%84%E5%B8%82%E5%89%8D%E9%8E%AE%E5%8D%80%E4%B8%AD%E8%8F%AF%E4%BA%94%E8%B7%AF789%E8%99%9F",
+      "venueHours": "週一至四 11:00–22:00；週五／假日前一天 11:00–22:30；週六／連續假日 10:30–22:30；週日／假日 10:30–22:00",
+      "venueSource": "https://www.dreammall.com.tw/service/service",
+      "phone": "07-813-5678",
+      "venueNote": "商場與迪卡儂亞灣店為不同場地，不能互套設施。",
+      "venueCheckedAt": "2026-11-25",
+      "addressVerified": true
     }
   ],
   "routes": [
@@ -2571,7 +2762,18 @@
       ],
       "geometryReview": "候選路網，待逐段比對原圖",
       "turnaroundIds": [],
-      "transport": "圖卡以捷運獅甲站／台塑王氏昆仲公園為起點，哈瑪星站為終點，未指定集合出口。"
+      "transport": "圖卡以捷運獅甲站／台塑王氏昆仲公園為起點，哈瑪星站為終點，未指定集合出口。",
+      "routeAudit": {
+        "outbound": "依 1→10 編號：獅甲→凱旋→夢時代／迪卡儂→展覽館→高流→駁二→福泉冰店→鼓山輪渡站→中山大學隧道口→哈瑪星。",
+        "inbound": "本線為單程，沒有圖卡指定回程；可由哈瑪星站搭捷運接駁。",
+        "turn": "無折返點；前金運動中心、泓荒之力是周邊資源，不是必經節點。",
+        "finding": "圖卡 10.8 公里；沒有 QR 原始完整軌跡，不以候選路網替換。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-0"
+        ],
+        "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      }
     },
     {
       "routeId": "harbor-5",
@@ -3624,7 +3826,19 @@
       "turnaroundIds": [
         "coral"
       ],
-      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
+      "transport": "由輕軌 C8 高雄展覽館站沿新光路步行約 300 公尺至總館；本站以一樓廣場作集合參考，原圖未指定精確集合點。",
+      "routeAudit": {
+        "outbound": "總館沿林森四路向南，經復興三路、啟聖街方向至展覽館與星光水岸，再沿海邊路經旅運中心、鯨魚堤岸到珊瑚礁群。",
+        "inbound": "珊瑚礁群折返後沿海邊路南返，再由新光路回總館；不重跑去程南側繞行。",
+        "turn": "珊瑚礁群；圖卡 5 公里已包含去回程，不能加倍。",
+        "finding": "QR Google 現行完整圈約 5.3 公里；與圖卡 5 公里分開保存。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-1",
+          "qr-0"
+        ],
+        "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      }
     },
     {
       "routeId": "orange-2",
@@ -3653,7 +3867,7 @@
         "library"
       ],
       "type": "分支往返",
-      "directions": "共用總館至高雄橋前段，續往中正橋方向、河東路綠園道折返。圖卡折返標示 2.5 公里，未確認為分支全程；精確回程街側待核對。",
+      "directions": "總館沿新光路、海邊路，經展覽館、旅運中心、鯨魚堤岸、珊瑚礁群至高雄橋；分岔後沿河東路向中正橋方向。 依圖卡橘色箭頭由河東路南返，接海邊路、新光路回總館；不繞駁二大港橋。",
       "qrIds": [
         "qr-1",
         "qr-2"
@@ -5097,7 +5311,20 @@
       "turnaroundIds": [
         "hedong"
       ],
-      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
+      "transport": "由輕軌 C8 高雄展覽館站沿新光路步行約 300 公尺至總館；本站以一樓廣場作集合參考，原圖未指定精確集合點。",
+      "routeAudit": {
+        "outbound": "總館沿新光路、海邊路，經展覽館、旅運中心、鯨魚堤岸、珊瑚礁群至高雄橋；分岔後沿河東路向中正橋方向。",
+        "inbound": "依圖卡橘色箭頭由河東路南返，接海邊路、新光路回總館；不繞駁二大港橋。",
+        "turn": "圖卡標「河東路綠園道 2.5km」；QR 終點為中正橋，並含河東路綠園道途經點。折返區可辨認，兩來源未指定同一精確折返地磚。",
+        "finding": "圖卡整體 5–6 公里，2.5 公里印在折返點旁；QR Google 3.2 公里是單程，不能直接當完整支線，也不能以乘二值宣稱正式總長。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-2",
+          "qr-1",
+          "qr-2"
+        ],
+        "status": "來源範圍／里程不一致，已具體標示"
+      }
     },
     {
       "routeId": "orange-2",
@@ -5128,7 +5355,7 @@
         "library"
       ],
       "type": "分支往返",
-      "directions": "高雄橋分岔後沿真愛路至駁二、大港橋折返，再回總館。圖卡折返標示 3 公里，未確認為分支全程；不須跑完另一支線。",
+      "directions": "共用前段至高雄橋後沿真愛路往駁二大義與大港橋；不跑河東路綠園道支線。 依圖卡橘色箭頭由真愛路回高雄橋，再沿海邊路、新光路回總館。",
       "qrIds": [
         "qr-1",
         "qr-3"
@@ -6784,7 +7011,20 @@
       "turnaroundIds": [
         "greatbridge"
       ],
-      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
+      "transport": "由輕軌 C8 高雄展覽館站沿新光路步行約 300 公尺至總館；本站以一樓廣場作集合參考，原圖未指定精確集合點。",
+      "routeAudit": {
+        "outbound": "共用前段至高雄橋後沿真愛路往駁二大義與大港橋；不跑河東路綠園道支線。",
+        "inbound": "依圖卡橘色箭頭由真愛路回高雄橋，再沿海邊路、新光路回總館。",
+        "turn": "圖卡折返點為大港橋，標 3km；QR 實際終點是駁二大義站附近，沒有包含橋上完整折返。",
+        "finding": "圖卡整體 5–6 公里；QR Google 3.3 公里只到大義站。本站保留大港橋節點，但不把這個 QR 稱為完整往返路線。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-2",
+          "qr-1",
+          "qr-3"
+        ],
+        "status": "來源範圍／里程不一致，已具體標示"
+      }
     },
     {
       "routeId": "central-52",
@@ -8259,7 +8499,19 @@
       "turnaroundIds": [
         "central"
       ],
-      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
+      "transport": "由輕軌 C8 高雄展覽館站沿新光路步行約 300 公尺至總館；本站以一樓廣場作集合參考，原圖未指定精確集合點。",
+      "routeAudit": {
+        "outbound": "總館沿新光路、海邊路、河東路，右轉民生二路至中央公園一帶。",
+        "inbound": "依圖卡依序右轉中華三路、左轉五福三路、右轉中山二路、右轉新光路回總館。去回程不同，不原路折返。",
+        "turn": "中央公園；QR 途經點在高雄文學館一帶，並非捷運中央公園站入口。",
+        "finding": "圖卡 5.2 公里；QR Google 現行整圈約 6.0 公里。保留差異，不修改圖卡數字。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-3",
+          "qr-4"
+        ],
+        "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      }
     },
     {
       "routeId": "heart-5",
@@ -9486,7 +9738,19 @@
       "turnaroundIds": [
         "vision"
       ],
-      "transport": "圖卡以捷運凹子底站 R13 起訖，出口與集合位置仍待核對。"
+      "transport": "網站建議由南側 1 號出口出站，往博愛二路與愛河之心方向。官方列龍華國小、輕軌 C24 順行方向，附電梯與廁所圖示。Google 搜尋仍回傳整站，故未將站中心升級為出口座標。",
+      "routeAudit": {
+        "outbound": "凹子底沿博愛二路往愛河之心，再沿河道西行，經龍心橋、盤花公園一帶到願景橋。",
+        "inbound": "依圖卡回程箭頭沿河東返至愛河之心，再沿博愛二路北返凹子底；未證實每段去回程皆同一街側。",
+        "turn": "願景橋。QR 約 2.5 公里只包含去程；圖卡 5 公里為往返標示。",
+        "finding": "QR 去程約 2.5 公里，不能把未驗證的反向規劃當實測回程。自行車道名稱不代表全線跑步或無障礙認證。",
+        "checkedAt": "2026-11-25",
+        "sourceIds": [
+          "card-4",
+          "qr-5"
+        ],
+        "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      }
     }
   ],
   "resources": [
@@ -9662,17 +9926,24 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "google-maps",
+              "url": "https://www.google.com/maps/search/?api=1&query=%E8%BF%AA%E5%8D%A1%E5%84%82%20%E4%BA%9E%E7%81%A3%E5%BA%97%20%E6%99%82%E4%BB%A3%E5%A4%A7%E9%81%9333%E8%99%9F",
+              "scope": "僅核對指定店家營業時段，不證明免費或不需消費",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
           "fee": null,
-          "hours": null,
+          "hours": "店面營業：每日 10:00–22:00；個別服務的提供時段未公布",
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         }
-      ]
+      ],
+      "verificationNote": "原圖同列夢時代與迪卡儂；已另建夢時代官方公廁紀錄，不能因此確認迪卡儂店內也有相同設施。"
     },
     {
       "poiId": "exhibition",
@@ -9692,15 +9963,22 @@
               "note": "官網飲水設備說明涉及主辦單位工作空間，不能據此宣稱一般跑者可使用。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.kecc.com.tw/zh-tw/esg",
+              "scope": "官方確認設施設置；未公布的條件不推論",
+              "checkedAt": "2026-11-25"
             }
           ],
-          "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "status": "partial",
+          "fee": "官方未公布跑者補水費用",
+          "hours": "依展會開放與所在區域管制；未公布獨立飲水服務時段",
+          "purchaseRequired": "未公布是否須持展會門票",
+          "restrictions": "官網 ESG 確認館內設置飲水機；未公布一般跑者可使用的樓層與時段。東門服務中心可協助詢問；辦公室專用飲水設備不可視為公共補水。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25",
+          "existenceVerified": true
         },
         {
           "type": "toilet",
@@ -9771,15 +10049,28 @@
               "note": "場館開放資訊不能直接套用到個別廁所的開放時間。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://kpmc.com.tw/newslist/accessible_facilities/",
+              "scope": "官方確認設施設置；未公布的條件不推論",
+              "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://kpmc.com.tw/faq/",
+              "scope": "戶外全天候開放；音浪塔大廳週二至日 10:00–22:00，週一休館",
+              "checkedAt": "2026-11-25"
             }
           ],
-          "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "status": "partial",
+          "fee": "官方未另列公廁使用費",
+          "hours": "戶外園區全天候開放；不代表所有館內廁所 24 小時開放",
+          "purchaseRequired": "戶外場域與館內活動管制不同，館內依現場規定",
+          "restrictions": "官方列珊瑚礁群、鯨魚堤岸、海豚步道、音浪塔等有廁所。本點位為珊瑚礁群參考位置，請依現地標示尋找入口。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25",
+          "existenceVerified": true
         }
       ],
       "verificationNote": "場館開放資訊不能直接套用到個別廁所的開放時間。",
@@ -9804,19 +10095,25 @@
               "note": "官網已核對五號店地址為大義倉庫 C8-20；未取得跑者補水服務條件。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.ruhcafe.com/pages/ruhcafe-no5",
+              "scope": "僅核對場館營業時段與地址；不證明圖卡服務今日仍可借用",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "fee": "未公布補水費用",
+          "hours": "場館營業：週一至五 13:00–18:00；週六、日 11:00–19:00；此服務是否全時段提供未公布",
+          "purchaseRequired": "官方未公布跑者單獨借用條件",
+          "restrictions": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         }
       ],
-      "verificationNote": "官網已核對五號店地址為大義倉庫 C8-20；未取得跑者補水服務條件。",
-      "referenceUrl": "https://www.ruhcafe.com/pages/store-guidance",
+      "verificationNote": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
+      "referenceUrl": "https://www.ruhcafe.com/pages/ruhcafe-no5",
       "reviewedAt": "2026-11-25"
     },
     {
@@ -9831,15 +10128,21 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "google-maps",
+              "url": "https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97%20%E6%BF%B1%E6%B5%B7%E4%B8%80%E8%B7%AF91%E8%99%9F%20%E9%AB%98%E9%9B%84",
+              "scope": "僅核對指定店家營業時段，不證明免費或不需消費",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
           "fee": null,
-          "hours": null,
+          "hours": "店面營業：週一、二、四至日 10:30–22:30；週三休息；個別服務的提供時段未公布",
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         }
       ]
     },
@@ -9855,15 +10158,23 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "official",
+              "url": "https://www.tbkc.gov.tw/Achievement/MayorAchievement/Construction?id=67ea10f5-8571-4cd5-acde-60449ea7552f",
+              "scope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核",
+              "checkedAt": "2026-11-25"
             }
           ],
-          "status": "pending",
-          "fee": null,
-          "hours": null,
+          "status": "partial",
+          "fee": "來源未公布公廁使用費",
+          "hours": "來源未公布公廁獨立開放時段",
           "purchaseRequired": null,
-          "restrictions": null,
+          "restrictions": "鼓山輪渡站公廁，含親子設備；交通局建設紀錄日期 2020-09-25，開放時段與收費未另列，不能用船班時刻推定。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25",
+          "existenceVerified": true,
+          "verificationScope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核"
         }
       ]
     },
@@ -9943,15 +10254,21 @@
               "note": "官方提供收費與開放時間頁；跑者借用淋浴、更衣及補水條件仍待確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.cianjin-sc.com/toll.html",
+              "scope": "僅核對場館營業時段與地址；不證明圖卡服務今日仍可借用",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "fee": "未公布此服務單獨借用價格；健身房／泳池票價不可替代",
+          "hours": "場館營業：每日 09:00–23:00（中心服務時段）；此服務是否全時段提供未公布",
+          "purchaseRequired": "官方未公布跑者單獨借用條件",
+          "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         },
         {
           "type": "toilet",
@@ -9966,15 +10283,21 @@
               "note": "官方提供收費與開放時間頁；跑者借用淋浴、更衣及補水條件仍待確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.cianjin-sc.com/toll.html",
+              "scope": "僅核對場館營業時段與地址；不證明圖卡服務今日仍可借用",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "fee": "未公布此服務單獨借用價格；健身房／泳池票價不可替代",
+          "hours": "場館營業：每日 09:00–23:00（中心服務時段）；此服務是否全時段提供未公布",
+          "purchaseRequired": "官方未公布跑者單獨借用條件",
+          "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         },
         {
           "type": "shower",
@@ -9989,15 +10312,21 @@
               "note": "官方提供收費與開放時間頁；跑者借用淋浴、更衣及補水條件仍待確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.cianjin-sc.com/toll.html",
+              "scope": "僅核對場館營業時段與地址；不證明圖卡服務今日仍可借用",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "fee": "未公布此服務單獨借用價格；健身房／泳池票價不可替代",
+          "hours": "場館營業：每日 09:00–23:00（中心服務時段）；此服務是否全時段提供未公布",
+          "purchaseRequired": "官方未公布跑者單獨借用條件",
+          "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         },
         {
           "type": "changing",
@@ -10012,18 +10341,24 @@
               "note": "官方提供收費與開放時間頁；跑者借用淋浴、更衣及補水條件仍待確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.cianjin-sc.com/toll.html",
+              "scope": "僅核對場館營業時段與地址；不證明圖卡服務今日仍可借用",
+              "checkedAt": "2026-11-25"
             }
           ],
           "status": "pending",
-          "fee": null,
-          "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "fee": "未公布此服務單獨借用價格；健身房／泳池票價不可替代",
+          "hours": "場館營業：每日 09:00–23:00（中心服務時段）；此服務是否全時段提供未公布",
+          "purchaseRequired": "官方未公布跑者單獨借用條件",
+          "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": "2026-11-25"
         }
       ],
-      "verificationNote": "官方提供收費與開放時間頁；跑者借用淋浴、更衣及補水條件仍待確認。",
+      "verificationNote": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
       "referenceUrl": "https://www.cianjin-sc.com/toll.html",
       "reviewedAt": "2026-11-25"
     },
@@ -10116,6 +10451,302 @@
           "restrictions": null,
           "operator": null,
           "lastCheckedAt": null
+        }
+      ],
+      "verificationNote": "已由店家官網確認中華四路 38 號與聯絡電話；官網場館介紹未列跑者單獨借用浴廁、寄物或補水價格，不能把教室租金當淋浴費。",
+      "referenceUrl": "https://honhuangpower.wixsite.com/honhuangpower"
+    },
+    {
+      "resourceId": "official-park-g-toilet",
+      "poiId": "park-g-toilet",
+      "nearPoiIds": [
+        "shihjia"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "園區戶外全年開放；未另公布公廁逐日時段，非 24 小時承諾",
+          "purchaseRequired": "官方明列供市民朋友使用",
+          "restrictions": "日月私饗旁（間數較多）。請走園區步道；不得騎乘自行車進入，牽行可。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://www.formosawangbrotherspark.com/參觀須知",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-park-office-toilet",
+      "poiId": "park-office-toilet",
+      "nearPoiIds": [
+        "shihjia"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "園區戶外全年開放；未另公布公廁逐日時段，非 24 小時承諾",
+          "purchaseRequired": "官方明列供市民朋友使用",
+          "restrictions": "王創辦人辦公室旁。請走園區步道；不得騎乘自行車進入，牽行可。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://www.formosawangbrotherspark.com/參觀須知",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-coral",
+      "poiId": "coral",
+      "nearPoiIds": [
+        "coral"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "戶外全天候開放；館內廁所是否隨活動管制請洽高流 07-5218012",
+          "purchaseRequired": "官方未另列是否需消費",
+          "restrictions": "高流官方列有無障礙廁所；入口依現場標示，本定位為場域參考點。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://kpmc.com.tw/newslist/accessible_facilities/",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-whale",
+      "poiId": "whale",
+      "nearPoiIds": [
+        "whale"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "戶外全天候開放；館內廁所是否隨活動管制請洽高流 07-5218012",
+          "purchaseRequired": "官方未另列是否需消費",
+          "restrictions": "高流官方列有無障礙廁所；入口依現場標示，本定位為場域參考點。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://kpmc.com.tw/newslist/accessible_facilities/",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-library",
+      "poiId": "library",
+      "nearPoiIds": [
+        "library"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "週二至日 10:00–22:00；國定假日 10:00–17:00；週一例行休館，特殊開休館依當日公告",
+          "purchaseRequired": "官方未另列是否需消費",
+          "restrictions": "高雄旅遊網列有公廁。一般開館時間已核對；廁所樓層、臨時維護及借用條件以館方指示為準。導覽費 100 元不是廁所費。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://khh.travel/zh-tw/attractions/detail/66/",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.ksml.edu.tw/content/index.aspx?Parser=1,3,45,27",
+              "scope": "總館開館時段；不是廁所逐間保證",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-aozihdi",
+      "poiId": "aozihdi",
+      "nearPoiIds": [
+        "aozihdi"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "依車站實際開站時間；官方此頁未列公廁獨立時間",
+          "purchaseRequired": "官方出入口頁未說明閘門內外與借用條件，請洽站務人員",
+          "restrictions": "官方 1 號出口資訊附廁所圖示；進入站內依指標尋找，不將地面出口當廁所門口。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Guide/station_info?id=e667c52c74cc4b0db9f7ad4b2ce53cdb",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-shihjia-toilet",
+      "poiId": "shihjia-toilet",
+      "nearPoiIds": [
+        "shihjia"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "依車站開站及現場開放情形；未另公布公廁時段",
+          "purchaseRequired": "官方未另列是否需消費",
+          "restrictions": "官方 4 號出口資訊附廁所圖示；與建議集合的 1 號出口不同。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-dreammall",
+      "poiId": "dreammall",
+      "nearPoiIds": [
+        "decathlon"
+      ],
+      "relation": "官方列出的沿途場館設施；依文字入口指引前往，不宣稱零繞路",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "官方未另列此服務使用費",
+          "hours": "週一至四 11:00–22:00；週五／假日前一天 11:00–22:30；週六／連續假日 10:30–22:30；週日／假日 10:30–22:00",
+          "purchaseRequired": "官方未另列是否需消費",
+          "restrictions": "多功能廁所：B1–7F 近停車場出入口通道、8F 顧客服務中心通道、RF 恐龍探索樂園旁。此為夢時代設施，並非迪卡儂店內廁所。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://www.dreammall.com.tw/service/service",
+              "scope": "設施設置及位置",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "resourceId": "official-starlight",
+      "poiId": "starlight",
+      "nearPoiIds": [
+        "starlight"
+      ],
+      "relation": "路線 1 圖卡節點的園區設施；季節性開放，非全年補給站",
+      "services": [
+        {
+          "type": "toilet",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "此官方頁未公布單獨借用價格",
+          "hours": "戲水區：4/1–10/31，每週五至日 10:00–12:00、14:00–19:00；週一至四休園",
+          "purchaseRequired": "官方未說明跑者單獨借用條件",
+          "restrictions": "依園區當日開放；非開放季不可預期能使用。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://khh.travel/zh-tw/attractions/detail/1334/",
+              "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "type": "changing",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "此官方頁未公布單獨借用價格",
+          "hours": "戲水區：4/1–10/31，每週五至日 10:00–12:00、14:00–19:00；週一至四休園",
+          "purchaseRequired": "官方未說明跑者單獨借用條件",
+          "restrictions": "依園區當日開放；非開放季不可預期能使用。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://khh.travel/zh-tw/attractions/detail/1334/",
+              "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
+              "checkedAt": "2026-11-25"
+            }
+          ]
+        },
+        {
+          "type": "shower",
+          "status": "partial",
+          "existenceVerified": true,
+          "fee": "此官方頁未公布單獨借用價格",
+          "hours": "戲水區：4/1–10/31，每週五至日 10:00–12:00、14:00–19:00；週一至四休園",
+          "purchaseRequired": "官方未說明跑者單獨借用條件",
+          "restrictions": "官方列的是戶外沖洗區，不是有熱水的室內淋浴。非開放季不可預期能使用。",
+          "lastCheckedAt": "2026-11-25",
+          "evidence": [
+            {
+              "kind": "official",
+              "url": "https://khh.travel/zh-tw/attractions/detail/1334/",
+              "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
+              "checkedAt": "2026-11-25"
+            }
+          ]
         }
       ]
     }
@@ -18709,5 +19340,11 @@
       "status": "共用節點順序已整理，分段幾何待核對"
     }
   ],
-  "nearbyRule": "目前僅列原圖指名或共用節點的資源，未以直線距離推論可順路使用；跨河、出入口與使用條件待核對。"
+  "nearbyRule": "目前僅列原圖指名或共用節點的資源，未以直線距離推論可順路使用；跨河、出入口與使用條件待核對。",
+  "verificationPolicy": {
+    "partial": "官方已確認設施存在，部分使用條件未公布；不等於現場稽核或免費承諾",
+    "verified": "設施與各項條件均有明確資料",
+    "pending": "圖卡線索，尚無足夠現況依據",
+    "venueHours": "場館營業時間與個別服務時段分開；不推定室外全天開放即室內廁所全天開放"
+  }
 }

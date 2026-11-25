@@ -145,3 +145,9 @@ python -m http.server 8000
 ### 發布
 
 本專案為原生靜態網站，無編譯步驟。GitHub Pages 沿用 main 根目錄發布；Actions 執行 validate 與 npm test。提交並推送 main 後等 Pages 部署完成，使用正式網址重新測試子頁重新整理。一般預覽可在專案目錄執行 `python -m http.server 8784`，開啟 `http://localhost:8784/#/map`。原圖約 25 MB，只在詳情載入；後續可產生有來源註明的預覽縮圖，原圖仍需保留。
+
+### 官方服務與入口查核資料（2026-11-25）
+
+詳見 [路線與服務再查核](docs/route-service-verification.md)。`pois.arrival` 保存入口名稱、導航座標及精度，`venueHours` 與個別 `services.hours` 分開。`existenceVerified: true` 只表示官方有設施設置依據；仍有未公布條件時使用 `status: partial`，不得自動提升為 `verified`。`evidence` 逐筆記錄 URL、scope、checkedAt；Google 商家時段標 `kind: google-maps`，不得標成店家承諾。`nearPoiIds` 使同一份設施資料可被相關路線共用。`routeAudit` 記錄去回程、折返與來源差異；`qr.distanceObservation` 是當次 Google 規劃，不是原圖里程或實測值。
+
+更新後執行 `npm test`、`npm run validate`、`npm run test:browser`。新增設施須檢查篩選計數、清單和標記同步、未定位地址導航，並檢查不可把場館票價當浴廁借用費。

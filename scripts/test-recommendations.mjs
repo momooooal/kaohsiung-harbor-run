@@ -13,3 +13,12 @@ for(const p of d.resources){assert(poi.has(p.poiId));for(const s of p.services){
 assert.equal(mapsUrl({coordinates:null}),null);assert(mapsUrl(poi.get('ruh5'),true).includes('travelmode=walking'));assert(mapsUrl(poi.get('ruh5')).includes('/search/'));assert.notEqual(mapsUrl(poi.get('ruh5')),mapsUrl(poi.get('ruh5'),true));
 assert.equal(JSON.parse(fs.readFileSync(new URL('../data/routes.json',import.meta.url))).find(r=>r.id==='bay').activityDistanceLabel,'活動路線約 4.5 公里');
 console.log('6 variants / 5 original cards / 6 source QR / services / URLs / historical separation PASS');
+
+// Verification is scoped: official venue hours cannot certify public water access.
+for(const r of d.routes){assert(r.routeAudit.outbound);assert(r.routeAudit.inbound);assert(r.routeAudit.turn);assert(r.routeAudit.checkedAt);}
+for(const r of d.resources)for(const s of r.services)if(s.existenceVerified){assert(s.evidence.some(e=>e.kind==='official'&&e.url));assert(s.lastCheckedAt);assert.notEqual(s.status,'verified');}
+assert.equal(poi.get('park-g-toilet').coordinates[0],22.6032925);
+assert.equal(poi.get('dreammall').coordinates,null);
+assert.equal(d.resources.find(r=>r.poiId==='ruh5').services[0].status,'pending');
+assert.equal(d.qr.find(q=>q.id==='qr-2').distanceObservation.km,3.2);
+assert.equal(d.routes.find(r=>r.variantId==='love-21').sourceDistance.label,'圖卡整體 5–6 公里');

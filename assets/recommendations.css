@@ -3,3 +3,8 @@
 .run-map-column,.run-list-column{min-width:0}.run-image-scroll{scroll-behavior:auto;scroll-padding:30px}.run-image-wrap>img{pointer-events:none}.run-hotspot{z-index:1;scroll-margin:100px 30px}.run-workspace{scroll-margin-top:90px}
 @media(max-width:760px){.run-list-only #run-geo-panel,.run-list-only #run-original-panel,.run-list-only #run-selection{display:none!important}}.run-arrow{font-size:24px;font-weight:bold;color:#174b48;text-shadow:0 0 3px white}
 .run-map .leaflet-popup-content{min-width:160px;max-width:240px;line-height:1.6}
+
+/* Evidence is readable at phone width without opening the report. */
+.run-arrival,.run-audit,.run-venue{padding:1.25rem;background:#edf5f2;border-left:4px solid #167e76;margin:1rem 0;overflow-wrap:anywhere}.run-audit dl{display:grid;grid-template-columns:7rem 1fr;gap:.9rem 1rem}.run-audit dt{font-weight:700}.run-audit dd{margin:0}.run-venue .btn{margin:.4rem .3rem .4rem 0}#run-selection dd{overflow-wrap:anywhere}#run-selection details{padding:.8rem 0;border-bottom:1px solid #cddedb}#run-selection summary{cursor:pointer;min-height:44px}#run-selection dd p{margin:.5rem 0}@media(max-width:600px){.run-audit dl{grid-template-columns:1fr;gap:.35rem}.run-audit dd{margin-bottom:.85rem}.run-arrival,.run-audit,.run-venue{padding:1rem}}
+
+#run-selection,.run-audit{scroll-margin-top:90px}
