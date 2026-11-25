@@ -88,16 +88,6 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
   hall.lane(-4.5,-22,86,5,0x92918a);
   const pier=viewpoint(22.61817,120.28518,294);
   for(let f=-10;f<40;f+=6){pier.part(-4.8,f,.65,.88,1.3,5.6,0x8a705e);pier.part(-4.8,f,1.35,.87,.25,5.6,0x884e57)}
-  const ice=viewpoint(22.61973,120.27061,261);
-  for(const side of [-1,1])for(let f=-12;f<24;f+=7){
-    ice.part(side*5.6,f,3.1,1.6,.15,5.8,side<0?0xa78960:0x996258);
-    ice.part(side*5.1,f,2.89,.11,.38,5.8,side<0?0xad926d:0xbf8a7e);
-    ice.part(side*5.9,f,1.5,.16,3,.17,0x928b7e);
-  }
-  const ferry=viewpoint(22.61972,120.27007,346);
-  for(const d of [-3,-1.5,0,1.5,3])ferry.lane(d,3,4.5,.66,0xe4e0cc,.084);
-  ferry.lane(0,3,4.5,8,0x6b9d89,.08);
-  ferry.part(-10,7,3.6,8,.47,14,0x408d9e);
   const tunnel=viewpoint(22.62398,120.26998,124);
   tunnel.lane(-4,-14,50,2.1,0xa7755c);
   for(let f=-9;f<28;f+=6){tunnel.part(-5.8,f,3.12,2.2,.24,5.92,0xb5a08b);tunnel.part(-5,f,1.54,.21,3.08,.23,0xaaa394)}

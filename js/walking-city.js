@@ -1,3 +1,4 @@
+import {ferryStreet,detailedFerryBuildings} from './ferry-street.js';
 import {walkingScenery} from './walking-scenery.js';
 import environment from '../data/walking-environment.js';
 import legs from '../data/walking-legs.js';
@@ -30,6 +31,7 @@ export function walkingCity(start=0){
   const profiles=new Map(environment.profiles.map(([p,type])=>[p.join(),type]));
   const buildings=blocks.buildings.concat(environment.mappedBuildings);
   buildings.forEach(([h,points,kind],i)=>{
+    if(detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
     if(parkHouse)h=3.45;
     style=0;polygon(points,h,roof);
@@ -68,6 +70,7 @@ export function walkingCity(start=0){
       }phase=(phase+length)%10;
     });
   }
+  const releaseFerry=ferryStreet(scene);
   const scenery=walkingScenery(scene,{polygon,ribbon,tint});
   const path=[],dist=[],ends=[],names=[],guide=tint(0xf7bb64);
   let total=0;
@@ -117,7 +120,7 @@ export function walkingCity(start=0){
   };
   const streetMesh=new THREE.Mesh(geometry,m);streetMesh.castShadow=streetMesh.receiveShadow=true;scene.add(streetMesh);
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));const paving=new THREE.TextureLoader().load('assets/surfaces/concrete_pavement_02.jpg');paving.encoding=THREE.sRGBEncoding;paving.wrapS=paving.wrapT=THREE.RepeatWrapping;paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
-  const labels=[];
+  const labels=[],markers=[];
   stops.forEach(([name],i)=>{
     if(i===5)return; // The second coffee stop occupies the same physical site.
     const [x,z]=sample(i?ends[i-1]:0);
@@ -126,7 +129,7 @@ export function walkingCity(start=0){
     ctx.fillStyle='#fff8e3';ctx.font='bold 37px sans-serif';ctx.textAlign='center';
     ctx.fillText(name,256,61,482);
     const map=new THREE.CanvasTexture(canvas);labels.push(map);
-    const sign=new THREE.Sprite(new THREE.SpriteMaterial({map}));sign.position.set(x,4,z);sign.scale.set(8,1.5,1);scene.add(sign);
+    const sign=new THREE.Sprite(new THREE.SpriteMaterial({map}));sign.position.set(x,4,z);sign.scale.set(8,1.5,1);scene.add(sign);markers.push(sign);
   });
   let at=start?ends[start-1]:0,segment=0;
   function sample(distance){
@@ -135,11 +138,11 @@ export function walkingCity(start=0){
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
+  return {scene,walk:true,showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
     at=Math.max(0,Math.min(total,at+delta));
     const [x,z,i]=sample(at),f=sample(Math.min(total,at+3.5)),b=sample(Math.max(0,at-.5));
     pos.set(x,0,z);scenery.setCenter(x,z);sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
     const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
     return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
-  },dispose(){sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
+  },dispose(){releaseFerry();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
 }

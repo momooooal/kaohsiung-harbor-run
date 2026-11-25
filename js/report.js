@@ -122,6 +122,12 @@ export function ride(short=false){
  panel.innerHTML='<strong>沿途實景</strong><p>在 Google 街景查看目前位置與朝向。返程後可接續原本的步行進度。</p><div class="bay-actions"><a class="btn outline" target="_blank" rel="noopener">開啟目前位置的 Google 街景 ↗</a><button type="button" class="btn dark" hidden></button><button type="button" class="btn outline" hidden>回到十站步行</button></div>';
  stage.closest('.game-shell').after(panel);
  const panorama=panel.querySelector('a'),[enter,back]=panel.querySelectorAll('button');
+ const hintLabel=document.createElement('label');hintLabel.style.display='inline-flex';hintLabel.style.alignItems='center';hintLabel.style.minHeight='44px';
+ hintLabel.innerHTML='<input type="checkbox" id="walk-place-hints" checked>顯示步行地名提示';
+ panel.prepend(hintLabel);
+ const hintToggle=hintLabel.querySelector('input'),overlay=stage.querySelector('.game-overlay');
+ function syncPlaceHints(){const hidden=local?.walk && !hintToggle.checked;overlay.style.visibility=hidden?'hidden':'';if(local?.walk)local.showPlaceHints(!hidden);hintLabel.hidden=!local?.walk;hintLabel.style.display=local?.walk?'inline-flex':'none'}
+ hintToggle.onchange=syncPlaceHints;
  const realView=panoramaDialog();panel.append(realView.dialog);
  const realButton=document.createElement('button');realButton.type='button';realButton.className='btn dark';panel.querySelector('.bay-actions').prepend(realButton);
  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -135,9 +141,9 @@ export function ride(short=false){
  function relocate(start=0){
  walkHeading=null;
  resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
- if(local){scene.add(actor);local.dispose();local=null}
+ if(local){scene.add(actor);local.dispose();local=null}syncPlaceHints();
  if(destination.value==='itinerary'){
-   local=walkingCity(Number.isInteger(start)?start:0);local.scene.add(actor);
+   local=walkingCity(Number.isInteger(start)?start:0);local.scene.add(actor);syncPlaceHints();
    travel.value='guided';free=false;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
  }
  if(destination.value.startsWith('city-')){
