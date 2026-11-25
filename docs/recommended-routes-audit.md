@@ -71,3 +71,5 @@
 - 圖卡原圖、照片及標誌的公開重製授權範圍；保留署名，不宣稱本網站為官方原圖發布者。
 - Android / iOS 實機導航、Google Maps App 途經點行為。
 - 候選路網不構成正式跟跑導航；尚未逐段人工核對全部幾何。
+
+遠端開啟中的 [PR #1](https://github.com/momooooal/kaohsiung-harbor-run/pull/1) 保留，未自動合併或關閉。

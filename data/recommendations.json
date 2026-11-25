@@ -2569,7 +2569,9 @@
       "segmentIds": [
         "harbor-108-out"
       ],
-      "geometryReview": "候選路網，待逐段比對原圖"
+      "geometryReview": "候選路網，待逐段比對原圖",
+      "turnaroundIds": [],
+      "transport": "圖卡以捷運獅甲站／台塑王氏昆仲公園為起點，哈瑪星站為終點，未指定集合出口。"
     },
     {
       "routeId": "harbor-5",
@@ -3618,7 +3620,11 @@
         "harbor-5-out",
         "harbor-5-return"
       ],
-      "geometryReview": "候選路網，待逐段比對原圖"
+      "geometryReview": "候選路網，待逐段比對原圖",
+      "turnaroundIds": [
+        "coral"
+      ],
+      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
     },
     {
       "routeId": "orange-2",
@@ -5087,7 +5093,11 @@
         "love-21-return"
       ],
       "geometryReview": "候選路網，待逐段比對原圖",
-      "sharedFrontId": "orange2-common"
+      "sharedFrontId": "orange2-common",
+      "turnaroundIds": [
+        "hedong"
+      ],
+      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
     },
     {
       "routeId": "orange-2",
@@ -6770,7 +6780,11 @@
         "pier-22-return"
       ],
       "geometryReview": "候選路網，待逐段比對原圖",
-      "sharedFrontId": "orange2-common"
+      "sharedFrontId": "orange2-common",
+      "turnaroundIds": [
+        "greatbridge"
+      ],
+      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
     },
     {
       "routeId": "central-52",
@@ -8241,7 +8255,11 @@
       "segmentIds": [
         "central-52-out"
       ],
-      "geometryReview": "候選路網，待逐段比對原圖"
+      "geometryReview": "候選路網，待逐段比對原圖",
+      "turnaroundIds": [
+        "central"
+      ],
+      "transport": "圖卡以高雄市立圖書館總館起訖，周邊標示三多商圈及輕軌站點；步行接駁與集合入口仍待核對。"
     },
     {
       "routeId": "heart-5",
@@ -9464,7 +9482,11 @@
         "heart-5-out",
         "heart-5-return"
       ],
-      "geometryReview": "候選路網，待逐段比對原圖"
+      "geometryReview": "候選路網，待逐段比對原圖",
+      "turnaroundIds": [
+        "vision"
+      ],
+      "transport": "圖卡以捷運凹子底站 R13 起訖，出口與集合位置仍待核對。"
     }
   ],
   "resources": [
