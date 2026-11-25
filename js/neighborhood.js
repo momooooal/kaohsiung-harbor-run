@@ -1,14 +1,15 @@
 // Local axes follow the approach, with the destination on the left. Building
 // spacing and cross streets interpret the reference views rather than survey data.
+import {surfaceTexture} from './daylight.js';
 export function neighborhood(type,scene,box) {
-  const loader=new THREE.TextureLoader(),maps=[];
+  const maps=[];
   function surface(file,x,z,w,d,y,unit,tint=0xffffff){
-    const t=loader.load('assets/surfaces/'+file);maps.push(t);t.encoding=THREE.sRGBEncoding;
+    const t=surfaceTexture(file);maps.push(t);
     t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(w/unit,d/unit);t.anisotropy=4;
     const tile=new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshLambertMaterial({map:t,color:tint}));
     tile.rotation.x=-Math.PI/2;tile.position.set(x,y,z);tile.receiveShadow=true;scene.add(tile);
   }
-  const leaves=loader.load('assets/surfaces/tree.png');maps.push(leaves);leaves.encoding=THREE.sRGBEncoding;
+  const leaves=surfaceTexture('tree.png');maps.push(leaves);
   const foliage=new THREE.MeshLambertMaterial({map:leaves,alphaTest:.52,side:THREE.DoubleSide});
   function tree(x,z,h){
     for(const angle of [.3,1.87]){const card=new THREE.Mesh(new THREE.PlaneGeometry(h*.88,h),foliage);

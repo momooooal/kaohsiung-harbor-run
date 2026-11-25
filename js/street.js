@@ -1,9 +1,7 @@
-import {daylightSky} from './daylight.js';
-const assets='assets/surfaces/';
+import {daylightSky,surfaceTexture} from './daylight.js';
 export function streetMaterials(scene, materials, points){
-  const loader=new THREE.TextureLoader();
   const textures=[];
-  function load(file){const t=loader.load(assets+file);textures.push(t);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t}
+  function load(file){const t=surfaceTexture(file);textures.push(t);t.anisotropy=4;return t}
   function projected(mat,file,scale,vertical=false){
     const t=load(file);t.wrapS=t.wrapT=THREE.RepeatWrapping;
     mat.map=t;mat.color.setHex(0xffffff);

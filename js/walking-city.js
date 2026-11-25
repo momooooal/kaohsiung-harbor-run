@@ -10,6 +10,7 @@ import {stops} from '../data/shared-route.js';
 import {stationExits,stationFootprints} from '../data/station-exits.js';
 import precincts from '../data/station-surroundings.js';
 import {stationEntrance,stationApproach,clipStationGround,stationFinishes} from './station-entrance.js';
+import {surfaceTexture} from './daylight.js';
 
 // Local east/south metre coordinates, derived from OSM. Floor counts without
 // recorded heights use an indicative extrusion, not a surveyed facade.
@@ -174,7 +175,9 @@ export function walkingCity(start=0){
     clipStationGround(shader,stationExits,'streetPos.xz');
   };
   const streetMesh=new THREE.Mesh(geometry,m);streetMesh.castShadow=streetMesh.receiveShadow=true;scene.add(streetMesh);
-  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));const paving=new THREE.TextureLoader().load('assets/surfaces/concrete_pavement_02.jpg');paving.encoding=THREE.sRGBEncoding;paving.wrapS=paving.wrapT=THREE.RepeatWrapping;paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));
+  const paving=surfaceTexture('concrete_pavement_02.jpg');paving.wrapS=paving.wrapT=THREE.RepeatWrapping;
+  paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
   const labels=[],markers=[];
   ground.material.onBeforeCompile=shader=>{
     shader.vertexShader='varying vec2 groundSite;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ngroundSite=(modelMatrix*vec4(position,1.)).xz;');

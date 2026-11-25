@@ -1,5 +1,6 @@
 /* C12 and Dayi warehouse district. Local metres and platform placement are illustrative. */
 import {lightRailBoard} from './station-entrance.js';
+import {surfaceTexture} from './daylight.js';
 export function buildDayiStation(scene,frame,solid,beam){
   const district=new THREE.Group();
   district.position.copy(frame.position);
@@ -14,8 +15,7 @@ export function buildDayiStation(scene,frame,solid,beam){
     return object;
   }
   function tile(file,repeatX,repeatY){
-    const texture=new THREE.TextureLoader().load('assets/surfaces/'+file);
-    texture.encoding=THREE.sRGBEncoding;
+    const texture=surfaceTexture(file);
     texture.wrapS=texture.wrapT=THREE.RepeatWrapping;
     texture.repeat.set(repeatX,repeatY);
     const finish=new THREE.MeshStandardMaterial({map:texture,roughness:.92});

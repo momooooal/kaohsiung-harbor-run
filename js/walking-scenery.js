@@ -1,7 +1,7 @@
 import env from '../data/walking-environment.js';
 import precincts from '../data/station-surroundings.js';
 import {stationExits,exitPoint} from '../data/station-exits.js';
-import {daylightSky} from './daylight.js';
+import {daylightSky,surfaceTexture} from './daylight.js';
 import {stationApproach} from './station-entrance.js';
 
 // Public way geometry is in the same east/south metre grid as walking-legs.
@@ -9,7 +9,7 @@ import {stationApproach} from './station-entrance.js';
 export function walkingScenery(scene,{polygon,ribbon,tint}){
   const textures=[],shapes=[],plants=[],shrubs=[],dummy=new THREE.Object3D();
   function texture(file){
-    const map=new THREE.TextureLoader().load('assets/surfaces/'+file);
+    const map=surfaceTexture(file);
     textures.push(map);map.encoding=THREE.sRGBEncoding;map.anisotropy=4;return map;
   }
   function box(x,y,z,w,h,d,rot,color,roll=0){

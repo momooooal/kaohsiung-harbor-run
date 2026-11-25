@@ -3,10 +3,12 @@ import {exitPoint} from '../data/station-exits.js';
 const ink={stone:0xaaa69e, trim:0xd5d7cb, steel:0xbac5c2, base:0x524e47, glass:0x46746a, black:0x323a39};
 
 export function stationFinishes(){
-  const reflection=new THREE.TextureLoader().load('assets/surfaces/daylight-sky.jpg');
-  reflection.encoding=THREE.sRGBEncoding;reflection.mapping=THREE.EquirectangularReflectionMapping;
-  const glass=new THREE.MeshPhongMaterial({color:new THREE.Color(0x436d62).convertSRGBToLinear(),envMap:reflection,
+  const glass=new THREE.MeshPhongMaterial({color:new THREE.Color(0x436d62).convertSRGBToLinear(),
     combine:THREE.MixOperation,reflectivity:.15,specular:0x293932,transparent:true,opacity:.87,depthWrite:false,shininess:72,side:THREE.DoubleSide});
+  const reflection=new THREE.TextureLoader().load('assets/surfaces/daylight-sky.jpg',map=>{
+    glass.envMap=map;glass.needsUpdate=true;
+  });
+  reflection.encoding=THREE.sRGBEncoding;reflection.mapping=THREE.EquirectangularReflectionMapping;
   glass.addEventListener('dispose',()=>reflection.dispose());
   return {glass};
 }
