@@ -103,6 +103,21 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
   for(let f=-9;f<28;f+=6){tunnel.part(-5.8,f,3.12,2.2,.24,5.92,0xb5a08b);tunnel.part(-5,f,1.54,.21,3.08,.23,0xaaa394)}
   tunnel.tree(-3.7,18,5.6);
 
+  // Mid-leg checks: the planted separator on Xinguang, boulevard trees on
+  // Shidai, and the waterside rail on Binhai are visible well before a stop.
+  const xinguang=viewpoint(22.611246,120.301341,71.1);
+  xinguang.lane(3.1,-30,95,2.15,0x70815c,.073);
+  for(let f=-25;f<66;f+=10){xinguang.tree(3.2,f,7.4);xinguang.part(3.2,f+3,.3,1.4,.6,3.3,0x5c7843)}
+  const shidai=viewpoint(22.598023,120.312173,249.7);
+  for(let f=-36;f<94;f+=12){shidai.tree(7.1,f,6.8);shidai.tree(-9.2,f+2,5.8)}
+  const bikeway=viewpoint(22.621528,120.277635,305.5);
+  bikeway.lane(0,-14,31,3.2,0x965d4b,.074);
+  const quay=viewpoint(22.621655,120.269916,5.3);
+  quay.lane(-5.3,-16,56,2.3,0xb6816e,.075);
+  for(let f=-16;f<40;f+=3.5)quay.part(-6.4,f,.62,.095,1.24,.095,0xc6ccbf);
+  quay.part(-6.4,12,1.18,.09,.09,56,0xc6ccbf);
+  quay.part(-6.4,12,.65,.07,.07,56,0xb7beb3);
+
   const boxes=new THREE.InstancedMesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({roughness:.9}),shapes.length);
   shapes.forEach(([matrix,color],i)=>{boxes.setMatrixAt(i,matrix);boxes.setColorAt(i,tint(color))});boxes.frustumCulled=false;scene.add(boxes);
   const foliage=texture('tree.png');
