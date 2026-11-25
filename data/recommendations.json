@@ -904,7 +904,7 @@
     {
       "routeId": "harbor-108",
       "variantId": "harbor-108",
-      "name": "港灣友善資源推薦線",
+      "name": "最推薦的跑步路線",
       "number": "成果圖卡",
       "sourceDistance": {
         "label": "10.8 公里",
@@ -2773,6 +2773,12 @@
           "card-0"
         ],
         "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      },
+      "display": {
+        "distance": "10.8 公里",
+        "journey": "獅甲出發，哈瑪星結束",
+        "description": "沿著港灣，經過高流、駁二與西子灣。",
+        "services": "沿途可找廁所、補水與交通"
       }
     },
     {
@@ -3838,12 +3844,18 @@
           "qr-0"
         ],
         "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      },
+      "display": {
+        "distance": "5 公里",
+        "journey": "總館出發，返回原處",
+        "description": "從總館出發，跑進展覽館與珊瑚礁群的水岸風景。",
+        "services": "沿途可找廁所與休憩空間"
       }
     },
     {
       "routeId": "orange-2",
       "variantId": "love-21",
-      "name": "愛河綠園道支線",
+      "name": "愛河綠園道線",
       "number": "路線 2-1",
       "sourceDistance": {
         "label": "圖卡整體 5–6 公里",
@@ -5324,12 +5336,18 @@
           "qr-2"
         ],
         "status": "來源範圍／里程不一致，已具體標示"
+      },
+      "display": {
+        "distance": "里程待確認",
+        "journey": "總館出發，返回原處",
+        "description": "從亞灣水岸轉進愛河，沿綠園道往中正橋。",
+        "services": "沿途可找廁所與休憩空間"
       }
     },
     {
       "routeId": "orange-2",
       "variantId": "pier-22",
-      "name": "駁二大港橋支線",
+      "name": "駁二大港橋線",
       "number": "路線 2-2",
       "sourceDistance": {
         "label": "圖卡整體 5–6 公里",
@@ -7024,6 +7042,12 @@
           "qr-3"
         ],
         "status": "來源範圍／里程不一致，已具體標示"
+      },
+      "display": {
+        "distance": "里程待確認",
+        "journey": "總館出發，返回原處",
+        "description": "經過真愛路與駁二倉庫群，在大港橋邊折返。",
+        "services": "沿途可找廁所與休憩空間"
       }
     },
     {
@@ -8511,6 +8535,12 @@
           "qr-4"
         ],
         "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      },
+      "display": {
+        "distance": "5.2 公里",
+        "journey": "總館出發，返回原處",
+        "description": "串起港灣、愛河與中央公園，從不同街道回到總館。",
+        "services": "沿途可找廁所與休憩空間"
       }
     },
     {
@@ -9750,6 +9780,12 @@
           "qr-5"
         ],
         "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
+      },
+      "display": {
+        "distance": "5 公里",
+        "journey": "凹子底出發，返回原處",
+        "description": "從凹子底出發，沿愛河之心跑向願景橋。",
+        "services": "車站廁所與沿河休憩"
       }
     }
   ],
@@ -9780,7 +9816,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "water",
@@ -9803,7 +9840,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "toilet",
@@ -9826,7 +9864,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "transit",
@@ -9849,12 +9888,18 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "官方車站資訊列出廁所；公園內設施與各服務使用條件仍須分別確認。",
       "referenceUrl": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
-      "reviewedAt": "2026-11-25"
+      "reviewedAt": "2026-11-25",
+      "display": {
+        "entrance": "獅甲站 1 號出口集合；公園廁所另見下方據點",
+        "condition": "補水與寄物使用前請先詢問站務人員。",
+        "hours": "依車站開站時間"
+      }
     },
     {
       "poiId": "kaixuan",
@@ -9876,7 +9921,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "water",
@@ -9893,7 +9939,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "transit",
@@ -9910,9 +9957,15 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "凱旋站／輕軌前鎮之星",
+        "condition": "補水與寄物使用前請先詢問站務人員。",
+        "hours": "依車站開站時間"
+      }
     },
     {
       "poiId": "decathlon",
@@ -9940,10 +9993,16 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         }
       ],
-      "verificationNote": "原圖同列夢時代與迪卡儂；已另建夢時代官方公廁紀錄，不能因此確認迪卡儂店內也有相同設施。"
+      "verificationNote": "原圖同列夢時代與迪卡儂；已另建夢時代官方公廁紀錄，不能因此確認迪卡儂店內也有相同設施。",
+      "display": {
+        "entrance": "前鎮區時代大道 33 號",
+        "condition": "店內廁所使用前請先詢問；夢時代公廁另列。",
+        "hours": null
+      }
     },
     {
       "poiId": "exhibition",
@@ -9978,7 +10037,8 @@
           "restrictions": "官網 ESG 確認館內設置飲水機；未公布一般跑者可使用的樓層與時段。東門服務中心可協助詢問；辦公室專用飲水設備不可視為公共補水。",
           "operator": null,
           "lastCheckedAt": "2026-11-25",
-          "existenceVerified": true
+          "existenceVerified": true,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "toilet",
@@ -10001,7 +10061,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "transit",
@@ -10024,12 +10085,18 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "官網飲水設備說明涉及主辦單位工作空間，不能據此宣稱一般跑者可使用。",
       "referenceUrl": "https://www.kecc.com.tw/zh-tw/visitors-facility",
-      "reviewedAt": "2026-11-25"
+      "reviewedAt": "2026-11-25",
+      "display": {
+        "entrance": "服務中心在一樓東門",
+        "condition": "飲水是否開放借用，請先洽服務中心；部分設備供工作人員使用。",
+        "hours": null
+      }
     },
     {
       "poiId": "music",
@@ -10070,12 +10137,19 @@
           "restrictions": "官方列珊瑚礁群、鯨魚堤岸、海豚步道、音浪塔等有廁所。本點位為珊瑚礁群參考位置，請依現地標示尋找入口。",
           "operator": null,
           "lastCheckedAt": "2026-11-25",
-          "existenceVerified": true
+          "existenceVerified": true,
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "場館開放資訊不能直接套用到個別廁所的開放時間。",
       "referenceUrl": "https://kpmc.com.tw/venue-info/",
-      "reviewedAt": "2026-11-25"
+      "reviewedAt": "2026-11-25",
+      "display": {
+        "entrance": "珊瑚礁群一帶，依現場廁所指標",
+        "condition": "戶外園區全天開放；館內廁所依場館開放。",
+        "hours": "戶外全天開放；廁所依所在場館開放"
+      },
+      "canonicalPoiId": "coral"
     },
     {
       "poiId": "ruh5",
@@ -10109,12 +10183,18 @@
           "purchaseRequired": "官方未公布跑者單獨借用條件",
           "restrictions": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
       "referenceUrl": "https://www.ruhcafe.com/pages/ruhcafe-no5",
-      "reviewedAt": "2026-11-25"
+      "reviewedAt": "2026-11-25",
+      "display": {
+        "entrance": "大義街 2-2 號，大義倉庫 C8-20",
+        "condition": "補水使用前請先詢問店員。",
+        "hours": null
+      }
     },
     {
       "poiId": "ice",
@@ -10142,9 +10222,15 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "鼓山區濱海一路 89、91 號",
+        "condition": "補水使用前請先詢問店員。",
+        "hours": null
+      }
     },
     {
       "poiId": "ferry",
@@ -10174,9 +10260,15 @@
           "operator": null,
           "lastCheckedAt": "2026-11-25",
           "existenceVerified": true,
-          "verificationScope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核"
+          "verificationScope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核",
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "鼓山輪渡站，依站內公廁指標",
+        "condition": "親子廁所；開放情形請依現場指示。",
+        "hours": null
+      }
     },
     {
       "poiId": "hamasen",
@@ -10198,7 +10290,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "water",
@@ -10215,7 +10308,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "transit",
@@ -10232,9 +10326,15 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "哈瑪星站 2 號出口，往輕軌方向",
+        "condition": "補水與寄物使用前請先詢問站務人員。",
+        "hours": "依車站開站時間"
+      }
     },
     {
       "poiId": "qianjin",
@@ -10268,7 +10368,8 @@
           "purchaseRequired": "官方未公布跑者單獨借用條件",
           "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         },
         {
           "type": "toilet",
@@ -10297,7 +10398,8 @@
           "purchaseRequired": "官方未公布跑者單獨借用條件",
           "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         },
         {
           "type": "shower",
@@ -10326,7 +10428,8 @@
           "purchaseRequired": "官方未公布跑者單獨借用條件",
           "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         },
         {
           "type": "changing",
@@ -10355,12 +10458,19 @@
           "purchaseRequired": "官方未公布跑者單獨借用條件",
           "restrictions": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25"
+          "lastCheckedAt": "2026-11-25",
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
       "referenceUrl": "https://www.cianjin-sc.com/toll.html",
-      "reviewedAt": "2026-11-25"
+      "reviewedAt": "2026-11-25",
+      "display": {
+        "entrance": "前金區大同二路 61 號",
+        "condition": "單獨借用淋浴、更衣或補水，請先洽櫃台。",
+        "hours": null,
+        "fee": "健身房 50 元／小時、泳池 100 元／次；單獨淋浴費未公布。"
+      }
     },
     {
       "poiId": "gym",
@@ -10382,7 +10492,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "toilet",
@@ -10399,7 +10510,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "storage",
@@ -10416,7 +10528,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "shower",
@@ -10433,7 +10546,8 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         },
         {
           "type": "changing",
@@ -10450,11 +10564,17 @@
           "purchaseRequired": null,
           "restrictions": null,
           "operator": null,
-          "lastCheckedAt": null
+          "lastCheckedAt": null,
+          "runnerAccessConfirmed": false
         }
       ],
       "verificationNote": "已由店家官網確認中華四路 38 號與聯絡電話；官網場館介紹未列跑者單獨借用浴廁、寄物或補水價格，不能把教室租金當淋浴費。",
-      "referenceUrl": "https://honhuangpower.wixsite.com/honhuangpower"
+      "referenceUrl": "https://honhuangpower.wixsite.com/honhuangpower",
+      "display": {
+        "entrance": "苓雅區中華四路 38 號",
+        "condition": "補水、廁所、寄物及盥洗使用前請先詢問。",
+        "hours": null
+      }
     },
     {
       "resourceId": "official-park-g-toilet",
@@ -10480,9 +10600,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "台塑公園日月私饗旁",
+        "condition": "供市民使用；進園自行車請牽行。",
+        "hours": "園區全年開放；廁所時段未公布"
+      }
     },
     {
       "resourceId": "official-park-office-toilet",
@@ -10508,9 +10634,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "台塑公園王創辦人辦公室旁",
+        "condition": "供市民使用；進園自行車請牽行。",
+        "hours": "園區全年開放；廁所時段未公布"
+      }
     },
     {
       "resourceId": "official-coral",
@@ -10536,9 +10668,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "珊瑚礁群，依廁所指標",
+        "condition": "設有無障礙廁所；開放情形依現場指示。",
+        "hours": "戶外全天開放；廁所依所在場館開放"
+      }
     },
     {
       "resourceId": "official-whale",
@@ -10564,9 +10702,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "鯨魚堤岸，依廁所指標",
+        "condition": "設有無障礙廁所；開放情形依現場指示。",
+        "hours": "戶外全天開放；廁所依所在場館開放"
+      }
     },
     {
       "resourceId": "official-library",
@@ -10598,9 +10742,15 @@
               "scope": "總館開館時段；不是廁所逐間保證",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "新光路 61 號，館內依廁所指標",
+        "condition": "週一休館；國定假日與特別開休館依公告。",
+        "hours": null
+      }
     },
     {
       "resourceId": "official-aozihdi",
@@ -10626,9 +10776,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "凹子底站 1 號出口方向，站內依廁所指標",
+        "condition": "使用前可向站務人員詢問。",
+        "hours": "依車站開站時間"
+      }
     },
     {
       "resourceId": "official-shihjia-toilet",
@@ -10654,9 +10810,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "獅甲站 4 號出口方向，站內依廁所指標",
+        "condition": "與集合的 1 號出口不同；依站內指示前往。",
+        "hours": "依車站開站時間"
+      }
     },
     {
       "resourceId": "official-dreammall",
@@ -10682,9 +10844,15 @@
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "中華五路 789 號；B1–7F 停車通道旁、8F 服務中心通道",
+        "condition": "另有 RF 多功能廁所；與迪卡儂為不同場地。",
+        "hours": null
+      }
     },
     {
       "resourceId": "official-starlight",
@@ -10710,7 +10878,8 @@
               "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         },
         {
           "type": "changing",
@@ -10728,7 +10897,8 @@
               "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         },
         {
           "type": "shower",
@@ -10746,9 +10916,15 @@
               "scope": "公廁、更衣、戶外沖洗及季節開放日期；原頁更新 2026-09-17",
               "checkedAt": "2026-11-25"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": false
         }
-      ]
+      ],
+      "display": {
+        "entrance": "成功二路，星光水岸公園戲水區",
+        "condition": "4–10 月週五至日開放；11 月至隔年 3 月不在開放季。沖洗為戶外設備。",
+        "hours": "4–10 月週五至日 10:00–12:00、14:00–19:00"
+      }
     }
   ],
   "serviceTypes": {

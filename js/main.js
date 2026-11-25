@@ -27,7 +27,7 @@ const logo = `<svg aria-hidden="true" viewBox="0 0 64 64"><rect width="64" heigh
 
 function shell(path, content) {
   const nav = links.map(([target, label]) => `<a href="${href(target)}" ${path === target ? 'aria-current="page"' : ''}>${label}</a>`).join('');
-  return `<div class="prototype-band">網站互動原型｜示範場景與地圖焦點並非現地查核結果</div>
+  return `${path.startsWith("/map")||path.startsWith("/run/")?"":'<div class="prototype-band">網站互動原型｜示範場景與地圖焦點並非現地查核結果</div>'}
     <header class="site-header"><div class="wrap header-row"><a class="brand" href="#/" aria-label="跑出你的高雄，回首頁">${logo}<span>跑出你的高雄<small>友善跑步地圖 · 互動原型</small></span></a><button class="menu-toggle" id="menu-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="nav-links">☰</button><nav class="nav-links" id="nav-links" aria-label="主要導覽">${nav}</nav></div></header>
     <main id="main" tabindex="-1">${content}</main>
     <footer class="site-footer"><div class="wrap"><div class="footer-grid"><div><div class="eyebrow light">KAOHSIUNG · MOVE TOGETHER</div><h3>跑出你的高雄</h3><p>從市民需求出發，逐步建立更清楚的城市運動資訊。本網站為互動原型，已收錄市民問卷、座談共識與港灣踩線紀錄。</p></div><div><h3>探索網站</h3><div class="footer-links">${links.slice(1).map(([p,l])=>`<a href="${href(p)}">${l}</a>`).join('')}<a href="#/routes/bay">港灣踩線路線</a></div></div><div><h3>資料與素材</h3><p class="small">目前狀態：成果報告已完成；本版資料更新：2026-11-24。計畫主辦：高雄市政府運動發展局。</p><p class="small">照片：<a href="https://commons.wikimedia.org/wiki/File:Kaohsiung_Harbour_-_KaohsiungHarbour4515.jpg" target="_blank" rel="noopener">lumoplank / Wikimedia Commons</a>（CC0）<br>地圖：© OpenStreetMap contributors</p></div></div><div class="footer-bottom">© 2026 跑出你的高雄 · 示範原型。3D 場景為原創風格化示意，與現地路況、坡度及無障礙條件可能不同。</div></div></footer>`;
