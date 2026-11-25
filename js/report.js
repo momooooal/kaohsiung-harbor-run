@@ -124,7 +124,8 @@ export function ride(short=false){
  const panorama=panel.querySelector('a'),[enter,back]=panel.querySelectorAll('button');
  const realView=panoramaDialog();panel.append(realView.dialog);
  const realButton=document.createElement('button');realButton.type='button';realButton.className='btn dark';panel.querySelector('.bay-actions').prepend(realButton);
- let nearestName='',nearKey=null,resume=null;
+ const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let nearestName='',nearKey=null,resume=null,walkHeading=null;
  realButton.onclick=()=>{keys.clear();realView.open(nearestName)};
  enter.onclick=()=>{if(!local?.walk||!nearKey)return;const distance=local.distance;destination.value=sharedStops.get(nearKey);relocate();resume=distance;panel.hidden=false;back.hidden=false;realButton.hidden=true;panorama.hidden=true;enter.hidden=true;if(selectedService)setViewing(true)};
  back.onclick=()=>{const distance=resume;destination.value='itinerary';relocate();local.seek(distance)};
@@ -132,6 +133,7 @@ export function ride(short=false){
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
  function relocate(start=0){
+ walkHeading=null;
  resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
  if(local){scene.add(actor);local.dispose();local=null}
  if(destination.value==='itinerary'){
@@ -172,7 +174,7 @@ export function ride(short=false){
  renderer.domElement.onkeydown=e=>{if(!e.repeat && e.key.toLowerCase()==='e')observe()};
  stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
  const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix()});resize.observe(stage);
- function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*3;
+ function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*(local?.walk ? .5 : 3);
  if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused&&!local?.walk){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
  const swing=paused||!speed?0:Math.sin(now*.006);if(!paused){
       if(actor.userData.legs)actor.userData.legs.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.65:mode==='cane'?.26:.38));
@@ -183,14 +185,19 @@ export function ride(short=false){
 }
  if(local?.walk){
    if(!paused)yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
-   const step=local.advance(paused||realView.dialog.open?0:speed*dt,freePos),angle=step.heading+yaw;
+   const step=local.advance(paused||realView.dialog.open?0:speed*dt,freePos);
+   if(walkHeading===null)walkHeading=step.heading;
+   const turn=Math.atan2(Math.sin(step.heading-walkHeading),Math.cos(step.heading-walkHeading));
+   walkHeading+=turn*(1-Math.exp(-dt*9));
+   const angle=walkHeading+yaw;
    const station=walkStops[step.nearest];nearestName=station[0];realButton.hidden=!step.near||!realView.available(nearestName);realButton.textContent='開啟'+nearestName+'附近實景';nearKey=step.near&&sharedStops.has(station[3])?station[3]:null;
    enter.hidden=!nearKey;enter.textContent='走進'+station[0]+'周邊';
    panorama.onfocus=panorama.onpointerenter=panorama.onclick=()=>{const lat=22.61-freePos.z/110750,lon=120.29+freePos.x/102820;panorama.href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+lat.toFixed(6)+','+lon.toFixed(6)+'&heading='+((180-angle*180/Math.PI+360)%360).toFixed(1)+'&pitch='+(pitch*180/Math.PI).toFixed(1)};
    if(!panorama.hasAttribute('href'))panorama.onfocus();
    actor.position.copy(freePos);actor.rotation.y=step.heading+Math.PI;actor.visible=!first;
    const dx=Math.sin(angle),dz=Math.cos(angle);
-   camera.position.set(freePos.x-dx*(first?0:4),first?MODES[mode].eye:3,freePos.z-dz*(first?0:4));
+   const stride=first&&mode==='run'&&speed&&!paused&&!realView.dialog.open&&!reduceMotion.matches ? .019*Math.sin(local.distance*4.3) : 0;
+   camera.position.set(freePos.x-dx*(first?0:4),first?MODES[mode].eye+stride:3,freePos.z-dz*(first?0:4));
    camera.lookAt(freePos.x+dx*6,(first?MODES[mode].eye:1)+6*Math.tan(pitch),freePos.z+dz*6);
    if(viewing){camera.position.set(freePos.x-dx*12,17,freePos.z-dz*12);camera.lookAt(freePos.x+dx*8,0,freePos.z+dz*8)}
    button('game-state').textContent=step.status;hint.textContent=step.hint+' · © OpenStreetMap 貢獻者';button('game-dot').parentElement.hidden=true;

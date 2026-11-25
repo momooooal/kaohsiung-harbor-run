@@ -107,3 +107,6 @@ python -m http.server 8000
 依報告圖 46 的往返次序，以鐵道園區老火車、天空雲台紅拱橋、真愛碼頭雙帆、音浪塔、大義倉庫及輕軌組成視線參照。回到哈瑪星時，終點可見鐵道廣場及拱橋。地標的距離、相對位置、列車停放與植栽依第一人稱可讀性示意安排。模型批次繪製集中於 js/districts.js。來源：高雄旅遊網「哈瑪星鐵道文化園區」「真愛碼頭」「駁二藝術特區」，高雄流行音樂中心「參觀資訊」。鋪面使用 Poly Haven 的 CC0 素材 cobblestone_square、asphalt_02、wood_planks_grey、concrete_pavement_02。
 
 十站連續導覽使用 data/shared-route.js 的分享站序。data/walking-legs.js 為 routing.openstreetmap.de 的 routed-foot 計算結果，data/walking-blocks.js 為 api.openstreetmap.org 沿線道路、建物輪廓與水域的簡化摘錄。兩份衍生圖資採 Open Database License 1.0（https://opendatacommons.org/licenses/odbl/1-0/），© OpenStreetMap contributors。局部東、南方向座標以經度 120.29、緯度 22.61 為原點，單位為公尺。更新站點時須一併重算各段路網。
+
+### 十站步行的街景校對
+2026-11-25 依九段出發後約 30 公尺的第一人稱方向，分別開啟 Google 街景比對。全景拍攝日期不一，路線幾何採 OSM。亞灣店附近的自動定位可能指向店內，外觀參照採店前廣場全景，連續路線改沿入口外步道離店。data/walking-environment.js 取自既有沿線 OSM 摘錄，依上方 ODbL 授權，包含綠地、列植、平交穿越線、軌道和多邊形關係；展覽館採複合建物輪廓。js/walking-scenery.js 的參照位置和方向採經緯度與指南針角度，鄰近陳設、樹距、材質與光照均為解說性的視覺近似。Google 影像由官方全景顯示。
