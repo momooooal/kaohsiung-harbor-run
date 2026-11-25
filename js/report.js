@@ -9,6 +9,7 @@ import {streetMaterials} from './street.js';
 import {places,landmarks} from './landmarks.js';
 import {track} from './track.js';
 import {makeActor,MODES} from './explore.js';
+import {stationExits,stationExitById} from '../data/station-exits.js';
 export function reportMap(route){
  if(!route?.published || route.status!=='verified' || route.kind!=='activity')return ()=>{};
  const host=document.createElement('section');host.className='wrap activity-guide';
@@ -52,7 +53,7 @@ export function reportMap(route){
 export function clampMovement(progress, lateral, total){
   return [Math.max(0,Math.min(total,progress)), Math.max(-3,Math.min(3,lateral))];
 }
-export function ride(short=false,startWalking=false,midLeg=null){
+export function ride(short=false,startWalking=false,midLeg=null,startExit=null){
  const stage=document.querySelector('#game-stage'),hint=document.querySelector('#game-hint');
  const points=(short?track.slice(0,20):track).map(([x,z])=>new THREE.Vector3(x*2,0,z*2));
  let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true})}catch{hint.textContent='裝置無法啟動 WebGL，請使用場域頁的踩線全程圖。';return ()=>{}}
@@ -70,7 +71,7 @@ export function ride(short=false,startWalking=false,midLeg=null){
  for(const place of places){
    const paragraph=document.createElement('p');
    paragraph.textContent=place.name+'｜'+place.detail+'。 ';
-   if(place.source){const a=document.createElement('a');a.href=place.source;a.textContent='高雄旅遊網地標介紹';a.target='_blank';a.rel='noopener';paragraph.append(a)}
+     if(place.source){const a=document.createElement('a');a.href=place.source;a.textContent=place.index===5?'市府鹽埕綠廊介紹':'高雄旅遊網地標介紹';a.target='_blank';a.rel='noopener';paragraph.append(a)}
    else paragraph.append('依當天踩線經過的路段設計。');
    guide.append(paragraph);
  }
@@ -109,9 +110,13 @@ export function ride(short=false,startWalking=false,midLeg=null){
  const cityGroup=document.createElement('optgroup');cityGroup.label='全市據點・當地自由探索';
  cityPlaces.forEach((p,i)=>cityGroup.append(new Option(p[0],'city-'+i)));destination.append(cityGroup);
  destination.add(new Option('十站連續步行｜昆仲公園至哈瑪星','itinerary'));
+ const exits=document.createElement('optgroup');exits.label='捷運出口・從街口走近';
+ for(const site of stationExits)exits.append(new Option(site.code+' '+site.label+' · '+site.landmark,'exit-'+site.id));
+ destination.append(exits);
  const sharedStops=new Map();
  cityPlaces.forEach((place,i)=>sharedStops.set(place[2],'city-'+i));
  services.forEach(stop=>sharedStops.set(stop.id,String(destinations.indexOf(stop))));
+ sharedStops.set('R6','exit-R6-1');sharedStops.set('O1','exit-O1-2');
  const sharedGuide=walkingGuide(key=>{
    destination.value=sharedStops.get(key);relocate();
    if(selectedService)setViewing(true);
@@ -123,30 +128,44 @@ export function ride(short=false,startWalking=false,midLeg=null){
  stage.closest('.game-shell').after(panel);
  const panorama=panel.querySelector('a'),[enter,back]=panel.querySelectorAll('button');
  const hintLabel=document.createElement('label');hintLabel.style.display='inline-flex';hintLabel.style.alignItems='center';hintLabel.style.minHeight='44px';
- hintLabel.innerHTML='<input type="checkbox" id="walk-place-hints" checked>顯示步行地名提示';
- panel.prepend(hintLabel);
+ hintLabel.innerHTML='<input type="checkbox" id="walk-place-hints" checked>顯示地名提示';
+ toolbar.after(hintLabel);
  const hintToggle=hintLabel.querySelector('input'),overlay=stage.querySelector('.game-overlay');
- function syncPlaceHints(){const hidden=local?.walk && !hintToggle.checked;overlay.style.visibility=hidden?'hidden':'';if(local?.walk)local.showPlaceHints(!hidden);hintLabel.hidden=!local?.walk;hintLabel.style.display=local?.walk?'inline-flex':'none'}
+ function syncPlaceHints(){const show=hintToggle.checked;overlay.style.visibility=show?'':'hidden';if(local?.walk)local.showPlaceHints(show);services.forEach(stop=>{stop.sign.visible=show})}
  hintToggle.onchange=syncPlaceHints;
  const realView=panoramaDialog();panel.append(realView.dialog);
  const realButton=document.createElement('button');realButton.type='button';realButton.className='btn dark';panel.querySelector('.bay-actions').prepend(realButton);
+ const exitSource=document.createElement('a'),exitShare=document.createElement('a');
+ exitSource.textContent='高捷出口資訊 ↗';exitSource.className='link-arrow';exitSource.target='_blank';exitSource.rel='noopener';
+ exitShare.textContent='這個出口的連結';exitShare.className='link-arrow';
+ panel.querySelector('.bay-actions').append(exitSource,exitShare);
  const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
  let nearestName='',nearKey=null,resume=null,walkHeading=null;
  realButton.onclick=()=>{keys.clear();realView.open(nearestName)};
- enter.onclick=()=>{if(!local?.walk||!nearKey)return;const distance=local.distance;destination.value=sharedStops.get(nearKey);relocate();resume=distance;panel.hidden=false;back.hidden=false;realButton.hidden=true;panorama.hidden=true;enter.hidden=true;if(selectedService)setViewing(true)};
+ enter.onclick=()=>{if(!local?.walk||!nearKey)return;const distance=local.distance;destination.value=sharedStops.get(nearKey);relocate();resume=distance;panel.hidden=false;back.hidden=false;realButton.hidden=true;panorama.hidden=!local?.exit;enter.hidden=true;if(selectedService)setViewing(true)};
  back.onclick=()=>{const distance=resume;destination.value='itinerary';relocate();local.seek(distance)};
  let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
  function relocate(start=0,fraction=0){
  walkHeading=null;
- resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
- if(local&&!(local.walk&&destination.value==='itinerary')){scene.add(actor);local.dispose();local=null}syncPlaceHints();
- if(destination.value==='itinerary'){
+ const cityIndex=destination.value.startsWith('city-')?Number(destination.value.slice(5)):-1;
+ const site=cityPlaces[cityIndex]?.[2]==='metro'?stationExitById.get('R7-3'):stationExitById.get(destination.value.replace(/^exit-/,''));
+ const world=Boolean(site)||destination.value==='itinerary';
+ resume=null;panel.hidden=!world;back.hidden=true;panorama.hidden=false;enter.hidden=true;realButton.hidden=Boolean(site);
+ exitSource.hidden=exitShare.hidden=!site;
+ panel.querySelector('p').textContent=site?site.label+' · '+site.landmark+'。模型尺度為示意，可對照出口實景。':'在 Google 街景查看目前位置與朝向。';
+ if(local&&!(local.walk&&world)){scene.add(actor);local.dispose();local=null}syncPlaceHints();
+ if(world){
    if(!local)local=walkingCity();
-   local.startAt(Number.isInteger(start)?start:0,fraction);
+   if(site){
+     local.visitExit(site);exitSource.href=site.source;exitShare.href='#/explore/station/'+site.id;
+     panorama.onfocus=panorama.onpointerenter=panorama.onclick=null;panorama.href=site.streetView;panorama.textContent='對照這個出口的 Google 街景 ↗';
+   }else{
+     local.startAt(Number.isInteger(start)?start:0,fraction);panorama.textContent='開啟目前位置的 Google 街景 ↗';
+   }
    local.scene.add(actor);syncPlaceHints();
-   travel.value='guided';free=false;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
+   free=Boolean(site&&cityIndex>=0);travel.value=free?'free':'guided';heading=local.approachHeading??0;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
  }
  if(destination.value.startsWith('city-')){
    local=cityStreet(cityPlaces[Number(destination.value.slice(5))]);local.scene.add(actor);
@@ -155,7 +174,10 @@ export function ride(short=false,startWalking=false,midLeg=null){
  }
  const place=destinations[Number(destination.value)];lo=place?Math.max(0,lengths[place.index]-55):0;hi=place?Math.min(total,lengths[place.index]+55):total;s=place?.target?Math.max(lo,Math.min(hi,lengths[place.index]+place.along-12)):lo;selectedService=place?.target?place:null;offset=yaw=pitch=0;setViewing(false);paused=false;keys.clear();button('pause-toggle').textContent='暫停';
  let i=0;while(i+2<points.length&&lengths[i+1]<s)i++;const a=points[i],b=points[i+1];freePos.copy(a).lerp(b,(s-lengths[i])/(lengths[i+1]-lengths[i]));heading=Math.atan2(b.x-a.x,b.z-a.z)}
- destination.onchange=relocate;travel.onchange=()=>{if(local&&(local.walk||travel.value==='guided'))destination.value='-1';free=travel.value==='free';relocate()};
+ destination.onchange=relocate;travel.onchange=()=>{
+   if(local?.exit){free=travel.value==='free';heading=(walkHeading??local.approachHeading)+yaw;yaw=0;keys.clear();setViewing(false);return}
+   if(local&&(local.walk||travel.value==='guided'))destination.value='-1';free=travel.value==='free';relocate()
+ };
  renderer.domElement.style.touchAction='none';
  renderer.domElement.onpointerdown=e=>{setViewing(false);drag=[e.clientX,e.clientY];renderer.domElement.setPointerCapture(e.pointerId)};
  renderer.domElement.onpointermove=e=>{if(!drag)return;const delta=(e.clientX-drag[0])*.006;if(free)heading-=delta;else yaw-=delta;pitch=Math.max(-.85,Math.min(.85,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY]};
@@ -178,7 +200,8 @@ export function ride(short=false,startWalking=false,midLeg=null){
    control.setAttribute('aria-pressed',String(active));
  }
  setViewing(false);
- if(startWalking){
+ if(startExit){hintToggle.checked=false;destination.value='exit-'+startExit.id;relocate()}
+ else if(startWalking){
    destination.value='itinerary';
    if(midLeg!==null){
      hintToggle.checked=false;
@@ -192,7 +215,20 @@ export function ride(short=false,startWalking=false,midLeg=null){
  stage.querySelectorAll('[data-move]').forEach(b=>{b.onpointerdown=e=>{setViewing(false);b.setPointerCapture(e.pointerId);keys.add(b.dataset.move)};b.onlostpointercapture=()=>keys.delete(b.dataset.move)});
  const resize=new ResizeObserver(()=>{renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/stage.clientHeight;camera.updateProjectionMatrix()});resize.observe(stage);
  function tick(now){const dt=Math.min(.05,(now-last)/1000);last=now;const speed=(+keys.has('forward')-keys.has('back'))*MODES[mode].speed*(local?.walk ? .5 : 3);
- if(!paused && free){heading+=(+keys.has("left")-keys.has("right"))*dt*MODES[mode].turn;const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6});if(legal)freePos.set(x,0,z)}else if(!paused&&!local?.walk){yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;[s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s))}
+ if(!paused&&free){
+   heading+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
+   if(!local?.exit){
+     const x=freePos.x+Math.sin(heading)*speed*dt,z=freePos.z+Math.cos(heading)*speed*dt;
+     const legal=local?(Math.abs(x)<22&&z>.1&&z<9.5):points.slice(1).some((b,i)=>{
+       const a=points[i],dx=b.x-a.x,dz=b.z-a.z,t=Math.max(0,Math.min(1,((x-a.x)*dx+(z-a.z)*dz)/(dx*dx+dz*dz)));
+       return Math.hypot(x-a.x-t*dx,z-a.z-t*dz)<6;
+     });
+     if(legal)freePos.set(x,0,z);
+   }
+ }else if(!paused&&!local?.walk){
+   yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
+   [s,offset]=clampMovement(s+Math.cos(yaw)*speed*dt,offset+Math.sin(yaw)*speed*dt,total);s=Math.max(lo,Math.min(hi,s));
+ }
  const swing=paused||!speed?0:Math.sin(now*.006);if(!paused){
       if(actor.userData.legs)actor.userData.legs.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.65:mode==='cane'?.26:.38));
       if(actor.userData.arms)actor.userData.arms.forEach((part,i)=>part.rotation.x=(i?1:-1)*swing*(mode==='run'?.55:mode==='wheelchair'?.32:.28));
@@ -201,16 +237,18 @@ export function ride(short=false,startWalking=false,midLeg=null){
       if(actor.userData.cane)actor.userData.cane.rotation.x=swing*.14;
 }
  if(local?.walk){
-   if(!paused)yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
-   const step=local.advance(paused||realView.dialog.open?0:speed*dt,freePos);
+   if(!paused&&!free)yaw+=(+keys.has('left')-keys.has('right'))*dt*MODES[mode].turn;
+   const step=local.advance(paused||realView.dialog.open?0:speed*dt,freePos,local.exit&&free?heading:null);
    if(walkHeading===null)walkHeading=step.heading;
    const turn=Math.atan2(Math.sin(step.heading-walkHeading),Math.cos(step.heading-walkHeading));
    walkHeading+=turn*(1-Math.exp(-dt*9));
-   const angle=walkHeading+yaw;
+   const angle=local.exit&&free?heading:walkHeading+yaw;
+   if(!local.exit){
    const station=walkStops[step.nearest];nearestName=station[0];realButton.hidden=!step.near||!realView.available(nearestName);realButton.textContent='開啟'+nearestName+'附近實景';nearKey=step.near&&sharedStops.has(station[3])?station[3]:null;
    enter.hidden=!nearKey;enter.textContent='走進'+station[0]+'周邊';
    panorama.onfocus=panorama.onpointerenter=panorama.onclick=()=>{const lat=22.61-freePos.z/110750,lon=120.29+freePos.x/102820;panorama.href='https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+lat.toFixed(6)+','+lon.toFixed(6)+'&heading='+((180-angle*180/Math.PI+360)%360).toFixed(1)+'&pitch='+(pitch*180/Math.PI).toFixed(1)};
    if(!panorama.hasAttribute('href'))panorama.onfocus();
+   }
    actor.position.copy(freePos);actor.rotation.y=step.heading+Math.PI;actor.visible=!first;
    const dx=Math.sin(angle),dz=Math.cos(angle);
    const stride=first&&mode==='run'&&speed&&!paused&&!realView.dialog.open&&!reduceMotion.matches ? .019*Math.sin(local.distance*4.3) : 0;

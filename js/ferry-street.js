@@ -89,6 +89,42 @@ export function ferryStreet(scene){
     [-1,58.4,11.5,2,0xd6c5a0,0xc79d38,'corner']
   ];
   for(const args of lots)shop(...args);
+  // Binhai 1st Road is a row of individually altered narrow houses. The
+  // shutters, balcony cages, stained renders and awnings read in perspective.
+  const alleyTiles=artwork(384,256,(c,w,h)=>{
+    c.fillStyle='#89867c';c.fillRect(0,0,w,h);
+    for(let j=0;j<20;j++)for(let i=0;i<31;i++){
+      const t=Math.sin(i*43.7+j*17.1),v=Math.round(191+12*t);
+      c.fillStyle='rgb('+v+','+(v-5)+','+(v-15)+')';c.fillRect(i*13,j*13,12,12);
+      if((i+3*j)%11===0){c.fillStyle='rgba(96,87,65,.20)';c.fillRect(i*13+3,j*13,2,9)}
+    }
+  });
+  for(const [side,z,w,levels,,awning,kind] of lots){
+    const sideFace=-side*Math.PI/2;
+    if(kind==='white'){
+      // Tall pale wall with recessed vertical openings just before the terminal.
+      box(side*7.9,5.68,z,1.02,4.75,w-.23,0xd4d9d2);
+      for(let d=-w*.37;d<=w*.4;d+=1.72){
+        box(side*7.35,5.64,z+d,.14,2.65,.47,0x818f8b);box(side*7.26,5.61,z+d+.16,.20,2.71,.12,0xf1e9d7);
+      }
+    }else if((Math.round(z)+side)%3!==0){
+      panel(side*8.32,3.67,z+w*.32,w*.29,.72,sideFace,alleyTiles);
+      for(let d=-w*.4;d<w*.43;d+=1.1){
+        const h=levels===3?6.25:5.75;
+        box(side*8.20,h,z+d,.10,1.48,.035,0xa5a69c);
+        box(side*8.1,h-.65,z+d,.32,.08,1.12,0xb5b0a2);
+      }
+      const at=z-w*.27;
+      box(side*8.04,4.98,at,.53,.58,.88,0xb9b7a9);
+      for(let l=0;l<5;l++)box(side*7.76,4.78+l*.09,at,.027,.032,.68,0x7a827d);
+      box(side*8.27,2.03,z-w*.44,.10,3.88,.095,0x9b9d91);
+    }
+    if(awning){
+      const eave=side*6.51;
+      for(let d=-w*.47;d<w*.47;d+=.72)box(eave,3.0,z+d,.74,.075,.047,0x8a8372,0,0,side*.18);
+      box(side*6.04,2.97,z,.065,.065,w*.94,0x878c82);
+    }
+  }
   const ceramic=artwork(256,256,(c,w,h)=>{
     c.fillStyle='#aca699';c.fillRect(0,0,w,h);
     for(let j=0;j<16;j++)for(let i=0;i<16;i++){const v=189+Math.round(7*Math.cos(j*3+i*15));c.fillStyle='rgb('+v+','+(v-5)+','+(v-17)+')';c.fillRect(i*16,j*16,15,15)}
@@ -122,6 +158,17 @@ export function ferryStreet(scene){
   box(7.15,.64,-.4,1.04,1.28,4.65,white);box(6.61,1.14,-.4,.07,.25,4.64,0x347c9f);
   panel(6.59,.65,-.45,3.5,.75,-Math.PI/2,sign('冰　福泉','#fcf2df','#b74638'));
   table(1,4.5);table(1,21);table(1,34.7);
+  // The ice counter has a corrugated cream valance, menu strip, round bins
+  // and a stainless ledge that continues under the neighbour's awning.
+  for(let d=-3.5;d<3.8;d+=.31)box(6.12,3.22,d,.25,.095,.16,0xdfcfaa);
+  for(const d of [-1.72,-.81,.16,1.12])solid(drum,7.13,1.36,d,.23,.075,.23,0xb8c5bd);
+  box(6.55,1.32,-.3,.19,.065,4.8,0xc7d0c8);
+  panel(8.54,2.58,-.1,5.28,.60,-Math.PI/2,sign('雪花冰　布丁豆花','#e3e6cd','#507266'));
+  for(const [side,z,col] of [[1,18.9,0x46556a],[-1,32.2,0xab5e4b],[1,46,0x8f9e90]]){
+    box(side*6.78,.83,z,1.34,.09,1.83,0xc3b595);
+    for(const dz of [-.77,.77])for(const dx of [-.45,.45])box(side*6.78+dx,.4,z+dz,.055,.79,.055,steel);
+    for(const d of [-.42,0,.43])solid(orb,side*6.74,.94,z+d,.17,.115,.14,col);
+  }
   blade(1,6.1,4.6,'冰品','#a44f51','#fff3d7');blade(1,24.2,5.4,'炒飯','#315c8c','#f6d17a');
   plate(1,33.5,3.86,8.5,1.06,'炒飯　肉飯','#b64f41','#fae7c1',true);
   blade(1,49.4,4.61,'海味','#e7dfc9','#433d38');plate(1,63.5,3.93,8.9,.86,'海洋廚房','#e9e6d7','#32434a');
@@ -151,6 +198,10 @@ export function ferryStreet(scene){
   box(0,.069,61,10.6,.03,4.4,0x7cbaa4);
   for(let x=-4.8;x<=5;x+=1.2)box(x,.094,61,.52,.02,4.35,white);
   for(const s of [-1,1])for(let z=10;z<56;z+=10)box(s*.23,.066,z,.09,.015,3.8,white);
+  for(const z of [13.8,40.1]){
+    box(-1.44,.081,z,.17,.015,2.05,white);
+    for(const s of [-1,1])box(-1.44+s*.24,.082,z+.92,.15,.017,.84,white,0,-s*.64);
+  }
   // Painted intersection hatching, clipped to its rectangular perimeter.
   for(const direction of [-1,1])for(let k=-18;k<=18;k+=2.9){
     const a=Math.max(-5,-4-k),b=Math.min(5,4-k);if(a>=b)continue;
@@ -169,6 +220,24 @@ export function ferryStreet(scene){
   }
   panel(7,2.77,85.67,2.55,.56,Math.PI,sign('出口','#ebebda','#a84439'));
   panel(-4,2.77,85.67,2.55,.56,Math.PI,sign('入口','#e9e8d8','#40685c'));
+  const doorway=artwork(384,256,(c,w,h)=>{
+    const g=c.createLinearGradient(0,0,w,h);g.addColorStop(0,'#b8d1cc');g.addColorStop(.36,'#77a49e');g.addColorStop(.56,'#496e6b');g.addColorStop(1,'#97b7ad');c.fillStyle=g;c.fillRect(0,0,w,h);
+    c.fillStyle='rgba(241,236,205,.23)';for(let i=0;i<4;i++)c.fillRect(0,44+i*44,w,3);
+    c.fillStyle='rgba(45,65,59,.48)';for(const x of [45,161,278])c.fillRect(x,104,19,152);
+  });
+  for(const [index,x] of [-10.5,-6.4,-2.3,1.8,5.9,10.0].entries()){
+    panel(x,1.58,85.66,2.73,2.73,Math.PI,doorway);
+    for(const side of [-1,1]){box(x+side*1.36,1.56,85.46,.092,2.9,.18,0xb0bbb2);box(x+side*.59,1.5,85.49,.048,2.65,.13,0xc4ccc1)}
+    box(x,2.99,85.5,2.84,.13,.23,0xa2aea7);
+    box(x+1.63,1.53,83.77,.37,3.03,.38,0xc6c2b4);
+    box(x+1.63,.59,83.77,.39,.13,.40,index%2?0xaa6b54:0x71928d);
+    box(x,3.10,83.57,1.12,.06,.28,0xefe6c8);
+    box(x-.58,.77,83.55,.42,1.22,.90,0xa5b6ad);box(x-.58,1.44,83.48,.34,.17,.42,0x424d4b);
+  }
+  for(let x=-15;x<16;x+=.53){box(x,3.27,84.19,.036,.10,2.73,0x928f82)}
+  for(const s of [-1,1])for(let z=75;z<83;z+=2.0){
+    box(s*9.9,.38,z,.13,.76,.13,0xb3bab1);box(s*9.9,.73,z+.97,.11,.075,2.0,0xd1cdbb);
+  }
   box(-.8,3.48,83.29,7.6,.49,.2,0x423e38);
   for(let x=-4.1;x<2.5;x+=.34)box(x,3.5,83.16,.15,.07,.025,0xe1a046);
   for(let i=0;i<24;i++)box(0,3.76+i*.175,85.92,36,.063,.16,0x737777);

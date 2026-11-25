@@ -4,6 +4,7 @@ import {reportMap,ride} from './report.js';
 import { loadData, publicItems, safeImagePath } from './data.js';
 import { mountMap } from './map.js';
 import { mountExplore } from './explore.js';
+import {stationExitById} from '../data/station-exits.js';
 
 const app = document.getElementById('app');
 document.querySelector('.skip-link').addEventListener('click', event => {
@@ -149,7 +150,9 @@ function render() {
   dispose(); dispose = () => {};
   const requested = (location.hash.slice(1) || '/').replace(/\/$/, '') || '/';
   const midLeg = requested.match(/^\/explore\/walk\/mid\/([1-9])$/);
-  const path = midLeg ? '/explore/walk' : requested;
+  const exitId=requested.startsWith('/explore/station/')?requested.slice('/explore/station/'.length):null;
+  const entrance=stationExitById.get(exitId);
+  const path = entrance ? '/explore' : midLeg ? '/explore/walk' : requested;
   const pages = { '/': home, '/map': mapPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
   const routeId = path.startsWith('/routes/') ? path.slice('/routes/'.length) : null;
   const extraRoute = routeId && routeId !== 'bay' ? data.routes.find(item => item.id === routeId && item.status === 'verified' && item.published && item.verifiedAt) : null;
@@ -164,18 +167,18 @@ function render() {
   }
   const isGame=['/explore','/explore/short','/explore/walk'].includes(path);
   if (isGame) {
-    document.querySelector('.status-note').innerHTML = '選擇 3D 行程： <a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/short">港灣去程練習</a> · <a href="#/explore">港灣完整往返</a>';
+    document.querySelector('.status-note').innerHTML = '<a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/short">港灣去程練習</a> · <a href="#/explore">港灣完整往返</a> · <a href="#/explore/station/O1-2">從街口走近捷運出口</a><p>3D 場景依地圖與街景建模。建物細節、尺度及通行空間為示意。</p>';
     document.querySelector('#mission-list').innerHTML='<li>從哈瑪星出發，沿紅線走訪港灣。</li><li>在去程末端觀察折返方向。</li><li>全程模式沿回程路徑返回哈瑪星。</li>';
     document.querySelector('.game-help').textContent='點選畫面後用 WASD 或方向鍵移動及轉向，手機可按住方向鍵。按 E 或「觀察」可觀看鄰近地標全景，再按一次或前進即可返回。';
     document.querySelector('.game-shell').before(friendlyDirectory());
-    dispose = ride(path.endsWith('/short'),path.endsWith('/walk'),midLeg ? Number(midLeg[1])-1 : null);
+    dispose = ride(path.endsWith('/short'),path.endsWith('/walk'),midLeg ? Number(midLeg[1])-1 : null,entrance);
   }
   if(path==='/about')document.querySelector('.page-intro').after(notesSection('about'));
 
   if(isGame)document.querySelector('.game-shell').after(notesSection('explore'));
   if (path === '/community') renderResults();
   window.scrollTo(0, 0);
-  if(path==='/explore/walk')document.querySelector('#game-stage')?.scrollIntoView({block:'center'});
+  if(path==='/explore/walk'||entrance)document.querySelector('#game-stage')?.scrollIntoView({block:'center'});
   document.title = `${path === '/' ? '跑出你的高雄' : document.querySelector('.page-intro h1')?.textContent || '跑出你的高雄'}｜友善跑步地圖互動原型`;
 }
 

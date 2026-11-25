@@ -1,6 +1,6 @@
 export const places=[
  {index:1,name:'哈瑪星',detail:'港區鐵道與舊驛意象',source:'https://khh.travel/zh-tw/attractions/detail/206/'},
- {index:5,name:'鹽埕綠廊道',detail:'報告記載路經綠廊；樹列與植栽為示意',source:null},
+ {index:5,name:'鹽埕綠廊道',detail:'樹列與花圃間的水波紋座椅、花架通道，配置為示意',source:'https://orgws.kcg.gov.tw/001/KcgOrgUploadFiles/466/relfile/78183/329469/91ea6982-a618-4112-a0ed-e290cf797a83.pdf'},
  {index:14,name:'真愛碼頭',detail:'愛河出海口的雙座風帆',source:'https://khh.travel/zh-tw/attractions/detail/1053/'},
  {index:19,name:'高雄流行音樂中心',detail:'海浪起伏的高低塔與珊瑚礁群意象',source:'https://khh.travel/zh-tw/attractions/detail/1175/'}
 ];

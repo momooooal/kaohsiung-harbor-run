@@ -1,12 +1,14 @@
 import {neighborhood} from './neighborhood.js';
 import {frontage} from './frontages.js';
 import {friendlyPlaces} from '../data/friendly-places.js';
+import {daylightSky} from './daylight.js';
 
 // Standalone interpretive streets. Coordinates identify the business, not the model footprint.
 export function cityStreet(record) {
   const [name,address,type]=record, scene=new THREE.Scene();
   scene.background=new THREE.Color(0xbad7df);
   scene.fog=new THREE.FogExp2(0xd6ddd5,.022);
+  daylightSky(scene);
   scene.add(new THREE.HemisphereLight(0xfff6dd,0x777268,.62));
   const sun=new THREE.DirectionalLight(0xffedc9,.93);
   sun.position.set(-9,12,7);sun.castShadow=true;Object.assign(sun.shadow.camera,{left:-20,right:20,top:16,bottom:-16});sun.shadow.mapSize.set(1024,1024);sun.shadow.bias=-.0006;scene.add(sun);

@@ -7,14 +7,17 @@ import environment from '../data/walking-environment.js';
 import legs from '../data/walking-legs.js';
 import blocks from '../data/walking-blocks.js';
 import {stops} from '../data/shared-route.js';
+import {stationExits,stationFootprints} from '../data/station-exits.js';
+import precincts from '../data/station-surroundings.js';
+import {stationEntrance,stationApproach,clipStationGround,stationFinishes} from './station-entrance.js';
 
 // Local east/south metre coordinates, derived from OSM. Floor counts without
 // recorded heights use an indicative extrusion, not a surveyed facade.
 export function walkingCity(start=0){
   const scene=new THREE.Scene();
   scene.background=new THREE.Color(0xc6dfe3);scene.fog=new THREE.Fog(0xc6dfe3,90,430);
-  scene.add(new THREE.HemisphereLight(0xfff4e2,0xa5b5ad,1));
-  const sun=new THREE.DirectionalLight(0xffe5bb,.66);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(512,512);
+  scene.add(new THREE.HemisphereLight(0xfff5e9,0x9caca2,.79));
+  const sun=new THREE.DirectionalLight(0xffe6c1,.92);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(768,768);
   Object.assign(sun.shadow.camera,{left:-56,right:56,top:56,bottom:-56,far:210});sun.shadow.bias=-.0013;sun.shadow.normalBias=.12;
   sun.shadow.camera.updateProjectionMatrix();
   const positions=[],colors=[],styles=[];let style=0;
@@ -36,21 +39,20 @@ export function walkingCity(start=0){
   // OSM layer / location tags distinguish the subway boxes under these streets.
   const underground=new Set(['-1713,-1360','-682,-1406','1174,-1767','2624,1558','1789,372','1492,-506']);
   const shelters=new Set(['-1169,-1839','-1160,-1832','-2071,-1535','-12,-1626','1535,1667','1529,1669']);
-  const entrances=new Set(['-1505,-1288','-1715,-1334']);
   const surfaceBuildings=blocks.buildings.filter(([,p])=>!underground.has(p[0].join())).map(record=>{
     const key=record[1][0].join();
+    if(key==='-1482,-1318')return [3.62,record[1],'rail-museum'];
     if(shelters.has(key))return [2.7,record[1],'shelter'];
-    if(entrances.has(key))return [3.5,record[1],'station-entry'];
     return record;
   });
-  const buildings=surfaceBuildings.concat(environment.mappedBuildings, infill.map(points=>{
+  const buildings=surfaceBuildings.concat(environment.mappedBuildings,precincts.buildings,infill.map(points=>{
     const [x,z]=points[0];
     // These footprints have no measured height. Use a stable low-rise profile.
     return [5.9+Math.abs(x*13+z*7)%4*2.85,points];
-  }));
+  })).filter(([,points])=>!stationFootprints.has(points[0].join())&&!underground.has(points[0].join()));
   const centerArchitecture=addRouteArchitecture(scene,buildings,legs,profiles);
   buildings.forEach(([h,points,kind],i)=>{
-    if(['hall','shelter','station-entry'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
+    if(['hall','shelter','station-entry','rail-museum'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
     if(parkHouse)h=3.45;
     const shell=streetShells.get(points[0].join());
@@ -85,7 +87,7 @@ export function walkingCity(start=0){
   });
   style=0;
   blocks.water.forEach(p=>polygon(p,.01,tint(0x78aeb0)));
-  for(const [width,line,surface,lanes] of blocks.roads){
+  for(const [width,line,surface,lanes] of blocks.roads.concat(precincts.roads)){
     const paved=surface==='paving_stones'||surface==='concrete:plates';
     const roadColor=tint(paved?0xad9f8f:width<=2?0xb5afa0:0x686f70);
     let phase=0;
@@ -106,6 +108,8 @@ export function walkingCity(start=0){
   const releaseFerry=ferryStreet(ferryGroup);
   const scenery=walkingScenery(scene,{polygon,ribbon,tint});
   const corridors=walkingCorridors(scene,scenery);
+  const finishes=stationFinishes();
+  const entrances=stationExits.map(exit=>[exit,stationEntrance(scene,exit,true,finishes)]);
   const path=[],dist=[],ends=[],names=[],guide=tint(0xf7bb64);
   let total=0;
   legs.forEach(({path:line,streets})=>{
@@ -156,14 +160,27 @@ export function walkingCity(start=0){
         }else{
           float pane=step(.16,u)*step(u,.82)*step(.22,v)*step(v,.8);
           if(streetPos.y<2.75)pane=step(.12,u)*step(u,.90);
-          diffuseColor.rgb*=mix(vec3(.84+.16*v),vec3(.26,.37,.39),pane);
-          if(pane>.5 && abs(u-.49)<.014)diffuseColor.rgb*=1.7;
+          float finish=.75+.25*texture2D(paverTexture,vec2(along*.35,streetPos.y*.35)).r;
+          float seam=1.-.15*(1.-smoothstep(.012,.04,min(v,1.-v)));
+          vec3 wall=vec3((.82+.18*v)*finish*seam);
+          float reflection=clamp(.5+.23*sin(along*.17+streetPos.y*.35)+.25*v,.15,1.);
+          vec3 glass=mix(vec3(.19,.25,.25),vec3(.47,.58,.56),reflection);
+          float lintel=smoothstep(.0,.16,.8-v);
+          glass*=.79+.21*lintel;
+          if(abs(u-.49)<.014||abs(v-.62)<.011)glass=vec3(.66,.70,.68);
+          diffuseColor.rgb*=mix(wall,glass,pane);
         }
       }`);
+    clipStationGround(shader,stationExits,'streetPos.xz');
   };
   const streetMesh=new THREE.Mesh(geometry,m);streetMesh.castShadow=streetMesh.receiveShadow=true;scene.add(streetMesh);
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));const paving=new THREE.TextureLoader().load('assets/surfaces/concrete_pavement_02.jpg');paving.encoding=THREE.sRGBEncoding;paving.wrapS=paving.wrapT=THREE.RepeatWrapping;paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
   const labels=[],markers=[];
+  ground.material.onBeforeCompile=shader=>{
+    shader.vertexShader='varying vec2 groundSite;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ngroundSite=(modelMatrix*vec4(position,1.)).xz;');
+    shader.fragmentShader='varying vec2 groundSite;\n'+shader.fragmentShader;
+    clipStationGround(shader,stationExits,'groundSite');
+  };
   stops.forEach(([name],i)=>{
     if(i===5)return; // The second coffee stop occupies the same physical site.
     const [x,z]=sample(i?ends[i-1]:0);
@@ -174,21 +191,36 @@ export function walkingCity(start=0){
     const map=new THREE.CanvasTexture(canvas);labels.push(map);
     const sign=new THREE.Sprite(new THREE.SpriteMaterial({map}));sign.position.set(x,4,z);sign.scale.set(8,1.5,1);scene.add(sign);markers.push(sign);
   });
-  let at=start?ends[start-1]:0,segment=0;
+  let at=start?ends[start-1]:0,segment=0,exit=null,approach=null,approachAt=0,sideOffset=0;
+  function center(x,z){
+    scenery.setCenter(x,z);centerArchitecture(x,z);corridors.center(x,z);
+    for(const [site,model] of entrances)model.visible=Math.hypot(x-site.center[0],z-site.center[1])<185;
+    ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
+    sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);
+  }
   function sample(distance){
     let l=0,r=path.length-1;
     while(l+1<r){const mid=(l+r)>>1;if(dist[mid]<=distance)l=mid;else r=mid}
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,startAt(index,fraction=0){
+  return {scene,walk:true,get exit(){return exit},get approachHeading(){return approach?.heading},visitExit(site){
+    exit=site;approach=stationApproach(site);approachAt=sideOffset=0;
+  },startAt(index,fraction=0){
+    exit=approach=null;sideOffset=0;
     const begin=index?ends[index-1]:0;at=begin+((ends[index]??begin)-begin)*fraction;
-  },showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
+  },showPlaceHints(show){for(const m of markers)m.visible=show&&!exit},get distance(){return exit?approachAt:at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos,freeAngle=null){
+    if(exit){
+      const h=approach.heading,diff=freeAngle===null?0:freeAngle-h;
+      approachAt=Math.max(0,Math.min(approach.length,approachAt+delta*Math.cos(diff)));
+      sideOffset=freeAngle===null?0:Math.max(-1.8,Math.min(1.8,sideOffset+delta*Math.sin(diff)));
+      pos.set(approach.start[0]+Math.sin(h)*approachAt+Math.cos(h)*sideOffset,0,approach.start[1]+Math.cos(h)*approachAt-Math.sin(h)*sideOffset);
+      center(pos.x,pos.z);
+      return {heading:freeAngle??h,status:exit.label,hint:exit.landmark+' · '+(approachAt===approach.length?'已到入口前':'沿人行道走近入口')};
+    }
     at=Math.max(0,Math.min(total,at+delta));
     const [x,z,i]=sample(at),f=sample(Math.min(total,at+3.5)),b=sample(Math.max(0,at-.5));
-    pos.set(x,0,z);scenery.setCenter(x,z);centerArchitecture(x,z);corridors.center(x,z);
-    ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
-    sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
+    pos.set(x,0,z);center(x,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
     const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
     return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
   },dispose(){releaseFerry();corridors.dispose();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};

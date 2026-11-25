@@ -1,4 +1,5 @@
 /* C12 and Dayi warehouse district. Local metres and platform placement are illustrative. */
+import {lightRailBoard} from './station-entrance.js';
 export function buildDayiStation(scene,frame,solid,beam){
   const district=new THREE.Group();
   district.position.copy(frame.position);
@@ -49,6 +50,7 @@ export function buildDayiStation(scene,frame,solid,beam){
   stationGround(-1.95,12,6.9,38,.145,platformEntrance);
   // Pale independent columns, cantilever ribs and a visibly sloped, thin fascia.
   for(const [x,side] of [[3.35,1],[-7.25,-1]]){
+    lightRailBoard(station,'C12','駁二大義',x,2.48,-8.7);
     solid(x,.24,8,2.9,.46,38,0xa09c8e);
     solid(x-side*1.24,.49,8,.25,.035,37.8,0xc9ac68);
     for(let z=-9;z<26;z+=3)solid(x,.477,z,2.86,.02,.029,0x615e54);

@@ -1,3 +1,6 @@
+import {stationEntrance} from './station-entrance.js';
+import {stationExitById} from '../data/station-exits.js';
+import {lightRailStreet} from './transit-street.js';
 // Positions below are art-direction offsets in the illustrative scene, never GPS coordinates.
 const pointsOfInterest=[
  {index:1,side:-5,along:-8,id:'O1',name:'哈瑪星站',tag:'捷運・站內廁所',info:'踩線從 2 號出口集合、寄物。高捷列有站內廁所，入站動線與置物櫃費率請看現場公告。',query:'高雄捷運 哈瑪星站 臨海二路17-1號',source:'https://www.krtc.com.tw/Guide/station_info?n=O1'},
@@ -108,8 +111,13 @@ export function addServiceStops(scene,points,host,visit){
      part(new THREE.CylinderGeometry(.33,.10,.48,16),.64,2.18,.02);
      part(new THREE.CylinderGeometry(.35,.34,.16,20),.64,1.26,-.45);
      part(new THREE.CylinderGeometry(.115,.115,1.6,12),1.12,2.2,.23);
-   }else part(new THREE.CylinderGeometry(.065,.09,2.65,8),0,1.36,0);
-   const stop={...record,target};stops.push(stop);
+   }else if(record.id==='O1'){
+     const station=stationEntrance(frame,stationExitById.get('O1-2'),false);
+     station.position.set(-7,0,3.8);station.rotation.y=1.99;station.scale.setScalar(.73);
+   }else if(record.id==='C11'){
+     const station=new THREE.Group();station.position.set(9,0,1);frame.add(station);lightRailStreet('C11',station);
+   }
+   const stop={...record,target,sign};stops.push(stop);
    const card=document.createElement('details'),title=document.createElement('summary'),description=document.createElement('p'),actions=document.createElement('div');actions.className='bay-actions';
    title.textContent=record.name+'｜'+record.tag;description.textContent=record.info;
    const jump=document.createElement('button');jump.type='button';jump.className='btn dark';jump.textContent='在 3D 觀看';jump.onclick=()=>visit(stop);

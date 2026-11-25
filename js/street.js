@@ -1,3 +1,4 @@
+import {daylightSky} from './daylight.js';
 const assets='assets/surfaces/';
 export function streetMaterials(scene, materials, points){
   const loader=new THREE.TextureLoader();
@@ -21,8 +22,7 @@ export function streetMaterials(scene, materials, points){
   ];
   for(const [color,file,scale] of surfaces){if(materials.has(color))projected(materials.get(color),file,scale)}  projected(materials.get(0x88bab0),'aerial_grass_rock.jpg',.13);
   const brick=new THREE.MeshLambertMaterial();projected(brick,'brick_wall_001.jpg',.25,true);
-  const sky=new THREE.Mesh(new THREE.SphereGeometry(550,64,32),new THREE.MeshBasicMaterial({map:load('harbor-light.jpg'),side:THREE.BackSide,fog:false,toneMapped:false}));
-  sky.scale.x=-1;sky.rotation.y=1.2;scene.add(sky);
+  const sky=daylightSky(scene);
   scene.fog=new THREE.FogExp2(0xe8dfcf,.0016);
   const box=new THREE.BoxGeometry(), cache=new Map(),batches=new Map();
   function rect(x,y,z,w,h,d,angle,color){
@@ -71,11 +71,6 @@ export function streetMaterials(scene, materials, points){
   const dummy=new THREE.Object3D();shadowPositions.forEach(([x,z,h],i)=>{dummy.position.set(x,.11,z);dummy.rotation.set(-Math.PI/2,0,.5);dummy.scale.set(h*.85,h*1.4,1);dummy.updateMatrix();shadows.setMatrixAt(i,dummy.matrix)});scene.add(shadows);
   let lastYaw=Infinity;
   return {update(camera){sky.position.copy(camera.position);
-    // Lift the generic photo horizon out of the low-rise C12 warehouse district.
-    if(points[34]){
-      const distance=camera.position.distanceTo(points[34]);
-      sky.material.map.offset.y=.20*(1-THREE.MathUtils.smoothstep(distance,65,130));
-    }
     const dir=camera.getWorldDirection(dummy.position);const yaw=Math.atan2(dir.x,dir.z);if(Math.abs(yaw-lastYaw)<.025)return;lastYaw=yaw;treePositions.forEach(([x,z,h],i)=>{dummy.position.set(x,h/2-.1,z);dummy.rotation.set(0,yaw,0);dummy.scale.set(h*.64,h,1);dummy.updateMatrix();trees.setMatrixAt(i,dummy.matrix)});trees.instanceMatrix.needsUpdate=true},dispose(){textures.forEach(t=>t.dispose())}};
 }
 

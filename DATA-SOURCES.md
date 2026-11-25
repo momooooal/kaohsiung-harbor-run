@@ -26,3 +26,18 @@
 | 9 | [臨海二路街口](https://www.google.com/maps/@22.6227516,120.2724587,6a,90y,122.15h,90t/data=!3m7!1e1!3m5!1skNBIEVTOduaf8k_GL9XfFg!2e0!6shttps:%2F%2Fstreetviewpixels-pa.clients6.google.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DkNBIEVTOduaf8k_GL9XfFg%26yaw%3D122.15!7i16384!8i8192)（2026-06） | 紅磚色轉角樓、騎樓、茶攤和穿越線，並參照同向前一個位置的遮陽棚及機車。 |
 
 另參照[哈瑪星鐵道文化園區](https://khh.travel/zh-tw/attractions/detail/206/)、[高雄市海洋局鼓山漁港資料](https://kcmb.kcg.gov.tw/cp.aspx?n=12DBDF1D77EBD03A)、[昇平街轉角後方](https://www.google.com/maps/@22.6162642,120.2949242,6a,90y,249.44h,90t/data=!3m7!1e1!3m5!1st4DTXSQ2RVjMObHr5GLJ8g!2e0!6shttps:%2F%2Fstreetviewpixels-pa.clients6.google.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3Dt4DTXSQ2RVjMObHr5GLJ8g%26yaw%3D249.44!7i16384!8i8192)與[鄰近林蔭帶](https://www.google.com/maps/@22.6034145,120.3044739,3a,90y,249.91h,90t/data=!3m8!1e1!3m6!1sCIHM0ogKEICAgIDqxenEwwE!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgpms-cs-s%2FAM4Q-U_9GWKztZuSNpOckRkCwy9qNvN8rfDzj3ndoQ21WKsV3ab1J5FjB9ldq4x5s2Jmp6ZorvLdcMD-9mTt9GbREoxVmsLWzc1MRrQ95YYbuhS6-NJfl0Er8kyFeQ5XAsoBFHEGbUP7%3Dw900-h600-k-no-pi0-ya54.91-ro0-fo100!7i7680!8i3840)。
+## 捷運出口與街口
+
+3D 的捷運入口使用高捷公布的站名、出口編號及出口方向。座標及站體外框取自 OpenStreetMap。入口相對於幹道的位置、棚架形狀、玻璃與斜撐、前方階梯及周圍街廓參考各出口的 Google 實景。幾何、站牌圖面、門窗、家具與植栽均為自行建模。街景分別拍攝於不同年份，現況可能已變動。
+
+| 車站 | 在街上可辨認的差異 | 核對資料 |
+| --- | --- | --- |
+| 哈瑪星 O1 | 1 號的高牆及磚紅色曲簷。2 號的寬平頂棚、弧形階梯、舊打狗驛與 C14 轉乘環境。 | [高捷兩個出入口](https://www.krtc.com.tw/Guide/station_info?n=O1) · [舊打狗驛文化資產](https://nchdb.boch.gov.tw/assets/overview/historicalBuilding/20100729000001) |
+| 凱旋 R6 | 1 號往 C3，2 號位在另一側街角，3 號往時代大道。綠玻璃、傾斜白色端板、1 號旁獨立電梯，以及前鎮之星分岔的自行車高架橋。 | [高捷三個出入口](https://www.krtc.com.tw/Guide/station_info?n=R6) · [前鎮之星自行車橋](https://www.krtc.com.tw/Information/travel_more?id=52626547ca5640fbb822ad77cde7807a) |
+| 獅甲 R7 | 1 號往國中，2 號前鎮游泳池，3 號勞工公園及獨立電梯，4 號國小街口。玻璃外側斜撐、圓接頭與白色斜棚呈現同站的建築語彙。 | [高捷四個出入口](https://www.krtc.com.tw/Guide/station_info?n=R7) |
+
+每個出口的「對照這個出口的 Google 街景」都有獨立街面座標和朝向，記錄於 `data/station-exits.js`。街景由 Google Maps 開啟。十站步行使用原有步行線，轉入出口才進入前庭接近動線。
+
+沿線輕軌使用 C3、C7、C8、C10、C11、C12、C13、C14 的月台外框。C11 是高架側式月台，其餘七站為地面側式月台。資料取自[高雄輕軌各站資訊](https://www.krtc.com.tw/KLRT/)與 [OpenStreetMap 貢獻者，ODbL](https://www.openstreetmap.org/copyright)。幹道與渡輪街段的地面材質、騎樓、招牌、車輛和商業陳設皆為場景表現，不能據以推定店家合作或服務狀態。
+
+共同日光天空使用 Poly Haven 的 [Kloofendal 48d Partly Cloudy (Pure Sky)](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)，依 [CC0](https://polyhaven.com/license) 將 2K HDR 轉為小型 JPEG，作為天空與反光素材。街景內容由 3D 地形、建築與街道模型即時渲染。

@@ -1,4 +1,8 @@
 import env from '../data/walking-environment.js';
+import precincts from '../data/station-surroundings.js';
+import {stationExits,exitPoint} from '../data/station-exits.js';
+import {daylightSky} from './daylight.js';
+import {stationApproach} from './station-entrance.js';
 
 // Public way geometry is in the same east/south metre grid as walking-legs.
 // Heights, tree spacing, street furnishings and materials are interpretive.
@@ -20,7 +24,59 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
     }
   }
   const colors={green:0x739151,parking:0x84847e,plaza:0xb8ac96,water:0x508e97};
-  for(const [kind,points] of env.areas)polygon(points,kind==='water'?.012:.02,tint(colors[kind]));
+  for(const [kind,points] of env.areas.concat(precincts.areas))polygon(points,kind==='water'?.012:.02,tint(colors[kind]));
+  for(const [kind,recorded,line] of precincts.edges){
+    const h=recorded||({hedge:.83,fence:1.43,wall:1.48,retaining_wall:.65,quay:.30,kerb:.13}[kind]??1.02);
+    trace(line,(x,z,dx,dz,length)=>{
+      const a=Math.atan2(dx,dz),cx=x+dx*length/2,cz=z+dz*length/2;
+      if(['railing','guard_rail','fence'].includes(kind)){
+        for(const y of [.38*h,.93*h])box(cx,y,cz,.09,.085,length,a,0x929990);
+        for(let f=0;f<length;f+=2.4)box(x+dx*f,h/2,z+dz*f,.085,h,.085,a,0x7d827a);
+      }else if(kind==='hedge'){
+        for(let f=.6;f<length;f+=1.14)shrubs.push([x+dx*f,h*.55,z+dz*f,.65,h,1.30,a,0x5a7347]);
+      }else if(kind==='boardwalk'){
+        ribbon([x,z],[x+dx*length,z+dz*length],2.6,.082,tint(0xa9906f));
+      }else box(cx,h/2,cz,kind==='quay'?.55:.22,h,length+.03,a,kind==='quay'?0x92968c:0xaaa79b);
+    });
+  }
+  // Forecourt paving, planting and street edges are composed from the exit
+  // photographs, on the real side of the boulevard. Keep the runner's path open.
+  for(const exit of stationExits){
+    const half=exit.width/2,len=exit.length/2,a=Math.PI-exit.front*Math.PI/180;
+    const p=(r,f)=>exitPoint(exit,r,f);
+    const item=(r,f,y,w,h,d,c)=>{const [x,z]=p(r,f);box(x,y,z,w,h,d,a,c)};
+    const quad=(r0,r1,f0,f1,y,c)=>polygon([p(r0,f0),p(r1,f0),p(r1,f1),p(r0,f1)],y,tint(c));
+    quad(-half-4.6,half+4.6,-len-2,len+3,.086,0xa99e90);
+    // Connect to the kerb where the access apron opens out from the stairs.
+    const approach=stationApproach(exit);
+    ribbon(approach.start,approach.end,exit.code==='O1'?6.2:5.2,.088,tint(0xafa99d));
+    const planting=exit.code==='R7'?6.6:exit.code==='R6'?7.4:4.8;
+    for(const s of [-1,1]){
+      quad(s*(half+1.5),s*(half+planting+2),-len-2,len+.5,.075,0xb0a69a);
+      for(const f of [-len-2,-len*.16]){
+        const [x,z]=p(s*(half+planting),f);tree(x,z,exit.code==='O1'?5.1:6.4);
+        item(s*(half+planting),f,.16,1.8,.25,2.3,0x92877a);
+        shrubs.push([x,.42,z,1.34,.65,1.77,a,0x647b47]);
+      }
+    }
+    if(exit.id==='R6-1'||exit.id==='R6-3'){
+      for(const side of [-1,1]){
+        item(side*(half+2.2),-1,.22,1.0,.39,len*1.65,0x787767);
+        for(let f=-len+1;f< len-1;f+=1.1){const [x,z]=p(side*(half+2.2),f);shrubs.push([x,.61,z,.92,.7,1.5,a,0x718347])}
+      }
+    }
+    if(exit.id==='R7-2'||exit.id==='R7-4'){
+      const pool=exit.number===2,side=1,r=side*(half+14);
+      // Pool frontage and the covered school gate are visible behind their
+      // respective exits across the sidewalk. Dimensions are interpretive.
+      item(r,-1,2.12,5.2,4.24,19,pool?0xbfa98a:0xc3bead);
+      item(r-side*2.65,-1,3.70,.6,.48,20,pool?0x547281:0x8caa99);
+      for(let f=-8;f<=8;f+=3){
+        item(r-side*2.64,f,2.16,.18,1.62,2.55,0x5e7877);
+        item(r-side*3.1,f,1.66,.18,3.33,.18,pool?0xa59a79:0x8aac91);
+      }
+    }
+  }
   for(const [x,z] of env.trees)tree(x,z,5.7);
   for(const line of env.rows){
     let next=0;
@@ -68,6 +124,9 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
     park.part(4.58,f,.78,.10,.30,1.67,0x8c7356);
   }
   park.tree(-7,26,8.2);
+  // The park's broad lawn is punctuated by detached workers' houses and
+  // low verandas, in contrast to the warehouse arcade at the next stop.
+  for(const f of [-12,3,18]){park.part(-6.8,f,.13,3.7,.24,1.35,0xc4b8a2);park.shrub(-7.1,f+2,.69,1.4,.85,2,0x65764c)}
   const warehouse=viewpoint(22.61803,120.28551,115);
   warehouse.lane(0,-17,63,7,0xaf735d);
   warehouse.part(5.8,7,.79,.46,1.58,48,0x8e9184);
@@ -113,8 +172,13 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
   const hall=viewpoint(22.60730,120.29887,70);
   for(let f=-16;f<68;f+=10){hall.tree(3.9,f,5.4);hall.shrub(4.3,f,.38,.73,.46,1.15,0x677e45)}
   hall.lane(-4.5,-22,86,5,0x92918a);
+  for(let f=-17;f<56;f+=4.1){hall.part(-5.2,f,.45,.21,.90,.21,0xb1bab4);hall.part(-5.2,f,.77,.23,.07,.23,0x646d66)}
   const pier=viewpoint(22.61817,120.28518,294);
   for(let f=-10;f<40;f+=6){pier.part(-4.8,f,.65,.88,1.3,5.6,0x8a705e);pier.part(-4.8,f,1.35,.87,.25,5.6,0x884e57)}
+  for(let f=-12;f<=27;f+=3.5){
+    pier.part(-5.8,f,.13,.14,.23,3.46,0x69655c);pier.part(-7.15,f,.13,.14,.23,3.46,0x69655c);
+    for(const off of [0,1.14,2.29])pier.part(-6.47,f+off,.079,1.93,.12,.20,0x796d5a);
+  }
   const tunnel=viewpoint(22.62398,120.26998,124);
   tunnel.lane(-4,-14,50,2.1,0xa7755c);
   for(let f=-9;f<28;f+=6){tunnel.part(-5.8,f,3.12,2.2,.24,5.92,0xb5a08b);tunnel.part(-5,f,1.54,.21,3.08,.23,0xaaa394)}
@@ -129,7 +193,14 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
       const a=(i+.5)*Math.PI/16;
       portalPoint(Math.cos(a)*3.49,2.48+Math.sin(a)*2.79,1.2,.76,.59,3.6,0xb5b0a2,a-Math.PI/2);
     }
-    portalPoint(0,2.4,3.15,6.5,4.8,.13,0x2e3732);
+    // Return the soffit and stone jambs into the hillside so the east portal
+    // has real depth from the street. The walk ends outside the tunnel.
+    for(const s of [-1,1])portalPoint(s*3.32,1.31,8.8,.34,2.65,15.2,0x676a5f);
+    for(let i=0;i<16;i++){const a=(i+.5)*Math.PI/16;
+      portalPoint(Math.cos(a)*3.38,2.49+Math.sin(a)*2.70,8.6,.69,.31,15.5,0x747669,a-Math.PI/2);
+    }
+    for(const f of [3.7,7.8,11.9])portalPoint(0,4.99,f,.94,.09,.27,0xd8d1af);
+    portalPoint(0,2.52,16,6.58,5.14,.15,0x343d36);
   }
 
   // Mid-leg checks: the planted separator on Xinguang, boulevard trees on
@@ -181,18 +252,6 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
   const asphalt=texture('asphalt_02.jpg'),brick=texture('herringbone_pavement.jpg');
   const masonry=texture('brick_wall_001.jpg'),lawn=texture('aerial_grass_rock.jpg');
   for(const t of [asphalt,brick,masonry,lawn])t.wrapS=t.wrapT=THREE.RepeatWrapping;
-  const sky=new THREE.Mesh(new THREE.SphereGeometry(600,24,12),new THREE.ShaderMaterial({
-    side:THREE.BackSide,depthWrite:false,
-    vertexShader:'varying vec3 ray;void main(){ray=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-    fragmentShader:`varying vec3 ray;
-      float h(vec2 p){return fract(sin(dot(p,vec2(41.7,113.2)))*43758.54);}
-      float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
-      void main(){vec3 dir=normalize(ray);float y=max(dir.y,0.);
-        vec3 color=mix(vec3(.82,.87,.88),vec3(.28,.53,.76),smoothstep(0.,.54,y));
-        vec2 uv=dir.xz/(y+.16)*2.;float cloud=noise(uv)*.58+noise(uv*2.03)*.29+noise(uv*4.11)*.13;
-        color=mix(color,vec3(.94,.95,.95),smoothstep(.51,.81,cloud)*smoothstep(.015,.23,y)*.72);
-        gl_FragColor=vec4(color,1.);
-      }`
-  }));sky.renderOrder=-2;scene.add(sky);
+  const sky=daylightSky(scene);
   return {asphalt,brick,masonry,lawn,setCenter(x,z){sky.position.set(x,0,z)},dispose(){textures.forEach(t=>t.dispose())}};
 }

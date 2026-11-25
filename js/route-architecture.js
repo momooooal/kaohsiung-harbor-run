@@ -2,6 +2,7 @@
 // All facade and roof sections are visual interpretations in local east/south metres.
 import relief from '../data/walking-relief.js';
 import {streetShells} from './walking-corridors.js';
+import {mappedTransit} from './transit-street.js';
 
 function addRelief(scene) {
   const positions = [], indices = [], w = relief.rows[0].length;
@@ -84,6 +85,24 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
   const trims=[0x8e7465,0x949086,0x7a887e,0xa47d66,0x8d8e85];
   for(const [height,p,tag] of buildings){
     const [x,z]=p[0],kind=tag||profiles.get(p[0].join());
+    if(kind==='rail-museum'){
+      const cx=p.reduce((sum,q)=>sum+q[0]/p.length,0),cz=p.reduce((sum,q)=>sum+q[1]/p.length,0);
+      const dx=p[2][0]-p[1][0],dz=p[2][1]-p[1][1],length=Math.hypot(dx,dz),a=Math.atan2(dx,dz);
+      const width=Math.hypot(p[1][0]-p[0][0],p[1][1]-p[0][1]);
+      const piece=(u,y,v,w,h,d,color)=>part(cx+Math.cos(a)*u+Math.sin(a)*v,y,cz-Math.sin(a)*u+Math.cos(a)*v,w,h,d,a,color);
+      piece(0,1.83,0,width,3.66,length,0xd7ceb5);
+      for(const side of [-1,1])for(let f=-length*.41;f<length*.46;f+=3.14){
+        piece(side*(width/2+.035),1.72,f,.10,2.04,1.55,0x52665d);
+        piece(side*(width/2+.11),1.78,f,.11,.095,1.56,0xc9c4af);
+        piece(side*(width/2+.11),1.78,f,.11,1.96,.07,0xc9c4af);
+        piece(side*(width/2+.10),.66,f,.21,.11,1.76,0xa9a18e);
+      }
+      // A single-storey hipped station roof, separate from the MRT canopy.
+      for(let i=0;i<22;i++){
+        const t=i/22;piece(0,3.62+t*1.76,0,(width+1.48)*(1-t),.14,length+1.56-t*width,i%3===0?0x686a5f:0x72766b);
+      }
+      continue;
+    }
     if(streetShells.has(p[0].join()))continue;
     if(tag==='hall'){exhibitionHall(scene,p,part);continue}
     if(kind==='hall')continue;
@@ -140,6 +159,13 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
           box(s,.07,1.3,w,2.55,.13,seed%4===1?0x65716c:0x414c4d);
           if(seed%4===1)for(let r=0;r<7;r++)box(s,.17,.45+r*.31,w,.04,.07,0x87928a);
           else box(s,.17,1.24,.09,2.43,.09,0xafada0);
+          if((seed+k)%4===0){
+            // Projecting fabric valance across a single bay, with a clear
+            // alley between adjoining shop houses. No invented shop names.
+            const shade=[0x7c8f88,0xaf8873,0xae997f][(seed+k)%3];
+            box(s,depth+.31,2.91,w+.18,.10,.85,shade);
+            box(s,depth+.71,2.78,w+.18,.23,.08,shade);
+          }
         }
         const levels=Math.min(4,Math.floor((height-.9)/3.2));
         for(let floor=1;floor<=levels;floor++){
@@ -149,24 +175,15 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
             box(s,depth*.32,y+.58,w,.08,.08,trim);
             for(const t of [-.45,0,.45])box(s+t*w,depth*.32,y+.32,.055,.55,.055,trim);
           }
+          if(floor===1&&height<23&&k%3===seed%3){
+            box(s-w*.27,.31,y+.77,.76,.49,.45,0xadab9f);
+            for(let l=0;l<4;l++)box(s-w*.27,.543,y+.62+l*.088,.6,.027,.024,0x727b74);
+          }
         }
       }
     }
   }
-  // Independently located OSM subway entrance nodes. Canopy and railing
-  // dimensions are interpretive. Light-rail platforms are separate from O1.
-  function entrance(x,z,yaw,length,width) {
-    const local=(u,v,y,w,h,d,c)=>part(x+Math.cos(yaw)*u+Math.sin(yaw)*v,y,z-Math.sin(yaw)*u+Math.cos(yaw)*v,w,h,d,yaw,c);
-    local(0,0,3.35,width+1,.25,length+.8,0xa3aaa0);
-    local(0,0,3.17,width+.6,.15,length+.45,0x555e59);
-    for(const sign of [-1,1]){
-      local(sign*width*.5,0,.43,.20,.84,length,0x777a72);
-      local(sign*width*.5,0,1.05,.09,.08,length,0xb8c7c0);
-      for(const v of [-.42,0,.42])local(sign*width*.48,length*v,1.62,.16,3.2,.18,0xa2aaa0);
-    }
-    local(0,0,.16,width-.45,.20,length-.2,0x484e4a);
-  }
-  entrance(2600,1537,-.64,11,5);entrance(2683,1502,-.64,11,5);entrance(2501,1378,-.64,11,5);
+  const showTransit=mappedTransit(scene,part);
 
   const meshes=[];
   for(const chunk of chunks.values()){
@@ -179,6 +196,7 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
   return (x,z)=>{
     if(Math.abs(x-lastX)+Math.abs(z-lastZ)<10)return;
     lastX=x;lastZ=z;
+    showTransit(x,z);
     for(const [mesh,cx,cz] of meshes)mesh.visible=Math.hypot(cx-x,cz-z)<235;
   };
 }

@@ -1,4 +1,5 @@
 import {buildDayiStation} from './dayi.js';
+import {lightRailStreet} from './transit-street.js';
 // Local frames use metres in the illustrative scene, not surveyed coordinates.
 export function addHarborDistricts(scene,points){
  const box=new THREE.BoxGeometry(),tube=new THREE.CylinderGeometry(1,1,1,12),batches=new Map(),frame=new THREE.Object3D(),item=new THREE.Object3D();
@@ -44,16 +45,31 @@ export function addHarborDistricts(scene,points){
  }
  for(const x of [-12,12])solid(x,2.1,0,1.25,4.3,3.5,0xa5a294);
  for(const x of [-9,9]){solid(x,.32,8,4,.62,1.1,cream);beam([x,.1,3],[x,5.5,3],.16,iron);solid(x,4.8,3,.6,1.3,.4,iron)}
- // Sheltered station platform behind the viewing bridge, seen from the finish.
- anchor(0,0,-17);
- solid(7,.26,-8,18,.5,7,0xb0aa92);solid(7,3.45,-8,19,.25,7.8,0x50635b);
- for(const x of [-1,4,10,15]){solid(x,1.85,-10,.18,3.2,.18,0x394c42);solid(x,1.85,-5.2,.18,3.2,.18,0x394c42)}
- for(const x of [3,9]){solid(x,.84,-8,3,.16,.72,0x806347);solid(x,1.22,-8.3,3,.65,.12,0x806347)}
+ // The surface light rail and the historical railway displays are separate.
+ anchor(0,16,-18);
+ const platform=new THREE.Group();platform.position.copy(frame.position);platform.rotation.copy(frame.rotation);scene.add(platform);
+ lightRailStreet('C14',platform);
  // Green corridor: linear beds, twin ribbons of steel and shaded rest pockets.
  anchor(5);for(let z=-57;z<=55;z+=8){for(const side of [-1,1]){
  solid(side*5.8,.23,z,2.8,.45,7.8,0x798767);solid(side*5.8,.55,z,2.5,.34,7.4,0x496738);
  for(let j=-3;j<=3;j+=1.4){beam([side*5.9,.63,z+j],[side*5.5,1.04,z+j+.3],.10,0x83954b)}
- }}rails(8.5,0,106);
+ }}
+ // The Yancheng greenway brochure illustrates wave-shaped seating and the
+ // planted trellis. Leave breaks between garden pockets and the crossing.
+ for(const z of [-24,14]){
+   solid(-7.7,.085,z,4.8,.15,10.6,0xbdac95);
+   for(let i=0;i<29;i++){
+     const t=i/28,f=z-4+t*8,x=-6.65+.51*Math.sin(t*Math.PI*2);
+     solid(x,.47,f,.66,.15,.26,0xb19a72);
+     solid(x-.33,.71+.16*Math.sin(t*Math.PI),f,.11,.53,.26,0xba9e79);
+     if(i%6===0)solid(x,.23,f,.39,.39,.16,0x8e9185);
+   }
+ }
+ for(let z=25;z<=42;z+=4.1){
+   for(const x of [-10.2,-7.3])beam([x,.1,z],[x,2.95,z],.085,0x656f61);
+   beam([-10.35,3,z],[-7.15,3,z],.092,0x6c7668);
+ }
+ for(const x of [-10,-9.3,-8.6,-7.9,-7.35])beam([x,3.02,25],[x,3.02,41.5],.062,0x737e66);
  // A timber wharf, piles and a low hull frame the two sails.
  anchor(14,-28);frame.rotateY(Math.PI);frame.updateMatrix();solid(5,-.29,0,48,.2,63,0x337c80);
  for(let z=-19;z<=17;z+=1.15)solid(1,.17,z,13,.28,1.11,0x9f7b53);
@@ -66,6 +82,14 @@ export function addHarborDistricts(scene,points){
  for(let k=0;k<3;k++)beam(verts[k],verts[k+1],.10,0xe3e3d3);
  solid(x+.25,y,z,.16,1.78,1.52,(col+row)%3===0?0x48707b:0x63828b)
  }}
+ // Ground-level glazing and a shaded promenade tie the large-scale screen
+ // to the pedestrian view at the music centre's waterfront plaza.
+ for(let z=-21;z<=16;z+=3.15){
+   solid(-2.5,1.52,z,.18,2.89,2.98,0x4e7278);
+   solid(-2.61,1.64,z+1.39,.18,3.2,.094,0xc1c9c2);
+   solid(-2.61,2.37,z,.14,.077,2.92,0xb9c3bd);
+   solid(-3.54,3.15,z,2.19,.17,3.15,0xd7dad2);
+ }
  if(points.length>35){
    anchor(34,-8,-9);
    buildDayiStation(scene,frame,solid,beam);
