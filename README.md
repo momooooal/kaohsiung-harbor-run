@@ -117,3 +117,6 @@ python -m http.server 8000
 
 ### 十站連續 3D 街廓與山景
 可分享 `#/explore/walk` 直接從第一站開始。js/route-architecture.js 依建物面向、距離和用途建立近景立面，依玩家位置顯示鄰近批次。js/walking-city.js 組合街區、沿途路徑及濱海一路街景。換站時沿用同一座場景。補充建物外框、遠景高程、資料授權與建模範圍見 [十站圖資說明](DATA-SOURCES.md)。
+
+### 直接走到兩站之間
+在十站步行的停靠點選單按「從這段中點開始」，會以第一人稱進入該段步行距離的 50%，並關閉地名提示。也可分享 `#/explore/walk/mid/1` 至 `#/explore/walk/mid/9`。路段銜接由既有步行幾何決定。js/walking-corridors.js 集中管理中途街廓、分區渲染與立面材質。每段的實景觀察位置及拍攝年月記錄於 [圖資說明](DATA-SOURCES.md)。

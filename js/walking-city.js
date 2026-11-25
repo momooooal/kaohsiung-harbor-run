@@ -1,6 +1,7 @@
 import {ferryStreet,detailedFerryBuildings} from './ferry-street.js';
 import {walkingScenery} from './walking-scenery.js';
 import {addRouteArchitecture} from './route-architecture.js';
+import {walkingCorridors,streetShells} from './walking-corridors.js';
 import infill from '../data/walking-infill.js';
 import environment from '../data/walking-environment.js';
 import legs from '../data/walking-legs.js';
@@ -52,6 +53,8 @@ export function walkingCity(start=0){
     if(['hall','shelter','station-entry'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
     if(parkHouse)h=3.45;
+    const shell=streetShells.get(points[0].join());
+    if(shell==='redTile')h=13.4;
     style=0;polygon(points,h,roof);
     const profile=kind||profiles.get(points[0].join());
     style=parkHouse?7:x===2017&&z===1360?6:profile==='warehouse'?3:profile==='terminal'?5:2;
@@ -67,7 +70,18 @@ export function walkingCity(start=0){
         const fill=tint(side<0?0x6a665c:0x817e70);for(const [a,b,c] of THREE.ShapeUtils.triangulateShape(half.map(v=>new THREE.Vector2(...v)),[]))tri(roofVertex(half[a]),roofVertex(half[b]),roofVertex(half[c]),fill);
       }
     }
-    points.forEach((a,j)=>{const b=points[(j+1)%points.length],color=facades[i%4];tri(vert(a,0),vert(b,0),vert(a,h),color);tri(vert(a,h),vert(b,0),vert(b,h),color)});
+    const base=shell==='arcade'?3.15:0;
+    if(base){
+      // Recess the store line inside the footprint; the tower stays above the arcade.
+      const cx=points.reduce((s,p)=>s+p[0],0)/points.length,cz=points.reduce((s,p)=>s+p[1],0)/points.length;
+      const inset=points.map(([x,z])=>[cx+.78*(x-cx),cz+.78*(z-cz)]);
+      style=0;polygon(points,base,tint(0x8e8273));
+      inset.forEach((a,j)=>{const b=inset[(j+1)%inset.length],c=tint(0x55615c);tri(vert(a,0),vert(b,0),vert(a,base),c);tri(vert(a,base),vert(b,0),vert(b,base),c)});
+      style=2;
+    }
+    if(shell&&shell!=='arcade')style=0;
+    const wall=shell==='redTile'?tint(0x97594e):shell==='workshop'?tint(0xb8b19b):shell==='plaster'?tint(0xb1a998):facades[i%4];
+    points.forEach((a,j)=>{const b=points[(j+1)%points.length];tri(vert(a,base),vert(b,base),vert(a,h),wall);tri(vert(a,h),vert(b,base),vert(b,h),wall)});
   });
   style=0;
   blocks.water.forEach(p=>polygon(p,.01,tint(0x78aeb0)));
@@ -91,6 +105,7 @@ export function walkingCity(start=0){
   const ferryGroup=new THREE.Group();scene.add(ferryGroup);
   const releaseFerry=ferryStreet(ferryGroup);
   const scenery=walkingScenery(scene,{polygon,ribbon,tint});
+  const corridors=walkingCorridors(scene,scenery);
   const path=[],dist=[],ends=[],names=[],guide=tint(0xf7bb64);
   let total=0;
   legs.forEach(({path:line,streets})=>{
@@ -166,13 +181,15 @@ export function walkingCity(start=0){
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,startAt(index){at=index?ends[index-1]:0},showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
+  return {scene,walk:true,startAt(index,fraction=0){
+    const begin=index?ends[index-1]:0;at=begin+((ends[index]??begin)-begin)*fraction;
+  },showPlaceHints(show){for(const m of markers)m.visible=show},get distance(){return at},seek(distance){at=Math.max(0,Math.min(total,distance))},advance(delta,pos){
     at=Math.max(0,Math.min(total,at+delta));
     const [x,z,i]=sample(at),f=sample(Math.min(total,at+3.5)),b=sample(Math.max(0,at-.5));
-    pos.set(x,0,z);scenery.setCenter(x,z);centerArchitecture(x,z);
+    pos.set(x,0,z);scenery.setCenter(x,z);centerArchitecture(x,z);corridors.center(x,z);
     ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
     sun.position.set(x-42,66,z+28);sun.target.position.set(x,0,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
     const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
     return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
-  },dispose(){releaseFerry();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
+  },dispose(){releaseFerry();corridors.dispose();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
 }

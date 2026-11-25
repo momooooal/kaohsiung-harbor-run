@@ -147,7 +147,9 @@ function renderResults() {
 
 function render() {
   dispose(); dispose = () => {};
-  const path = (location.hash.slice(1) || '/').replace(/\/$/, '') || '/';
+  const requested = (location.hash.slice(1) || '/').replace(/\/$/, '') || '/';
+  const midLeg = requested.match(/^\/explore\/walk\/mid\/([1-9])$/);
+  const path = midLeg ? '/explore/walk' : requested;
   const pages = { '/': home, '/map': mapPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
   const routeId = path.startsWith('/routes/') ? path.slice('/routes/'.length) : null;
   const extraRoute = routeId && routeId !== 'bay' ? data.routes.find(item => item.id === routeId && item.status === 'verified' && item.published && item.verifiedAt) : null;
@@ -166,7 +168,7 @@ function render() {
     document.querySelector('#mission-list').innerHTML='<li>從哈瑪星出發，沿紅線走訪港灣。</li><li>在去程末端觀察折返方向。</li><li>全程模式沿回程路徑返回哈瑪星。</li>';
     document.querySelector('.game-help').textContent='點選畫面後用 WASD 或方向鍵移動及轉向，手機可按住方向鍵。按 E 或「觀察」可觀看鄰近地標全景，再按一次或前進即可返回。';
     document.querySelector('.game-shell').before(friendlyDirectory());
-    dispose = ride(path.endsWith('/short'),path.endsWith('/walk'));
+    dispose = ride(path.endsWith('/short'),path.endsWith('/walk'),midLeg ? Number(midLeg[1])-1 : null);
   }
   if(path==='/about')document.querySelector('.page-intro').after(notesSection('about'));
 

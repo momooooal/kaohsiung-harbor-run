@@ -16,6 +16,12 @@ export function walkingGuide(visit, available, begin) {
     detail.textContent=[i ? '上一站：'+stops[i-1][0] : '起點', name, i+1<stops.length ? '下一站：'+stops[i+1][0] : '終點'].join('　→　');
     actions.replaceChildren();
     const run=document.createElement('button');run.type='button';run.className='btn dark';run.textContent=i===9?'查看連續路線終點':'從本站開始連續 3D';run.onclick=()=>begin(i);actions.append(run);
+    if(i<stops.length-1){
+      const mid=document.createElement('a');mid.className='btn outline';mid.href='#/explore/walk/mid/'+(i+1);
+      mid.textContent='從這段中點開始';mid.onclick=event=>{
+        if(location.hash===mid.hash&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();begin(i,.5)}
+      };actions.append(mid);
+    }
     external('開啟本站附近街景','https://www.google.com/maps/@?api=1&map_action=pano&viewpoint='+lat+','+lon);
     external('查看整條步行路線',sharedRoute);
     if(available.has(key)){

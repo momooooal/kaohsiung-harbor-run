@@ -52,7 +52,7 @@ export function reportMap(route){
 export function clampMovement(progress, lateral, total){
   return [Math.max(0,Math.min(total,progress)), Math.max(-3,Math.min(3,lateral))];
 }
-export function ride(short=false,startWalking=false){
+export function ride(short=false,startWalking=false,midLeg=null){
  const stage=document.querySelector('#game-stage'),hint=document.querySelector('#game-hint');
  const points=(short?track.slice(0,20):track).map(([x,z])=>new THREE.Vector3(x*2,0,z*2));
  let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true})}catch{hint.textContent='裝置無法啟動 WebGL，請使用場域頁的踩線全程圖。';return ()=>{}}
@@ -116,7 +116,7 @@ export function ride(short=false,startWalking=false){
    destination.value=sharedStops.get(key);relocate();
    if(selectedService)setViewing(true);
    stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true});
- },sharedStops,i=>{destination.value='itinerary';relocate(i);stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true})});
+ },sharedStops,(i,fraction=0)=>{destination.value='itinerary';if(fraction)hintToggle.checked=false;relocate(i,fraction);stage.scrollIntoView({block:'center'});renderer.domElement.focus({preventScroll:true})});
  stage.closest('.game-shell').before(sharedGuide);
  const panel=document.createElement('div');panel.className='section-card';panel.hidden=true;
  panel.innerHTML='<strong>沿途實景</strong><p>在 Google 街景查看目前位置與朝向。返程後可接續原本的步行進度。</p><div class="bay-actions"><a class="btn outline" target="_blank" rel="noopener">開啟目前位置的 Google 街景 ↗</a><button type="button" class="btn dark" hidden></button><button type="button" class="btn outline" hidden>回到十站步行</button></div>';
@@ -138,13 +138,13 @@ export function ride(short=false,startWalking=false){
  let local=null;
  if(short)destination.options[0].text='去程練習';
  let lo=0,hi=total,free=false,heading=0,freePos=new THREE.Vector3(),pitch=0,drag=null;
- function relocate(start=0){
+ function relocate(start=0,fraction=0){
  walkHeading=null;
  resume=null;panel.hidden=destination.value!=='itinerary';back.hidden=true;panorama.hidden=false;enter.hidden=true;
  if(local&&!(local.walk&&destination.value==='itinerary')){scene.add(actor);local.dispose();local=null}syncPlaceHints();
  if(destination.value==='itinerary'){
-   if(local)local.startAt(Number.isInteger(start)?start:0);
-   else local=walkingCity(Number.isInteger(start)?start:0);
+   if(!local)local=walkingCity();
+   local.startAt(Number.isInteger(start)?start:0,fraction);
    local.scene.add(actor);syncPlaceHints();
    travel.value='guided';free=false;offset=yaw=pitch=0;paused=false;keys.clear();selectedService=null;setViewing(false);button('pause-toggle').textContent='暫停';return;
  }
@@ -179,7 +179,12 @@ export function ride(short=false,startWalking=false){
  }
  setViewing(false);
  if(startWalking){
-   destination.value='itinerary';relocate();
+   destination.value='itinerary';
+   if(midLeg!==null){
+     hintToggle.checked=false;
+     const stationMenu=sharedGuide.querySelector('select');stationMenu.selectedIndex=midLeg;stationMenu.dispatchEvent(new Event('change'));
+   }
+   relocate(midLeg??0,midLeg===null?0:.5);
    document.querySelector('#mission-list').innerHTML='<li>從昆仲公園沿金色線出發。</li><li>在駁二比較兩次經過五號店時的街景。</li><li>經鼓山輪渡站、隧道口走到哈瑪星站。</li>';
  }
  const observe=()=>{setViewing(!viewing);keys.clear()};button('touch-interact').onclick=observe;

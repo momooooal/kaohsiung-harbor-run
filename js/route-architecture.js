@@ -1,12 +1,15 @@
 // Building outlines and terrain data are documented in DATA-SOURCES.md.
 // All facade and roof sections are visual interpretations in local east/south metres.
 import relief from '../data/walking-relief.js';
+import {streetShells} from './walking-corridors.js';
 
 function addRelief(scene) {
   const positions = [], indices = [], w = relief.rows[0].length;
   relief.rows.forEach((row, j) => row.forEach((height, i) => {
-    positions.push(relief.x + i * relief.step, Math.max(0, height - 6), relief.z + j * relief.step);
-    if (i && j && Math.max(height, row[i-1], relief.rows[j-1][i], relief.rows[j-1][i-1]) > 18) {
+    // Taper the lowland mask down to street level at the base of the ridge.
+    const blend=Math.max(0,Math.min(1,(height-12)/18));
+    positions.push(relief.x + i * relief.step, Math.max(0, height - 6)*blend*blend*(3-2*blend), relief.z + j * relief.step);
+    if (i && j && Math.max(height, row[i-1], relief.rows[j-1][i], relief.rows[j-1][i-1]) > 12) {
       const k = j*w + i;
       indices.push(k-w-1, k-1, k, k-w-1, k, k-w);
     }
@@ -81,6 +84,7 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
   const trims=[0x8e7465,0x949086,0x7a887e,0xa47d66,0x8d8e85];
   for(const [height,p,tag] of buildings){
     const [x,z]=p[0],kind=tag||profiles.get(p[0].join());
+    if(streetShells.has(p[0].join()))continue;
     if(tag==='hall'){exhibitionHall(scene,p,part);continue}
     if(kind==='hall')continue;
     if(kind==='shelter'||kind==='station-entry'){
