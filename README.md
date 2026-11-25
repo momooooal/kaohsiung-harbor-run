@@ -152,8 +152,8 @@ python -m http.server 8000
 
 更新後執行 `npm test`、`npm run validate`、`npm run test:browser`。新增設施須檢查篩選計數、清單和標記同步、未定位地址導航，並檢查不可把場館票價當浴廁借用費。
 
-## 友善地圖簡化與 Google Maps（2026-11-25）
+## 友善地圖與路線圖卡（2026-11-25）
 
 `#/map` 以六張簡短路線卡選線，`#/run/{variantId}` 舊網址保留。路線 `display` 保存民眾用的名稱、距離及特色；來源、版本差異、查核紀錄仍在原欄位。資源 `display` 是簡短入口與條件，不能將未知費用改成免費；`runnerAccessConfirmed` 尚未確認時不計算可用設施數。`canonicalPoiId` 合併同場域多份來源，圖卡熱區仍能開啟相同卡片。
 
-Google Maps 接入與帳號設定見 [設定步驟](docs/google-maps-setup.md)。目前金鑰與 Map ID 為空，故正式地圖底圖尚未啟用；不影響路線、清單、圖片、分享與導航外連使用。`npm run test:browser` 明確記錄 Google 實際渲染未驗收，不用程式替身冒充真實 Google Maps。
+路線詳情預設顯示「路線圖卡」，同區域可切換「地理地圖」。js/leaflet-route-map.js 使用既有 Leaflet 與 OpenStreetMap，切換後才載入圖磚，保留路徑、標記、篩選、定位與清單同步。Google Maps 僅保留外連導航，已移除 API 設定與載入程式。圖磚遵守瀏覽器快取，不預抓或提供離線下載，保留完整署名。使用政策：https://operations.osmfoundation.org/policies/tiles/ 。

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate.mjs",
-    "test": "node scripts/test-logic.mjs && node scripts/test-map.mjs && node scripts/test-streets.mjs && node scripts/test-recommendations.mjs && node scripts/test-google-adapter.mjs",
+    "test": "node scripts/test-logic.mjs && node scripts/test-map.mjs && node scripts/test-streets.mjs && node scripts/test-recommendations.mjs",
     "test:browser": "node scripts/browser-routes.cjs"
   },
   "devDependencies": {
