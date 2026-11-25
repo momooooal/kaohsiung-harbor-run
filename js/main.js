@@ -1,3 +1,4 @@
+import {recommendationsPage,mountRecommendations} from './recommendations.js';
 import { friendlyDirectory } from './friendly-directory.js';
 import {notesSection} from './field-notes.js';
 import {reportMap,ride} from './report.js';
@@ -37,7 +38,7 @@ function intro(label, title, description, crumb) {
 }
 
 function home() {
-  return `<section class="hero"><div class="wrap hero-content"><div class="eyebrow light">KAOHSIUNG · CITY IN MOTION</div><h1>跑出你的<br>高雄</h1><p class="lead">探索城市路線，發現更多友善運動的可能。</p><div class="hero-actions"><a class="btn primary" href="#/map">開始探索 <span aria-hidden="true">↗</span></a><a class="btn outline" href="#/explore">體驗沉浸式試跑 <span aria-hidden="true">↗</span></a></div></div><div class="wrap hero-foot"><span class="scroll-cue">往下滑，認識這座城市 ↓</span><span>駁二 × 亞洲新灣區 · 踩線活動場域</span></div></section>
+  return `<section class="hero"><div class="wrap hero-content"><div class="eyebrow light">KAOHSIUNG · CITY IN MOTION</div><h1>跑出你的<br>高雄</h1><p class="lead">找跑步路線、查沿途廁所與補水。</p><div class="hero-actions"><a class="btn primary" href="#/map">找推薦路線 <span aria-hidden="true">↗</span></a><a class="btn outline" href="#/map/resources">找廁所與補水 <span aria-hidden="true">↗</span></a></div></div><div class="wrap hero-foot"><span class="scroll-cue">往下滑，認識這座城市 ↓</span><span>駁二 × 亞洲新灣區 · 踩線活動場域</span></div></section>
   <section class="section feature-section" id="discover"><div class="wrap"><div class="section-heading"><div class="eyebrow">01 / FOUR WAYS TO EXPLORE</div><h2>從這裡開始，<br>找到你的探索方式。</h2><p class="lead muted">看地圖、走進 3D 場景，或了解這張地圖如何由市民一起構想。</p></div><div class="feature-grid">
     <a class="feature-card" href="#/map"><div class="art map-art"><span class="route-line"></span><span class="pin"></span></div><div class="copy"><div class="num">01 / MAP</div><h3>探索友善地圖</h3><p>找一條適合自己的路線，看看沿途有哪些友善設施。</p><span class="go" aria-hidden="true">↗</span></div></a>
     <a class="feature-card" href="#/explore"><div class="art game-art"><span class="sun"></span><span class="building"></span><span class="runner"></span></div><div class="copy"><div class="num">02 / EXPERIENCE</div><h3>沉浸式運動探索</h3><p>出發前，先用不同視角體驗城市運動空間。</p><span class="go" aria-hidden="true">↗</span></div></a>
@@ -153,18 +154,20 @@ function render() {
   const exitId=requested.startsWith('/explore/station/')?requested.slice('/explore/station/'.length):null;
   const entrance=stationExitById.get(exitId);
   const path = entrance ? '/explore' : midLeg ? '/explore/walk' : requested;
-  const pages = { '/': home, '/map': mapPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
+  const pages = { '/': home, '/map': recommendationsPage, '/map/resources': recommendationsPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
+  const recommendedId=path.startsWith('/run/')?path.slice(5):null;
   const routeId = path.startsWith('/routes/') ? path.slice('/routes/'.length) : null;
   const extraRoute = routeId && routeId !== 'bay' ? data.routes.find(item => item.id === routeId && item.status === 'verified' && item.published && item.verifiedAt) : null;
-  app.innerHTML = shell(path, pages[path] ? pages[path]() : extraRoute ? genericRoutePage(extraRoute) : `${intro('404', '找不到這個頁面', '請回首頁繼續探索。')}<div class="wrap page-body"><a class="btn dark" href="#/">返回首頁</a></div>`);
+  app.innerHTML = shell(path, recommendedId ? recommendationsPage() : pages[path] ? pages[path]() : extraRoute ? genericRoutePage(extraRoute) : `${intro('404', '找不到這個頁面', '請回首頁繼續探索。')}<div class="wrap page-body"><a class="btn dark" href="#/">返回首頁</a></div>`);
   const toggle = document.getElementById('menu-toggle');
   toggle.addEventListener('click', () => { const nav = document.getElementById('nav-links'); const open = nav.classList.toggle('open'); toggle.setAttribute('aria-expanded', String(open)); toggle.setAttribute('aria-label', open ? '關閉選單' : '開啟選單'); });
   document.querySelectorAll('#nav-links a').forEach(a => a.addEventListener('click', () => { document.getElementById('nav-links').classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }));
-  if (path === '/map' || path === '/routes/bay' || extraRoute) dispose = mountMap(data, { compact: path !== '/map' });
-  if (path === '/map' || path === '/routes/bay') {
+  if (path === '/routes/bay' || extraRoute) dispose = mountMap(data, { compact: path !== '/map' });
+  if (path === '/routes/bay') {
     const clearBase = dispose, clearReport = reportMap(data.routes.find(r=>r.id==='bay'));
     dispose = () => { clearBase(); clearReport(); };
   }
+  if(path==='/map'||path==='/map/resources'||recommendedId) dispose=mountRecommendations(recommendedId||(path==='/map/resources'?'harbor-108':null),path==='/map/resources');
   const isGame=['/explore','/explore/short','/explore/walk'].includes(path);
   if (isGame) {
     document.querySelector('.status-note').innerHTML = '<a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/short">港灣去程練習</a> · <a href="#/explore">港灣完整往返</a> · <a href="#/explore/station/O1-2">從街口走近捷運出口</a><p>3D 場景依地圖與街景建模。建物細節、尺度及通行空間為示意。</p>';

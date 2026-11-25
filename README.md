@@ -125,3 +125,23 @@ python -m http.server 8000
 在 3D 探索的「選擇地點或路線」展開「捷運出口・從街口走近」，可選哈瑪星、凱旋、獅甲站各個出口。從街口按住前進，關閉「顯示地名提示」仍會看到站體上的出口編號。出口可以切換路線導覽與自由探索。地面導覽到入口前的廣場為止。現地電梯位置及通行條件請查看該出口的高捷資訊。
 
 可直接分享 `#/explore/station/O1-2` 等出口連結。出口與相鄰地標維護在 `data/station-exits.js`，高捷出口指南、街景連結、幾何參考與素材授權記於 `DATA-SOURCES.md`。變更入口時請在手機第一人稱關掉提示，檢查起點至門口的整段視線與周圍建物。執行 `npm test` 可檢查入口資料、相機行進方向和主要建物外框。
+
+
+## 2026-11-25 推薦路線與手機地圖
+
+入口 `#/map`，廁所補水入口 `#/map/resources`，固定詳情 `#/run/{variantId}`。沿用 Pages 子路徑與 Hash Router，無需金鑰或後端。`#/routes/bay` 保留約 4.5 公里歷史活動，不能與 10.8 公里推薦線混用。
+
+### 維護檔案
+
+- `data/recommendations.json` 共用 cards、qr、pois、routes、segments、resources。圖卡距離 sourceDistance 與 calculatedDistanceKm 分開。
+- `js/recommendations.js` 負責列表、詳情、Leaflet、熱區、篩選、分享與定位。
+- `assets/recommendations.css` 手機與桌機樣式。`assets/routes/` 原圖及本站分享 SVG QR。
+- `docs/recommended-routes-audit.md` 六版本、六個來源 QR、逐項服務、新聞功能對照及未完成事項。
+
+新增路線先建 POI 與來源，再以 stopIds 排序，建立獨立 variantId；支線共用 routeId 和前段 segmentId。圖卡 hotspots 使用 0–100 百分比，與 coordinates 經緯度分離。未定位用 null。服務 evidence 必須逐項填寫，未知 fee/hours/purchaseRequired/restrictions 不填推測值；只有完整現況證據才能改 verified。編輯後執行 `npm test` 與 `npm run validate`，並人工檢查原圖對位及分支。
+
+新增分享 QR 的內容必須為 `https://momooooal.github.io/kaohsiung-harbor-run/#/run/{variantId}`，不是來源 Google 短網址。用 QR 產生工具建立 SVG 後實際解碼驗證。
+
+### 發布
+
+本專案為原生靜態網站，無編譯步驟。GitHub Pages 沿用 main 根目錄發布；Actions 執行 validate 與 npm test。提交並推送 main 後等 Pages 部署完成，使用正式網址重新測試子頁重新整理。一般預覽可在專案目錄執行 `python -m http.server 8784`，開啟 `http://localhost:8784/#/map`。原圖約 25 MB，只在詳情載入；後續可產生有來源註明的預覽縮圖，原圖仍需保留。
