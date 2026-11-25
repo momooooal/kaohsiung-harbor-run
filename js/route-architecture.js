@@ -58,7 +58,7 @@ function pathIndex(legs) {
   };
 }
 
-export function addRouteArchitecture(scene, buildings, legs, profiles) {
+export function addRouteArchitecture(scene, buildings, legs, profiles, coffeeInterior=false) {
   addRelief(scene);
   const chunks=new Map(), nearest=pathIndex(legs), unit=new THREE.BoxGeometry();
   const dummy=new THREE.Object3D(), color=new THREE.Color(), chunkSize=128;
@@ -77,7 +77,7 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
     const sign=signed>=0?1:-1,nx=sign*dz/len,nz=-sign*dx/len;
     const path=nearest(x,z);
     const yaw=-Math.atan2(dz,dx);
-    return {len,path,faces:path.vx*nx+path.vz*nz>-.1,
+    return {len,path,siteA:a,siteB:b,faces:path.vx*nx+path.vz*nz>-.1,
       box(s,out,y,w,h,d,ink,tilt=0){
         part(x+dx/len*s+nx*out,y,z+dz/len*s+nz*out,w,h,d,yaw,ink,tilt);
       }};
@@ -103,7 +103,7 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
       }
       continue;
     }
-    if(streetShells.has(p[0].join()))continue;
+    if(kind==='elevated'||streetShells.has(p[0].join()))continue;
     if(tag==='hall'){exhibitionHall(scene,p,part);continue}
     if(kind==='hall')continue;
     if(kind==='shelter'||kind==='station-entry'){
@@ -126,13 +126,17 @@ export function addRouteArchitecture(scene, buildings, legs, profiles) {
     const warehouse=kind==='warehouse', seed=Math.abs(x*37+z*19);
     const edges=p.map((a,i)=>frame(a,p[(i+1)%p.length],p)).filter(e=>e?.faces&&e.path.dist<46)
       .sort((a,b)=>a.path.dist-b.path.dist).slice(0,warehouse||lodge?5:2);
-    for(const {len,box,path} of edges){
+    for(const {len,box,path,siteA,siteB} of edges){
       const trim=trims[seed%trims.length],depth=Math.min(1.7,Math.max(.16,path.dist-.95));
       if(warehouse||lodge){
         const h=lodge?3.45:height, bays=Math.max(1,Math.round(len/(lodge?3.6:6))), bay=len/bays;
         box(0,.22,h-.16,len+.24,.31,.56,lodge?0x514e46:0x85857b);
         for(let k=0;k<bays;k++){
           const s=(k+.5)*bay-len/2, coffee=p[0][0]===-480;
+          if(coffee&&coffeeInterior){
+            const t=(k+.5)/bays,fromCorner=Math.hypot(siteA[0]+(siteB[0]-siteA[0])*t+480,siteA[1]+(siteB[1]-siteA[1])*t+906);
+            if(fromCorner<12)continue;
+          }
           const w=bay*(coffee?.83:lodge?.61:.69),base=lodge?.72:.25,top=lodge?2.36:3.48;
           box(s,.058,(base+top)/2,w,top-base,.12,lodge?0x364241:0x303a38);
           box(s,.14,base,w+.10,.13,.32,lodge?0x54483c:0x8f8273);

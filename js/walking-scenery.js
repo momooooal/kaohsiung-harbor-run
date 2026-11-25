@@ -6,7 +6,7 @@ import {stationApproach} from './station-entrance.js';
 
 // Public way geometry is in the same east/south metre grid as walking-legs.
 // Heights, tree spacing, street furnishings and materials are interpretive.
-export function walkingScenery(scene,{polygon,ribbon,tint}){
+export function walkingScenery(scene,{polygon,ribbon,tint},withSky=true){
   const textures=[],shapes=[],plants=[],shrubs=[],dummy=new THREE.Object3D();
   function texture(file){
     const map=surfaceTexture(file);
@@ -281,6 +281,6 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
   const asphalt=texture('asphalt_02.jpg'),brick=texture('herringbone_pavement.jpg');
   const masonry=texture('brick_wall_001.jpg'),lawn=texture('aerial_grass_rock.jpg');
   for(const t of [asphalt,brick,masonry,lawn])t.wrapS=t.wrapT=THREE.RepeatWrapping;
-  const sky=daylightSky(scene);
-  return {asphalt,brick,masonry,lawn,setCenter(x,z){sky.position.set(x,0,z)},dispose(){textures.forEach(t=>t.dispose())}};
+  const sky=withSky?daylightSky(scene):null;
+  return {asphalt,brick,masonry,lawn,setCenter(x,z){sky?.position.set(x,0,z)},dispose(){textures.forEach(t=>t.dispose())}};
 }

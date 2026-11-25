@@ -1,23 +1,33 @@
+import streets from '../data/route-streets.js';
+import {streetGround} from './street-ground.js';
+import survey from '../data/preview-landmarks.js';
 import river from '../data/preview-river.js';
 import context from '../data/preview-context.js';
 import blocks from '../data/walking-blocks.js';
 
 // The walking survey stores east/south metres around this geographic origin.
-export function mappedSurroundings(project,scene,points){
+export function mappedSurroundings(project,scene,points,city){
  const origin=project([22.61,120.29]);
  const east=project([22.61,120.29+1/102820]).x-origin.x;
  const south=project([22.61-1/110750,120.29]).z-origin.z;
  const group=new THREE.Group();scene.add(group);
- const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x237578,0x777e7d,0x80a078].map(color=>new THREE.MeshLambertMaterial({color,side:THREE.DoubleSide}));
+ const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558].map(color=>new THREE.MeshLambertMaterial({color:new THREE.Color(color).convertSRGBToLinear(),side:THREE.DoubleSide}));
  const facade=document.createElement('canvas');facade.width=128;facade.height=96;
  const ink=facade.getContext('2d');ink.fillStyle='#d9d2bf';ink.fillRect(0,0,128,96);ink.fillStyle='#a8a598';ink.fillRect(0,84,128,10);
  for(const x of [12,70]){ink.fillStyle='#736f66';ink.fillRect(x,23,40,47);ink.fillStyle='#718b92';ink.fillRect(x+3,26,34,39);ink.fillStyle='#b6c3c2';ink.fillRect(x+18,26,3,39);ink.fillRect(x-2,69,44,3);}
  const windows=new THREE.CanvasTexture(facade);windows.wrapS=windows.wrapT=THREE.RepeatWrapping;windows.repeat.set(1/7,1/3.4);windows.encoding=THREE.sRGBEncoding;
  const walls=new THREE.MeshLambertMaterial({map:windows});
- const sites=[...blocks.buildings,...context.buildings].map(([height,ring],i)=>({height,ring,style:i%3}));
- for(const ring of [...blocks.water,...context.water,...river.outer])sites.push({height:0,ring,style:3});
- for(const ring of context.green)sites.push({height:0,ring,style:5});
- for(const [width,line] of [...blocks.roads,...context.roads]){
+ const covered=new Set(city?city.footprints:[]);
+ for(const {line} of Object.values(survey.features))covered.add(line[0].map(Math.round).join());
+ const extra=[...streets.buildings,...context.buildings,...survey.buildings].filter(([,ring])=>{
+   const key=ring[0].map(Math.round).join();if(covered.has(key))return false;covered.add(key);return true;
+ });
+ const sites=[...(city?[]:blocks.buildings),...extra].map(([height,ring],i)=>({height,ring,style:i%3}));
+ for(const ring of [...(city?[]:blocks.water),...context.water,...river.outer])sites.push({height:0,ring,style:3});
+ for(const ring of [...context.green,...survey.green])sites.push({height:0,ring,style:5});
+ const roads=streetGround(scene,points);
+ for(const [kind,ring] of streets.areas)sites.push({height:0,ring,style:kind==='water'?3:kind==='green'?5:4});
+ for(const [width,line] of [...(city?[]:blocks.roads),...context.roads,...survey.roads]){
   const left=[],right=[];for(let i=0;i<line.length;i++){const prev=line[Math.max(0,i-1)],next=line[Math.min(line.length-1,i+1)],dx=next[0]-prev[0],dz=next[1]-prev[1],k=width/(2*(Math.hypot(dx,dz)||1)),[x,z]=line[i];left.push([x-dz*k,z+dx*k]);right.push([x+dz*k,z-dx*k]);}
   sites.push({height:0,style:4,ring:left.concat(right.reverse())});
  }
@@ -35,11 +45,26 @@ export function mappedSurroundings(project,scene,points){
   const inside=corridor.some(point=>site.bounds.distanceToPoint(point)<4);
   if(inside)sites.splice(i,1);
  }
+ const wet=sites.filter(s=>s.style===3);
+ function inRing(p,ring){
+   let inside=false;
+   for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+     const [x,z]=ring[i],[xx,zz]=ring[j];
+     if((z>p.z)!==(zz>p.z)&&p.x<(xx-x)*(p.z-z)/(zz-z)+x)inside=!inside;
+   }
+   return inside;
+ }
  let last=new THREE.Vector2(Infinity,Infinity);
  return {
-  update(position){const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
+  update(position){roads.update(position);const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
    for(const site of sites){const near=site.bounds.distanceToPoint(point)<280;if(near&&!site.object)site.object=mesh(site);if(!near&&site.object){group.remove(site.object);site.object.geometry.dispose();site.object=null;}} },
+  leavesBank(from,to){
+    const p=new THREE.Vector2(to.x,to.z);
+    // Deck footprints and the mapped boardwalk are traversable above water.
+    if(['visionDeck','boaiDeck','cityBridge','swingDeck'].some(k=>inRing(to,survey.features[k].line)))return false;
+    return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to,s.ring)&&!inRing(from,s.ring));
+  },
   buildings:group,
-  dispose(){group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
+  dispose(){roads.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
  };
 }

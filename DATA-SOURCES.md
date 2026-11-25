@@ -41,3 +41,44 @@
 沿線輕軌使用 C3、C7、C8、C10、C11、C12、C13、C14 的月台外框。C11 是高架側式月台，其餘七站為地面側式月台。資料取自[高雄輕軌各站資訊](https://www.krtc.com.tw/KLRT/)與 [OpenStreetMap 貢獻者，ODbL](https://www.openstreetmap.org/copyright)。幹道與渡輪街段的地面材質、騎樓、招牌、車輛和商業陳設皆為場景表現，不能據以推定店家合作或服務狀態。
 
 共同日光天空使用 Poly Haven 的 [Kloofendal 48d Partly Cloudy (Pure Sky)](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)，依 [CC0](https://polyhaven.com/license) 將 2K HDR 轉為小型 JPEG，作為天空與反光素材。街景內容由 3D 地形、建築與街道模型即時渲染。
+
+## 六條推薦路線的 3D 場景維護（2026-11-25）
+
+正式入口由 route-preview 建立場景，使用 recommendations 的分段幾何與地點次序。walking-city 提供港區建築、車站、既有店面和街具，route-landmarks 放置具地理定位的地標。自由探索與導覽共用地面和碰撞，模型比例為公尺。地圖圖卡座標獨立保存。
+
+街廓來自 OpenStreetMap，見 [ODbL 署名](https://www.openstreetmap.org/copyright)。scripts/extract-street-context.py 整理路面與地物，scripts/compile-preview-clearance.cjs 從場景網格產生局部淨空修正。調整建築或路徑後須重跑淨空檢查與瀏覽器全程通行測試。
+
+以下為六條路線各五個實際開啟的 Google Maps 街景位置，方位由北順時針算起。座標是街景相機位置，可能與步道分處道路兩側。影像只用於對照。場景的車流、樹冠、店招、窗內陳設、坡度與橋面高度仍有簡化，並非現況測量。沿路商家服務依友善地圖的文字資料為準。
+
+| 路線 | 街景相機座標 | 朝向 | 街景拍攝年月 |
+|---|---|---:|---|
+| 「公民參與討論」最推薦的跑步路線 | [22.5983711, 120.3139651](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.598377,120.31397&heading=233.8&pitch=0) | 233.8° | 2026年7月 |
+| 「公民參與討論」最推薦的跑步路線 | [22.605653, 120.3024683](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.605692,120.302511&heading=250.8&pitch=0) | 250.8° | 2026年6月 |
+| 「公民參與討論」最推薦的跑步路線 | [22.6100133, 120.2966042](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610049,120.296668&heading=296.8&pitch=0) | 296.8° | 2011年6月 |
+| 「公民參與討論」最推薦的跑步路線 | [22.6178921, 120.2858142](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.617897,120.285799&heading=295.1&pitch=0) | 295.1° | 2020年1月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 「公民參與討論」最推薦的跑步路線 | [22.6235194, 120.2709254](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.623552,120.270959&heading=120.5&pitch=0) | 120.5° | 2019年8月 |
+| 港灣景觀線 | [22.6092312, 120.3025234](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.609213,120.302558&heading=250.4&pitch=0) | 250.4° | 2026年6月 |
+| 港灣景觀線 | [22.604715, 120.2972713](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.604699,120.297255&heading=332.1&pitch=0) | 332.1° | 2022年7月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 港灣景觀線 | [22.6116146, 120.2931335](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611606,120.2931&heading=335.1&pitch=0) | 335.1° | 2011年6月 |
+| 港灣景觀線 | [22.6117832, 120.2927658](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611814,120.292863&heading=211.9&pitch=0) | 211.9° | 2011年6月 |
+| 港灣景觀線 | [22.6105959, 120.2993306](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610598,120.299312&heading=163.2&pitch=0) | 163.2° | 2026年6月 |
+| 愛河綠園道線 | [22.611912, 120.2983191](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611886,120.298349&heading=250.1&pitch=0) | 250.1° | 2024年10月 |
+| 愛河綠園道線 | [22.6137611, 120.2915698](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.613767,120.291617&heading=11.4&pitch=0) | 11.4° | 2024年8月 |
+| 愛河綠園道線 | [22.62385, 120.2901767](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62383,120.29015&heading=345.1&pitch=0) | 345.1° | 2016年7月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 愛河綠園道線 | [22.6169591, 120.2933565](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616938,120.293384&heading=206.0&pitch=0) | 206.0° | 2025年11月 |
+| 愛河綠園道線 | [22.6120099, 120.298582](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611944,120.298531&heading=160.8&pitch=0) | 160.8° | 2026年6月 |
+| 駁二大港橋線 | [22.6113153, 120.2966616](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611327,120.296667&heading=250.8&pitch=0) | 250.8° | 2024年5月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 駁二大港橋線 | [22.6167469, 120.2932892](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616764,120.293292&heading=26.0&pitch=0) | 26.0° | 2020年10月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 駁二大港橋線 | [22.6183338, 120.2847519](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618342,120.284762&heading=295.0&pitch=0) | 295.0° | 2020年11月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 駁二大港橋線 | [22.6180784, 120.2930724](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618053,120.293016&heading=73.7&pitch=0) | 73.7° | 2025年11月 |
+| 駁二大港橋線 | [22.6114383, 120.2969072](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61141,120.296921&heading=70.1&pitch=0) | 70.1° | 2024年10月 |
+| 愛河中央公園線 | [22.6100133, 120.2966042](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610049,120.296668&heading=296.8&pitch=0) | 296.8° | 2011年6月 |
+| 愛河中央公園線 | [22.6169591, 120.2933565](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616938,120.293384&heading=292.1&pitch=0) | 292.1° | 2025年11月 |
+| 愛河中央公園線 | [22.6239228, 120.2918809](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.623859,120.291862&heading=252.1&pitch=0) | 252.1° | 2026年6月 |
+| 愛河中央公園線 | [22.6238832, 120.2987095](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.623751,120.298642&heading=153.0&pitch=0) | 153.0° | 2015年11月 |
+| 愛河中央公園線 | [22.6124171, 120.3048259](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.612437,120.304784&heading=161.0&pitch=0) | 161.0° | 2024年10月 |
+| 愛河之心願景橋線 | [22.6544123, 120.3033017](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.654321,120.303371&heading=130.1&pitch=0) | 130.1° | 2026年1月 |
+| 愛河之心願景橋線 | [22.6525189, 120.3013243](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.652497,120.301332&heading=0.0&pitch=0) | 0.0° | 2024年7月 |
+| 愛河之心願景橋線 | [22.6496915, 120.2894705](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.649652,120.289431&heading=284.8&pitch=0) | 284.8° | 2024年4月 |
+| 愛河之心願景橋線 | [22.6510048, 120.2987292](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.651391,120.298718&heading=98.8&pitch=0) | 98.8° | 2024年7月 |
+| 愛河之心願景橋線 | [22.6544274, 120.3033951](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.654525,120.303361&heading=16.7&pitch=0) | 16.7° | 2026年1月 |

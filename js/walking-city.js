@@ -1,3 +1,4 @@
+import {coffeeWindow} from './coffee-window.js';
 import {ferryStreet,detailedFerryBuildings} from './ferry-street.js';
 import {walkingScenery} from './walking-scenery.js';
 import {addRouteArchitecture} from './route-architecture.js';
@@ -14,11 +15,11 @@ import {surfaceTexture} from './daylight.js';
 
 // Local east/south metre coordinates, derived from OSM. Floor counts without
 // recorded heights use an indicative extrusion, not a surveyed facade.
-export function walkingCity(start=0){
+export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
   const scene=new THREE.Scene();
   scene.background=new THREE.Color(0xc6dfe3);scene.fog=new THREE.Fog(0xc6dfe3,90,430);
-  scene.add(new THREE.HemisphereLight(0xfff5e9,0x9caca2,.79));
-  const sun=new THREE.DirectionalLight(0xffe6c1,.92);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.castShadow=true;sun.shadow.mapSize.set(768,768);
+  if(!contextOnly)scene.add(new THREE.HemisphereLight(0xfff5e9,0x9caca2,.79));
+  const sun=new THREE.DirectionalLight(0xffe6c1,.92);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.visible=!contextOnly;sun.castShadow=true;sun.shadow.mapSize.set(768,768);
   Object.assign(sun.shadow.camera,{left:-56,right:56,top:56,bottom:-56,far:210});sun.shadow.bias=-.0013;sun.shadow.normalBias=.12;
   sun.shadow.camera.updateProjectionMatrix();
   const positions=[],colors=[],styles=[];let style=0;
@@ -42,6 +43,8 @@ export function walkingCity(start=0){
   const shelters=new Set(['-1169,-1839','-1160,-1832','-2071,-1535','-12,-1626','1535,1667','1529,1669']);
   const surfaceBuildings=blocks.buildings.filter(([,p])=>!underground.has(p[0].join())).map(record=>{
     const key=record[1][0].join();
+    if(contextOnly&&key==='-42,-1030')return [Math.max(8,record[0]),record[1],'elevated'];
+    if(contextOnly&&key==='328,-871')return [Math.max(8,record[0]),record[1],'elevated'];
     if(key==='-1482,-1318')return [3.62,record[1],'rail-museum'];
     if(shelters.has(key))return [2.7,record[1],'shelter'];
     return record;
@@ -50,8 +53,16 @@ export function walkingCity(start=0){
     const [x,z]=points[0];
     // These footprints have no measured height. Use a stable low-rise profile.
     return [5.9+Math.abs(x*13+z*7)%4*2.85,points];
-  })).filter(([,points])=>!stationFootprints.has(points[0].join())&&!underground.has(points[0].join()));
-  const centerArchitecture=addRouteArchitecture(scene,buildings,legs,profiles);
+  })).filter(([,points])=>!replaced.has(points[0].join())&&!stationFootprints.has(points[0].join())&&!underground.has(points[0].join()));
+  const centerArchitecture=addRouteArchitecture(scene,buildings,legs,profiles,contextOnly);
+  let coffee=null;
+  if(contextOnly){
+    // C8 south-east corner, along the surveyed 19 m waterfront wall.
+    coffee=new THREE.Group();coffee.position.set(-480,0,-906);coffee.rotation.y=Math.atan2(-17,-8);
+    coffee.translateX(-4.05);coffee.translateZ(1.97);scene.add(coffee);
+    const steel=new THREE.MeshStandardMaterial({color:0x62716c,roughness:.47});
+    coffeeWindow((g,x,y,z,m=steel)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);coffee.add(o);return o;},steel);
+  }
   buildings.forEach(([h,points,kind],i)=>{
     if(['hall','shelter','station-entry','rail-museum'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
@@ -73,8 +84,8 @@ export function walkingCity(start=0){
         const fill=tint(side<0?0x6a665c:0x817e70);for(const [a,b,c] of THREE.ShapeUtils.triangulateShape(half.map(v=>new THREE.Vector2(...v)),[]))tri(roofVertex(half[a]),roofVertex(half[b]),roofVertex(half[c]),fill);
       }
     }
-    const base=shell==='arcade'?3.15:0;
-    if(base){
+    const base=kind==='elevated'?5:shell==='arcade'?3.15:0;
+    if(base&&kind!=='elevated'){
       // Recess the store line inside the footprint; the tower stays above the arcade.
       const cx=points.reduce((s,p)=>s+p[0],0)/points.length,cz=points.reduce((s,p)=>s+p[1],0)/points.length;
       const inset=points.map(([x,z])=>[cx+.78*(x-cx),cz+.78*(z-cz)]);
@@ -84,7 +95,13 @@ export function walkingCity(start=0){
     }
     if(shell&&shell!=='arcade')style=0;
     const wall=shell==='redTile'?tint(0x97594e):shell==='workshop'?tint(0xb8b19b):shell==='plaster'?tint(0xb1a998):facades[i%4];
-    points.forEach((a,j)=>{const b=points[(j+1)%points.length];tri(vert(a,base),vert(b,base),vert(a,h),wall);tri(vert(a,h),vert(b,base),vert(b,h),wall)});
+    function face(a,b,bottom){tri(vert(a,bottom),vert(b,bottom),vert(a,h),wall);tri(vert(a,h),vert(b,bottom),vert(b,h),wall);}
+    points.forEach((a,j)=>{const b=points[(j+1)%points.length];
+      if(contextOnly&&x===-480&&z===-949&&(j===1||j===2)){
+        const t=j===1?1-8.6/Math.hypot(b[0]-a[0],b[1]-a[1]):11.4/Math.hypot(b[0]-a[0],b[1]-a[1]);
+        const cut=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t];face(a,cut,j===2?5.07:base);face(cut,b,j===1?5.07:base);
+      }else face(a,b,base);
+    });
   });
   style=0;
   blocks.water.forEach(p=>polygon(p,.01,tint(0x78aeb0)));
@@ -107,7 +124,7 @@ export function walkingCity(start=0){
   }
   const ferryGroup=new THREE.Group();scene.add(ferryGroup);
   const releaseFerry=ferryStreet(ferryGroup);
-  const scenery=walkingScenery(scene,{polygon,ribbon,tint});
+  const scenery=walkingScenery(scene,{polygon,ribbon,tint},!contextOnly);
   const corridors=walkingCorridors(scene,scenery);
   const finishes=stationFinishes();
   const entrances=stationExits.map(exit=>[exit,stationEntrance(scene,exit,true,finishes)]);
@@ -117,12 +134,10 @@ export function walkingCity(start=0){
     let street='',cursor=0;
     line.forEach((p,i)=>{
       while(cursor<streets.length&&streets[cursor][0]<=i)street=streets[cursor++][1];
-      const a=path.at(-1);if(a){const l=Math.hypot(a[0]-p[0],a[1]-p[1]);if(!l)return;total+=l;ribbon(a,p,.14,.112,guide)}
+      const a=path.at(-1);if(a){const l=Math.hypot(a[0]-p[0],a[1]-p[1]);if(!l)return;total+=l;if(!contextOnly)ribbon(a,p,.14,.112,guide)}
       path.push(p);dist.push(total);names.push(street);
     });ends.push(total);
   });
-  const geometry=new THREE.BufferGeometry();
-  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setAttribute('facadeStyle',new THREE.Float32BufferAttribute(styles,1));geometry.computeVertexNormals();
   const m=new THREE.MeshStandardMaterial({vertexColors:true,side:THREE.DoubleSide,roughness:1});
   m.onBeforeCompile=shader=>{
     shader.uniforms.roadTexture={value:scenery.asphalt};
@@ -174,17 +189,38 @@ export function walkingCity(start=0){
       }`);
     clipStationGround(shader,stationExits,'streetPos.xz');
   };
-  const streetMesh=new THREE.Mesh(geometry,m);streetMesh.castShadow=streetMesh.receiveShadow=true;scene.add(streetMesh);
+  // Preserve metre-based shader coordinates while making the large street
+  // shell independently cullable. Wide waterfront polygons keep their true bounds.
+  const tiles=new Map(),streetTiles=[];
+  if(contextOnly){
+    for(let j=0;j<positions.length;j+=9){
+      const key=Math.floor((positions[j]+positions[j+3]+positions[j+6])/450)+','+Math.floor((positions[j+2]+positions[j+5]+positions[j+8])/450);
+      if(!tiles.has(key))tiles.set(key,{positions:[],colors:[],styles:[]});
+      const tile=tiles.get(key);for(let k=0;k<9;k++){tile.positions.push(positions[j+k]);tile.colors.push(colors[j+k]);}
+      tile.styles.push(styles[j/3],styles[j/3+1],styles[j/3+2]);
+    }
+  }else tiles.set('all',{positions,colors,styles});
+  for(const tile of tiles.values()){
+    const geometry=new THREE.BufferGeometry();
+    geometry.setAttribute('position',new THREE.Float32BufferAttribute(tile.positions,3));
+    geometry.setAttribute('color',new THREE.Float32BufferAttribute(tile.colors,3));
+    geometry.setAttribute('facadeStyle',new THREE.Float32BufferAttribute(tile.styles,1));
+    geometry.computeVertexNormals();geometry.computeBoundingBox();
+    const mesh=new THREE.Mesh(geometry,m);mesh.castShadow=mesh.receiveShadow=true;scene.add(mesh);
+    if(contextOnly){mesh.visible=false;streetTiles.push(mesh);}
+  }
+  tiles.clear();
+  const tileCenter=new THREE.Vector2(Infinity,Infinity),eye=new THREE.Vector3();
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));
   const paving=surfaceTexture('concrete_pavement_02.jpg');paving.wrapS=paving.wrapT=THREE.RepeatWrapping;
-  paving.repeat.set(2400,2400);ground.material.map=paving;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
+  paving.repeat.set(2400,2400);ground.material.map=paving;if(contextOnly)ground.position.y=-.185;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
   const labels=[],markers=[];
   ground.material.onBeforeCompile=shader=>{
     shader.vertexShader='varying vec2 groundSite;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ngroundSite=(modelMatrix*vec4(position,1.)).xz;');
     shader.fragmentShader='varying vec2 groundSite;\n'+shader.fragmentShader;
     clipStationGround(shader,stationExits,'groundSite');
   };
-  stops.forEach(([name],i)=>{
+  if(!contextOnly)stops.forEach(([name],i)=>{
     if(i===5)return; // The second coffee stop occupies the same physical site.
     const [x,z]=sample(i?ends[i-1]:0);
     const canvas=document.createElement('canvas');canvas.width=512;canvas.height=96;
@@ -196,6 +232,15 @@ export function walkingCity(start=0){
   });
   let at=start?ends[start-1]:0,segment=0,exit=null,approach=null,approachAt=0,sideOffset=0;
   function center(x,z){
+    if(contextOnly&&Math.hypot(x-tileCenter.x,z-tileCenter.y)>15){
+      tileCenter.set(x,z);eye.set(x,1.5,z);
+      for(const tile of streetTiles){
+        const d=tile.geometry.boundingBox.distanceToPoint(eye);
+        if(tile.visible&&d>460){tile.visible=false;tile.geometry.dispose();}
+        else if(d<370)tile.visible=true;
+      }
+    }
+    if(coffee)coffee.visible=Math.hypot(x+480,z+906)<170;
     scenery.setCenter(x,z);centerArchitecture(x,z);corridors.center(x,z);
     for(const [site,model] of entrances)model.visible=Math.hypot(x-site.center[0],z-site.center[1])<185;
     ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
@@ -207,7 +252,7 @@ export function walkingCity(start=0){
     const a=path[l],b=path[r],t=(distance-dist[l])/(dist[r]-dist[l]);
     return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,l];
   }
-  return {scene,walk:true,get exit(){return exit},get approachHeading(){return approach?.heading},visitExit(site){
+  return {scene,center,footprints:contextOnly?buildings.map(([,ring])=>ring[0].join()):null,walk:true,get exit(){return exit},get approachHeading(){return approach?.heading},visitExit(site){
     exit=site;approach=stationApproach(site);approachAt=sideOffset=0;
   },startAt(index,fraction=0){
     exit=approach=null;sideOffset=0;

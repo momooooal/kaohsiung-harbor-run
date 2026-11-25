@@ -6,3 +6,5 @@
 #preview-stage{position:relative;height:clamp(300px,55vh,580px);overflow:hidden;border-radius:12px;background:#dae7e2}#preview-stage>canvas:first-child{display:block}#preview-mini{position:absolute;right:10px;top:10px;background:#fffffff0;border-radius:8px;width:120px}.page-body select,.page-body button{max-width:100%;min-height:44px}#preview-controls [data-move]{touch-action:none;user-select:none}.page-body details>summary{padding:16px 0;cursor:pointer}.page-body h2{margin-top:1.25em}.bay-grid>img{width:100%;height:auto}
 
 #preview-start[hidden],#preview-controls[hidden]{display:none!important}.participation-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}.participation-photos figure{margin:0}.participation-photos img{width:100%;aspect-ratio:4/3;object-fit:cover}.participation-photos figcaption{padding:8px 0}.page-body details summary{font-weight:700}
+
+#preview-stage{scroll-margin-top:78px;touch-action:none}#preview-mini{pointer-events:none}#preview-controls .run-actions{align-items:center;gap:.5rem}#preview-error:not(:empty){display:block;margin:.75rem 0}

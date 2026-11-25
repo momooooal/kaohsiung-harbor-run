@@ -1,3 +1,4 @@
+import {lightRailCar} from './light-rail-car.js';
 import precincts from '../data/station-surroundings.js';
 import {lightRailBoard} from './station-entrance.js';
 
@@ -62,6 +63,15 @@ export function mappedTransit(scene,putBox){
       return {x:(left+right)/2,z:(start+end)/2,len:end-start};
     });
     lightRailStreet(code,root,Math.max(...projections)-Math.min(...projections),sides);roots.push(root);
+    if(code==='C12'){
+      const car=new THREE.Group();car.position.x=1.93;root.add(car);
+      const paints=new Map();
+      const material=(c,r=.8)=>{if(!paints.has(c))paints.set(c,new THREE.MeshStandardMaterial({color:new THREE.Color(c).convertSRGBToLinear(),roughness:r}));return paints.get(c);};
+      const mesh=(g,m,x,y,z)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);car.add(o);return o;};
+      const solid=(x,y,z,w,h,d,c)=>mesh(new THREE.BoxGeometry(w,h,d),material(c),x,y,z);
+      const beam=(a,b,r,c)=>{const v=new THREE.Vector3(...a),u=new THREE.Vector3(...b),dir=u.clone().sub(v);const o=mesh(new THREE.CylinderGeometry(r,r,dir.length(),9),material(c),0,0,0);o.position.copy(v).lerp(u,.5);o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());};
+      lightRailCar(car,material,mesh,solid,beam);
+    }
   }
   // The branching deck follows the surveyed cycleways at Kaisyuan. Roof ribs
   // and piers interpret the distinctive folded canopy of the Cianjhen Star.
