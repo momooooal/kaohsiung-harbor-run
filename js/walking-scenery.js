@@ -60,6 +60,21 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
       }
     }
     if(exit.id==='R6-1'||exit.id==='R6-3'){
+      const verge=exit.number===1?-1:1;
+      for(let f=-len-8;f>=-len-67;f-=9.4){
+        const r=verge*(half+4.65),[x,z]=p(r,f);
+        tree(x,z,6.9+.7*Math.sin(f));item(r,f,.16,1.84,.27,2.7,0x8e8778);
+        shrubs.push([x,.49,z,1.67,.82,2.33,a,0x587545]);
+      }
+      if(exit.number===3){
+        // Scooter parking runs lengthwise behind the low clipped hedge.
+        for(let n=0;n<14;n++){
+          const r=verge*(half+2.6),f=-len-4.4-n*1.35,body=[0x57626b,0xa7aba1,0x535757,0x905c53][n%4];
+          item(r,f,.48,1.38,.4,.49,body);item(r+.20,f,.73,.72,.15,.46,0x383d3a);
+          item(r-.50,f,.69,.24,.59,.47,body);item(r-.53,f,.99,.13,.09,.59,0x404941);
+          for(const k of [-.57,.56])item(r+k,f,.22,.39,.43,.17,0x3d403d);
+        }
+      }
       for(const side of [-1,1]){
         item(side*(half+2.2),-1,.22,1.0,.39,len*1.65,0x787767);
         for(let f=-len+1;f< len-1;f+=1.1){const [x,z]=p(side*(half+2.2),f);shrubs.push([x,.61,z,.92,.7,1.5,a,0x718347])}
@@ -74,6 +89,20 @@ export function walkingScenery(scene,{polygon,ribbon,tint}){
       for(let f=-8;f<=8;f+=3){
         item(r-side*2.64,f,2.16,.18,1.62,2.55,0x5e7877);
         item(r-side*3.1,f,1.66,.18,3.33,.18,pool?0xa59a79:0x8aac91);
+      }
+      if(!pool){
+        for(const f of [-6.5,-2,2.5,7]){
+          item(r-4,f,1.69,.20,3.38,.21,0x85a597);
+          item(r-4,f,3.49,1.95,.21,4.56,0xa6b8a7);
+        }
+      }
+    }
+    if(exit.code==='R7'){
+      // The school, pool and park stretch beyond the short glass canopies.
+      const roadSide=(exit.number===1||exit.number===3)?1:-1;
+      for(const f of [-len-9,-len-22,-len-36,-len-50]){
+        const r=roadSide*(half+3.5),[x,z]=p(r,f);tree(x,z,6.8+.7*Math.cos(f));
+        shrubs.push([x,.42,z,1.52,.65,1.62,a,0x627f4b]);
       }
     }
   }

@@ -215,6 +215,14 @@ export function stationEntrance(parent,exit,placed=true,finishes=stationFinishes
     for(const dx of [-.34,.34])box(x+dx,1.27,z+1.69,.58,1.45,.06,ink.glass);
     box(x,3.31,z+1.55,3.22,.16,1.6,ink.trim);
   }
+  if(exit.id==='R7-2'){
+    const pool=graphic(640,120,(c,w,h)=>{
+      c.fillStyle='#e6e0cc';c.fillRect(0,0,w,h);c.fillStyle='#3d4039';c.textAlign='center';
+      c.font='bold 58px sans-serif';c.fillText('高雄市前鎮游泳池',w/2,76);
+      c.font='22px sans-serif';c.fillText('CIANJHEN SWIMMING POOL',w/2,108);
+    });
+    face(w/2+14-2.69,4.03,-1,6.35,1.15,pool,-Math.PI/2);
+  }
   for(const [geometry,parts] of matrices){
     const mesh=new THREE.InstancedMesh(geometry,new THREE.MeshStandardMaterial({roughness:.72}),parts.length);
     parts.forEach(([matrix,colour],i)=>{mesh.setMatrixAt(i,matrix);mesh.setColorAt(i,new THREE.Color(colour).convertSRGBToLinear())});
