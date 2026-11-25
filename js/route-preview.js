@@ -31,6 +31,7 @@ export function mountPreview(data,route){
   const nearest=p=>stops.reduce((a,b)=>a.point.distanceToSquared(p)<b.point.distanceToSquared(p)?a:b);
   const box=new THREE.BoxGeometry(),ball=new THREE.SphereGeometry(1,9,7),ring=new THREE.TorusGeometry(1,.06,6,28),materials=new Map();
   const mapped=mappedSurroundings(project,scene,points);
+  const treeTexture=surfaceTexture('tree.png');const canopy=new THREE.SpriteMaterial({map:treeTexture,transparent:true,depthWrite:false,alphaTest:.15});
   const chunks=new Map(), stationModels=new THREE.Group();scene.add(stationModels);
   if(route.variantId==='harbor-108')for(const exit of stationExits){
    const point=project([exit.lat,exit.lon]),bearing=exit.front*Math.PI/180;
@@ -49,7 +50,7 @@ export function mountPreview(data,route){
     const park=['heart','vision','central','love','hedong','starlight'].includes(site.id);
     part(group,box,park?0xb7a98f:0xafa9a2,mid.x,0,mid.z,6,.18,len+.4,angle);
     for(let n=0;n<len;n+=22){const t=(n+.5)/Math.max(1,len),p=a.clone().lerp(b,Math.min(1,t)),side=(i%2?1:-1)*10,x=p.x+dir.z*side,z=p.z-dir.x*side;
-     if(park){part(group,box,0x796453,x,1.6,z,.5,3,.5);part(group,ball,0x65835f,x,4,z,2.7,2.8,2.5);}
+     if(park){const tree=new THREE.Sprite(canopy);tree.scale.set(6,7,1);tree.position.set(x,3.5,z);group.add(tree);}
      
     }
    }
@@ -121,7 +122,7 @@ export function mountPreview(data,route){
    mini.clearRect(0,0,150,110);mini.beginPath();points.forEach((v,i)=>mini[i?'lineTo':'moveTo'](...flat(v)));mini.strokeStyle='#0b5857';mini.stroke();mini.save();mini.translate(...flat(p));mini.rotate(Math.atan2(dir.z,dir.x));mini.beginPath();mini.moveTo(6,0);mini.lineTo(-4,-4);mini.lineTo(-4,4);mini.fillStyle='#b44d19';mini.fill();mini.restore();
    el('preview-position').textContent=nearest(p).name+'附近 · '+(distance>=total?100:Math.floor(distance/total*100))+'%';renderer.render(scene,camera);
   }
-  tick(performance.now());cleanup=()=>{cancelAnimationFrame(frame);observer.disconnect();controller.abort();releaseActor();skyDome.geometry.dispose();skyDome.material.dispose();mapped.dispose();stationModels.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});pavement.dispose();grass.dispose();box.dispose();ring.dispose();ball.dispose();materials.forEach(m=>m.dispose());renderer.dispose();renderer.forceContextLoss();};
+  tick(performance.now());cleanup=()=>{cancelAnimationFrame(frame);observer.disconnect();controller.abort();releaseActor();canopy.dispose();treeTexture.dispose();skyDome.geometry.dispose();skyDome.material.dispose();mapped.dispose();stationModels.traverse(o=>{o.geometry?.dispose();if(o.material){o.material.map?.dispose();o.material.dispose();}});pavement.dispose();grass.dispose();box.dispose();ring.dispose();ball.dispose();materials.forEach(m=>m.dispose());renderer.dispose();renderer.forceContextLoss();};
  };
  return ()=>cleanup();
 }

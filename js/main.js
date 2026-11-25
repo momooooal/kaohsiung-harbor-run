@@ -170,7 +170,7 @@ function render() {
     document.querySelector('.game-shell').before(friendlyDirectory());
     dispose = ride(path.endsWith('/short'),path.endsWith('/walk'),midLeg ? Number(midLeg[1])-1 : null,entrance);
   }
-  
+
 
   if(isGame)document.querySelector('.game-shell').after(notesSection('explore'));
   if (path === '/community') renderResults();
@@ -186,7 +186,7 @@ try {
   render();
 } catch (error) {
   app.innerHTML = `<main id="main" tabindex="-1" class="wrap page-body"><h1 style="font-size:2.5rem">資料暫時無法載入</h1><p id="load-error"></p><p>請稍後重新整理頁面。</p></main>`;
-  
+
   console.error(error);
 }
 

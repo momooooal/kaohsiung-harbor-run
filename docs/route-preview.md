@@ -5,3 +5,5 @@
 data/preview-context.js 為 2026-11-25 自 OpenStreetMap API 0.6 map 取得的路線鄰近建物、綠地、道路與水域。邊界為西南至東北經緯度 120.284,22.647–120.304,22.655；120.286,22.617–120.299,22.630；120.295,22.605–120.305,22.614。資料 © OpenStreetMap contributors，ODbL。與舊港灣 walking-blocks 使用相同局部坐標。建模時略去擋住預覽路徑的建物量體，地面採用既有 Poly Haven CC0 材質。未進行沿線實測。
 
 本機 HTTP 伺服器開啟後，設定 TEST_URL 與 TEST_OUT，執行 node scripts/browser-preview.cjs。需 Playwright 與 Edge。桌機加速前進測試六線到終點；手機以觸控視窗模擬。此測試不量測實機效能。
+
+愛河水域採用 OpenStreetMap 關係 3125300 的完整外環，保存在 data/preview-river.js。
