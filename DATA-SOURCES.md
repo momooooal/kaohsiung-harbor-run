@@ -3,7 +3,7 @@
 十個停靠點依使用者分享的 Google 地圖行程排序。路人咖啡五號店在不同路段各經過一次。九段步行路網以 OpenStreetMap 計算，與 Google 地圖當次選路可能略有差異。
 
 * 道路、原有建物、街道設施與部分植栽來自 [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright)，適用 [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/)。地面場景依物件的 layer、location 與用途排除地下站體，並以開放式結構顯示有記錄的候車亭與入口。
-* 補充建物外框來自 Qian Shi、Jiajun Zhu、Zhengyu Liu、Haonan Guo、Mengxi Liu、Zihong Liu、Xiaoping Liu 的 [East Asian buildings](https://doi.org/10.5281/zenodo.8174931)，經 [Overture Maps buildings 向量圖磚](https://docs.overturemaps.org/examples/overture-tiles/) 2026-11-18.0 取得，依 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 改作。僅採用標記此資料集為幾何來源的圖徵，合併分片、裁選沿線、去除重疊與侵入步行線的外框，再投影並取整至本地座標。檔案為 data/walking-infill.js。建物可能已改建。
+* 補充建物外框來自 Qian Shi、Jiajun Zhu、Zhengyu Liu、Haonan Guo、Mengxi Liu、Zihong Liu、Xiaoping Liu 的 [East Asian buildings](https://doi.org/10.5281/zenodo.8174931)，經 [Overture Maps buildings 向量圖磚](https://docs.overturemaps.org/examples/overture-tiles/) 2026-11-18.0 取得，依 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 改作。僅採用標記此資料集為幾何來源的圖徵，合併分片、裁選沿線、去除重疊與侵入步行線的外框，再投影並取整至本地座標。檔案為 data/walking-infill.js 及 data/route-infill.js。後者補上推薦路線周邊街廓，近路線 4.5 公尺以內及與既有模型重疊的外框不重複建模。門窗、樓高與外牆色彩為示意。建物可能已改建。
 * 壽山一帶的遠景山形來自 [Mapzen Terrain Tiles](https://registry.opendata.aws/terrain-tiles/)，於 2026-11-25 取得。Global GMTED2010 and SRTM terrain data courtesy of the U.S. Geological Survey. Global ETOPO1 terrain data courtesy of NOAA/NESDIS/NCEI. [各地形來源與授權](https://github.com/tilezen/joerd/blob/master/docs/attribution.md)。data/walking-relief.js 儲存以 75 公尺網格重新取樣的高程；建模時另行設定低地遮罩、植被色與遠景霧。此資料僅用於山景，無法判定人行道坡度。
 * [高雄展覽館](https://khh.travel/zh-tw/attractions/detail/67/) 的鋼構波浪外型依公開介紹與外觀照片解讀。倉庫、庭園宿舍、路旁街屋與站口的立面參考對應路段街景。檐口、吧檯、座椅、柱距、層數與材質為原創示意建模。有定位的部分是建物外框或設施點位，精度隨來源而異。
 
@@ -55,21 +55,21 @@
 | 「公民參與討論」最推薦的跑步路線 | [22.5983711, 120.3139651](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.598377,120.31397&heading=233.8&pitch=0) | 233.8° | 2026年7月 |
 | 「公民參與討論」最推薦的跑步路線 | [22.605653, 120.3024683](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.605692,120.302511&heading=250.8&pitch=0) | 250.8° | 2026年6月 |
 | 「公民參與討論」最推薦的跑步路線 | [22.6100133, 120.2966042](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610049,120.296668&heading=296.8&pitch=0) | 296.8° | 2011年6月 |
-| 「公民參與討論」最推薦的跑步路線 | [22.6178921, 120.2858142](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.617897,120.285799&heading=295.1&pitch=0) | 295.1° | 2020年1月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 「公民參與討論」最推薦的跑步路線 | [22.6178921, 120.2858142](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.617897,120.285799&heading=295.1&pitch=0) | 295.1° | 2020年1月 |
 | 「公民參與討論」最推薦的跑步路線 | [22.6235194, 120.2709254](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.623552,120.270959&heading=120.5&pitch=0) | 120.5° | 2019年8月 |
 | 港灣景觀線 | [22.6092312, 120.3025234](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.609213,120.302558&heading=250.4&pitch=0) | 250.4° | 2026年6月 |
-| 港灣景觀線 | [22.604715, 120.2972713](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.604699,120.297255&heading=332.1&pitch=0) | 332.1° | 2022年7月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 港灣景觀線 | [22.604715, 120.2972713](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.604699,120.297255&heading=332.1&pitch=0) | 332.1° | 2022年7月 |
 | 港灣景觀線 | [22.6116146, 120.2931335](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611606,120.2931&heading=335.1&pitch=0) | 335.1° | 2011年6月 |
 | 港灣景觀線 | [22.6117832, 120.2927658](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611814,120.292863&heading=211.9&pitch=0) | 211.9° | 2011年6月 |
 | 港灣景觀線 | [22.6105959, 120.2993306](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610598,120.299312&heading=163.2&pitch=0) | 163.2° | 2026年6月 |
 | 愛河綠園道線 | [22.611912, 120.2983191](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611886,120.298349&heading=250.1&pitch=0) | 250.1° | 2024年10月 |
 | 愛河綠園道線 | [22.6137611, 120.2915698](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.613767,120.291617&heading=11.4&pitch=0) | 11.4° | 2024年8月 |
-| 愛河綠園道線 | [22.62385, 120.2901767](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62383,120.29015&heading=345.1&pitch=0) | 345.1° | 2016年7月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 愛河綠園道線 | [22.62385, 120.2901767](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62383,120.29015&heading=345.1&pitch=0) | 345.1° | 2016年7月 |
 | 愛河綠園道線 | [22.6169591, 120.2933565](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616938,120.293384&heading=206.0&pitch=0) | 206.0° | 2025年11月 |
 | 愛河綠園道線 | [22.6120099, 120.298582](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611944,120.298531&heading=160.8&pitch=0) | 160.8° | 2026年6月 |
-| 駁二大港橋線 | [22.6113153, 120.2966616](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611327,120.296667&heading=250.8&pitch=0) | 250.8° | 2024年5月圖片可能受著作權保護。台灣條款隱私權回報問題 |
-| 駁二大港橋線 | [22.6167469, 120.2932892](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616764,120.293292&heading=26.0&pitch=0) | 26.0° | 2020年10月圖片可能受著作權保護。台灣條款隱私權回報問題 |
-| 駁二大港橋線 | [22.6183338, 120.2847519](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618342,120.284762&heading=295.0&pitch=0) | 295.0° | 2020年11月圖片可能受著作權保護。台灣條款隱私權回報問題 |
+| 駁二大港橋線 | [22.6113153, 120.2966616](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.611327,120.296667&heading=250.8&pitch=0) | 250.8° | 2024年5月 |
+| 駁二大港橋線 | [22.6167469, 120.2932892](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616764,120.293292&heading=26.0&pitch=0) | 26.0° | 2020年10月 |
+| 駁二大港橋線 | [22.6183338, 120.2847519](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618342,120.284762&heading=295.0&pitch=0) | 295.0° | 2020年11月 |
 | 駁二大港橋線 | [22.6180784, 120.2930724](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618053,120.293016&heading=73.7&pitch=0) | 73.7° | 2025年11月 |
 | 駁二大港橋線 | [22.6114383, 120.2969072](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61141,120.296921&heading=70.1&pitch=0) | 70.1° | 2024年10月 |
 | 愛河中央公園線 | [22.6100133, 120.2966042](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610049,120.296668&heading=296.8&pitch=0) | 296.8° | 2011年6月 |

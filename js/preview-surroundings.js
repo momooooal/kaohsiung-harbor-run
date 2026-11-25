@@ -1,3 +1,4 @@
+import {streetFrontages} from './street-frontages.js';
 import streets from '../data/route-streets.js';
 import {streetGround} from './street-ground.js';
 import survey from '../data/preview-landmarks.js';
@@ -26,6 +27,7 @@ export function mappedSurroundings(project,scene,points,city){
  for(const ring of [...(city?[]:blocks.water),...context.water,...river.outer])sites.push({height:0,ring,style:3});
  for(const ring of [...context.green,...survey.green])sites.push({height:0,ring,style:5});
  const roads=streetGround(scene,points);
+ const frontages=streetFrontages(group,points);
  for(const [kind,ring] of streets.areas)sites.push({height:0,ring,style:kind==='water'?3:kind==='green'?5:4});
  for(const [width,line] of [...(city?[]:blocks.roads),...context.roads,...survey.roads]){
   const left=[],right=[];for(let i=0;i<line.length;i++){const prev=line[Math.max(0,i-1)],next=line[Math.min(line.length-1,i+1)],dx=next[0]-prev[0],dz=next[1]-prev[1],k=width/(2*(Math.hypot(dx,dz)||1)),[x,z]=line[i];left.push([x-dz*k,z+dx*k]);right.push([x+dz*k,z-dx*k]);}
@@ -56,7 +58,7 @@ export function mappedSurroundings(project,scene,points,city){
  }
  let last=new THREE.Vector2(Infinity,Infinity);
  return {
-  update(position){roads.update(position);const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
+  update(position){roads.update(position);frontages.update(position);const point=new THREE.Vector2(position.x,position.z);if(last.distanceTo(point)<48)return;last=point;
    for(const site of sites){const near=site.bounds.distanceToPoint(point)<280;if(near&&!site.object)site.object=mesh(site);if(!near&&site.object){group.remove(site.object);site.object.geometry.dispose();site.object=null;}} },
   leavesBank(from,to){
     const p=new THREE.Vector2(to.x,to.z);
@@ -65,6 +67,6 @@ export function mappedSurroundings(project,scene,points,city){
     return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to,s.ring)&&!inRing(from,s.ring));
   },
   buildings:group,
-  dispose(){roads.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
+  dispose(){roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
  };
 }

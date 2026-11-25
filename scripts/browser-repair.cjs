@@ -26,7 +26,7 @@ async function main(){
  const b=await chromium.launch({channel:'msedge',args:['--enable-unsafe-swiftshader']});
  try{for(const mobile of [false,true]){
   const kind=mobile?'mobile':'desktop',context=await b.newContext({viewport:mobile?{width:390,height:844}:{width:1120,height:790},isMobile:mobile,hasTouch:mobile});
-  const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const p=await context.newPage(),errors=[];p.setDefaultTimeout(60000);p.on('pageerror',e=>errors.push(e.message));
   const l=id=>p.locator('#preview-'+id),pose=()=>p.evaluate(()=>window.framePose);
   const img=async file=>{await l('stage').screenshot({path:path.join(out,file+'.jpg'),quality:88});};
   const start=async()=>{await l('start').click();await p.waitForFunction(()=>window.framePose&&document.querySelector('#preview-position')?.textContent.includes('%'),null,{timeout:80000});};

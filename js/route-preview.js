@@ -21,7 +21,7 @@ export function mountPreview(data,route){
       const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),n=>n.toString(16).padStart(2,'0')).join('');if(entry.geometry===digest)clearance=entry.edges;}
     ({routeLandmarks,restoredFootprints}=await import('./route-landmarks.js'));({mappedSurroundings}=await import('./preview-surroundings.js'));if(route.variantId!=='heart-5')({walkingCity}=await import('./walking-city.js'));}catch{button.disabled=false;button.textContent='重新載入場景';return;}if(!button.isConnected)return;
   el('preview-error').textContent='';
-  const retry=()=>{el('preview-controls').hidden=true;button.hidden=false;button.disabled=false;button.textContent='重試 3D 探索';el('preview-error').textContent='場景暫時無法顯示。';};
+  const retry=()=>{el('preview-controls').hidden=true;button.hidden=false;button.disabled=false;button.textContent='重試 3D 探索';el('preview-error').textContent='場景暫時無法顯示。';button.focus({preventScroll:true});button.scrollIntoView({block:'center'});};
   let renderer;
   try{renderer=new THREE.WebGLRenderer({antialias:true});}catch{retry();return;}
   button.hidden=true;el('preview-controls').hidden=false;
@@ -209,7 +209,7 @@ export function mountPreview(data,route){
     el('preview-position').textContent=nearest(p).name+'附近 · '+(distance>=total?100:Math.floor(distance/total*100))+'%';
     renderer.render(scene,camera);
   }
-  cleanup=()=>{if(!active)return;active=false;cancelAnimationFrame(frame);observer.disconnect();controller.abort();keys.clear();avatar.dispose();city?.dispose();skyDome.geometry.dispose();skyDome.material.dispose();mapped.dispose();structures.dispose();grass.dispose();box.dispose();guide.dispose();land.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();};
+  cleanup=()=>{if(!active)return;active=false;cancelAnimationFrame(frame);observer.disconnect();controller.abort();keys.clear();for(const mesh of chunks.values())mesh.dispose?.();chunks.clear();sun.shadow.map?.dispose();avatar.dispose();city?.dispose();skyDome.geometry.dispose();skyDome.material.dispose();mapped.dispose();structures.dispose();grass.dispose();box.dispose();guide.dispose();land.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();};
   renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();cleanup();retry();},opt);
   tick(performance.now());
  };

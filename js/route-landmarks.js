@@ -109,9 +109,9 @@ export function routeLandmarks(parent,points) {
   for(const [kind,line] of survey.edges)if(kind==='railing')for(let i=1;i<line.length;i++)if(nearby.has(key(...line[i])))rail(line[i-1],line[i]);
   const foliage=surfaceTexture('tree.png');
   const leaves=new THREE.SpriteMaterial({map:foliage,transparent:true,alphaTest:.18,depthWrite:false});
-  function tree(x,z){
+  function tree(x,z,scale=1){
     if(!nearby.has(key(x,z)))return;
-    const height=6.6+Math.abs(Math.round(x+z))%3;
+    const height=(6.6+Math.abs(Math.round(x+z))%3)*scale;
     const tree=new THREE.Sprite(leaves);tree.position.set(x,height/2,z);tree.scale.set(height*.87,height,1);group(x,z).add(tree);
   }
   for(const [kind,p] of streets.fixtures){
@@ -143,6 +143,8 @@ export function routeLandmarks(parent,points) {
     [22.6092312,120.3025234,250.4,'avenue',8,34],
     [22.62385,120.2901767,345.1,'river',-2.3,34],
     [22.6239228,120.2918809,252.1,'avenue',6.5,27],
+    [22.6238832,120.2987095,153,'garden',-5,38],
+    [22.6238832,120.2987095,153,'garden',9,33],
     [22.6496915,120.2894705,284.8,'palm',3.8,40],
     [22.6510048,120.2987292,98.8,'palm',4.2,36]
   ];
@@ -159,6 +161,9 @@ export function routeLandmarks(parent,points) {
           const end=P([p[0]+Math.cos(h)*2.7,p[1]+Math.sin(h)*2.7],5.8);
           beam(crown,mid,.115,0x587538,.21);beam(mid,end,.145,0x496f36,.25);
         }
+      }else if(kind==='garden'){
+        tree(...p,.68);tree(...site(right*1.7,d+3),1.18);tree(...site(right*2.7,d+7),1.32);
+        for(let j=0;j<4;j++)tree(...site(right*.75+Math.sin(j+d),d+j*1.7),.24+.055*j);
       }else tree(...p);
       if(kind==='park')tree(...site(right+2.7,d+4));
     }
