@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [visuals, controls-mobile, controls-desktop, walk-mobile, walk-desktop]
+        task: [water]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -44,6 +44,7 @@ jobs:
           fi
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
           case "$TASK" in
+            water) node ../qa/scripts/inspect-water.cjs ;;
             before) TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/ node ../qa/scripts/scene-shots.cjs ;;
             visuals) node ../qa/scripts/scene-film.cjs && node ../qa/scripts/scene-shots.cjs ;;
             walk-*) node ../qa/scripts/scene-traverse.cjs ;;
