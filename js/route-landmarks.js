@@ -1,3 +1,4 @@
+import {coralFrontage,terminalEnvelope} from './harbor-frontages.js';
 import {waterfrontWalks} from './waterfront-walks.js';
 import {libraryPlaza} from './library-plaza.js';
 import {surfaceTexture} from './daylight.js';
@@ -96,14 +97,15 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
       }
     }
     if(f.library.some(p=>nearby.has(key(...p))))libraryPlaza(f.library,{panel,beam,slab,P,mix});
-    for(const id of ['terminal','music','coral','centralMrt','r13East','r13West']){
+    const facade={panel,beam,slab,P,mix};
+    if(f.coral.some(p=>nearby.has(key(...p))))coralFrontage(f.coral,facade);
+    if(f.terminal.some(p=>nearby.has(key(...p))))terminalEnvelope(f.terminal,facade);
+    for(const id of ['music','centralMrt','r13East','r13West']){
       const line=f[id];if(!line.some(p=>nearby.has(key(...p))))continue;
       const xs=line.map(p=>p[0]),min=Math.min(...xs),span=Math.max(1,Math.max(...xs)-min);
       const height=p=>{
         const t=(p[0]-min)/span;
-        if(id==='terminal')return 11+20*Math.pow(1-t,2.6)+2*Math.sin(2*Math.PI*t);
         if(id==='music')return 9+29*Math.exp(-Math.pow((t-.18)/.16,2))+18*Math.exp(-Math.pow((t-.75)/.16,2));
-        if(id==='coral')return 6.6+1.35*Math.cos(t*25);
         return id==='centralMrt'?5.6+4.2*Math.sin(t*Math.PI):3.6;
       };
       slab(line,0,0xedede6,height);
@@ -114,12 +116,10 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
             if(i%2===0)beam(P(p),P(q,h),.105,id==='centralMrt'?0xdeac35:0x879a93);
             panel(p,q,h-.14,.28,.32,0xd4d9d2);
           }else{
-            // A covered service road passes below the terminal envelope (OSM 1151968661).
-            const base=id==='terminal'?4.6:0;
-            panel(p,q,(h+base)/2,h-base,.18,id==='terminal'?0x8999a1:0xd8dad9);
-            panel(p,q,base+2.25,4,.30,0x506a72);beam(P(p,base+.25),P(q,base+4.5),.095,0xc9ceca);
+            panel(p,q,h/2,h,.18,0xd8dad9);
+            panel(p,q,2.25,4,.30,0x506a72);beam(P(p,.25),P(q,4.5),.095,0xc9ceca);
             panel(p,q,h-.38,.65,.54,0xecece8);
-            if(id==='terminal'||id==='music')for(let y=5;y<h-1;y+=2.65)panel(p,q,y,.21,.38,0x657b84);
+            for(let y=5;y<h-1;y+=2.65)panel(p,q,y,.21,.38,0x657b84);
           }
         }
       }

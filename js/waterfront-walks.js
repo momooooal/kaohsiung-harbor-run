@@ -1,3 +1,4 @@
+import {shorePath} from './shore-paths.js';
 import {stationExitById} from '../data/station-exits.js';
 import {clipStationGround} from './station-entrance.js';
 import {stationPrecincts,hasStationPrecinct} from './station-precincts.js';
@@ -7,6 +8,9 @@ import {surfaceTexture} from './daylight.js';
 // Select the surveyed polylines by their first map vertex. Cross sections
 // interpret the dated ground-level references listed in DATA-SOURCES.md.
 const sites=[
+  {kind:'coralApron',anchor:[331.6,-898.3],span:[5,10]},
+  {kind:'wharf',anchor:[164.9,-356.7],span:[2,4]},
+  {kind:'riverLawn',anchor:[1450.4,-4681.9],span:[15,21]},
   {kind:'park',anchor:[749.8,669.9]},
   {kind:'quay',anchor:[-124.2,-1853.6],reverse:true,fromZ:-1440,toZ:-1640},
   {kind:'pier',anchor:[-558.6,-933.2],reverse:true}
@@ -34,7 +38,8 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
   const paths=sites.flatMap(site=>{
     const feature=streets.roads.find(r=>r[4][0][0]===site.anchor[0]&&r[4][0][1]===site.anchor[1]);
     if(!feature)return [];
-    const path=feature[4].filter(p=>site.fromZ===undefined||(p[1]<=site.fromZ&&p[1]>=site.toZ));
+    const segment=site.span?feature[4].slice(...site.span):feature[4];
+    const path=segment.filter(p=>site.fromZ===undefined||(p[1]<=site.fromZ&&p[1]>=site.toZ));
     if(!path.some(p=>nearby.has(key(...p))))return [];
     return [{site,line:site.reverse?path.reverse():path}];
   });
@@ -78,6 +83,18 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
         float gap=smoothstep(.465,.5,max(joints.x,joints.y));
         float stone=dot(diffuseColor.rgb,vec3(.30,.59,.11));
         diffuseColor.rgb=vec3(.79,.81,.80)*(.13+.60*stone)*(1.-.24*gap);`);
+    };
+  }
+  if(paths.some(({site})=>site.kind==='riverLawn'))surface('asphalt','concrete_pavement_02.jpg',0x606363);
+  if(paths.some(({site})=>site.kind==='coralApron')){
+    surface('hex','concrete_pavement_02.jpg',0xc4c0b0);
+    materials.get('hex').onBeforeCompile=s=>{
+      s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+        vec2 p=vUv*7.,cell=vec2(1.,1.73205);
+        vec2 a=mod(p,cell)-cell*.5,b=mod(p-cell*.5,cell)-cell*.5;
+        vec2 nearest=abs(dot(a,a)<dot(b,b)?a:b);
+        float edge=max(nearest.x,dot(nearest,vec2(.5,.866025)));
+        diffuseColor.rgb*=1.-.30*smoothstep(.46,.50,edge);`);
     };
   }
   const batches=new Map(),crownCells=new Map(),dummy=new THREE.Object3D();
@@ -140,7 +157,9 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
       const r=scale*3.9,sx=p[0]-scale*3.3,sz=p[1]+scale*2.4;
       quad('shade',.118,[sx-r*1.3,sz-r],[sx+r*1.6,sz-r],[sx-r*1.3,sz+1.25*r],[sx+r*1.6,sz+1.25*r],0,0,1,1);
     }
-    if(site.kind==='park'){
+    if(['wharf','coralApron','riverLawn'].includes(site.kind)){
+      shorePath(site.kind,{length,at,band,panel,beam,P,planting});
+    }else if(site.kind==='park'){
       band('grass',-15,22,-.038,3.2,3.2);band('stone',-2.25,2.25,.090,2.1,2.1);
       for(let d=7;d<length-5;d+=9.7){
         planting(d,4.8+Math.sin(d)*1.6,1.0+.14*Math.cos(d),1.35);

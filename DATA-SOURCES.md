@@ -110,3 +110,14 @@
 獅甲一號出口方向另見[高捷車站資訊](https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66)。出入口、校地、警衛室、校門車道與對街樓體分別參考 © OpenStreetMap contributors 的 [611752691](https://www.openstreetmap.org/way/611752691)、[94058607](https://www.openstreetmap.org/way/94058607)、[381691675](https://www.openstreetmap.org/way/381691675)、[381691225](https://www.openstreetmap.org/way/381691225)、[88859711](https://www.openstreetmap.org/way/88859711)。站口前約 200 公尺的 3D 導覽改沿人行道接回既有路徑。雨棚與部分全景的登錄位置有數公尺落差。路面寬度、植栽、店招與立面細部依畫面估計，由本站繪製。模型並非現場測量或即時影像。
 
 總圖依[館方的總館建築介紹](https://www.ksml.edu.tw/mainlibrary/content/index.aspx?Parser=1%2C23%2C165%2C156)，以 7.5 公尺挑高廣場、角落支承、三至八樓西南側退縮約 5 公尺的綠地陽台區分不同立面。大港橋沿原橋面範圍設曲線護欄，索束聚至同一主塔；外觀與中段展寬另參考[高雄旅遊網](https://khh.travel/zh-tw/attractions/detail/1147/)。
+
+### 雲端街景逐段複核
+
+| 路段與行進方向 | 全景標示拍攝年月 | 近景模型修正 |
+|---|---|---|
+| [珊瑚礁群向西，264°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDO6_jCEw&heading=264) | Jul 2022 | 臨水六角鋪面、白色彎頭岸柱與垂鏈、暗色玻璃退縮至 Y 形白色柱後。 |
+| [光榮碼頭往旅運中心，207°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDvnbOmPg&heading=207) | Dec 2024 | 臨水側的白管、鏈條與低車阻。陸側為遮蔭樹與紅色自行車架。 |
+| [旅運中心陸側入口，323°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIC91vawFg&heading=323) | Mar 2024 | 可從量體下方看見通道。上段為直立金屬格柵，較低的東翼採深色水平百葉。 |
+| [愛河之心向西，276°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIABIhAIN0uG5TlP7mfxjEkAC4q_&heading=276) | Apr 2025 | 較窄的深色步道、淺色緣石與低燈柱；步道兩側分別銜接草坡與水岸。 |
+
+岸柱間距、欄鏈垂度、棚架高度與鋪面顏色依畫面估算。珊瑚礁群另參考[高流場館介紹](https://kpmc.com.tw/venue-info/)與[市府建築介紹](https://khh.travel/zh-tw/event/news/1939/)。2021 年凹子底站的投稿全景拍到 4 號出口，但其相片定位在 1、2 號出口附近。依高捷出口資料與 OSM 1272674316 排除此圖，未在起點加上 4 號出口雨棚。
