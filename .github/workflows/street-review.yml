@@ -2,6 +2,7 @@ name: Six-route street walk
 on:
   push:
     branches: [review/six-route-street-walk]
+    paths: [scripts/cloud-street-review.cjs]
 permissions:
   contents: read
 jobs:

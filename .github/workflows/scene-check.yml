@@ -1,0 +1,47 @@
+name: Route scene checks
+on:
+  push:
+    branches: [review/six-route-street-walk]
+    paths: [scripts/scene-check.json]
+permissions:
+  contents: read
+jobs:
+  render:
+    strategy:
+      fail-fast: false
+      matrix:
+        task: [visuals, controls, clearance]
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: qa
+      - uses: actions/checkout@v4
+        with:
+          ref: review/route-scenes-candidate
+          path: site
+      - run: npm ci --ignore-scripts
+        working-directory: site
+      - name: Exercise the scene in Chrome
+        working-directory: site
+        env:
+          TASK: ${{ matrix.task }}
+          CHROME_PATH: /usr/bin/google-chrome
+          TEST_OUT: ${{ github.workspace }}/proof
+        run: |
+          mkdir -p "$TEST_OUT"
+          export TEST_URL=http://localhost:8789/
+          if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
+          python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
+          case "$TASK" in
+            visuals) node ../qa/scripts/scene-film.cjs && node ../qa/scripts/scene-shots.cjs ;;
+            controls) node scripts/browser-repair.cjs ;;
+            clearance) TEST_URL=http://localhost:8789/ node scripts/compile-preview-clearance.cjs && cp data/preview-clearance.js "$TEST_OUT"/ ;;
+          esac
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scene-${{ matrix.task }}
+          path: proof/
+          retention-days: 7
