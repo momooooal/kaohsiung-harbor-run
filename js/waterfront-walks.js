@@ -93,7 +93,7 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
         float grain=dot(diffuseColor.rgb,vec3(.30,.59,.11));
         vec2 grid=vUv;grid.x+=.5*mod(floor(grid.y),2.);
         vec2 joint=abs(fract(grid)-.5);float stone=fract(sin(dot(floor(grid),vec2(17.91,63.02)))*8761.);
-        diffuseColor.rgb=vec3(.37,.38,.37)*(.73+grain*.7+stone*.20)*(1.-.27*smoothstep(.475,.495,max(joint.x,joint.y)));`);
+        diffuseColor.rgb=vec3(.235,.244,.24)*(.56+1.45*grain+stone*.24)*(1.-.23*smoothstep(.475,.495,max(joint.x,joint.y)));`);
     };
   }
   if(paths.some(({site})=>site.kind==='riverLawn'))surface('asphalt','concrete_pavement_02.jpg',0x606363);

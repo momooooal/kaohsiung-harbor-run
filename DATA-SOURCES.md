@@ -134,3 +134,19 @@
 另從[願景橋車道朝北的街景](https://www.google.com/maps/@?api=1&map_action=pano&pano=eCepLF6jQJ8CaZkpJobqoQ&heading=357)核對 2026 年 6 月的外觀。補上中央黃黑分隔帶、車道虛線、人行帶向車道側的白色多道護欄，以及雙拱間的斜吊桿。這個角度看得見車道及護欄，側邊人行帶的紅色鋪面仍只在較早的步道視點確認。
 
 民生二路 201 號附近朝西南的[街景](https://www.google.com/maps/@?api=1&map_action=pano&pano=0VE5R60lOW32HoosVwtXgg&heading=252)顯示拍攝於 2026-06。將樹島與服務車道分開，以地圖上臨街的兩段建築外框接出騎樓。店內陳設與施工中的對街建物未據此推定。
+
+## 展覽館與光榮碼頭的第一人稱路段（2026-11-26）
+
+在 GitHub 代管的桌面 Chrome 以 Google 地圖黃色小人到達下列視點，再沿可連通的方向鍵移動。影像日期採用街景頁顯示的拍攝年月。本站模型、表面與影片均由 Three.js 繪製。
+
+| 街景參考、觀看方向 | 拍攝年月 | 用於建模的可辨識細節 |
+|---|---|---|
+| [公園北行至展覽館西南角，12°](https://www.google.com/maps/@?api=1&map_action=pano&pano=YJm9EJXSXgbqa5TIXQDWmQ&heading=12) | 2025-11 | 草地旁的步道與遊具、彎燈、接近轉角時先看到大面玻璃，再見側牆的鋁板。沿四個相連視點核對。 |
+| [展覽館南側，285°](https://www.google.com/maps/@?api=1&map_action=pano&pano=FWdl4th1rpYD6N71xSFR_A&heading=285) | 2025-11 | 視點沿路連通五張。外殼外凸、不規則亮暗三角鋁板、退縮的百葉與支撐、灰磚和透草磚之間的界線。 |
+| [東入口，248°](https://www.google.com/maps/@?api=1&map_action=pano&pano=lrz8tMqU4ESTRgEe13h-5Q&heading=248) | 2025-11 | 從東側步行四個視點，核對兩道波浪屋檐、挑空鋼架、玻璃帷幕和中央通道。西側 2023 年空拍和偏離東入口約 70 公尺的 2017 年影像排除於入口立面比對。 |
+| [鯨魚堤岸朝北，23°](https://www.google.com/maps/@?api=1&map_action=pano&pano=pxhsbeYn6kV47eujJuYEYA&heading=23) · [沿岸四個視點，26°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDvnbOxcw&heading=26) | 2025-11、2024-12 | 北行時水面、彎頭立柱、鏈條、浮橋與泊船在左，鯨魚館的寬窗、厚實淺色框與樹穴在右。 |
+| [陸側朝向斜屋頂，254°](https://www.google.com/maps/@?api=1&map_action=pano&pano=hSgAeCFAZsZE1m7mwhRgTw&heading=254) · [珊瑚廣場，347°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIC-wuTx6wE&heading=347) | 2025-11、2022-10 | 草坡朝陸側下降、欄杆與菱形小窗。進入廣場後改為水平金屬欄杆與六角鋪面。 |
+
+展館外框來自 [OSM relation 6464911](https://www.openstreetmap.org/relation/6464911)，西入口採 [OSM 4422053364](https://www.openstreetmap.org/node/4422053364)。東西入口、中央大道、南北展廳位置另核對[場館一樓配置圖](https://storage.googleapis.com/www.taiwantradeshow.com.tw/show-menu/202609/T-07955085.pdf)。鯨魚館依六個獨立建築輪廓（OSM 444746704–444746709）及[設計團隊說明](https://www.habitech.com.tw/portfolio-item/高雄海洋文化及流行音樂中心/)建立。岸線採 [488045313](https://www.openstreetmap.org/way/488045313) 與 [33430140](https://www.openstreetmap.org/way/33430140)，港池及浮橋採 [愛河灣遊艇碼頭 A 區](https://www.openstreetmap.org/way/1137765150)及其內側碼頭資料。© OpenStreetMap contributors，ODbL。
+
+步道中心線與岸線各自保留。棚架深度、百葉間距、植栽、遊具位置與欄柱高度依地面照片估算。窗面反光及船型為原創示意，停泊狀態並非即時資訊。

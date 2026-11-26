@@ -225,13 +225,20 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
   }
   tiles.clear();
   const tileCenter=new THREE.Vector2(Infinity,Infinity),eye=new THREE.Vector3();
-  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),new THREE.MeshLambertMaterial({color:0xb9bcaa}));
+  // Long triangles clipped at the near plane can cover centimetre-separated
+  // harbour surfaces on mobile WebGL. Subdivide the fallback ground and
+  // leave the two surveyed waterfront precincts to their own ground layers.
+  const subdivisions=contextOnly?80:1;
+  const ground=new THREE.Mesh(new THREE.PlaneGeometry(12000,12000,subdivisions,subdivisions),new THREE.MeshLambertMaterial({color:0xb9bcaa}));
   const paving=surfaceTexture('concrete_pavement_02.jpg');paving.wrapS=paving.wrapT=THREE.RepeatWrapping;
   paving.repeat.set(2400,2400);ground.material.map=paving;if(contextOnly)ground.position.y=-.185;ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);
   const labels=[],markers=[];
   ground.material.onBeforeCompile=shader=>{
     shader.vertexShader='varying vec2 groundSite;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\ngroundSite=(modelMatrix*vec4(position,1.)).xz;');
     shader.fragmentShader='varying vec2 groundSite;\n'+shader.fragmentShader;
+    if(contextOnly)shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>
+      if((groundSite.x>677. && groundSite.x<1040. && groundSite.y>112. && groundSite.y<432.) ||
+         (groundSite.x>45. && groundSite.x<333. && groundSite.y>-1025. && groundSite.y< -502.))discard;`);
     clipStationGround(shader,stationExits,'groundSite');
   };
   if(!contextOnly)stops.forEach(([name],i)=>{

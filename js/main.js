@@ -145,7 +145,8 @@ function render() {
   const midLeg = requested.match(/^\/explore\/walk\/mid\/([1-9])$/);
   const exitId=requested.startsWith('/explore/station/')?requested.slice('/explore/station/'.length):null;
   const entrance=stationExitById.get(exitId);
-  const path = entrance ? '/explore' : midLeg ? '/explore/walk' : requested;
+  const sectionLink=requested.match(/^\/explore\/run\/([^/]+)\/from\/([^/]+)$/);
+  const path = sectionLink ? '/explore/run/'+sectionLink[1] : entrance ? '/explore' : midLeg ? '/explore/walk' : requested;
   const pages = { '/': home, '/map': recommendationsPage, '/map/resources': recommendationsPage, '/routes/bay': routePage, '/explore/film': filmPage, '/explore/activity': explorePage, '/explore/short': explorePage, '/explore/walk': explorePage, '/explore': explorePage, '/community': communityPage, '/about': aboutPage };
   const previewId=path.startsWith('/explore/run/')?path.slice(13):null;const preview=!entrance&&(path==='/explore'||previewId);const chosen=catalog.routes.find(r=>r.variantId===previewId)||catalog.routes[0];
   const recommendedId=path.startsWith('/run/')?path.slice(5):null;
@@ -161,7 +162,7 @@ function render() {
     dispose = () => { clearBase(); clearReport(); };
   }
   if(path==='/map'||path==='/map/resources'||recommendedId) dispose=mountRecommendations(recommendedId||(path==='/map/resources'?'harbor-108':null),path==='/map/resources');
-  if(preview)dispose=mountPreview(catalog,chosen);
+  if(preview)dispose=mountPreview(catalog,chosen,sectionLink?.[2]);
   const isGame=[...(entrance?['/explore']:[]),'/explore/activity','/explore/short','/explore/walk'].includes(path);
   if (isGame) {
     document.querySelector('.status-note').innerHTML = '<a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/short">港灣去程練習</a> · <a href="#/explore/activity">港灣完整往返</a> · <a href="#/explore/station/O1-2">從街口走近捷運出口</a><p>3D 場景依地圖與街景建模。建物細節、尺度及通行空間為示意。</p>';

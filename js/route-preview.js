@@ -10,7 +10,12 @@ export function previewPage(data,route){
  return `<section class="wrap page-body"><h1>3D 路線探索</h1><label>選擇路線 <select id="preview-route">${data.routes.map(r=>`<option value="${r.variantId}" ${r===route?'selected':''}>${r.name}</option>`).join('')}</select></label><h2>${route.name}</h2><p>${route.display.journey} · ${route.display.description}</p><p>場景供路線預覽，實際通行請依現場指示。騎乘與無障礙條件請在出發前確認。</p><button class="btn dark" id="preview-start">開始探索</button> <a href="#/run/${route.variantId}">查看路線與資源</a><output id="preview-error" role="status"></output><section id="preview-controls" hidden><div class="run-actions"><label>移動方式 <select id="preview-mode">${Object.entries(MODES).map(([id,m])=>`<option value="${id}">${m.name}</option>`).join('')}</select></label><select aria-label="探索方式" id="preview-travel"><option>路線導覽</option><option>自由探索</option></select><button id="preview-camera">切換至第三人稱</button><button id="preview-pause">暫停</button><label>前往沿途地點 <select id="preview-stop"><option value="">選擇地點</option></select></label><label>陰影 <select id="preview-quality"><option value="near">近景日照</option><option value="on">細緻</option><option value="off">關閉陰影</option></select></label><label><input type="checkbox" id="preview-guides"> 顯示地面導引</label><button id="preview-reset">回到起點</button></div><div id="preview-stage" tabindex="0" aria-label="可用方向鍵移動的路線場景"><canvas id="preview-mini" width="150" height="110" aria-label="路徑與面向"></canvas></div><div class="run-actions" aria-label="移動控制">${['←','↑','↓','→'].map((t,i)=>`<button class="btn outline" data-move="${['a','w','s','d'][i]}">${t}</button>`).join('')}</div><output id="preview-position"></output><small> · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://github.com/momooooal/kaohsiung-harbor-run/blob/main/DATA-SOURCES.md">場景素材署名</a></small></section><h2>沿途經過</h2><p>${route.stopIds.map(id=>names.get(id)).join(' → ')}</p><a href="#/explore/walk">十站連續步行</a> · <a href="#/explore/activity">港灣踩線活動體驗</a></section>`;
 }
 
-export function mountPreview(data,route){
+const waterfrontStarts={
+  'exhibition-park':{route:'harbor-108',name:'從公園接近高雄展覽館',coordinates:[22.60653,120.297457],bearing:8},
+  'glory-pier':{route:'harbor-5',name:'光榮碼頭・鯨魚堤岸',coordinates:[22.615958,120.292059],bearing:27}
+};
+
+export function mountPreview(data,route,sectionId){
  const el=id=>document.getElementById(id);
  el('preview-route').onchange=e=>location.hash='/explore/run/'+e.target.value;
  let cleanup=()=>{};
@@ -95,6 +100,21 @@ export function mountPreview(data,route){
   for(const stop of stops){
     let i=0;for(let j=1;j<points.length;j++)if(points[j].distanceToSquared(stop.point)<points[i].distanceToSquared(stop.point))i=j;
     destination.add(new Option(stop.name,String(lengths[i])));
+  }
+  for(const [id,start] of Object.entries(waterfrontStarts)){
+    if(start.route!==route.variantId)continue;
+    const target=project(start.coordinates),segment=new THREE.Line3(),foot=new THREE.Vector3();
+    let best=Infinity,along=0;
+    for(let i=1;i<points.length;i++){
+      const a=points[i-1],b=points[i],bearing=Math.atan2(b.x-a.x,a.z-b.z)*180/Math.PI;
+      if(Math.abs((bearing-start.bearing+540)%360-180)>35)continue;
+      segment.set(a,b).closestPointToPoint(target,true,foot);
+      const gap=foot.distanceTo(target);
+      if(gap<best){best=gap;along=lengths[i-1]+a.distanceTo(foot);}
+    }
+    if(best>10)continue;
+    destination.add(new Option(start.name,String(along)));
+    if(sectionId===id)relocate(along);
   }
   function relocate(d){distance=d;offset=yaw=look=pitch=0;lastHeading=null;keys.clear();dirty=true;}
   destination.onchange=()=>{if(destination.value!=='')relocate(Number(destination.value));destination.value='';};
