@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: npm ci --ignore-scripts
-      - run: node scripts/continuous-view.cjs
+      - run: xvfb-run -a node scripts/continuous-view.cjs
         env:
           ROUTE: ${{ matrix.route }}
       - uses: actions/upload-artifact@v4
         with:
-          name: moves-${{ matrix.route }}
+          name: arrows-${{ matrix.route }}
           path: moves/
           retention-days: 2
