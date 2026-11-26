@@ -1,3 +1,4 @@
+import {mappedBuilding,mappedHeight,mappedColour} from './mapped-building.js';
 import {routeLandmarks} from './route-landmarks.js';
 import {shihjiaTowerKey} from './shihjia-alignment.js';
 import {coffeeWindow} from './coffee-window.js';
@@ -70,13 +71,15 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
   buildings.forEach(([h,points,kind],i)=>{
     if(['hall','shelter','station-entry','rail-museum'].includes(kind)||detailedFerryBuildings.has(points[0].join()))return;
     const [x,z]=points[0],parkHouse=h===8&&Math.hypot(x-1980,z-716)<76;
+    const record=mappedBuilding(points[0]);
+    if(!kind&&!profiles.has(points[0].join()))h=mappedHeight(record,h);
     if(parkHouse)h=3.45;
     const shell=streetShells.get(points[0].join());
     if(shell==='redTile')h=13.4;
-    style=0;polygon(points,h,roof);
-    const profile=kind||profiles.get(points[0].join());
+    style=0;polygon(points,h,record?.['roof:colour']?tint(mappedColour(record['roof:colour'],0xc4b9ac)):roof);
+    const profile=kind||profiles.get(points[0].join())||(record?.building==='warehouse'?'warehouse':'');
     style=parkHouse?7:x===2017&&z===1360?6:profile==='warehouse'?3:profile==='terminal'?5:2;
-    if(parkHouse||profile==='warehouse'){
+    if(parkHouse||profile==='warehouse'||record?.['roof:shape']==='gabled'){
       // Clip both faces of the pitched roof at its ridge so that irregular footprints retain their outline.
       let ax=1,az=0,longest=0;
       points.forEach((a,j)=>{const b=points[(j+1)%points.length],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len>longest){longest=len;ax=-dz/len;az=dx/len}});
@@ -98,7 +101,7 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
       style=2;
     }
     if(shell&&shell!=='arcade')style=0;
-    const wall=shell==='redTile'?tint(0x97594e):shell==='workshop'?tint(0xb8b19b):shell==='plaster'?tint(0xb1a998):facades[i%4];
+    const wall=shell==='redTile'?tint(0x97594e):shell==='workshop'?tint(0xb8b19b):shell==='plaster'?tint(0xb1a998):record?.['building:colour']?tint(mappedColour(record['building:colour'],0xb9b6ab)):facades[i%4];
     function face(a,b,bottom){tri(vert(a,bottom),vert(b,bottom),vert(a,h),wall);tri(vert(a,h),vert(b,bottom),vert(b,h),wall);}
     points.forEach((a,j)=>{const b=points[(j+1)%points.length];
       if(contextOnly&&x===-480&&z===-949&&(j===1||j===2)){

@@ -1,3 +1,4 @@
+import {mappedBuilding,mappedHeight,mappedColour} from './mapped-building.js';
 import footprints from '../data/route-infill.js';
 
 // Additional measured footprints. Storeys and storefront finishes are interpreted.
@@ -40,15 +41,18 @@ export function streetFrontages(parent, routePoints) {
     if(!cells.has(key))cells.set(key,{x:cx,z:cz,wall:{pos:[],rgb:[],uv:[]},roof:{pos:[],rgb:[]},objects:[]});
     const c=cells.get(key),seed=Math.abs(Math.round(cx+cz));
     const area=Math.abs(ring.reduce((s,a,i)=>{const b=ring[(i+1)%ring.length];return s+a[0]*b[1]-a[1]*b[0];},0))/2;
-    const floors=area<50?2:area<270?3+seed%2:5+seed%3, height=3.8+(floors-1)*3.1;
-    const tint=[0xf1e8d8,0xd6cbbb,0xe1d4c8,0xd3d7cf,0xd0c0af][seed%5];
+    const record=mappedBuilding(ring[0]);
+    const estimatedFloors=area<50?2:area<270?3+seed%2:5+seed%3;
+    const height=mappedHeight(record,3.8+(estimatedFloors-1)*3.1);
+    const ground=Math.min(height,3.8),floors=Math.max(1,Math.round((height-ground)/3.1)+1),step=(height-ground)/Math.max(1,floors-1);
+    const tint=mappedColour(record?.['building:colour'],[0xf1e8d8,0xd6cbbb,0xe1d4c8,0xd3d7cf,0xd0c0af][seed%5]);
     for(let i=0;i<ring.length;i++){
-      const a=ring[i],b=ring[(i+1)%ring.length];panel(c.wall,a,b,0,3.8,tint,false);
-      for(let floor=1;floor<floors;floor++)panel(c.wall,a,b,3.8+(floor-1)*3.1,3.8+floor*3.1,tint,true);
+      const a=ring[i],b=ring[(i+1)%ring.length];panel(c.wall,a,b,0,ground,tint,false);
+      for(let floor=1;floor<floors;floor++)panel(c.wall,a,b,ground+(floor-1)*step,ground+floor*step,tint,true);
     }
     const contour=ring.map(([x,z])=>new THREE.Vector2(x,z));
     for(const ids of THREE.ShapeUtils.triangulateShape(contour,[])){
-      const [a,b,d]=ids.map(i=>[ring[i][0],height,ring[i][1]]);tri(c.roof,a,b,d,0x9f9c8e);
+      const [a,b,d]=ids.map(i=>[ring[i][0],height,ring[i][1]]);tri(c.roof,a,b,d,mappedColour(record?.['roof:colour'],0x9f9c8e));
     }
   }
   function mount(c){

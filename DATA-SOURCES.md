@@ -167,3 +167,7 @@
 中央公園街廓 · [街景 2026年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=91EZLv_KuHRPK4OnHHApyQ&heading=68)。
 凹子底站外 · [街景 2020年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=Dvfi-4tqUgcYwuo_275XLw&heading=169)。
 本次使用上述地面視點核對道路和綠帶，物件尺寸及間距依照片估算。駁二 2011 年與凹子底 2020 年影像僅參考道路方向及固定街廓，未以舊有店招、車輛或展品推定現況。
+
+### 六條完整動線的沿街細節
+
+以六條推薦路線所有去回程的地理線段建立查詢範圍。scripts/compile-corridor-details.py 從既有 OpenStreetMap XML 摘錄選出地面軌道、圍牆、碼頭、球場、站牌等，按 OSM ID 去重。場景內的物件為辨識類型的原創模型，精確外觀與現況仍需現勘。建物高度優先採明列的公尺數；僅有樓層時，每層以 3.15 公尺估算。第三方圖資 © OpenStreetMap contributors (ODbL)。

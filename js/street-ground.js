@@ -13,6 +13,11 @@ export function streetGround(parent,points){
   }
   finish('road','asphalt_02.jpg',0xc2c4bf);finish('path','concrete_pavement_02.jpg',0xd3c8b8);
   finish('brick','herringbone_pavement.jpg',0xd5b39c);finish('line',null,0xe7e1cb);
+  finish('wood','wood_planks_grey.jpg',0xb4aaa0);
+  finish('grass','aerial_grass_rock.jpg',0xbdc99d);
+  finish('gravel','aerial_grass_rock.jpg',0xaca99d);
+  finish('slabs','concrete_pavement_02.jpg',0xc3c0b9);
+  const surfaceType={asphalt:'road',wood:'wood',grass:'grass',grass_paver:'grass',fine_gravel:'gravel',paving_stones:'brick','concrete:plates':'slabs',concrete:'slabs',stepping_stones:'slabs'};
   function quad(a,b,c,d,h,type){
     const x=(a[0]+d[0])/2,z=(a[1]+d[1])/2,cell=key(x,z);if(!near.has(cell))return;
     const id=cell+type;if(!batches.has(id))batches.set(id,{x,z,type,pos:[],uv:[]});
@@ -40,7 +45,7 @@ export function streetGround(parent,points){
       prev=sides;
     }
   }
-  for(const [kind,w,n,s,p] of streets.roads)strip(p,w,kind==='road'?'road':s==='paving_stones'?'brick':'path',kind==='road'?.031:.065,n);
+  for(const [kind,w,n,s,p] of streets.roads)strip(p,w,surfaceType[s]||(kind==='road'?'road':'path'),kind==='road'?.050:.069,n);
   for(const line of streets.crossings)for(let i=1;i<line.length;i++){
     const a=line[i-1],b=line[i],len=Math.hypot(b[0]-a[0],b[1]-a[1]),n=normal(a,b);
     const p=(t,s)=>[a[0]+(b[0]-a[0])*t/len+n[0]*s,a[1]+(b[1]-a[1])*t/len+n[1]*s];
