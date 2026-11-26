@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [clearance, walk-mobile, walk-desktop]
+        task: [visuals, controls-mobile, controls-desktop, walk-mobile, walk-desktop]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -33,12 +33,21 @@ jobs:
           mkdir -p "$TEST_OUT"
           export TEST_URL=http://localhost:8789/
           if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
+          if [ "$TEST_URL" = https://momooooal.github.io/kaohsiung-harbor-run/ ]; then
+            for n in {1..36}; do
+              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/station-precincts.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
+              if cmp -s js/station-precincts.js /tmp/published-station.js; then break; fi
+              sleep 8
+            done
+            cmp js/station-precincts.js /tmp/published-station.js
+            echo "Testing published production files at $TEST_URL"
+          fi
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
           case "$TASK" in
             before) TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/ node ../qa/scripts/scene-shots.cjs ;;
             visuals) node ../qa/scripts/scene-film.cjs && node ../qa/scripts/scene-shots.cjs ;;
             walk-*) node ../qa/scripts/scene-traverse.cjs ;;
-            controls) node scripts/browser-repair.cjs ;;
+            controls-*) node ../qa/scripts/scene-controls.cjs ;;
             clearance) TEST_URL=http://localhost:8789/ node scripts/compile-preview-clearance.cjs && cp data/preview-clearance.js "$TEST_OUT"/ ;;
           esac
       - if: always()
