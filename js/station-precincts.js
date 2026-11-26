@@ -5,8 +5,9 @@ import streets from '../data/route-streets.js';
 // furniture interpret the dated views in DATA-SOURCES. No panorama textures.
 const boaiOrigin=[1377.28,-4920.33];
 const gardenOrigin=[(120.2987095-120.29)*102820,(22.61-22.6238832)*110750];
+const minshengCorner=[193.39,-1541.95];
 export function hasStationPrecinct(nearby,key){
-  return [shihjiaPoint(0,0),boaiOrigin,gardenOrigin].some(p=>nearby.has(key(...p)));
+  return [shihjiaPoint(0,0),boaiOrigin,gardenOrigin,minshengCorner].some(p=>nearby.has(key(...p)));
 }
 export function stationPrecincts({nearby,key,quad,crown,group,panel,beam,P,materials}){
   const tint=hex=>new THREE.Color(hex).convertSRGBToLinear();
@@ -269,6 +270,32 @@ export function stationPrecincts({nearby,key,quad,crown,group,panel,beam,P,mater
     }
     for(const s of [-2.9,-4.1])post(f,11.5,s,.78,.095,0x969687);
     for(const d of [-10.3,11.4])solid(f(d,-11.0),f(d,-6.0),.108,.04,.16,0xab6258);
+  }
+  if(nearby.has(key(...minshengCorner))){
+    // Minsheng 2nd Road, westbound. A service lane separates the arcade
+    // from the planted island. Leave the perpendicular crossing open.
+    const h=252*Math.PI/180;
+    const f=(d,r)=>[minshengCorner[0]+d*Math.sin(h)+r*Math.cos(h),minshengCorner[1]-d*Math.cos(h)+r*Math.sin(h)];
+    band(f,11,53,.5,6.4,.095,'grass',2.3);
+    for(const side of [.5,6.4])solid(f(11,side),f(53,side),.147,.19,.18,0x9d9a8d);
+    for(let i=0;i<10;i++)solid(f(11,.5+i*.59),f(11,.5+(i+1)*.59),.156,.23,.22,i%2?0xc49b4d:0x433f39);
+    for(const d of [15,27,43])canopy(f,d,3.5,6.5+(d%4)*.18,3.55);
+    for(const d of [22,38])for(let j=0;j<3;j++)
+      solid(f(d-.85,4.5+j*.14),f(d+.85,4.5+j*.14),.54,.085,.12,0x807b61);
+    // Extend the north-facing shop arcade from the mapped building edges.
+    const edges=[[[175.3,-1525.8],[154.8,-1518.4]],[[154.8,-1518.4],[130.2,-1509.6]]];
+    for(const [a,b] of edges){
+      const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),n=Math.round(len/4.9);
+      const loc=(t,depth)=>[a[0]+dx*t-dz*depth/len,a[1]+dz*t+dx*depth/len];
+      solid(loc(0,1.22),loc(1,1.22),3.50,.46,2.6,0xb4a796);
+      for(let i=0;i<n;i++){
+        const t=(i+.08)/n,p=loc(t,2.25);
+        solid(loc(t-.012,2.25),loc(t+.012,2.25),1.72,3.4,.52,0xb2a48c);
+        wall(loc((i+.14)/n,.10),loc((i+.94)/n,.10),.15,3.18,materials.get('aggregate'),1.8);
+        solid(loc((i+.19)/n,.13),loc((i+.89)/n,.13),1.72,2.63,.12,0x465754);
+        beam(P(p,.1),P(p,.54),.32,0x958875);
+      }
+    }
   }
   if(nearby.has(key(...gardenOrigin))){
     const angle=153*Math.PI/180,f=(d,s)=>[gardenOrigin[0]+Math.sin(angle)*d-Math.cos(angle)*s,gardenOrigin[1]-Math.cos(angle)*d-Math.sin(angle)*s];
