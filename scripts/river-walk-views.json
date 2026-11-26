@@ -1,0 +1,42 @@
+[
+  {
+    "route": "expo",
+    "id": "dock",
+    "position": [
+      22.623487,
+      120.290248
+    ],
+    "heading": 345,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.623487,120.290248&heading=345"
+  },
+  {
+    "route": "expo",
+    "id": "deck",
+    "position": [
+      22.62383,
+      120.29015
+    ],
+    "heading": 345,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62383,120.29015&heading=345"
+  },
+  {
+    "route": "glory",
+    "id": "turn",
+    "position": [
+      22.625249,
+      120.289823
+    ],
+    "heading": 337,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.625249,120.289823&heading=337"
+  },
+  {
+    "route": "glory",
+    "id": "avenue",
+    "position": [
+      22.625613,
+      120.289651
+    ],
+    "heading": 337,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.625613,120.289651&heading=337"
+  }
+]
