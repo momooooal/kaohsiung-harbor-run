@@ -45,7 +45,7 @@ async function state(p){
     // A standalone contributed image may have no connection.
     const canvas=p.locator('canvas').last();await canvas.click({position:{x:519,y:313},timeout:2500}).catch(()=>{});
     let last=first;
-    for(let i=0;i<4;i++){
+    for(let i=0;i<3;i++){
       await p.keyboard.press('ArrowUp');await p.waitForTimeout(800);
       let next=await state(p);
       if(!next||next.id===last.id){

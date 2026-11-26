@@ -1,82 +1,52 @@
 [
   {
     "route": "expo",
-    "id": "south",
+    "id": "corner",
     "position": [
-      22.6070567,
-      120.2981694
+      22.60654,
+      120.29745
     ],
-    "heading": 285,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6070567,120.2981694&heading=285"
+    "heading": 12,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60654,120.29745&heading=12"
   },
   {
     "route": "expo",
-    "id": "east",
+    "id": "boulevard",
     "position": [
-      22.6078,
-      120.29983
+      22.6082,
+      120.29978
     ],
-    "heading": 262,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6078,120.29983&heading=262"
+    "heading": 248,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6082,120.29978&heading=248"
   },
   {
     "route": "expo",
-    "id": "west",
+    "id": "chenggong",
     "position": [
-      22.6075,
-      120.2971
+      22.60865,
+      120.30019
     ],
-    "heading": 75,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6075,120.2971&heading=75"
+    "heading": 238,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60865,120.30019&heading=238"
   },
   {
     "route": "expo",
-    "id": "north",
+    "id": "cornerstreet",
     "position": [
-      22.60852,
-      120.29818
+      22.60687,
+      120.29762
     ],
-    "heading": 168,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60852,120.29818&heading=168"
+    "heading": 68,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60687,120.29762&heading=68"
   },
   {
     "route": "glory",
-    "id": "whale",
+    "id": "dockside",
     "position": [
-      22.61618,
-      120.29219
+      22.61643,
+      120.29232
     ],
-    "heading": 23,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61618,120.29219&heading=23"
-  },
-  {
-    "route": "glory",
-    "id": "platform",
-    "position": [
-      22.61676,
-      120.29275
-    ],
-    "heading": 254,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61676,120.29275&heading=254"
-  },
-  {
-    "route": "glory",
-    "id": "coral",
-    "position": [
-      22.61782,
-      120.29264
-    ],
-    "heading": 347,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61782,120.29264&heading=347"
-  },
-  {
-    "route": "glory",
-    "id": "edge",
-    "position": [
-      22.616404,
-      120.29234
-    ],
-    "heading": 201,
-    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616404,120.29234&heading=201"
+    "heading": 26,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61643,120.29232&heading=26"
   }
 ]
