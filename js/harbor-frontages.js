@@ -47,13 +47,49 @@ export function coralFrontage(line,{panel,beam,slab,P,mix}){
   }
 }
 
-export function terminalEnvelope(line,{panel,beam,slab,P,mix}){
+export function terminalEnvelope(line,{panel,beam,slab,P,mix},roads,route){
   // The public approach passes under the east wing. Its lower facade is
   // dark louvred metal. The taller west volume has closely spaced fins.
   const min=Math.min(...line.map(p=>p[0])),max=Math.max(...line.map(p=>p[0]));
   const height=p=>{const t=(p[0]-min)/(max-min);return 10.7+21*Math.pow(1-t,2.5)+2.3*Math.sin(t*Math.PI*2);};
   const base=5.15;
   slab(line,0,0xa5aeb0,height);slab(line,base,0x444b4c);
+  // The March 2024 view from the service road shows heavy round columns
+  // set back under the dark soffit. Keep the mapped drive and walk lanes open.
+  const south=Math.max(...line.map(p=>p[1])),north=Math.min(...line.map(p=>p[1]));
+  const lanes=[];
+  function includeLane(path,radius){
+    for(let i=1;i<path.length;i++){
+      const a=path[i-1],b=path[i];
+      if(Math.max(a[0],b[0])+radius<min||Math.min(a[0],b[0])-radius>max||
+         Math.max(a[1],b[1])+radius<north||Math.min(a[1],b[1])-radius>south)continue;
+      lanes.push({a,b,radius});
+    }
+  }
+  for(const [,width,,,path] of roads)includeLane(path,width/2+1.2);
+  includeLane(route.map(p=>[p.x,p.z]),3.6);
+  function inLane(p){
+    return lanes.some(({a,b,radius})=>{
+      const dx=b[0]-a[0],dz=b[1]-a[1];
+      const t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dz)/(dx*dx+dz*dz||1)));
+      return Math.hypot(p[0]-a[0]-dx*t,p[1]-a[1]-dz*t)<radius;
+    });
+  }
+  // The mapped ring runs clockwise. Lay out bays inward from long edges,
+  // skipping the short recesses at the vehicle entrance.
+  for(let j=1;j<line.length;j++){
+    const a=line[j-1],b=line[j],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);
+    if(len<18)continue;
+    const bays=Math.ceil(len/12);
+    for(let i=0;i<bays;i++){
+      const p=mix(a,b,(i+.5)/bays);
+      p[0]+=2.7*dz/len;p[1]-=2.7*dx/len;
+      if(inLane(p))continue;
+      beam(P(p,.03),P(p,base+.04),.58,0x475052);
+      beam(P(p,base-.42),P(p,base-.04),.72,0x424b4d);
+      beam(P(p,.03),P(p,.18),.67,0x69716f);
+    }
+  }
   for(let j=1;j<line.length;j++){
     const a=line[j-1],b=line[j],n=Math.ceil(Math.hypot(a[0]-b[0],a[1]-b[1])/2.6);
     for(let i=0;i<n;i++){

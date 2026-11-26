@@ -128,7 +128,7 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
     if(f.library.some(p=>nearby.has(key(...p))))libraryPlaza(f.library,{panel,beam,slab,P,mix,group,tree});
     const facade={panel,beam,slab,P,mix};
     if(f.coral.some(p=>nearby.has(key(...p))))coralFrontage(f.coral,facade);
-    if(f.terminal.some(p=>nearby.has(key(...p))))terminalEnvelope(f.terminal,facade);
+    if(f.terminal.some(p=>nearby.has(key(...p))))terminalEnvelope(f.terminal,facade,streets.roads,points);
     for(const id of ['music','centralMrt','r13East','r13West']){
       const line=f[id];if(!line.some(p=>nearby.has(key(...p))))continue;
       const xs=line.map(p=>p[0]),min=Math.min(...xs),span=Math.max(1,Math.max(...xs)-min);
