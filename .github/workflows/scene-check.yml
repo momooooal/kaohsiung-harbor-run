@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [before, clearance]
+        task: [clearance, walk-mobile, walk-desktop]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
