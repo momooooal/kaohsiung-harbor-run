@@ -63,15 +63,26 @@ export function mappedSurroundings(project,scene,points,city){
  const corridor=[];
  for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i],count=Math.max(1,Math.ceil(a.distanceTo(b)/3));for(let j=0;j<count;j++){const v=a.clone().lerp(b,j/count);corridor.push(new THREE.Vector2(v.x,v.z));}}
  for(let i=sites.length-1;i>=0;i--){const site=sites[i];if(!site.height)continue;
-  const inside=corridor.some(point=>site.bounds.distanceToPoint(point)<4);
+  const inside=corridor.some(point=>{
+    if(site.bounds.distanceToPoint(point)>4.4)return false;
+    const x=(point.x-origin.x)/east,z=(point.y-origin.z)/south;
+    if(inRing(x,z,site.ring))return true;
+    // A rotated building may span the entire street in its bounding box.
+    // Test the actual walls, with clearance between three-metre samples.
+    return site.ring.some(([ax,az],j,ring)=>{
+      const [bx,bz]=ring[(j+1)%ring.length],dx=bx-ax,dz=bz-az;
+      const t=Math.max(0,Math.min(1,((x-ax)*dx+(z-az)*dz)/(dx*dx+dz*dz||1)));
+      return Math.hypot(x-ax-t*dx,z-az-t*dz)<4.4;
+    });
+  });
   if(inside)sites.splice(i,1);
  }
  const wet=sites.filter(s=>s.style===3);
- function inRing(p,ring){
+ function inRing(px,pz,ring){
    let inside=false;
    for(let i=0,j=ring.length-1;i<ring.length;j=i++){
      const [x,z]=ring[i],[xx,zz]=ring[j];
-     if((z>p.z)!==(zz>p.z)&&p.x<(xx-x)*(p.z-z)/(zz-z)+x)inside=!inside;
+     if((z>pz)!==(zz>pz)&&px<(xx-x)*(pz-z)/(zz-z)+x)inside=!inside;
    }
    return inside;
  }
@@ -82,8 +93,8 @@ export function mappedSurroundings(project,scene,points,city){
   leavesBank(from,to){
     const p=new THREE.Vector2(to.x,to.z);
     // Deck footprints and the mapped boardwalk are traversable above water.
-    if(['visionDeck','boaiDeck','cityBridge','swingDeck'].some(k=>inRing(to,survey.features[k].line)))return false;
-    return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to,s.ring)&&!inRing(from,s.ring));
+    if(['visionDeck','boaiDeck','cityBridge','swingDeck'].some(k=>inRing(to.x,to.z,survey.features[k].line)))return false;
+    return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to.x,to.z,s.ring)&&!inRing(from.x,from.z,s.ring));
   },
   buildings:group,
   dispose(){skyline.dispose();grass.dispose();roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
