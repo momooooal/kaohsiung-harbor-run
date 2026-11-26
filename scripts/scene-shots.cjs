@@ -2,7 +2,7 @@ const fs=require('fs'),{chromium}=require(require.resolve('playwright',{paths:[p
 const catalog=require(process.cwd()+'/data/recommendations.json'),refs=require('./scene-points.json');
 const base=process.env.TEST_URL||'http://localhost:8789/',out=process.env.TEST_OUT;
 fs.mkdirSync(out,{recursive:true});
-const samples=['harbor-108-start','harbor-108-street','harbor-108-school','harbor-108-mouth',...refs.filter(v=>v.id.endsWith('-0.47')||v.id.endsWith('-0.72')||v.id==='heart-5-0.94'||/-(?:coral|wharf|terminal|river|swing|library|bridge|terminalside)$/.test(v.id)).map(v=>v.id)];
+const samples=['harbor-108-start','harbor-108-street','harbor-108-school','harbor-108-mouth',...refs.filter(v=>v.id.endsWith('-0.47')||v.id.endsWith('-0.72')||v.id==='heart-5-0.94'||/-(?:coral|wharf|terminal|river|swing|library|bridge|roadbridge|terminalside)$/.test(v.id)).map(v=>v.id)];
 (async()=>{const b=await chromium.launch({executablePath:process.env.CHROME_PATH,args:['--enable-unsafe-swiftshader']});
 try{const p=await b.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
 p.setDefaultTimeout(65000);const errors=[];p.on('pageerror',e=>{console.error(e.message);errors.push(e.message);});p.on('console',m=>{if(m.text().includes('VALIDATE_STATUS')||m.text().includes('Shader Error'))errors.push(m.text());});

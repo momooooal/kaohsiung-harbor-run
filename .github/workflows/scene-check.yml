@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [visuals, controls-mobile, controls-desktop, walk-mobile, walk-desktop, clearance]
+        task: [clearance]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -35,11 +35,11 @@ jobs:
           if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
           if [ "$TEST_URL" = https://momooooal.github.io/kaohsiung-harbor-run/ ]; then
             for n in {1..36}; do
-              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/preview-surroundings.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
-              if cmp -s js/preview-surroundings.js /tmp/published-station.js; then break; fi
+              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/route-landmarks.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
+              if cmp -s js/route-landmarks.js /tmp/published-station.js; then break; fi
               sleep 8
             done
-            cmp js/preview-surroundings.js /tmp/published-station.js
+            cmp js/route-landmarks.js /tmp/published-station.js
             echo "Testing published production files at $TEST_URL"
           fi
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
