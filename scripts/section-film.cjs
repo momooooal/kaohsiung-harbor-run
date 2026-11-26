@@ -11,7 +11,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
  const p=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
  p.setDefaultTimeout(60000);
  const errors=[];p.on('pageerror',e=>errors.push(e.message));
- await p.goto(url,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.THREE);
+ await p.goto(url,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.THREE && document.querySelector('#preview-start'));
  await p.evaluate(()=>{
    let sequence=0,time=performance.now();const queue=new Map();
    window.requestAnimationFrame=fn=>{const id=++sequence;queue.set(id,fn);return id;};
@@ -54,7 +54,17 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
    return {start,offset:best,x:b.x+b.width/2,y:b.y+b.height/2,mode:document.querySelector('#preview-mode').value,first:document.querySelector('#preview-camera').textContent,initial:window.capturePose};
  },section);
  await p.waitForTimeout(1200);
- const client=await p.context().newCDPSession(p);await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:settings.x,y:settings.y}]});
+ await p.bringToFront();
+ const hit=await p.evaluate(()=>{
+   const b=document.querySelector('[data-move=w]');document.documentElement.style.scrollBehavior='auto';b.scrollIntoView({block:'center',behavior:'instant'});
+   if(document.querySelector('#preview-pause').textContent==='繼續')document.querySelector('#preview-pause').click();
+   window.contact=[];for(const type of ['pointerdown','pointerup','pointercancel','lostpointercapture','blur'])document.addEventListener(type,e=>window.contact.push([type,e.target.id,e.target.dataset?.move]),true);
+   const r=b.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;
+   if(document.elementFromPoint(x,y)!==b)throw Error('Touch control covered '+document.elementFromPoint(x,y)?.outerHTML?.slice(0,150));
+   return {x,y};
+ });
+ const client=await p.context().newCDPSession(p);await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:hit.x,y:hit.y}]});
+ console.log('contact',await p.evaluate(()=>[window.contact,document.activeElement.id,document.querySelector('#preview-pause').textContent]));
  const folder=fs.mkdtempSync('/tmp/route-frames-'),poses=[];
  for(let i=0;i<320;i++){
    const {image,pose}=await p.evaluate(()=>{window.capturePixels=true;window.nextFrame();return {image:window.captureImage,pose:window.capturePose};});
