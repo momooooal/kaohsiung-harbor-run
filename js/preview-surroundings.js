@@ -15,7 +15,10 @@ export function mappedSurroundings(project,scene,points,city){
  const east=project([22.61,120.29+1/102820]).x-origin.x;
  const south=project([22.61-1/110750,120.29]).z-origin.z;
  const group=new THREE.Group();scene.add(group);
- const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558].map(color=>new THREE.MeshLambertMaterial({color:new THREE.Color(color).convertSRGBToLinear(),side:THREE.DoubleSide}));
+ const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558].map((color,i)=>{
+   const Surface=i===3?THREE.MeshBasicMaterial:THREE.MeshLambertMaterial;
+   return new Surface({color:new THREE.Color(color).convertSRGBToLinear(),side:THREE.DoubleSide});
+ });
  const grass=surfaceTexture('aerial_grass_rock.jpg');grass.wrapS=grass.wrapT=THREE.RepeatWrapping;grass.repeat.set(.19,.19);materials[5].map=grass;materials[5].color.setHex(0xc4ccac).convertSRGBToLinear();
  // Vary the water with the viewing angle and metre-scale ripples. It is drawn
  // only inside the mapped water polygons, underneath decks and quay walls.
@@ -26,8 +29,8 @@ export function mappedSurroundings(project,scene,points,city){
      float atten=1.-smoothstep(8.,145.,distanceToEye);
      float ripple=.5+.5*sin(uv.x*2.7+uv.y*5.4+2.4*sin(uv.x*.62-uv.y*.83)+sin(uv.y*2.1));
      float grazing=pow(1.-abs(normalize(cameraPosition-waterSite).y),4.);
-     diffuseColor.rgb=mix(vec3(.045,.11,.13),vec3(.225,.297,.30),.22+.73*grazing);
-     diffuseColor.rgb+=vec3(.13,.14,.13)*(pow(ripple,6.)-.30)*atten;
+     diffuseColor.rgb=mix(vec3(.027,.083,.106),vec3(.145,.245,.29),.22+.73*grazing);
+     diffuseColor.rgb+=vec3(.11,.14,.15)*(pow(ripple,6.)-.20)*atten;
    `);
  };
  const skyline=citySkyline(scene,points);
@@ -55,7 +58,11 @@ export function mappedSurroundings(project,scene,points,city){
  function mesh(site){
   const shape=new THREE.Shape(site.ring.map(([x,z])=>new THREE.Vector2(x*east,-z*south)));
   const geometry=site.height?new THREE.ExtrudeGeometry(shape,{depth:site.height,bevelEnabled:false}):new THREE.ShapeGeometry(shape);
-  geometry.rotateX(-Math.PI/2);const object=new THREE.Mesh(geometry,site.height?[materials[site.style],walls]:materials[site.style]);object.position.copy(origin);object.position.y=site.height?0:site.style===4?-.09:site.style===5?-.16:-.15;group.add(object);return object;
+  geometry.rotateX(-Math.PI/2);const object=new THREE.Mesh(geometry,site.height?[materials[site.style],walls]:materials[site.style]);object.position.copy(origin);
+  // Use the mapped water above the legacy harbour fill (.012), below
+  // crossings, the quay deck and bridge surfaces.
+  object.position.y=site.height?0:site.style===3?.024:site.style===4?-.09:-.16;
+  group.add(object);return object;
  }
  for(const site of sites){site.bounds=new THREE.Box2().setFromPoints(site.ring.map(([x,z])=>new THREE.Vector2(origin.x+x*east,origin.z+z*south)));}
  // Doorways and covered pedestrian passages may lie inside a footprint.

@@ -27,11 +27,15 @@ export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
     return;
   }
   const apron=kind==='coralApron';
-  band(apron?'hex':'stone',-4.25,apron?6.4:5,.091,2.4,2.4);
-  const side=-3.72,step=4.4;
+  // At Glory Pier the mapped walking centreline is 17.6–18.7 m inland
+  // of the straight OSM harbour edge. The December 2024 photograph shows
+  // the chain bollards on that edge, rather than in the middle of the apron.
+  const edge=d=>apron?-4.25:-17.6-1.1*d/length;
+  band(apron?'hex':'stone',edge,apron?6.4:5,.091,2.4,2.4);
+  const step=4.4;
   for(let d=2;d+step<length;d+=step){
     // Painted gooseneck bollards, a low curb pipe and a hanging light chain.
-    const p=at(d,side);
+    const side=edge(d)+.48,p=at(d,side);
     beam(P(p,.09),P(p,.7),.095,0xe4e5dc);
     let prev=P(p,.7);
     for(let k=1;k<=5;k++){

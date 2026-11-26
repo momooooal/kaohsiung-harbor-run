@@ -130,7 +130,8 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
     function band(name,left,right,h,tileAcross,tileAlong){
       for(let i=1;i<cumulative.length;i++){
         const a=cumulative[i-1],b=cumulative[i];
-        quad(name,h,at(a,left),at(a,right),at(b,left),at(b,right),0,a/tileAlong,(right-left)/tileAcross,b/tileAlong);
+        const l=typeof left==='function'?left(a):left,r=typeof left==='function'?left(b):left;
+        quad(name,h,at(a,l),at(a,right),at(b,r),at(b,right),0,a/tileAlong,(right-(l+r)/2)/tileAcross,b/tileAlong);
       }
     }
     function bench(d,side){
