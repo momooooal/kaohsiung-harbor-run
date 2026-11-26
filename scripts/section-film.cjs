@@ -10,7 +10,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
  try{
  const p=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
  p.setDefaultTimeout(60000);
- const errors=[];p.on('pageerror',e=>errors.push(e.message));
+ const errors=[];p.on('console',m=>{if(['warning','error'].includes(m.type()))console.log('Chrome:',m.text().slice(0,420));});p.on('pageerror',e=>errors.push(e.message));
  await p.goto(url,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.THREE && document.querySelector('#preview-start'));
  await p.evaluate(()=>{
    let sequence=0,time=performance.now();const queue=new Map();
@@ -19,7 +19,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
    window.nextFrame=()=>{const callbacks=[...queue.values()];queue.clear();time+=50;for(const f of callbacks)f(time);};
    const Base=THREE.WebGLRenderer;
    THREE.WebGLRenderer=class extends Base{constructor(...args){super(...args);const draw=this.render;this.render=function(scene,camera){
-      draw.call(this,scene,camera);window.sampledScene=scene;window.sampledCamera=camera;
+      draw.call(this,scene,camera);window.sampledScene=scene;window.sampledCamera=camera;window.originalDraw=()=>draw.call(this,scene,camera);window.gpu=this;
       const forward=camera.getWorldDirection(new THREE.Vector3());
       window.capturePose=[camera.position.x,camera.position.y,camera.position.z,Math.atan2(forward.x,-forward.z)*180/Math.PI];
       if(window.capturePixels)window.captureImage=this.domElement.toDataURL('image/jpeg',.94);
@@ -73,6 +73,16 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
    if([0,90,180,260,319].includes(i))fs.writeFileSync(out+'/'+name+'-'+i+'.jpg',bytes);
    poses.push(pose);
    if(i===90){
+     const debug=await p.evaluate(()=>{
+        let scene=sampledScene,canvas=gpu.domElement,variants={};
+        const visible=[];scene.traverseVisible(o=>{if(o.isMesh)visible.push(o);});
+        const save=id=>{window.originalDraw();variants[id]=canvas.toDataURL('image/jpeg',.9);};
+        let removed=visible.filter(o=>o.geometry.type==='PlaneGeometry'&&o.geometry.parameters?.width>6000);removed.forEach(o=>o.visible=false);save('no-base');
+        const ground=visible.filter(o=>o.material?.onBeforeCompile.toString().includes('float grain=dot(diffuseColor')&&o.material?.map?.image);for(const o of ground){o.userData.prev=o.material;o.material=new THREE.MeshBasicMaterial({color:0xe9247f,side:THREE.DoubleSide});}
+        const water=visible.filter(o=>o.material?.onBeforeCompile?.toString().includes('waterSite'));for(const o of water){o.userData.prev=o.material;o.material=new THREE.MeshBasicMaterial({color:0x258aa4,side:THREE.DoubleSide});}
+        save('tints');[...ground,...water].forEach(o=>{o.material=o.userData.prev;});removed.forEach(o=>o.visible=true);window.originalDraw();
+        return variants;
+     });for(const [key,v] of Object.entries(debug))fs.writeFileSync(out+'/'+name+'-'+key+'.jpg',Buffer.from(v.split(',')[1],'base64'));
      const rays=await p.evaluate(()=>{
        const meshes=[];sampledScene.traverseVisible(o=>{if(o.isMesh)meshes.push(o);});
        const cast=(ray)=>ray.intersectObjects(meshes,false).slice(0,6).map(h=>{const o=h.object,m=Array.isArray(o.material)?o.material[0]:o.material;
