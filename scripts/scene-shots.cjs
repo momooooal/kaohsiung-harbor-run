@@ -11,7 +11,7 @@ await p.goto(base,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>wi
  const {x,z,angle}=window.snap,alternate=c.clone(),a=angle*Math.PI/180;window.normalShot=this.domElement.toDataURL('image/jpeg',.91);
  alternate.position.set(x,1.79,z);alternate.lookAt(x+Math.sin(a),1.79,z-Math.cos(a));draw.call(this,s,alternate);
  window.streetShot=this.domElement.toDataURL('image/jpeg',.91);draw.call(this,s,c);window.snap=null;return v;};}};});
-for(const id of samples){
+for(const id of (process.env.SCENE_SAMPLES?process.env.SCENE_SAMPLES.split(','):samples)){
  const r=catalog.routes.find(r=>id.startsWith(r.variantId+'-')),ref=refs.find(s=>s.id===id),m=ref.view.match(/@([-\d.]+),([-\d.]+)/);
  const x=(+m[2]-120.29)*102820,z=(22.61-+m[1])*110750,angle=Number(ref.view.match(/,([-\d.]+)h/)?.[1]||ref.heading);
  await p.evaluate(id=>location.hash='/explore/run/'+id,r.variantId);await p.locator('#preview-start').click();await p.waitForFunction(()=>document.querySelector('#preview-position')?.textContent.includes('%'));
