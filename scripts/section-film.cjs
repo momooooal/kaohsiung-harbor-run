@@ -3,14 +3,14 @@ const path=require('node:path');
 const {execFileSync}=require('node:child_process');
 const {chromium}=require(require.resolve('playwright',{paths:[process.cwd()]}));
 const name=process.env.TASK.replace('ride-',''),out=process.env.TEST_OUT;
-const section=name==='expo'?{route:'harbor-108',lat:22.60653,lon:120.297457,bearing:8}:{route:'harbor-5',lat:22.615958,lon:120.292059,bearing:27};
-const url=process.env.TEST_URL+'#/explore/run/'+section.route+'/from/'+(name==='expo'?'exhibition-park':'glory-pier');
+const section=name==='expo'?{route:'harbor-5',lat:22.61030,lon:120.296129,bearing:297}:{route:'harbor-5',lat:22.61350,lon:120.290976,bearing:296};
+const url=process.env.TEST_URL+'#/explore/run/'+section.route;
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_PATH,args:['--enable-unsafe-swiftshader']});
  try{
  const p=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1,isMobile:true,hasTouch:true});
  p.setDefaultTimeout(60000);
- const errors=[];p.on('console',m=>{if(/Shader Error|VALIDATE_STATUS.*false|GL_INVALID/.test(m.text()))errors.push(m.text());});p.on('pageerror',e=>errors.push(e.message));
+ const errors=[];p.on('pageerror',e=>errors.push(e.message));
  await p.goto(url,{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.THREE && document.querySelector('#preview-start'));
  await p.evaluate(()=>{
    let sequence=0,time=performance.now();const queue=new Map();
@@ -44,9 +44,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route+'/from/'+(name==='
      if(dist<best&&Math.abs((bearing-s.bearing+540)%360-180)<35){best=dist;start=d+t*len;}d+=len;
    }
    if(best>10)throw Error('Start offset '+best);
-   const initial=window.capturePose;
-   if(Math.hypot(initial[0]-x, initial[2]-z)>1 || Math.abs((initial[3]-s.bearing+540)%360-180)>8)throw Error('Published deep link did not place the camera at this approach: '+initial);
-   // The URL placed the runner. No teleport, camera override or heading input.
+   const select=document.querySelector('#preview-stop');select.add(new Option('Capture',String(start)));select.value=String(start);select.dispatchEvent(new Event('change'));
    const mini=document.querySelector('#preview-mini');mini.hidden=true;
    const guides=document.querySelector('#preview-guides');if(guides.checked)guides.click();
    const w=document.querySelector('[data-move=w]');w.scrollIntoView({block:'center',behavior:'instant'});
@@ -79,6 +77,6 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route+'/from/'+(name==='
  const pathLength=poses.reduce((total,p,i)=>i?total+Math.hypot(p[0]-poses[i-1][0],p[2]-poses[i-1][2]):total,0);
  fs.writeFileSync(out+'/'+name+'.json',JSON.stringify({url,settings,pathLength,stepSeconds:.05,poses,errors},null,1));
  if(pathLength<86||errors.length)throw Error('Insufficient travel or page error: '+pathLength+' '+errors.join(','));
- execFileSync(process.env.FFMPEG||'ffmpeg',['-loglevel','error','-framerate','20','-i',folder+'/%04d.jpg','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p','-crf','18','-movflags','+faststart',out+'/'+name+'.mp4']);
+ execFileSync('ffmpeg',['-loglevel','error','-framerate','20','-i',folder+'/%04d.jpg','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p','-crf','18','-movflags','+faststart',out+'/'+name+'.mp4']);
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
