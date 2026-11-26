@@ -43,6 +43,12 @@ export function corridorDetails({nearby,key,points,beam,panel,slab,P}){
       if(len<.05)continue;
       const at=(d,offset=0)=>[a[0]+(dx*d-dz*offset)/len,a[1]+(dz*d+dx*offset)/len];
       if(kind==='track'){
+        // Grass track is visible beside the Linhai waterfront in the Nov 2025
+        // tram-side panoramas. Keep road crossings and unobserved track bare.
+        const mid=at(len/2),north=(22.61-22.61696)*110750,south=(22.61-22.61279)*110750;
+        if(mid[1]>north&&mid[1]<south&&mid[0]>135&&mid[0]<355&&!inWalk(mid)){
+          panel(a,b,.077,.014,2.45,0x91a16b);
+        }
         for(const r of [-.72,.72])panel(at(0,r),at(len,r),.112,.028,.074,0x889091);
       }else if(kind==='pier'){
         panel(a,b,.085,.075,1.8,0xa9a299);

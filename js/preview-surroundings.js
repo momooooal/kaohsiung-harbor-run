@@ -16,7 +16,7 @@ export function mappedSurroundings(project,scene,points,city){
  const east=project([22.61,120.29+1/102820]).x-origin.x;
  const south=project([22.61-1/110750,120.29]).z-origin.z;
  const group=new THREE.Group();scene.add(group);
- const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558].map((color,i)=>{
+ const materials=[0xa89e8b,0xc7b8a9,0xc8c5b4,0x347d82,0x787d7b,0x739558,0x878c89].map((color,i)=>{
    const Surface=i===3?THREE.MeshBasicMaterial:THREE.MeshLambertMaterial;
    return new Surface({color:new THREE.Color(color).convertSRGBToLinear(),side:THREE.DoubleSide});
  });
@@ -34,6 +34,7 @@ export function mappedSurroundings(project,scene,points,city){
      diffuseColor.rgb+=vec3(.11,.14,.15)*(pow(ripple,6.)-.20)*atten;
    `);
  };
+ const parking=surfaceTexture('asphalt_02.jpg');parking.wrapS=parking.wrapT=THREE.RepeatWrapping;parking.repeat.set(.18,.18);materials[6].map=parking;
  const skyline=citySkyline(scene,points);
  const facade=document.createElement('canvas');facade.width=128;facade.height=96;
  const ink=facade.getContext('2d');ink.fillStyle='#d9d2bf';ink.fillRect(0,0,128,96);ink.fillStyle='#a8a598';ink.fillRect(0,84,128,10);
@@ -57,7 +58,7 @@ export function mappedSurroundings(project,scene,points,city){
  for(const ring of [...context.green,...survey.green])sites.push({height:0,ring,style:5});
  const roads=streetGround(scene,points);
  const frontages=streetFrontages(group,points);
- for(const [kind,ring] of streets.areas)sites.push({height:0,ring,style:kind==='water'?3:kind==='green'?5:4});
+ for(const [kind,ring] of streets.areas)sites.push({height:0,ring,style:kind==='water'?3:kind==='green'?5:6});
  for(const [width,line] of [...(city?[]:blocks.roads),...context.roads,...survey.roads]){
   const left=[],right=[];for(let i=0;i<line.length;i++){const prev=line[Math.max(0,i-1)],next=line[Math.min(line.length-1,i+1)],dx=next[0]-prev[0],dz=next[1]-prev[1],k=width/(2*(Math.hypot(dx,dz)||1)),[x,z]=line[i];left.push([x-dz*k,z+dx*k]);right.push([x+dz*k,z-dx*k]);}
   sites.push({height:0,style:4,ring:left.concat(right.reverse())});
@@ -68,7 +69,7 @@ export function mappedSurroundings(project,scene,points,city){
   geometry.rotateX(-Math.PI/2);const object=new THREE.Mesh(geometry,site.height?[materials[site.style],walls]:materials[site.style]);object.position.copy(origin);
   // Use the mapped water above the legacy harbour fill (.012), below
   // crossings, the quay deck and bridge surfaces.
-  object.position.y=site.height?0:site.style===3?.024:site.style===4?-.09:-.16;
+  object.position.y=site.height?0:site.style===3?.024:site.style===6?.027:site.style===5?.022:-.09;
   group.add(object);return object;
  }
  for(const site of sites){site.bounds=new THREE.Box2().setFromPoints(site.ring.map(([x,z])=>new THREE.Vector2(origin.x+x*east,origin.z+z*south)));}
@@ -111,6 +112,6 @@ export function mappedSurroundings(project,scene,points,city){
     return wet.some(s=>s.bounds.containsPoint(p)&&inRing(to.x,to.z,s.ring)&&!inRing(from.x,from.z,s.ring));
   },
   buildings:group,
-  dispose(){skyline.dispose();grass.dispose();roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
+  dispose(){skyline.dispose();parking.dispose();grass.dispose();roads.dispose();frontages.dispose();group.children.forEach(o=>o.geometry.dispose());windows.dispose();walls.dispose();materials.forEach(m=>m.dispose());scene.remove(group);}
  };
 }

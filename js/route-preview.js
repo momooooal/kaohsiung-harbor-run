@@ -257,7 +257,7 @@ export function mountPreview(data,route,sectionId){
       const aim=camera.position.clone().add(forward);aim.y+=Math.tan(pitch-.055);
       camera.lookAt(aim);
     }
-    skyDome.position.copy(p);ground.position.x=p.x;ground.position.z=p.z;
+    skyDome.position.copy(p);ground.position.x=p.x;ground.position.z=p.z;grass.offset.set(p.x*90/620,-p.z*90/620);
     mini.clearRect(0,0,150,110);mini.beginPath();points.forEach((v,i)=>mini[i?'lineTo':'moveTo'](...flat(v)));mini.strokeStyle='#155a59';mini.lineWidth=1.8;mini.stroke();
     for(const stop of stops){mini.beginPath();mini.arc(...flat(stop.point),2.3,0,Math.PI*2);mini.fillStyle='#fff';mini.fill();mini.stroke();}
     mini.save();mini.translate(...flat(p));mini.rotate(Math.atan2(facing.z,facing.x));mini.beginPath();mini.moveTo(7,0);mini.lineTo(-4,-4);mini.lineTo(-4,4);mini.closePath();mini.fillStyle='#bd491c';mini.fill();mini.restore();
