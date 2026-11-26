@@ -45,7 +45,7 @@ jobs:
               sleep 8
             done
             cmp js/route-landmarks.js /tmp/published-station.js
-            for published in js/city-street-details.js js/route-preview.js data/preview-clearance.js; do
+            for published in js/corridor-details.js js/preview-surroundings.js js/street-ground.js js/walking-city.js js/route-preview.js data/preview-clearance.js; do
               curl --retry 3 -fsS "$TEST_URL$published?check=$GITHUB_RUN_ID" -o /tmp/published-module.js
               cmp "$published" /tmp/published-module.js
             done
