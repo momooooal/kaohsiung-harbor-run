@@ -66,7 +66,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
  const client=await p.context().newCDPSession(p);await client.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:hit.x,y:hit.y}]});
  console.log('contact',await p.evaluate(()=>[window.contact,document.activeElement.id,document.querySelector('#preview-pause').textContent]));
  const folder=fs.mkdtempSync('/tmp/route-frames-'),poses=[];
- for(let i=0;i<320;i++){
+ for(let i=0;i<(process.env.OPTICS?92:320);i++){
    const {image,pose}=await p.evaluate(()=>{window.capturePixels=true;window.nextFrame();return {image:window.captureImage,pose:window.capturePose};});
    const bytes=Buffer.from(image.split(',')[1],'base64');
    fs.writeFileSync(path.join(folder,String(i).padStart(4,'0')+'.jpg'),bytes);
@@ -78,7 +78,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
         const visible=[];scene.traverseVisible(o=>{if(o.isMesh)visible.push(o);});
         const save=id=>{window.originalDraw();variants[id]=canvas.toDataURL('image/jpeg',.9);};
         let removed=visible.filter(o=>o.geometry.type==='PlaneGeometry'&&o.geometry.parameters?.width>6000);removed.forEach(o=>o.visible=false);save('no-base');
-        const ground=visible.filter(o=>o.material?.onBeforeCompile.toString().includes('float grain=dot(diffuseColor')&&o.material?.map?.image);for(const o of ground){o.userData.prev=o.material;o.material=new THREE.MeshBasicMaterial({color:0xe9247f,side:THREE.DoubleSide});}
+        const ground=visible.filter(o=>o.material?.onBeforeCompile?.toString().includes('float grain=dot(diffuseColor')&&o.material?.map?.image);for(const o of ground){o.userData.prev=o.material;o.material=new THREE.MeshBasicMaterial({color:0xe9247f,side:THREE.DoubleSide});}
         const water=visible.filter(o=>o.material?.onBeforeCompile?.toString().includes('waterSite'));for(const o of water){o.userData.prev=o.material;o.material=new THREE.MeshBasicMaterial({color:0x258aa4,side:THREE.DoubleSide});}
         save('tints');[...ground,...water].forEach(o=>{o.material=o.userData.prev;});removed.forEach(o=>o.visible=true);window.originalDraw();
         return variants;
@@ -97,6 +97,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
  await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  const pathLength=poses.reduce((total,p,i)=>i?total+Math.hypot(p[0]-poses[i-1][0],p[2]-poses[i-1][2]):total,0);
  fs.writeFileSync(out+'/'+name+'.json',JSON.stringify({url,settings,pathLength,stepSeconds:.05,poses,errors},null,1));
+ if(process.env.OPTICS)return;
  if(pathLength<86||errors.length)throw Error('Insufficient travel or page error: '+pathLength+' '+errors.join(','));
  execFileSync(process.env.FFMPEG||'ffmpeg',['-loglevel','error','-framerate','20','-i',folder+'/%04d.jpg','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p','-crf','18','-movflags','+faststart',out+'/'+name+'.mp4']);
  }finally{await browser.close();}

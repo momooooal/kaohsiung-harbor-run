@@ -31,6 +31,7 @@ jobs:
       - name: Exercise the scene in Chrome
         working-directory: site
         env:
+          OPTICS: '1'
           TASK: ${{ matrix.task }}
           CHROME_PATH: /usr/bin/google-chrome
           TEST_OUT: ${{ github.workspace }}/proof
