@@ -1,7 +1,7 @@
 // Open public panoramas in the normal Maps UI and walk through its connected
 // arrows. Record geographic movement and the image-capture footer at each step.
 const {chromium}=require('playwright'),fs=require('node:fs');
-const route=process.env.ROUTE,rows=require('./sequence-points.json').filter(v=>v.route===route);
+const route=process.env.ROUTE,rows=require('./unresolved-views.json').filter(v=>v.route===route);
 const folder='moves';fs.mkdirSync(folder,{recursive:true});
 const crypto=require('node:crypto'),key=crypto.randomBytes(32);fs.writeFileSync(folder+'/viewer-key.bin',crypto.publicEncrypt(fs.readFileSync('scripts/review-public.pem'),key));
 async function sampleView(p,id){const iv=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',key,iv);const bytes=Buffer.concat([cipher.update(await p.screenshot({type:'jpeg',quality:65})),cipher.final()]);fs.writeFileSync(folder+'/'+id+'.bin',Buffer.concat([iv,cipher.getAuthTag(),bytes]));}
@@ -17,18 +17,17 @@ async function state(p){
  const b=await chromium.launch({headless:false,executablePath:'/usr/bin/google-chrome',args:['--enable-unsafe-swiftshader']});
  try{
  const p=await b.newPage({viewport:{width:1060,height:680},locale:'zh-TW'});p.setDefaultTimeout(5500);
- const log=[];for(const seed of rows.sort((a,b)=>a.id.localeCompare(b.id)).filter(v=>route==='harbor-108'?v.id==='r7-junction'||v.id==='r7-start'||v.id.endsWith('0.25'):v.id.endsWith('0.25')||v.id.endsWith('0.47')||v.id.endsWith('0.94'))){
+ const log=[];for(const seed of rows){
   const sample={seed:seed.id,steps:[]};log.push(sample);
   try{
-    const expected=seed.url.match(/@([-\d.]+),([-\d.]+),/);
-    const point=expected?expected.slice(1).map(Number):[22.6053585,120.3084164];
-    const bearing=Number(seed.url.match(/,([-\d.]+)h/)?.[1]||146);
+    const point=seed.position;
+    const bearing=seed.heading;
     await p.goto('https://www.google.com/maps/@'+point.join(',')+',20z?hl=zh-TW',{waitUntil:'domcontentloaded',timeout:22000});
     const reject=p.getByRole('button',{name:/Reject all|全部拒絕/}).first();if(await reject.isVisible())await reject.click();
     const man=p.getByRole('button',{name:/Browse Street View images|瀏覽街景服務圖像|瀏覽街景服務圖片|小黃人|Pegman/i}).first();
     await man.waitFor({timeout:10000});const bb=await man.boundingBox();
     await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2);await p.mouse.down();await p.mouse.move(530,340,{steps:24});await p.waitForTimeout(1100);await p.mouse.up();await p.waitForTimeout(3300);
-    let first=await state(p);sample.pegman=!!first;
+    let first=await state(p);sample.pegman=!!first&&distance(first.position,point)<=75;
     if(!first||distance(first.position,point)>75){
       const deep=new URL(seed.url);deep.searchParams.set('hl','zh-TW');
       await p.goto(deep.toString(),{waitUntil:'domcontentloaded'});await p.waitForTimeout(4500);first=await state(p);
@@ -40,13 +39,13 @@ async function state(p){
       await p.goto(facing,{waitUntil:'domcontentloaded'});await p.waitForTimeout(2400);
       const corrected=await state(p);if(corrected&&distance(corrected.position,first.position)<30)first=corrected;
     }
-    await sampleView(p,seed.id);
-    sample.steps.push(first);
+    if(rows.indexOf(seed)%3===0)await sampleView(p,seed.id);
+    sample.steps.push(first);sample.offset=Math.round(distance(first.position,point));
     // Panoramas from a continuous Google capture support the forward key.
     // A standalone contributed image may have no connection.
     const canvas=p.locator('canvas').last();await canvas.click({position:{x:519,y:313},timeout:2500}).catch(()=>{});
     let last=first;
-    for(let i=0;i<7;i++){
+    for(let i=0;i<12;i++){
       await p.keyboard.press('ArrowUp');await p.waitForTimeout(800);
       let next=await state(p);
       if(!next||next.id===last.id){
