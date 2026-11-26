@@ -152,3 +152,7 @@
 步道中心線與岸線各自保留。棚架深度、百葉間距、植栽、遊具位置與欄柱高度依地面照片估算。窗面反光及船型為原創示意，停泊狀態並非即時資訊。
 
 碼頭北望可見國硯兩棟弧端塔樓。原有近景與遠景重疊造成窗帶閃動，改由同一組外框呈現。高度與層數沿用 OSM [215078062](https://www.openstreetmap.org/way/215078062) 及 [215078063](https://www.openstreetmap.org/way/215078063)。
+
+### 海邊路至鯨魚堤岸
+
+2026-11-26 在雲端 Google Maps 使用小黃人核對海邊路 [旅運中心沿街](https://www.google.com/maps/@?api=1&map_action=pano&pano=zxau25D7UrppgC1jnI15Nw&heading=315)（2026-06），可見成排支撐木、低灌木與草地。另沿[進入堤岸的街口](https://www.google.com/maps/@?api=1&map_action=pano&pano=iFmrb1lSFQgbn-_I-ycNUg&heading=335)前進四個相連視點（2025-11），可見瀝青步道、白線、樹蔭、細白燈柱和座椅。以既有 OSM 步道頂點定位轉角；植栽及家具的間距為示意。另一個落在道路上的 2011-06 視點未用於推定現況。

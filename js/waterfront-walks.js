@@ -9,8 +9,9 @@ import {surfaceTexture} from './daylight.js';
 // interpret the dated ground-level references listed in DATA-SOURCES.md.
 const sites=[
   {kind:'coralApron',anchor:[331.6,-898.3],span:[5,10]},
+  {kind:'wharfTurn',anchor:[164.9,-356.7],span:[0,3]},
   {kind:'wharf',anchor:[164.9,-356.7],span:[2,5]},
-  {kind:'terminalSide',anchor:[685.6,-5.5],span:[1,3]},
+  {kind:'terminalSide',anchor:[685.6,-5.5],span:[0,3]},
   {kind:'riverLawn',anchor:[1450.4,-4681.9],span:[15,21]},
   {kind:'park',anchor:[749.8,669.9]},
   {kind:'quay',anchor:[-124.2,-1853.6],reverse:true,fromZ:-1440,toZ:-1640},
@@ -169,8 +170,8 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
       const r=scale*3.9,sx=p[0]-scale*3.3,sz=p[1]+scale*2.4;
       quad('shade',.118,[sx-r*1.3,sz-r],[sx+r*1.6,sz-r],[sx-r*1.3,sz+1.25*r],[sx+r*1.6,sz+1.25*r],0,0,1,1);
     }
-    if(['wharf','coralApron','riverLawn','terminalSide'].includes(site.kind)){
-      shorePath(site.kind,{length,at,band,panel,beam,P,planting});
+    if(['wharf','wharfTurn','coralApron','riverLawn','terminalSide'].includes(site.kind)){
+      shorePath(site.kind,{length,at,band,panel,beam,P,planting,bench,cumulative});
     }else if(site.kind==='park'){
       band('grass',-15,22,-.038,3.2,3.2);band('stone',-2.25,2.25,.090,2.1,2.1);
       for(let d=7;d<length-5;d+=9.7){

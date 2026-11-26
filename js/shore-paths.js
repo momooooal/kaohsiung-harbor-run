@@ -1,8 +1,9 @@
 import {quayEdge,coralBank} from '../data/exhibition-quay.js';
 // Positive offsets follow the alignment's east/south normal. These three
 // short sections use different surfaces and shore treatments.
-export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
+export function shorePath(kind,{length,at,band,panel,beam,P,planting,bench,cumulative}){
   if(kind==='terminalSide'){
+    band('grass',1.3,3.7,.079,2.6,2.6);
     band('stone',-1.3,1.3,.094,1.42,2.3);
     band('brick',2.4,3.2,.092,1.8,1.8);
     for(let d=8;d<length-6;d+=8.4){
@@ -11,8 +12,31 @@ export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
         const trunk=P(p,2.35);
         beam(P(p,.15),trunk,.078,0x796d53);
         for(const off of [-.6,.6])beam(P(at(d+off,side+.15),.14),trunk,.043,0x675f4f);
-        planting(d,side,.55,.79);
+        planting(d,side,.93,.82);
       }
+    }
+    return;
+  }
+  if(kind==='wharfTurn'){
+    // The landward approach bends onto the quay at the second mapped vertex.
+    band('stone',-1.85,1.85,.108,1.65,1.9);
+    band('asphalt',-1.52,1.52,.123,2,2);
+    const corner=cumulative[1];
+    for(let d=10;d<corner-6;d+=15){
+      planting(d,4.7,.96,1.22);
+      bench(d+3,3.15);
+      const p=at(d,-2.1);
+      beam(P(p,.1),P(p,3.7),.066,0xe1e1d8);
+      for(const side of [-.29,.29]){
+        const rim=at(d+side,-2.1);
+        beam(P(p,3.48),P(rim,4.06),.038,0xe1e1d8);
+      }
+      panel(at(d-.31,-2.1),at(d+.31,-2.1),4.06,.08,.36,0xe0e2d6);
+    }
+    // Trees and benches stay inland after the turn; leave the water side open.
+    for(let d=corner+12;d<length-6;d+=22){
+      planting(d,5.8,.96,1.12);
+      bench(d+2,3.45);
     }
     return;
   }
