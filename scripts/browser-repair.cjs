@@ -23,7 +23,7 @@ async function observe(p){
   });
 }
 async function main(){
- const b=await chromium.launch({channel:'msedge',args:['--enable-unsafe-swiftshader']});
+ const b=await chromium.launch({...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{channel:'msedge'}),args:['--enable-unsafe-swiftshader']});
  try{for(const mobile of [false,true]){
   const kind=mobile?'mobile':'desktop',context=await b.newContext({viewport:mobile?{width:390,height:844}:{width:1120,height:790},isMobile:mobile,hasTouch:mobile});
   const p=await context.newPage(),errors=[];p.setDefaultTimeout(60000);p.on('pageerror',e=>errors.push(e.message));

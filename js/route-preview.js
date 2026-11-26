@@ -1,3 +1,4 @@
+import {stationWalkingPoint} from './shihjia-alignment.js';
 
 import {routeActor} from './route-actor.js';
 import {corridorCollisions} from './route-collision.js';
@@ -33,7 +34,7 @@ export function mountPreview(data,route){
   const project=([y,x])=>new THREE.Vector3((x-120.29)*102820,0,(22.61-y)*110750);
   const points=[],lengths=[];let total=0;
   const centerline=[];
-  for(const pair of raw){const p=project(pair);if(!centerline.length||p.distanceTo(centerline.at(-1))>.05)centerline.push(p);}
+  for(const pair of raw){const p=stationWalkingPoint(route.variantId,project(pair));if(!centerline.length||p.distanceTo(centerline.at(-1))>.05)centerline.push(p);}
   for(const [i,v] of centerline.entries()){
     const lane=clearance?.[i]?.map(([x,z])=>new THREE.Vector3(x,0,z))||[v];
     for(const p of lane){const length=points.length?p.distanceTo(points.at(-1)):0;if(points.length&&length<.006)continue;
@@ -116,7 +117,7 @@ export function mountPreview(data,route){
   el('preview-mode').value=mode;el('preview-travel').selectedIndex=0;
   el('preview-camera').textContent='切換至第三人稱';pause(false);
   el('preview-mode').onchange=e=>{avatar.dispose();mode=e.target.value;avatar=routeActor(mode);scene.add(avatar.root);avatar.root.traverse(o=>{if(o.isMesh)o.castShadow=quality.value==='on';});dirty=true;};
-  el('preview-camera').onclick=e=>{third=!third;dirty=true;e.currentTarget.textContent=third?'切換至第一人稱':'切換至第三人稱';};
+  el('preview-camera').onclick=e=>{third=!third;updateLens();dirty=true;e.currentTarget.textContent=third?'切換至第一人稱':'切換至第三人稱';};
   el('preview-camera').onpointerdown=e=>{if(document.activeElement===stage)e.preventDefault();};
   el('preview-reset').onclick=()=>relocate(0);
   el('preview-pause').onclick=()=>pause(!paused);
@@ -153,7 +154,13 @@ export function mountPreview(data,route){
     const hit=ray.intersectObjects(mapped.buildings.children,false)[0];
     return Math.min(hit?.distance??Infinity,collisions.distance(from,to,pad));
   }
-  const resize=()=>{if(!active)return;renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/(stage.clientHeight||1);camera.updateProjectionMatrix();dirty=true;};
+  function updateLens(){
+    // Keep both sides of the sidewalk in view on a portrait screen. The
+    // shorter third-person lens stays unchanged so the full avatar fits.
+    const portraitFov=2*Math.atan(Math.tan(Math.PI/6)/camera.aspect)*180/Math.PI;
+    camera.fov=third?62:clamp(portraitFov,62,82);camera.updateProjectionMatrix();
+  }
+  const resize=()=>{if(!active)return;renderer.setSize(stage.clientWidth,stage.clientHeight);camera.aspect=stage.clientWidth/(stage.clientHeight||1);updateLens();dirty=true;};
   const observer=new ResizeObserver(resize);observer.observe(stage);resize();
   function tick(now){
     frame=requestAnimationFrame(tick);

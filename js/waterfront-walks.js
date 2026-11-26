@@ -1,3 +1,6 @@
+import {stationExitById} from '../data/station-exits.js';
+import {clipStationGround} from './station-entrance.js';
+import {stationPrecincts,hasStationPrecinct} from './station-precincts.js';
 import streets from '../data/route-streets.js';
 import {surfaceTexture} from './daylight.js';
 
@@ -35,7 +38,8 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
     if(!path.some(p=>nearby.has(key(...p))))return [];
     return [{site,line:site.reverse?path.reverse():path}];
   });
-  if(!paths.length)return ()=>{};
+  const precinct=hasStationPrecinct(nearby,key);
+  if(!paths.length&&!precinct)return ()=>{};
   const textures=[],materials=new Map(),meshes=[];
   function surface(name,file,tint){
     const map=surfaceTexture(file);map.wrapS=map.wrapT=THREE.RepeatWrapping;map.anisotropy=4;textures.push(map);
@@ -61,6 +65,21 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
   }
   const shadowTex=new THREE.CanvasTexture(shade);textures.push(shadowTex);
   materials.set('shade',new THREE.MeshBasicMaterial({map:shadowTex,transparent:true,depthWrite:false,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1}));
+  if(precinct){
+    surface('plaza','concrete_pavement_02.jpg',0xcfc8b8);
+    surface('aggregate','asphalt_02.jpg',0xcccdc9);
+    surface('masonry','brick_wall_001.jpg',0xc99c87);
+    materials.get('plaza').onBeforeCompile=s=>{
+      s.vertexShader='varying vec2 forecourt;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nforecourt=position.xz;');
+      s.fragmentShader='varying vec2 forecourt;\n'+s.fragmentShader;
+      clipStationGround(s,[stationExitById.get('R7-1')],'forecourt');
+      s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+        vec2 joints=abs(fract(vUv*vec2(3.,4.5))-.5);
+        float gap=smoothstep(.465,.5,max(joints.x,joints.y));
+        float stone=dot(diffuseColor.rgb,vec3(.30,.59,.11));
+        diffuseColor.rgb=vec3(.79,.81,.80)*(.13+.60*stone)*(1.-.24*gap);`);
+    };
+  }
   const batches=new Map(),crownCells=new Map(),dummy=new THREE.Object3D();
   const crownGeometry=new THREE.PlaneGeometry(1,1);
   const leaf=surfaceTexture('tree.png');textures.push(leaf);
@@ -87,6 +106,7 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
     for(const p of [a,c,b,b,c,d])batch.pos.push(p[0],height,p[1]);
     batch.uv.push(u0,v0,u0,v1,u1,v0,u1,v0,u0,v1,u1,v1);
   }
+  if(precinct)stationPrecincts({nearby,key,quad,crown,group,panel,beam,P,materials});
   for(const {site,line} of paths){
     const {at,cumulative,length}=alignment(line);
     function band(name,left,right,h,tileAcross,tileAlong){

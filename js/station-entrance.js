@@ -34,6 +34,16 @@ function stationNameplate(exit){
 }
 function streetPylon(exit){
   return graphic(160,560,(c,w,h)=>{
+    if(exit.code==='R7'){
+      const metal=c.createLinearGradient(0,0,w,0);metal.addColorStop(0,'#b6baba');metal.addColorStop(.19,'#e6e6de');metal.addColorStop(.76,'#f6f6ec');metal.addColorStop(1,'#a6adac');
+      c.fillStyle=metal;c.fillRect(0,0,w,h);c.fillStyle='#3070a5';c.beginPath();c.moveTo(0,0);c.lineTo(w,0);c.lineTo(w,100);c.quadraticCurveTo(w*.48,148,0,105);c.fill();
+      c.fillStyle='#ba4350';c.beginPath();c.moveTo(19,122);c.quadraticCurveTo(w*.5,153,w-19,119);c.lineTo(w-19,151);c.quadraticCurveTo(w*.48,183,19,152);c.fill();
+      c.textAlign='center';c.fillStyle='white';c.font='bold 37px sans-serif';c.fillText('捷運',80,68);c.font='22px sans-serif';c.fillText('METRO',80,91);
+      c.fillStyle=exit.color;c.beginPath();c.arc(80,191,21,0,2*Math.PI);c.fill();c.fillStyle='white';c.font='bold 20px sans-serif';c.fillText(exit.code,80,199);
+      c.fillStyle='#46443d';c.font='bold 72px sans-serif';c.fillText(exit.number,85,282);c.fillStyle='#ead173';c.font='bold 65px sans-serif';c.fillText(exit.number,84,279);
+      c.fillStyle='#292e30';c.font='bold 39px sans-serif';[...exit.name+'站'].forEach((ch,i)=>c.fillText(ch,80,331+i*44));
+      c.font='19px sans-serif';c.fillText(exit.english,80,469);c.fillStyle='#427baa';c.fillRect(18,505,w-36,5);return;
+    }
     c.fillStyle='#edf0ec';c.fillRect(0,0,w,h);c.fillStyle='#174d8a';c.fillRect(0,0,w,112);
     c.fillStyle='white';c.textAlign='center';c.font='bold 45px sans-serif';c.fillText('捷運',80,60);c.font='20px sans-serif';c.fillText('METRO',80,89);
     c.fillStyle=exit.color;c.fillRect(23,133,114,49);c.fillStyle='white';c.font='bold 36px sans-serif';c.fillText(exit.code,80,171);

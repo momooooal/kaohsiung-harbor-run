@@ -1,3 +1,5 @@
+import {routeLandmarks} from './route-landmarks.js';
+import {shihjiaTowerKey} from './shihjia-alignment.js';
 import {coffeeWindow} from './coffee-window.js';
 import {ferryStreet,detailedFerryBuildings} from './ferry-street.js';
 import {walkingScenery} from './walking-scenery.js';
@@ -22,6 +24,8 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
   const sun=new THREE.DirectionalLight(0xffe6c1,.92);sun.position.set(-40,70,24);scene.add(sun,sun.target);sun.visible=!contextOnly;sun.castShadow=true;sun.shadow.mapSize.set(768,768);
   Object.assign(sun.shadow.camera,{left:-56,right:56,top:56,bottom:-56,far:210});sun.shadow.bias=-.0013;sun.shadow.normalBias=.12;
   sun.shadow.camera.updateProjectionMatrix();
+  let stationLayer;
+  const stationCenter=stationExits.find(exit=>exit.id==='R7-1').center;
   const positions=[],colors=[],styles=[];let style=0;
   function tri(a,b,c,color){positions.push(...a,...b,...c);styles.push(style,style,style);for(let i=0;i<3;i++)colors.push(color.r,color.g,color.b)}
   const tint=n=>new THREE.Color(n).convertSRGBToLinear();
@@ -53,7 +57,7 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
     const [x,z]=points[0];
     // These footprints have no measured height. Use a stable low-rise profile.
     return [5.9+Math.abs(x*13+z*7)%4*2.85,points];
-  })).filter(([,points])=>!replaced.has(points[0].join())&&!stationFootprints.has(points[0].join())&&!underground.has(points[0].join()));
+  })).filter(([,points])=>!replaced.has(points[0].join())&&points[0].map(Math.round).join()!==shihjiaTowerKey&&!stationFootprints.has(points[0].join())&&!underground.has(points[0].join()));
   const centerArchitecture=addRouteArchitecture(scene,buildings,legs,profiles,contextOnly);
   let coffee=null;
   if(contextOnly){
@@ -251,6 +255,10 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
       }
     }
     if(coffee)coffee.visible=Math.hypot(x+480,z+906)<170;
+    if(!contextOnly && !stationLayer && Math.hypot(x-stationCenter[0],z-stationCenter[1])<330){
+      stationLayer=routeLandmarks(scene,[new THREE.Vector3(stationCenter[0],0,stationCenter[1])],true);
+    }
+    stationLayer?.update({x,z});
     scenery.setCenter(x,z);centerArchitecture(x,z);corridors.center(x,z);
     for(const [site,model] of entrances)model.visible=Math.hypot(x-site.center[0],z-site.center[1])<185;
     ferryGroup.visible=Math.hypot(x+2000,z+1075)<310;
@@ -281,5 +289,5 @@ export function walkingCity(start=0, contextOnly=false, replaced=new Set()){
     pos.set(x,0,z);center(x,z);segment=ends.findIndex(end=>at<end);if(segment<0)segment=8;
     const nearest=at- (segment?ends[segment-1]:0)<ends[segment]-at?segment:segment+1;
     return {nearest,near:Math.abs(at-(nearest?ends[nearest-1]:0))<90,heading:Math.atan2(f[0]-b[0],f[1]-b[1]),status:at===total?'全程抵達':stops[segment][0]+' → '+stops[segment+1][0],hint:(names[i]||'步行路段')+' · 全程 '+Math.floor(100*at/total)+'%'};
-  },dispose(){releaseFerry();corridors.dispose();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
+  },dispose(){stationLayer?.dispose();releaseFerry();corridors.dispose();sun.shadow.map?.dispose();scenery.dispose();paving.dispose();labels.forEach(t=>t.dispose());scene.traverse(o=>{o.geometry?.dispose();o.material?.dispose()})}};
 }

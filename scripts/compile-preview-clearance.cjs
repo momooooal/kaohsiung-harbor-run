@@ -2,16 +2,17 @@
 // The geographic recommendation and its published mileage are not modified.
 const {chromium}=require('playwright'),fs=require('node:fs');
 const data=require('../data/recommendations.json'),base=process.env.TEST_URL||'http://localhost:8789/';
-(async()=>{const b=await chromium.launch({channel:'msedge'});try{
+(async()=>{const b=await chromium.launch({...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{channel:'msedge'})});try{
  const p=await b.newPage();p.setDefaultTimeout(75000);await p.goto(base);await p.waitForFunction(()=>window.THREE);
  await p.evaluate(()=>{const O=THREE.WebGLRenderer;THREE.WebGLRenderer=class extends O{constructor(...args){super(...args);const draw=this.render;this.render=function(s,c){window.currentScene=s;return draw.call(this,s,c);};}};});
  const result={};
  for(const r of data.routes){
   await p.evaluate(id=>location.hash='/explore/run/'+id,r.variantId);await p.locator('#preview-start').click();await p.waitForFunction(()=>document.querySelector('#preview-position')?.textContent.includes('%'));await p.locator('#preview-pause').click();
-  const report=await p.evaluate(async raw=>{
+  const report=await p.evaluate(async ({raw,id})=>{
+    const {stationWalkingPoint}=await import('./js/shihjia-alignment.js');
     const {corridorCollisions}=await import('./js/route-collision.js');
     const V=(x,z)=>new THREE.Vector3(x,0,z),pts=[];
-    for(const [y,x] of raw){const v=V((x-120.29)*102820,(22.61-y)*110750);if(!pts.length||pts.at(-1).distanceTo(v)>.05)pts.push(v);}
+    for(const [y,x] of raw){const v=stationWalkingPoint(id,V((x-120.29)*102820,(22.61-y)*110750));if(!pts.length||pts.at(-1).distanceTo(v)>.05)pts.push(v);}
     const solids=corridorCollisions(pts);
     for(const o of currentScene.children)if(o.isScene||o.isGroup&&!o.name)solids.add(o);
     const rows=[{p:pts[0],index:0,t:0,s:0}],hot=[];
@@ -69,7 +70,7 @@ const data=require('../data/recommendations.json'),base=process.env.TEST_URL||'h
       edits[index]=compact;
     }
     return {edits,failed,hits:hot.length};
-  },r.geometry.flatMap(g=>g.coordinates));
+  },{raw:r.geometry.flatMap(g=>g.coordinates),id:r.variantId});
   if(report.failed.length)throw Error(r.variantId+' 無法接通 '+JSON.stringify(report.failed));
   result[r.variantId]={edges:report.edits,geometry:require('node:crypto').createHash('sha256').update(JSON.stringify(r.geometry.map(g=>g.coordinates))).digest('hex')};console.log(r.variantId,report.hits,'obstructed samples;',Object.keys(report.edits).length,'adjusted edges;',JSON.stringify(report.failed));
   await p.evaluate(()=>location.hash='/map');await p.locator('#preview-start').waitFor({state:'detached'});

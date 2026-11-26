@@ -95,3 +95,18 @@
 | [近大義街口，朝 295°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6183338,120.2847519&heading=295&pitch=0) | 2020-11 | 倉庫外牆、深色窗框與紅磚廣場至街口的交界。 |
 
 遠景資料由 scripts/build-distant-buildings.py 整理自 [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright)。有高度時沿用高度，有樓層時以每層 3.15 公尺換算，其餘較大建物僅以概略低層量體補足街廓。八五大樓採 [原圖外框](https://www.openstreetmap.org/way/34170948) 與六個 building:part，以各自的高度及底部高度組合兩翼、塔身、塔冠與桅桿。近景仍使用原街道模型。日照方向用於呈現物件立體感；時刻及季節未經模擬。
+
+## 獅甲站與沿線街廓的 3D 對照（2026-11）
+
+| 觀看位置與方向 | 畫面標示的拍攝年月 | 對應的場景 |
+|---|---|---|
+| [獅甲站一號出口旁的人行道，東南 145°](https://www.google.com/maps/@?api=1&map_action=pano&pano=9E6_U4yeHQuR-kiU30U7Qg&heading=145) | 2025-11 | 玻璃棚在跑者左側，校地花台與樹蔭在右側，短燈柱沿站口排列。 |
+| [中山三路 43 號慢車道，東南 146°](https://www.google.com/maps/@?api=1&map_action=pano&pano=nI51e1W__6BNBf55i9T0gQ&heading=146) | 2026-06 | 用桌面 Google 地圖黃色小人進入，並開啟日期列逐項比較；此視點最新顯示 2026-06。以分隔島端、槽化線、民權二路號誌與校地紅磚牆判讀路口。 |
+| [獅甲國中校門前，145°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6051774,120.3084626&heading=145)／[同點看對街，106°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6051774,120.3084626&heading=106) | 2024-04 | 校門車道、橘色反光車阻、紅緣石、低牆、對面辦公樓的兩層表情。 |
+| [中山三路 41 號，東南 145°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6045661,120.309017&heading=145) | 2026-06 | 靠校地的鋪面與花帶、慢車道及排水蓋。 |
+| [博愛二路與龍德路，向南 171°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6544274,120.3033951&heading=171)／[向北 16°](https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6544274,120.3033951&heading=16) | 2026-01 | 園藝店低棚與盆栽陳列、對角弧形廣告面。店面僅作街景。 |
+| [中央公園園內，153°](https://www.google.com/maps/@?api=1&map_action=pano&pano=Yl_ZgBeFcCB3WEMJjPJZFw&heading=153) | 2015-11 | 以轉折矮花台與樹叢表現園內空間；此視角較舊，植栽現況未確認。 |
+
+獅甲一號出口方向另見[高捷車站資訊](https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66)。出入口、校地、警衛室、校門車道與對街樓體分別參考 © OpenStreetMap contributors 的 [611752691](https://www.openstreetmap.org/way/611752691)、[94058607](https://www.openstreetmap.org/way/94058607)、[381691675](https://www.openstreetmap.org/way/381691675)、[381691225](https://www.openstreetmap.org/way/381691225)、[88859711](https://www.openstreetmap.org/way/88859711)。站口前約 200 公尺的 3D 導覽改沿人行道接回既有路徑。雨棚與部分全景的登錄位置有數公尺落差。路面寬度、植栽、店招與立面細部依畫面估計，由本站繪製。模型並非現場測量或即時影像。
+
+總圖依[館方的總館建築介紹](https://www.ksml.edu.tw/mainlibrary/content/index.aspx?Parser=1%2C23%2C165%2C156)，以 7.5 公尺挑高廣場、角落支承、三至八樓西南側退縮約 5 公尺的綠地陽台區分不同立面。大港橋沿原橋面範圍設曲線護欄，索束聚至同一主塔；外觀與中段展寬另參考[高雄旅遊網](https://khh.travel/zh-tw/attractions/detail/1147/)。

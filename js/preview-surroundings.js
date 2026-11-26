@@ -1,4 +1,5 @@
 import {citySkyline} from './city-skyline.js';
+import {shihjiaTowerKey} from './shihjia-alignment.js';
 import {surfaceTexture} from './daylight.js';
 import {streetFrontages} from './street-frontages.js';
 import streets from '../data/route-streets.js';
@@ -36,6 +37,7 @@ export function mappedSurroundings(project,scene,points,city){
  const windows=new THREE.CanvasTexture(facade);windows.wrapS=windows.wrapT=THREE.RepeatWrapping;windows.repeat.set(1/7,1/3.4);windows.encoding=THREE.sRGBEncoding;
  const walls=new THREE.MeshLambertMaterial({map:windows});
  const covered=new Set(city?city.footprints:[]);
+ covered.add(shihjiaTowerKey);
  for(const {line} of Object.values(survey.features))covered.add(line[0].map(Math.round).join());
  const extra=[...streets.buildings,...context.buildings,...survey.buildings].filter(([,ring])=>{
    const key=ring[0].map(Math.round).join();if(covered.has(key))return false;covered.add(key);return true;
