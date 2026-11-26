@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [ride-expo, ride-glory, clearance]
+        task: ["ride-harbor-108","ride-harbor-5","ride-love-21","ride-pier-22","ride-central-52","ride-heart-5","clearance"]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

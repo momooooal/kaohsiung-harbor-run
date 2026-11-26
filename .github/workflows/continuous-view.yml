@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        route: [expo, glory]
+        route: ["harbor-108","harbor-5","love-21","pier-22","central-52","heart-5"]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

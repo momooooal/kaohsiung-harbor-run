@@ -1,0 +1,68 @@
+[
+  {
+    "route": "harbor-108",
+    "id": "harbor-108",
+    "position": [
+      22.605124,
+      120.308518
+    ],
+    "heading": 145,
+    "name": "獅甲站外",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.605124,120.308518&heading=145"
+  },
+  {
+    "route": "harbor-5",
+    "id": "harbor-5",
+    "position": [
+      22.610493,
+      120.302016
+    ],
+    "heading": 342,
+    "name": "總館街口",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.610493,120.302016&heading=342"
+  },
+  {
+    "route": "love-21",
+    "id": "love-21",
+    "position": [
+      22.62637,
+      120.289294
+    ],
+    "heading": 336,
+    "name": "河東路北段",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62637,120.289294&heading=336"
+  },
+  {
+    "route": "pier-22",
+    "id": "pier-22",
+    "position": [
+      22.618199,
+      120.285096
+    ],
+    "heading": 295,
+    "name": "駁二倉庫街口",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.618199,120.285096&heading=295"
+  },
+  {
+    "route": "central-52",
+    "id": "central-52",
+    "position": [
+      22.625607,
+      120.297029
+    ],
+    "heading": 68,
+    "name": "中央公園街廓",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.625607,120.297029&heading=68"
+  },
+  {
+    "route": "heart-5",
+    "id": "heart-5",
+    "position": [
+      22.656255,
+      120.30341
+    ],
+    "heading": 169,
+    "name": "凹子底站外",
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.656255,120.30341&heading=169"
+  }
+]
