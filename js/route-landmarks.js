@@ -1,5 +1,5 @@
 import {waterfrontBuildings} from './exhibition-quay-buildings.js';
-import {whaleHalls} from '../data/exhibition-quay.js';
+import {guoyanTowers,whaleHalls} from '../data/exhibition-quay.js';
 import {coralFrontage,terminalEnvelope} from './harbor-frontages.js';
 import {waterfrontWalks} from './waterfront-walks.js';
 import {libraryPlaza} from './library-plaza.js';
@@ -12,6 +12,7 @@ import survey from '../data/preview-landmarks.js';
 export const restoredFootprints=new Set(Object.values(survey.features).map(({line})=>line[0].map(Math.round).join()));
 // First vertex used by the legacy rounded ring assembled for the ten-stop walk.
 restoredFootprints.add("758,263");
+for(const id of guoyanTowers)restoredFootprints.add(id);
 for(const ring of whaleHalls)restoredFootprints.add(ring[0].map(Math.round).join());
 export function routeLandmarks(parent,points,precinctOnly=false) {
   const box=new THREE.BoxGeometry(),round=new THREE.CylinderGeometry(1,1,1,10);

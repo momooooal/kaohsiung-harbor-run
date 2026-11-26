@@ -1,4 +1,4 @@
-import {whaleHalls,marinaWater} from '../data/exhibition-quay.js';
+import {whaleHalls,marinaWater,guoyanTowers} from '../data/exhibition-quay.js';
 import {citySkyline} from './city-skyline.js';
 import {shihjiaTowerKey} from './shihjia-alignment.js';
 import {surfaceTexture} from './daylight.js';
@@ -42,6 +42,9 @@ export function mappedSurroundings(project,scene,points,city){
  const walls=new THREE.MeshLambertMaterial({map:windows});
  const covered=new Set(city?city.footprints:[]);
  covered.add(shihjiaTowerKey);
+ // The same two 173 m towers occur in rounded and sub-metre street layers.
+ // Keep only the skyline geometry at every viewing distance.
+ for(const key of [...guoyanTowers,'349,-993'])covered.add(key);
  for(const ring of whaleHalls)covered.add(ring[0].map(Math.round).join());
  for(const {line} of Object.values(survey.features))covered.add(line[0].map(Math.round).join());
  const extra=[...streets.buildings,...context.buildings,...survey.buildings].filter(([,ring])=>{

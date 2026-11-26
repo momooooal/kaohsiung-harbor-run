@@ -1,3 +1,4 @@
+import {guoyanTowers} from '../data/exhibition-quay.js';
 import buildings from '../data/distant-buildings.js';
 
 // World coordinates are shared with street geometry. The mapped upper parts
@@ -6,6 +7,7 @@ export function citySkyline(scene,route){
   const tiles=new Map(),size=240;
   const extent=new THREE.Box3().setFromPoints(route).expandByScalar(1300);
   for(const [height,ring,base=0,pointed=false] of buildings){
+    const paired=guoyanTowers.has(ring[0].join());
     const n=ring.length,x=ring.reduce((v,p)=>v+p[0],0)/n,z=ring.reduce((v,p)=>v+p[1],0)/n;
     if(x<extent.min.x||x>extent.max.x||z<extent.min.z||z>extent.max.z)continue;
     const key=Math.floor(x/size)+','+Math.floor(z/size);
@@ -14,7 +16,7 @@ export function citySkyline(scene,route){
     function tri(a,b,c,side,roof){
       for(const p of [a,b,c]){
         t.pos.push(...p);t.uv.push(side[0]*p[0]+side[1]*p[2],p[1]);
-        t.detail.push(base>0?1:0,roof?1:0);
+        t.detail.push(paired?2:base>0?1:0,roof?1:0);
         const light=roof?1:.79+.17*side[0]-.10*side[1];
         const rgb=base?[.24,.37,.38]:[.54+.11*warm,.55+.036*warm,.55-.05*warm];
         t.tint.push(...rgb.map(v=>v*light));
@@ -45,6 +47,16 @@ export function citySkyline(scene,route){
       float quality=1.-smoothstep(170.,750.,d);
       vec3 surface=tone*(1.-panes*(.10+.21*quality));
       vec3 haze=vec3(.73,.79,.80);surface=mix(surface,haze,.14+.49*smoothstep(100.,1250.,d)+fade*.36);
+      if(kind.x>1.5){
+        // Forty-one storeys with pale slab edges and darker window bays.
+        vec2 bay=fract(facade/vec2(2.9,173./41.));
+        float band=smoothstep(.74,.83,bay.y);
+        float pier=1.-smoothstep(.025,.10,abs(bay.x-.5));
+        vec3 glazing=mix(vec3(.23,.31,.34),vec3(.41,.49,.51),.5+.5*sin(facade.x*.27));
+        glazing=mix(glazing,vec3(.61,.63,.60),max(band,pier*.62));
+        surface=mix(glazing,haze,.20+.47*smoothstep(260.,1360.,d));
+        if(kind.y>.5)surface=mix(surface,haze,.32);
+      }
       gl_FragColor=vec4(surface,1.);
     }`});
   for(const tile of tiles.values()){

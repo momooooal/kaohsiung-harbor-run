@@ -53,3 +53,5 @@ export const berths = [
   [[200.32, -687.88], [194.28, -675.53]]
 ];
 export const coralBank = [[108.32, -908.02], [141.52, -892.19], [170.39, -878.41], [260.73, -889.51], [264.36, -845.78], [273.58, -846.37], [277.72, -805.91]];
+// Arc-ended Guoyan apartment towers, OSM ways 215078062 and 215078063.
+export const guoyanTowers = new Set(['348,-994','412,-1017']);

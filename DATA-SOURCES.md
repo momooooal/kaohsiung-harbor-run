@@ -150,3 +150,5 @@
 展館外框來自 [OSM relation 6464911](https://www.openstreetmap.org/relation/6464911)，西入口採 [OSM 4422053364](https://www.openstreetmap.org/node/4422053364)。東西入口、中央大道、南北展廳位置另核對[場館一樓配置圖](https://storage.googleapis.com/www.taiwantradeshow.com.tw/show-menu/202609/T-07955085.pdf)。鯨魚館依六個獨立建築輪廓（OSM 444746704–444746709）及[設計團隊說明](https://www.habitech.com.tw/portfolio-item/高雄海洋文化及流行音樂中心/)建立。岸線採 [488045313](https://www.openstreetmap.org/way/488045313) 與 [33430140](https://www.openstreetmap.org/way/33430140)，港池及浮橋採 [愛河灣遊艇碼頭 A 區](https://www.openstreetmap.org/way/1137765150)及其內側碼頭資料。© OpenStreetMap contributors，ODbL。
 
 步道中心線與岸線各自保留。棚架深度、百葉間距、植栽、遊具位置與欄柱高度依地面照片估算。窗面反光及船型為原創示意，停泊狀態並非即時資訊。
+
+碼頭北望可見國硯兩棟弧端塔樓。原有近景與遠景重疊造成窗帶閃動，改由同一組外框呈現。高度與層數沿用 OSM [215078062](https://www.openstreetmap.org/way/215078062) 及 [215078063](https://www.openstreetmap.org/way/215078063)。
