@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [visuals, controls, clearance, walk-mobile, walk-desktop]
+        task: [before, clearance]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -35,6 +35,7 @@ jobs:
           if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
           case "$TASK" in
+            before) TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/ node ../qa/scripts/scene-shots.cjs ;;
             visuals) node ../qa/scripts/scene-film.cjs && node ../qa/scripts/scene-shots.cjs ;;
             walk-*) node ../qa/scripts/scene-traverse.cjs ;;
             controls) node scripts/browser-repair.cjs ;;

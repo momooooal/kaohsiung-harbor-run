@@ -197,10 +197,18 @@
  },
  {
   "id": "pier-22-swing",
-  "view": "https://www.google.com/maps/@22.618316,120.283959,3a,75y,159h,90t"
+  "view": "https://www.google.com/maps/@22.6183726,120.2840099,3a,75y,306h,90t"
  },
  {
   "id": "harbor-5-library",
-  "view": "https://www.google.com/maps/@22.609915,120.301807,3a,75y,345h,90t"
+  "view": "https://www.google.com/maps/@22.6105419,120.3017302,3a,75y,252h,90t"
+ },
+ {
+  "id": "heart-5-bridge",
+  "view": "https://www.google.com/maps/@22.6503486,120.2881641,3a,75y,177h,90t"
+ },
+ {
+  "id": "harbor-5-terminalside",
+  "view": "https://www.google.com/maps/@22.6109606,120.294596,3a,75y,297h,90t"
  }
 ]
