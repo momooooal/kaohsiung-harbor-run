@@ -12,6 +12,8 @@ export function previewPage(data,route){
 
 const waterfrontStarts={
   'exhibition-park':{route:'harbor-108',name:'從公園接近高雄展覽館',coordinates:[22.60653,120.297457],bearing:8},
+  'river-landing':{route:'love-21',name:'沿愛河親水步道',coordinates:[22.623487,120.290248],bearing:345},
+  'river-avenue':{route:'love-21',name:'從河東路街口向北',coordinates:[22.625249,120.289823],bearing:337},
   'terminal-approach':{route:'harbor-5',name:'沿海邊路往旅運中心',coordinates:[22.61030,120.296129],bearing:297},
   'wharf-turn':{route:'harbor-5',name:'從街口轉入鯨魚堤岸',coordinates:[22.61350,120.290976],bearing:296},
   'glory-pier':{route:'harbor-5',name:'光榮碼頭・鯨魚堤岸',coordinates:[22.615958,120.292059],bearing:27}

@@ -156,3 +156,6 @@
 ### 海邊路至鯨魚堤岸
 
 2026-11-26 在雲端 Google Maps 使用小黃人核對海邊路 [旅運中心沿街](https://www.google.com/maps/@?api=1&map_action=pano&pano=zxau25D7UrppgC1jnI15Nw&heading=315)（2026-06），可見成排支撐木、低灌木與草地。另沿[進入堤岸的街口](https://www.google.com/maps/@?api=1&map_action=pano&pano=iFmrb1lSFQgbn-_I-ycNUg&heading=335)前進四個相連視點（2025-11），可見瀝青步道、白線、樹蔭、細白燈柱和座椅。以既有 OSM 步道頂點定位轉角；植栽及家具的間距為示意。另一個落在道路上的 2011-06 視點未用於推定現況。
+
+### 河東路親水步道與向北街段
+雲端黃色小人核對河東路地面影像。2026-06 [岸側低層量體與屋頂欄杆](https://www.google.com/maps/@?api=1&map_action=pano&pano=lb9qfdcYVUsAhLQzAlvUjw) 與 2024-10 [河東路街口](https://www.google.com/maps/@?api=1&map_action=pano&pano=W0XOinMNyOzmTOSwFrrE8A) 的車道、路側樹和直桿欄杆。地點沿既有地圖步道與道路配置；建築高度、樹距與窗格為目視估算。施工圍網、車輛與攤位不作永久設施。

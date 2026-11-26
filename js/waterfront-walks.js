@@ -14,7 +14,8 @@ const sites=[
   {kind:'terminalSide',anchor:[685.6,-5.5],span:[0,3]},
   {kind:'riverLawn',anchor:[1450.4,-4681.9],span:[15,21]},
   {kind:'park',anchor:[749.8,669.9]},
-  {kind:'quay',anchor:[-124.2,-1853.6],reverse:true,fromZ:-1440,toZ:-1640},
+  {kind:'hedongStreet',anchor:[-104.7,-1885.8],span:[0,7],reverse:true},
+  {kind:'quay',anchor:[-124.2,-1853.6],reverse:true,fromZ:-1390,toZ:-1685},
   {kind:'pier',anchor:[-558.6,-933.2],reverse:true}
 ];
 function alignment(line){
@@ -97,7 +98,7 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
         diffuseColor.rgb=vec3(.235,.244,.24)*(.56+1.45*grain+stone*.24)*(1.-.23*smoothstep(.475,.495,max(joint.x,joint.y)));`);
     };
   }
-  if(paths.some(({site})=>site.kind==='riverLawn'))surface('asphalt','concrete_pavement_02.jpg',0x606363);
+  if(paths.some(({site})=>['riverLawn','wharfTurn','hedongStreet'].includes(site.kind)))surface('asphalt','concrete_pavement_02.jpg',0x606363);
   if(paths.some(({site})=>site.kind==='coralApron')){
     surface('hex','concrete_pavement_02.jpg',0xc4c0b0);
     materials.get('hex').onBeforeCompile=s=>{
@@ -187,6 +188,19 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
         for(const s of [-1,1])beam(fork,P(at(d+s*.48,3.4),4.12),.043,0xb6b8b3);
         panel(at(d-.48,3.4),at(d+.48,3.4),4.12,.07,.10,0xe0dfcd);
       }
+    }else if(site.kind==='hedongStreet'){
+      band('asphalt',-4.8,4.8,.122,4,4);
+      band('stone',4.8,7.6,.133,1.4,1.6);
+      for(let d=4;d<length-5;d+=9){
+        panel(at(d,0),at(d+3,0),.143,.012,.095,0xd7b660);
+        panel(at(d,3.62),at(d+8.9,3.62),.143,.012,.09,0xe4e2d6);
+      }
+      for(let d=12;d<length-8;d+=16){
+        planting(d,6.85,1.02,1.22);
+        const a=at(d+2,7.85),b=at(d+11,7.85);
+        for(const h of [.21,1.02])beam(P(a,h),P(b,h),.043,0xbac2c3);
+        for(let t=2;t<=11;t+=.34){const q=at(d+t,7.85);beam(P(q,.17),P(q,1.03),.024,0xacb6b6);}
+      }
     }else if(site.kind==='quay'){
       band('timber',-5.4,2.3,.092,2.15,2.15);band('stone',2.3,12,.093,2.4,2.4);
       for(let i=1;i<cumulative.length;i++){
@@ -199,6 +213,15 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
       const landing=line.findIndex(p=>Math.abs(p[0]-15.4)<.2);
       if(landing>=0){
         const along=cumulative[landing];
+        // Low riverside pavilion seen from the road, leaving the deck clear.
+        const center=along+20;
+        panel(at(center-7,8.6),at(center+7,8.6),1.67,3.0,4.1,0xe3dfd3);
+        panel(at(center-7.4,8.6),at(center+7.4,8.6),3.26,.24,4.6,0xd6d1bd);
+        for(let t=-6;t<=6;t+=1.6){
+          panel(at(center+t,6.49),at(center+t+1,6.49),2.31,.54,.05,0x4c5859);
+          const post=at(center+t,6.46);beam(P(post,3.35),P(post,4.24),.032,0x9da8a7);
+        }
+        for(const y of [3.80,4.24])beam(P(at(center-7,6.46),y),P(at(center+7,6.46),y),.034,0xaeb8b6);
         for(const d of [along-5.2,along+5.2]){
           const p=at(d,2.6);beam(P(p,.14),P(p,.73),.093,0x797c75);
           beam(P(p,.72),P(p,.88),.14,0xb4b5aa,.20);
