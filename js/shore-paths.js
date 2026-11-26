@@ -1,3 +1,4 @@
+import {quayEdge} from '../data/exhibition-quay.js';
 // Positive offsets follow the alignment's east/south normal. These three
 // short sections use different surfaces and shore treatments.
 export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
@@ -27,15 +28,34 @@ export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
     return;
   }
   const apron=kind==='coralApron';
-  // At Glory Pier the mapped walking centreline is 17.6–18.7 m inland
-  // of the straight OSM harbour edge. The December 2024 photograph shows
-  // the chain bollards on that edge, rather than in the middle of the apron.
-  const edge=d=>apron?-4.25:-17.6-1.1*d/length;
-  band(apron?'hex':'stone',edge,apron?6.4:5,.091,2.4,2.4);
-  const step=4.4;
+  // Intersect each walking cross-section with the surveyed harbour edge.
+  // Its offset changes along the path, particularly north of Whale Hall 02.
+  function edge(d){
+    if(apron)return -4.25;
+    const [x,z]=at(d,0),side=at(d,1),nx=side[0]-x,nz=side[1]-z;
+    let best=Infinity,offset=0;
+    for(let i=1;i<quayEdge.length;i++){
+      const a=quayEdge[i-1],b=quayEdge[i],dx=b[0]-a[0],dz=b[1]-a[1],cross=nx*dz-nz*dx;
+      if(Math.abs(cross)<.001)continue;
+      const t=Math.max(0,Math.min(1,((a[0]-x)*nz-(a[1]-z)*nx)/cross));
+      const vx=a[0]+t*dx-x,vz=a[1]+t*dz-z,error=Math.abs(nx*vz-nz*vx);
+      if(error<best){best=error;offset=(vx*nx+vz*nz)/(nx*nx+nz*nz);}
+    }
+    return offset;
+  }
+  band(apron?'hex':'quayPaving',edge,apron?6.4:9,.113,1.46,.78);
+  if(apron){
+    for(let d=0;d<length;d+=2.2){
+      const p=at(d,-4.12),q=at(Math.min(length,d+2.2),-4.12);
+      beam(P(p,.12),P(p,1.04),.041,0xa8b4b3);
+      for(const y of [.40,.72,1.04])beam(P(p,y),P(q,y),y===1.04?.052:.027,0xbac5c3);
+    }
+    return;
+  }
+  const step=3.65;
   for(let d=2;d+step<length;d+=step){
     // Painted gooseneck bollards, a low curb pipe and a hanging light chain.
-    const side=edge(d)+.48,p=at(d,side);
+    const side=edge(d)+.29,p=at(d,side);
     beam(P(p,.09),P(p,.7),.095,0xe4e5dc);
     let prev=P(p,.7);
     for(let k=1;k<=5;k++){
@@ -49,16 +69,9 @@ export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
       beam(link(k/6),link((k+1)/6),.018,0xc4c7be);
     }
   }
-  if(!apron){
-    for(let d=12;d<length-7;d+=17){
-      planting(d,5.7,.95,1.15);
-      if(d<48)for(let i=0;i<3;i++){
-        const along=d+i*1.2;let last=P(at(along-.30,3.9),.1);
-        for(let j=1;j<=10;j++){
-          const a=Math.PI*j/10,q=P(at(along-.3*Math.cos(a),3.9),.1+.68*Math.sin(a));
-          beam(last,q,.034,0xa54f45);last=q;
-        }
-      }
-    }
+  for(let d=10;d<length-7;d+=21){
+    // The through lane is clear. Trees sit inland in individual square grates.
+    planting(d,7.6,.64,.87);
+    panel(at(d-.65,7.6),at(d+.65,7.6),.123,.022,1.34,0x747b66);
   }
 }

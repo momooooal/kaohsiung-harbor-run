@@ -9,7 +9,7 @@ import {surfaceTexture} from './daylight.js';
 // interpret the dated ground-level references listed in DATA-SOURCES.md.
 const sites=[
   {kind:'coralApron',anchor:[331.6,-898.3],span:[5,10]},
-  {kind:'wharf',anchor:[164.9,-356.7],span:[2,4]},
+  {kind:'wharf',anchor:[164.9,-356.7],span:[2,5]},
   {kind:'terminalSide',anchor:[685.6,-5.5],span:[1,3]},
   {kind:'riverLawn',anchor:[1450.4,-4681.9],span:[15,21]},
   {kind:'park',anchor:[749.8,669.9]},
@@ -84,6 +84,16 @@ export function waterfrontWalks({nearby,key,group,panel,beam,P,tree}){
         float gap=smoothstep(.465,.5,max(joints.x,joints.y));
         float stone=dot(diffuseColor.rgb,vec3(.30,.59,.11));
         diffuseColor.rgb=vec3(.79,.81,.80)*(.13+.60*stone)*(1.-.24*gap);`);
+    };
+  }
+  if(paths.some(({site})=>site.kind==='wharf')){
+    surface('quayPaving','concrete_pavement_02.jpg',0xc2c3c0);
+    materials.get('quayPaving').onBeforeCompile=s=>{
+      s.fragmentShader=s.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
+        float grain=dot(diffuseColor.rgb,vec3(.30,.59,.11));
+        vec2 grid=vUv;grid.x+=.5*mod(floor(grid.y),2.);
+        vec2 joint=abs(fract(grid)-.5);float stone=fract(sin(dot(floor(grid),vec2(17.91,63.02)))*8761.);
+        diffuseColor.rgb=vec3(.37,.38,.37)*(.73+grain*.7+stone*.20)*(1.-.27*smoothstep(.475,.495,max(joint.x,joint.y)));`);
     };
   }
   if(paths.some(({site})=>site.kind==='riverLawn'))surface('asphalt','concrete_pavement_02.jpg',0x606363);

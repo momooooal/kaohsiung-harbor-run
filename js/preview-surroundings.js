@@ -1,3 +1,4 @@
+import {whaleHalls,marinaWater} from '../data/exhibition-quay.js';
 import {citySkyline} from './city-skyline.js';
 import {shihjiaTowerKey} from './shihjia-alignment.js';
 import {surfaceTexture} from './daylight.js';
@@ -41,12 +42,15 @@ export function mappedSurroundings(project,scene,points,city){
  const walls=new THREE.MeshLambertMaterial({map:windows});
  const covered=new Set(city?city.footprints:[]);
  covered.add(shihjiaTowerKey);
+ for(const ring of whaleHalls)covered.add(ring[0].map(Math.round).join());
  for(const {line} of Object.values(survey.features))covered.add(line[0].map(Math.round).join());
  const extra=[...streets.buildings,...context.buildings,...survey.buildings].filter(([,ring])=>{
    const key=ring[0].map(Math.round).join();if(covered.has(key))return false;covered.add(key);return true;
  });
  const sites=[...(city?[]:blocks.buildings),...extra].map(([height,ring],i)=>({height,ring,style:i%3}));
  for(const ring of [...(city?[]:blocks.water),...context.water,...river.outer])sites.push({height:0,ring,style:3});
+ // Join the more detailed quay outline to the coarser harbour polygon on its wet side.
+ sites.push({height:0,style:3,ring:marinaWater});
  for(const ring of [...context.green,...survey.green])sites.push({height:0,ring,style:5});
  const roads=streetGround(scene,points);
  const frontages=streetFrontages(group,points);

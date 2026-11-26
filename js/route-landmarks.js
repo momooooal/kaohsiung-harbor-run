@@ -1,3 +1,5 @@
+import {waterfrontBuildings} from './exhibition-quay-buildings.js';
+import {whaleHalls} from '../data/exhibition-quay.js';
 import {coralFrontage,terminalEnvelope} from './harbor-frontages.js';
 import {waterfrontWalks} from './waterfront-walks.js';
 import {libraryPlaza} from './library-plaza.js';
@@ -8,6 +10,9 @@ import survey from '../data/preview-landmarks.js';
 // Plans and alignments come from the named OSM ways. Elevations, finishes,
 // pier spacing and architectural profiles are visual interpretations in metres.
 export const restoredFootprints=new Set(Object.values(survey.features).map(({line})=>line[0].map(Math.round).join()));
+// First vertex used by the legacy rounded ring assembled for the ten-stop walk.
+restoredFootprints.add("758,263");
+for(const ring of whaleHalls)restoredFootprints.add(ring[0].map(Math.round).join());
 export function routeLandmarks(parent,points,precinctOnly=false) {
   const box=new THREE.BoxGeometry(),round=new THREE.CylinderGeometry(1,1,1,10);
   const material=new THREE.MeshLambertMaterial({side:THREE.DoubleSide});
@@ -150,6 +155,7 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
     }
     if(f.library.some(p=>nearby.has(key(...p))))libraryPlaza(f.library,{panel,beam,slab,P,mix,group,tree});
     const facade={panel,beam,slab,P,mix};
+    waterfrontBuildings({...facade,nearby,key,group,tree});
     if(f.coral.some(p=>nearby.has(key(...p))))coralFrontage(f.coral,facade);
     if(f.terminal.some(p=>nearby.has(key(...p))))terminalEnvelope(f.terminal,facade,streets.roads,points);
     for(const id of ['music','centralMrt','r13East','r13West']){
