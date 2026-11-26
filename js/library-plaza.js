@@ -1,9 +1,33 @@
 // Suspended reading rooms over the 7.5 m clear entrance plaza. See KSML's
 // building guide in DATA-SOURCES.md. All coordinates follow the map footprint.
-export function libraryPlaza(line,{panel,beam,slab,P,mix}){
+export function libraryPlaza(line,{panel,beam,slab,P,mix,group,tree}){
   const bottom=7.5,roof=33,levels=7;
   slab(line,bottom,0xc2bfad);
   slab(line,roof,0x9da991);
+  // The north forecourt opens toward the tree-lined street. Embed the tile
+  // grid and circular inlays in one surface so they stay flat and continuous.
+  const origin=line[0],end=line[3],dx=end[0]-origin[0],dz=end[1]-origin[1],len=Math.hypot(dx,dz);
+  const side=(u,v)=>[origin[0]+(dx*u+dz*v)/len,origin[1]+(dz*u-dx*v)/len];
+  const court=new THREE.PlaneGeometry(len,20);
+  court.rotateX(-Math.PI/2);
+  const paving=new THREE.MeshLambertMaterial({color:0xd1cdc1});
+  paving.onBeforeCompile=s=>{
+    s.vertexShader='varying vec2 plazaUV;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nplazaUV=uv;');
+    s.fragmentShader='varying vec2 plazaUV;\n'+s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+      vec2 site=plazaUV*vec2(71.,20.);
+      vec2 seam=abs(fract(site/vec2(.72,.53))-.5);
+      float line=smoothstep(.474,.5,max(seam.x,seam.y));
+      float radius=length(vec2(mod(site.x,24.)-12.,site.y-11.));
+      float ring=1.-smoothstep(.0,.10,abs(radius-4.5));
+      diffuseColor.rgb*=1.-.18*line-.16*ring-.08*step(radius,3.2);`);
+  };
+  const tile=new THREE.Mesh(court,paving),mid=side(len/2,10);
+  tile.rotation.y=-Math.atan2(dz,dx);tile.position.set(mid[0],.094,mid[1]);group(...mid).add(tile);
+  for(const u of [8,26,46,63]){
+    const p=side(u,18.5);tree(...p,.80,1.05);
+    const lamp=side(u+2,17.5);beam(P(lamp,.10),P(lamp,4.2),.073,0x909a97);
+    beam(P(lamp,4.2),P(side(u+2.9,17.5),4.23),.076,0xbac0b8);
+  }
   const corners=[];
   for(let j=1;j<line.length;j++){
     const a=line[j-1],b=line[j],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);

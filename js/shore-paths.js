@@ -1,6 +1,20 @@
 // Positive offsets follow the alignment's east/south normal. These three
 // short sections use different surfaces and shore treatments.
 export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
+  if(kind==='terminalSide'){
+    band('stone',-1.3,1.3,.094,1.42,2.3);
+    band('brick',2.4,3.2,.092,1.8,1.8);
+    for(let d=8;d<length-6;d+=8.4){
+      for(const side of [-2.3,2.0]){
+        const p=at(d,side);
+        const trunk=P(p,2.35);
+        beam(P(p,.15),trunk,.078,0x796d53);
+        for(const off of [-.6,.6])beam(P(at(d+off,side+.15),.14),trunk,.043,0x675f4f);
+        planting(d,side,.55,.79);
+      }
+    }
+    return;
+  }
   if(kind==='riverLawn'){
     band('grass',-6,-1.35,.056,2.6,2.6);
     band('stone',-1.35,1.35,.083,2.6,3.2);

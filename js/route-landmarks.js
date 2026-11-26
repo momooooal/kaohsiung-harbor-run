@@ -59,11 +59,25 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
       for(let i=0;i<n;i++){const p=mix(a,b,i/n);beam(P(p,base),P(p,base+h),.053,0x727f7f);}
     }
     for(const k of ['visionDeck','boaiDeck','cityBridge','swingDeck'])slab(f[k],.13,k==='swingDeck'?0xaeaaa0:0x727778);
-    for(const line of [f.visionEast,f.visionWest]){
+    for(const [line,interior] of [[f.visionEast,-1],[f.visionWest,1]]){
       const [a,b]=line;
-      let last=P(a,.22);for(let i=1;i<=24;i++){
-        const t=i/24,p=mix(a,b,t),y=.22+14.5*Math.sin(t*Math.PI);
-        beam(last,P(p,y),.34,0xd8dfe1);if(i%2===0&&i<24)beam(P(p,.23),P(p,y),.066,0xa4b5b9);last=P(p,y);
+      function lane(t,side){const p=mix(a,b,t);return [p[0]+side*interior,p[1]];}
+      panel(lane(.025,0),lane(.975,0),.151,.036,3.6,0xc8bfaf);
+      panel(lane(.025,.98),lane(.975,.98),.177,.018,1.23,0xad7168);
+      for(const side of [-1.98,1.98]){
+        let last=P(lane(.025,side),.23);
+        for(let i=1;i<=30;i++){
+          const t=i/30,y=.23+13.9*Math.sin(t*Math.PI),p=lane(.025+.95*t,side);
+          beam(last,P(p,y),.35,0xe0e1d9,.48);
+          if(i%3===0&&i<30)beam(P(p,.27),P(p,y),.054,0xa1afad);
+          if(side>0&&i%5===0&&i<30)beam(P(p,y-.33),P(lane(.025+.95*t,-side),y-.33),.17,0xd9dfd8);
+          last=P(p,y);
+        }
+        for(let i=1;i<25;i++){
+          const t=.025+i*.038,p=lane(t,side);
+          beam(P(p,.24),P(p,1.29),.067,0xe6e4db);
+          if(i>1)for(const h of [.44,.72,1.25])beam(P(lane(t-.038,side),h),P(p,h),h>1?.065:.036,0xe0e3dc);
+        }
       }
     }
     for(const line of [f.visionDeck,f.boaiDeck,f.cityBridge]){
@@ -89,6 +103,21 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
           beam(head,P(p,1.0),.044,0xbdc9ca);
         }
       }
+      // The 80 m canopy rises over the central outlook and contracts into
+      // two slender edge ribbons toward the approaches.
+      const canopyPositions=[],indices=[],alongM=(t,side)=>[pivot[0]+along.x*t+along.z*side,pivot[1]+along.z*t-along.x*side];
+      for(let i=0;i<=40;i++){
+        const t=-40+2*i,crest=Math.pow(Math.cos(t*Math.PI/80),2);
+        for(let j=0;j<5;j++){
+          const u=j*.25,offset=(2*u-1)*(.23+4.55*crest)+3.4*Math.sin(t*Math.PI/80);
+          const p=alongM(t,offset),h=1.58+4.8*crest+1.3*crest*Math.sin(Math.PI*u);
+          canopyPositions.push(p[0],h,p[1]);
+          if(i&&j){const n=i*5+j;indices.push(n-6,n-5,n,n-6,n,n-1);}
+        }
+      }
+      const shell=new THREE.BufferGeometry();shell.setAttribute('position',new THREE.Float32BufferAttribute(canopyPositions,3));
+      shell.setIndex(indices);shell.computeVertexNormals();
+      group(...pivot).add(new THREE.Mesh(shell,new THREE.MeshLambertMaterial({color:0xebe9e0,side:THREE.DoubleSide})));
       const deck=f.swingDeck;
       for(let j=1;j<deck.length;j++){
         const a=deck[j-1],b=deck[j],dx=b[0]-a[0],dz=b[1]-a[1];
@@ -96,7 +125,7 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
         rail(a,b,1.02);panel(a,b,-.14,.50,.28,0xdde2dd);
       }
     }
-    if(f.library.some(p=>nearby.has(key(...p))))libraryPlaza(f.library,{panel,beam,slab,P,mix});
+    if(f.library.some(p=>nearby.has(key(...p))))libraryPlaza(f.library,{panel,beam,slab,P,mix,group,tree});
     const facade={panel,beam,slab,P,mix};
     if(f.coral.some(p=>nearby.has(key(...p))))coralFrontage(f.coral,facade);
     if(f.terminal.some(p=>nearby.has(key(...p))))terminalEnvelope(f.terminal,facade);

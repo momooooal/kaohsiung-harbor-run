@@ -121,3 +121,12 @@
 | [愛河之心向西，276°](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIABIhAIN0uG5TlP7mfxjEkAC4q_&heading=276) | Apr 2025 | 較窄的深色步道、淺色緣石與低燈柱；步道兩側分別銜接草坡與水岸。 |
 
 岸柱間距、欄鏈垂度、棚架高度與鋪面顏色依畫面估算。珊瑚礁群另參考[高流場館介紹](https://kpmc.com.tw/venue-info/)與[市府建築介紹](https://khh.travel/zh-tw/event/news/1939/)。2021 年凹子底站的投稿全景拍到 4 號出口，但其相片定位在 1、2 號出口附近。依高捷出口資料與 OSM 1272674316 排除此圖，未在起點加上 4 號出口雨棚。
+
+| 路段 | 顯示的拍攝年月 | 場景對照 |
+|---|---|---|
+| [大港橋靠岸看橋身](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgICKpfK4lQE&heading=306) | Apr 2021 | 補上中央隆起、兩端收窄的白色造型頂棚。 |
+| [旅運中心與輕軌之間](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIC91r7u-wE&heading=297) | Mar 2024 | 狹長步道旁的雙排支撐木與行道樹。 |
+| [圖書館前廣場](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIABIhBVvhiCQV6C6EwV4aM8UTY_&heading=252) | May 2025 | 石板廣場上的圓形拼花、陸側樹列與燈具。 |
+| [願景橋東側](https://www.google.com/maps/@?api=1&map_action=pano&pano=CIHM0ogKEICAgIDq86DZzwE&heading=177) | Dec 2015 | 弧形白色構架、鋪磚帶與並行的紅色鋪面。 |
+
+大港橋遮棚的長度與中央結構另參考[設計團隊作品說明](https://www.twarchitect.org.tw/works/%E5%A4%A7%E6%B8%AF%E6%A9%8B/)。願景橋視點較舊，鋪面顏色、分帶及橋拱細節僅供預覽。
