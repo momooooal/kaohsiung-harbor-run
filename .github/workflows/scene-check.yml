@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [visuals, controls, clearance]
+        task: [visuals, controls, clearance, walk-mobile, walk-desktop]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -36,6 +36,7 @@ jobs:
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
           case "$TASK" in
             visuals) node ../qa/scripts/scene-film.cjs && node ../qa/scripts/scene-shots.cjs ;;
+            walk-*) node ../qa/scripts/scene-traverse.cjs ;;
             controls) node scripts/browser-repair.cjs ;;
             clearance) TEST_URL=http://localhost:8789/ node scripts/compile-preview-clearance.cjs && cp data/preview-clearance.js "$TEST_OUT"/ ;;
           esac

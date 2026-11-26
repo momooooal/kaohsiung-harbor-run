@@ -178,5 +178,29 @@
   "id": "R7-1",
   "view": "https://www.google.com/maps/@22.6055621,120.3084856,5a,76y,232h,91t",
   "heading": 232
+ },
+ {
+  "id": "harbor-5-coral",
+  "view": "https://www.google.com/maps/@22.6180306,120.2919861,3a,75y,264h,90t"
+ },
+ {
+  "id": "harbor-5-wharf",
+  "view": "https://www.google.com/maps/@22.615053,120.2915614,3a,75y,207h,90t"
+ },
+ {
+  "id": "love-21-terminal",
+  "view": "https://www.google.com/maps/@22.6103919,120.2947105,3a,75y,323h,90t"
+ },
+ {
+  "id": "heart-5-river",
+  "view": "https://www.google.com/maps/@22.6530191,120.3033103,3a,75y,276h,90t"
+ },
+ {
+  "id": "pier-22-swing",
+  "view": "https://www.google.com/maps/@22.618316,120.283959,3a,75y,159h,90t"
+ },
+ {
+  "id": "harbor-5-library",
+  "view": "https://www.google.com/maps/@22.609915,120.301807,3a,75y,345h,90t"
  }
 ]
