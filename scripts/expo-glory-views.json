@@ -1,0 +1,82 @@
+[
+  {
+    "route": "expo",
+    "id": "south",
+    "position": [
+      22.6070567,
+      120.2981694
+    ],
+    "heading": 285,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6070567,120.2981694&heading=285"
+  },
+  {
+    "route": "expo",
+    "id": "east",
+    "position": [
+      22.6078,
+      120.29983
+    ],
+    "heading": 262,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6078,120.29983&heading=262"
+  },
+  {
+    "route": "expo",
+    "id": "west",
+    "position": [
+      22.6075,
+      120.2971
+    ],
+    "heading": 75,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6075,120.2971&heading=75"
+  },
+  {
+    "route": "expo",
+    "id": "north",
+    "position": [
+      22.60852,
+      120.29818
+    ],
+    "heading": 168,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60852,120.29818&heading=168"
+  },
+  {
+    "route": "glory",
+    "id": "whale",
+    "position": [
+      22.61618,
+      120.29219
+    ],
+    "heading": 23,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61618,120.29219&heading=23"
+  },
+  {
+    "route": "glory",
+    "id": "platform",
+    "position": [
+      22.61676,
+      120.29275
+    ],
+    "heading": 254,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61676,120.29275&heading=254"
+  },
+  {
+    "route": "glory",
+    "id": "coral",
+    "position": [
+      22.61782,
+      120.29264
+    ],
+    "heading": 347,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61782,120.29264&heading=347"
+  },
+  {
+    "route": "glory",
+    "id": "edge",
+    "position": [
+      22.616404,
+      120.29234
+    ],
+    "heading": 201,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.616404,120.29234&heading=201"
+  }
+]

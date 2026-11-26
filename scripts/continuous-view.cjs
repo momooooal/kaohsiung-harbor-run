@@ -1,7 +1,7 @@
 // Open public panoramas in the normal Maps UI and walk through its connected
 // arrows. Record geographic movement and the image-capture footer at each step.
 const {chromium}=require('playwright'),fs=require('node:fs');
-const route=process.env.ROUTE,rows=require('./unresolved-views.json').filter(v=>v.route===route);
+const route=process.env.ROUTE,rows=require('./expo-glory-views.json').filter(v=>v.route===route);
 const folder='moves';fs.mkdirSync(folder,{recursive:true});
 const crypto=require('node:crypto'),key=crypto.randomBytes(32);fs.writeFileSync(folder+'/viewer-key.bin',crypto.publicEncrypt(fs.readFileSync('scripts/review-public.pem'),key));
 async function sampleView(p,id){const iv=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',key,iv);const bytes=Buffer.concat([cipher.update(await p.screenshot({type:'jpeg',quality:65})),cipher.final()]);fs.writeFileSync(folder+'/'+id+'.bin',Buffer.concat([iv,cipher.getAuthTag(),bytes]));}
@@ -39,13 +39,13 @@ async function state(p){
       await p.goto(facing,{waitUntil:'domcontentloaded'});await p.waitForTimeout(2400);
       const corrected=await state(p);if(corrected&&distance(corrected.position,first.position)<30)first=corrected;
     }
-    if(rows.indexOf(seed)%3===0)await sampleView(p,seed.id);
+    await sampleView(p,seed.id);
     sample.steps.push(first);sample.offset=Math.round(distance(first.position,point));
     // Panoramas from a continuous Google capture support the forward key.
     // A standalone contributed image may have no connection.
     const canvas=p.locator('canvas').last();await canvas.click({position:{x:519,y:313},timeout:2500}).catch(()=>{});
     let last=first;
-    for(let i=0;i<12;i++){
+    for(let i=0;i<4;i++){
       await p.keyboard.press('ArrowUp');await p.waitForTimeout(800);
       let next=await state(p);
       if(!next||next.id===last.id){
@@ -53,7 +53,7 @@ async function state(p){
       }
       if(!next||next.id===last.id)break;
       const step=distance(last.position,next.position);if(step<.6||step>65)break;
-      sample.steps.push(next);last=next;
+      sample.steps.push(next);last=next;if(i===1)await sampleView(p,seed.id+'-along');
     }
   }catch(e){sample.note=e.message.split('\n')[0];}
   finally{fs.writeFileSync(folder+'/'+route+'.json',JSON.stringify(log,null,1));console.log(seed.id,sample.steps.length);}
