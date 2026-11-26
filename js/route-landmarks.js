@@ -1,3 +1,4 @@
+import {cityStreetDetails} from './city-street-details.js';
 import {waterfrontBuildings} from './exhibition-quay-buildings.js';
 import {guoyanTowers,whaleHalls} from '../data/exhibition-quay.js';
 import {coralFrontage,terminalEnvelope} from './harbor-frontages.js';
@@ -238,6 +239,7 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
       }
     }
   }
+  cityStreetDetails({nearby,key,panel,beam,tree,P});
   const releaseWalks=waterfrontWalks({nearby,key,group,panel,beam,P,tree});
   const color=new THREE.Color();
   for(const {g,shape,rows} of batches.values()){

@@ -159,3 +159,11 @@
 
 ### 河東路親水步道與向北街段
 雲端黃色小人核對河東路地面影像。2026-06 [岸側低層量體與屋頂欄杆](https://www.google.com/maps/@?api=1&map_action=pano&pano=lb9qfdcYVUsAhLQzAlvUjw) 與 2024-10 [河東路街口](https://www.google.com/maps/@?api=1&map_action=pano&pano=W0XOinMNyOzmTOSwFrrE8A) 的車道、路側樹和直桿欄杆。地點沿既有地圖步道與道路配置；建築高度、樹距與窗格為目視估算。施工圍網、車輛與攤位不作永久設施。
+
+獅甲站外 · [街景 2026年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=3-2qYVV4jE1F9GMh1K0k5w&heading=145)。
+總館街口 · [街景 2026年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=A5FHSAbL6T0t9fx5D4kJSg&heading=342)。
+河東路北段 · [街景 2024年10月](https://www.google.com/maps/@?api=1&map_action=pano&pano=uIaO72WJNNOhDCMGIPdR_Q&heading=336)。
+駁二倉庫街口 · [街景 2011年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=woehfhAhzVM91Q_y8JG4Iw&heading=295)。
+中央公園街廓 · [街景 2026年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=91EZLv_KuHRPK4OnHHApyQ&heading=68)。
+凹子底站外 · [街景 2020年6月](https://www.google.com/maps/@?api=1&map_action=pano&pano=Dvfi-4tqUgcYwuo_275XLw&heading=169)。
+本次使用上述地面視點核對道路和綠帶，物件尺寸及間距依照片估算。駁二 2011 年與凹子底 2020 年影像僅參考道路方向及固定街廓，未以舊有店招、車輛或展品推定現況。

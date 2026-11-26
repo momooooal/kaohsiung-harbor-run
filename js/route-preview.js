@@ -11,6 +11,12 @@ export function previewPage(data,route){
 }
 
 const waterfrontStarts={
+  'harbor-108-street':{route:'harbor-108',name:'獅甲站外',coordinates:[22.605124,120.308518],bearing:145},
+  'harbor-5-street':{route:'harbor-5',name:'總館街口',coordinates:[22.610493,120.302016],bearing:342},
+  'love-21-street':{route:'love-21',name:'河東路北段',coordinates:[22.62637,120.289294],bearing:336},
+  'pier-22-street':{route:'pier-22',name:'駁二倉庫街口',coordinates:[22.618199,120.285096],bearing:295},
+  'central-52-street':{route:'central-52',name:'中央公園街廓',coordinates:[22.625607,120.297029],bearing:68},
+  'heart-5-street':{route:'heart-5',name:'凹子底站外',coordinates:[22.656255,120.30341],bearing:169},
   'exhibition-park':{route:'harbor-108',name:'從公園接近高雄展覽館',coordinates:[22.60653,120.297457],bearing:8},
   'river-landing':{route:'love-21',name:'沿愛河親水步道',coordinates:[22.623487,120.290248],bearing:345},
   'river-avenue':{route:'love-21',name:'從河東路街口向北',coordinates:[22.625249,120.289823],bearing:337},
