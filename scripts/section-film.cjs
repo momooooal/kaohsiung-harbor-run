@@ -77,6 +77,6 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
  const pathLength=poses.reduce((total,p,i)=>i?total+Math.hypot(p[0]-poses[i-1][0],p[2]-poses[i-1][2]):total,0);
  fs.writeFileSync(out+'/'+name+'.json',JSON.stringify({url,settings,pathLength,stepSeconds:.05,poses,errors},null,1));
  if(pathLength<86||errors.length)throw Error('Insufficient travel or page error: '+pathLength+' '+errors.join(','));
- execFileSync('ffmpeg',['-loglevel','error','-framerate','20','-i',folder+'/%04d.jpg','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p','-crf','18','-movflags','+faststart',out+'/'+name+'.mp4']);
+ execFileSync(process.env.FFMPEG||'ffmpeg',['-loglevel','error','-framerate','20','-i',folder+'/%04d.jpg','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p','-crf','18','-movflags','+faststart',out+'/'+name+'.mp4']);
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

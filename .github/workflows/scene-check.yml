@@ -23,6 +23,11 @@ jobs:
           path: site
       - run: npm ci --ignore-scripts
         working-directory: site
+      - name: Install video encoder for route captures
+        if: startsWith(matrix.task, 'ride-')
+        run: |
+          python3 -m pip install --target /tmp/section-media imageio-ffmpeg==0.6.0
+          echo "FFMPEG=$(PYTHONPATH=/tmp/section-media python3 -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" >> "$GITHUB_ENV"
       - name: Exercise the scene in Chrome
         working-directory: site
         env:
