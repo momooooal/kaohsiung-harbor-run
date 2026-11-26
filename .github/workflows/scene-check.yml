@@ -40,12 +40,12 @@ jobs:
           if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
           if [ "$TEST_URL" = https://momooooal.github.io/kaohsiung-harbor-run/ ]; then
             for n in {1..36}; do
-              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/walking-city.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
-              if cmp -s js/walking-city.js /tmp/published-station.js; then break; fi
+              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/shore-paths.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
+              if cmp -s js/shore-paths.js /tmp/published-station.js; then break; fi
               sleep 8
             done
-            cmp js/walking-city.js /tmp/published-station.js
-            for published in js/exhibition-quay-buildings.js js/main.js js/route-landmarks.js data/preview-clearance.js; do
+            cmp js/shore-paths.js /tmp/published-station.js
+            for published in js/waterfront-walks.js js/route-preview.js data/preview-clearance.js; do
               curl --retry 3 -fsS "$TEST_URL$published?check=$GITHUB_RUN_ID" -o /tmp/published-module.js
               cmp "$published" /tmp/published-module.js
             done
