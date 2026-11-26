@@ -19,7 +19,7 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
    window.nextFrame=()=>{const callbacks=[...queue.values()];queue.clear();time+=50;for(const f of callbacks)f(time);};
    const Base=THREE.WebGLRenderer;
    THREE.WebGLRenderer=class extends Base{constructor(...args){super(...args);const draw=this.render;this.render=function(scene,camera){
-      draw.call(this,scene,camera);
+      draw.call(this,scene,camera);window.sampledScene=scene;window.sampledCamera=camera;
       const forward=camera.getWorldDirection(new THREE.Vector3());
       window.capturePose=[camera.position.x,camera.position.y,camera.position.z,Math.atan2(forward.x,-forward.z)*180/Math.PI];
       if(window.capturePixels)window.captureImage=this.domElement.toDataURL('image/jpeg',.94);
@@ -72,6 +72,17 @@ const url=process.env.TEST_URL+'#/explore/run/'+section.route;
    fs.writeFileSync(path.join(folder,String(i).padStart(4,'0')+'.jpg'),bytes);
    if([0,90,180,260,319].includes(i))fs.writeFileSync(out+'/'+name+'-'+i+'.jpg',bytes);
    poses.push(pose);
+   if(i===90){
+     const rays=await p.evaluate(()=>{
+       const meshes=[];sampledScene.traverseVisible(o=>{if(o.isMesh)meshes.push(o);});
+       const cast=(ray)=>ray.intersectObjects(meshes,false).slice(0,6).map(h=>{const o=h.object,m=Array.isArray(o.material)?o.material[0]:o.material;
+         return {p:h.point.toArray().map(x=>+x.toFixed(2)),geo:o.geometry.type,geom:o.geometry.parameters?.width,color:m.color?.getHexString(),tex:m.map?.image?.src?.split('/').pop(),shader:m.onBeforeCompile.toString().slice(0,95),owner:o.parent.type,order:o.renderOrder};
+       });
+       const top=(x,z)=>cast(new THREE.Raycaster(new THREE.Vector3(x,35,z),new THREE.Vector3(0,-1,0),0,40));
+       const view=(x,y)=>{const ray=new THREE.Raycaster();ray.setFromCamera(new THREE.Vector2(x,y),sampledCamera);return cast(ray);};
+       return {water:top(202,-730),ground:top(sampledCamera.position.x,sampledCamera.position.z),mid:view(0,-.63),left:view(-.84,-.17)};
+     });fs.writeFileSync(out+'/'+name+'-rays.json',JSON.stringify(rays));
+   }
  }
  await client.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  const pathLength=poses.reduce((total,p,i)=>i?total+Math.hypot(p[0]-poses[i-1][0],p[2]-poses[i-1][2]):total,0);
