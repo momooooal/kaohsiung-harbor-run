@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [ride-expo, ride-glory]
+        task: [ride-expo, ride-glory, clearance]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
