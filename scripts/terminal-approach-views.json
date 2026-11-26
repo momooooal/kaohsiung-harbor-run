@@ -1,0 +1,42 @@
+[
+  {
+    "route": "expo",
+    "id": "terminal-approach",
+    "position": [
+      22.61005,
+      120.29665
+    ],
+    "heading": 315,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61005,120.29665&heading=315"
+  },
+  {
+    "route": "expo",
+    "id": "terminal-north",
+    "position": [
+      22.6111,
+      120.2956
+    ],
+    "heading": 315,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6111,120.2956&heading=315"
+  },
+  {
+    "route": "glory",
+    "id": "wharf-connection",
+    "position": [
+      22.61322,
+      120.2916
+    ],
+    "heading": 335,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61322,120.2916&heading=335"
+  },
+  {
+    "route": "glory",
+    "id": "wharf-walk",
+    "position": [
+      22.614,
+      120.29165
+    ],
+    "heading": 20,
+    "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.614,120.29165&heading=20"
+  }
+]

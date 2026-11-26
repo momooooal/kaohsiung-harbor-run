@@ -1,7 +1,7 @@
 // Open public panoramas in the normal Maps UI and walk through its connected
 // arrows. Record geographic movement and the image-capture footer at each step.
 const {chromium}=require('playwright'),fs=require('node:fs');
-const route=process.env.ROUTE,rows=require('./expo-glory-views.json').filter(v=>v.route===route);
+const route=process.env.ROUTE,rows=require('./terminal-approach-views.json').filter(v=>v.route===route);
 const folder='moves';fs.mkdirSync(folder,{recursive:true});
 const crypto=require('node:crypto'),key=crypto.randomBytes(32);fs.writeFileSync(folder+'/viewer-key.bin',crypto.publicEncrypt(fs.readFileSync('scripts/review-public.pem'),key));
 async function sampleView(p,id){const iv=crypto.randomBytes(12),cipher=crypto.createCipheriv('aes-256-gcm',key,iv);const bytes=Buffer.concat([cipher.update(await p.screenshot({type:'jpeg',quality:65})),cipher.final()]);fs.writeFileSync(folder+'/'+id+'.bin',Buffer.concat([iv,cipher.getAuthTag(),bytes]));}
