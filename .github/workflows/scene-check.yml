@@ -31,7 +31,6 @@ jobs:
       - name: Exercise the scene in Chrome
         working-directory: site
         env:
-          OPTICS: '1'
           TASK: ${{ matrix.task }}
           CHROME_PATH: /usr/bin/google-chrome
           TEST_OUT: ${{ github.workspace }}/proof
@@ -41,11 +40,11 @@ jobs:
           if [ "$(node -p "JSON.parse(require('fs').readFileSync('../qa/scripts/scene-check.json','utf8').replace(/^\\uFEFF/, '')).target")" = live ]; then export TEST_URL=https://momooooal.github.io/kaohsiung-harbor-run/; fi
           if [ "$TEST_URL" = https://momooooal.github.io/kaohsiung-harbor-run/ ]; then
             for n in {1..36}; do
-              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/route-landmarks.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
-              if cmp -s js/route-landmarks.js /tmp/published-station.js; then break; fi
+              curl -fsS "https://momooooal.github.io/kaohsiung-harbor-run/js/walking-city.js?check=$n-$GITHUB_RUN_ID" -o /tmp/published-station.js || true
+              if cmp -s js/walking-city.js /tmp/published-station.js; then break; fi
               sleep 8
             done
-            cmp js/route-landmarks.js /tmp/published-station.js
+            cmp js/walking-city.js /tmp/published-station.js
             echo "Testing published production files at $TEST_URL"
           fi
           python3 -m http.server 8789 --bind 127.0.0.1 >/tmp/scene-http.log 2>&1 &
