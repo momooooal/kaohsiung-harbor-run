@@ -1,0 +1,26 @@
+name: Walk connected Street View arrows
+on:
+  push:
+    branches: [review/six-route-street-walk]
+    paths: [scripts/continuous-view.cjs]
+permissions:
+  contents: read
+jobs:
+  sample:
+    strategy:
+      fail-fast: false
+      matrix:
+        route: [harbor-108, harbor-5, love-21, pier-22, central-52, heart-5]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci --ignore-scripts
+      - run: node scripts/continuous-view.cjs
+        env:
+          ROUTE: ${{ matrix.route }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: moves-${{ matrix.route }}
+          path: moves/
+          retention-days: 2
