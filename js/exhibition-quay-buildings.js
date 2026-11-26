@@ -7,18 +7,27 @@ function envelope(group,anchor){
   function face(a,b,c,ink,seam=false){
     vertices.push(...a,...b,...c);color.setHex(ink).convertSRGBToLinear();
     for(let i=0;i<3;i++)colors.push(color.r,color.g,color.b);
-    borders.push(...(seam?[1,0,0,0,1,0,0,0,1]:[1,1,1,1,1,1,1,1,1]));
+    if(seam==='glass')borders.push(-1,-1,-1,-1,-1,-1,-1,-1,-1);
+    else borders.push(...(seam?[1,0,0,0,1,0,0,0,1]:[1,1,1,1,1,1,1,1,1]));
   }
-  function quad(a,b,c,d,ink){face(a,b,c,ink);face(a,c,d,ink);}
+  function quad(a,b,c,d,ink,finish){face(a,b,c,ink,finish);face(a,c,d,ink,finish);}
   function finish(){
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
     g.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));g.setAttribute('rim',new THREE.Float32BufferAttribute(borders,3));g.computeVertexNormals();
     const m=new THREE.MeshLambertMaterial({vertexColors:true,side:THREE.DoubleSide});
     m.onBeforeCompile=s=>{
-      s.vertexShader='attribute vec3 rim; varying vec3 edgeRatio;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nedgeRatio=rim;');
-      s.fragmentShader='varying vec3 edgeRatio;\n'+s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+      s.vertexShader='attribute vec3 rim; varying vec3 edgeRatio; varying vec3 glassSite;\n'+s.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nedgeRatio=rim;glassSite=position;');
+      s.fragmentShader='varying vec3 edgeRatio; varying vec3 glassSite;\n'+s.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
         float edge=min(edgeRatio.x,min(edgeRatio.y,edgeRatio.z));
-        diffuseColor.rgb*=mix(.69,1.,smoothstep(.002,.014,edge));`);
+        if(edge<-.5){
+          vec3 eye=normalize(glassSite-cameraPosition);
+          vec3 reflection=reflect(eye,vec3(.9434,0.,-.3317));
+          float haze=smoothstep(-.09,.41,reflection.y);
+          float skyline=.025+.085*floor(2.+2.*cos(atan(reflection.z,reflection.x)*19.))/4.;
+          float horizon=smoothstep(skyline-.018,skyline+.018,reflection.y);
+          vec3 glass=mix(vec3(.08,.16,.17),vec3(.29,.45,.53),haze*.55+.45*horizon);
+          diffuseColor.rgb=mix(diffuseColor.rgb,glass,.72);
+        }else diffuseColor.rgb*=mix(.69,1.,smoothstep(.002,.014,edge));`);
     };
     const mesh=new THREE.Mesh(g,m);group(...anchor).add(mesh);
   }
@@ -30,7 +39,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 
 // West/east doors share the boulevard axis. Work in transverse sections so
 // the roof, both long sides and the scalloped ends meet at identical heights.
-export function exhibitionHall({panel,beam,P,group,tree,mix,slab}){
+export function exhibitionHall({panel,beam,P,group,tree,mix}){
   const mesh=envelope(group,westDoor),ux=.9434,uz=-.3317;
   const site=(u,v)=>[westDoor[0]+u*ux-v*uz,westDoor[1]+u*uz+v*ux];
   const local=([x,z])=>[(x-westDoor[0])*ux+(z-westDoor[1])*uz,-(x-westDoor[0])*uz+(z-westDoor[1])*ux];
@@ -74,7 +83,7 @@ export function exhibitionHall({panel,beam,P,group,tree,mix,slab}){
           const low=r/7,top=(r+1)/7;
           const tones=[0x6d888d,0x516e77,0x557580,0x7b9b9e,0x829da2,0x738e94,0x637e87];
           const color=r<3&&((j+2*k)%7)<2?0x53696a:tones[r];
-          mesh.quad(xyz(p,lerp(.32,hl-.8,low)),xyz(q,lerp(.32,hr-.8,low)),xyz(q,lerp(.32,hr-.8,top)),xyz(p,lerp(.32,hl-.8,top)),color);
+          mesh.quad(xyz(p,lerp(.32,hl-.8,low)),xyz(q,lerp(.32,hr-.8,low)),xyz(q,lerp(.32,hr-.8,top)),xyz(p,lerp(.32,hl-.8,top)),color,'glass');
           beam(P(p,lerp(.32,hl-.8,low)),P(q,lerp(.32,hr-.8,low)),.037,0xb1bfbc);
         }
         beam(P(p,.18),P(p,hl-.8),.062,0xb3bfba);
@@ -140,12 +149,40 @@ export function exhibitionHall({panel,beam,P,group,tree,mix,slab}){
   }
   // Approach from the park, along the mapped walk rather than through the play area.
   const approach=[[765.9,390.1],[768.2,373.5],[772.7,362.5],[778.3,349.9],[787.8,342.8],[795.3,341.4]];
-  for(let i=1;i<approach.length;i++){
-    const a=approach[i-1],b=approach[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);
-    const side=(p,t)=>[p[0]-dz/len*t,p[1]+dx/len*t];
-    slab([side(a,-2.1),side(b,-2.1),side(b,2.8),side(a,2.8),side(a,-2.1)],.128,0xb6b8ac);
-    if(i<=3)slab([side(a,2.8),side(b,2.8),side(b,10.5),side(a,10.5),side(a,2.8)],.118,0xa6ada7);
+  // Offset both sides of each turn by their shared bisector. Independent
+  // rectangles left visible slivers of the placeholder grass at the joins.
+  const direction=(a,b)=>{const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);return [-dz/len,dx/len];};
+  const frames=approach.map((p,i)=>{
+    const a=direction(approach[Math.max(0,i-1)],i? p:approach[1]);
+    const b=direction(i===approach.length-1?approach[i-1]:p,approach[Math.min(approach.length-1,i+1)]);
+    const k=1/(1+a[0]*b[0]+a[1]*b[1]);
+    return [(a[0]+b[0])*k,(a[1]+b[1])*k];
+  });
+  const offset=(i,t)=>[approach[i][0]+t*frames[i][0],approach[i][1]+t*frames[i][1]];
+  function parkSurface(left,right,finish,intervals){
+    const pos=[],uv=[];let d=0;
+    for(let i=1;i<=intervals;i++){
+      const a=offset(i-1,left[i-1]),b=offset(i-1,right[i-1]),c=offset(i,left[i]),e=offset(i,right[i]);
+      const end=d+Math.hypot(approach[i][0]-approach[i-1][0],approach[i][1]-approach[i-1][1]);
+      for(const [p,u,v] of [[a,left[i-1],d],[c,left[i],end],[b,right[i-1],d],[b,right[i-1],d],[c,left[i],end],[e,right[i],end]]){
+        pos.push(...xyz(p,.135));uv.push(u,v);
+      }
+      d=end;
+    }
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));g.computeVertexNormals();
+    const m=new THREE.MeshLambertMaterial({side:THREE.DoubleSide,color:finish==='gravel'?0x969991:0xb3b3a9});
+    m.onBeforeCompile=shader=>{
+      shader.vertexShader='varying vec2 aggregate;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\naggregate=uv;');
+      shader.fragmentShader='varying vec2 aggregate;\n'+shader.fragmentShader.replace('#include <color_fragment>',`#include <color_fragment>
+        vec2 cell=floor(aggregate*65.);
+        float fleck=fract(sin(dot(cell,vec2(41.31,79.61)))*3571.);
+        float fade=smoothstep(.025,.32,gl_FragCoord.w);
+        diffuseColor.rgb*=(.93+.07*sin(aggregate.y*.65+cos(aggregate.x*1.2)))*(1.+(fleck-.5)*fade*.64);`);
+    };
+    group(...approach[0]).add(new THREE.Mesh(g,m));
   }
+  parkSurface([-2.1,-2.1,-2.1,-2.6,-4,-6.5],[2.8,2.8,2.8,3.6,6.6,7],'concrete',5);
+  parkSurface([2.8,2.8,2.8,3.6],[10.5,10.5,10.5,10.5],'gravel',3);
   for(const p of [[758,383],[756,367],[760,348],[769,336],[787,382],[797,367]])tree(...p,1.19,1.18);
   for(const [x,z] of [[775,383],[782,369]]){
     beam(P([x,z],.12),P([x,z],2.35),.065,0xd98542);
