@@ -131,4 +131,6 @@
 
 大港橋遮棚的長度與中央結構另參考[設計團隊作品說明](https://www.twarchitect.org.tw/works/%E5%A4%A7%E6%B8%AF%E6%A9%8B/)。願景橋視點較舊，鋪面顏色、分帶及橋拱細節僅供預覽。
 
+另從[願景橋車道朝北的街景](https://www.google.com/maps/@?api=1&map_action=pano&pano=eCepLF6jQJ8CaZkpJobqoQ&heading=357)核對 2026 年 6 月的外觀。補上中央黃黑分隔帶、車道虛線、人行帶向車道側的白色多道護欄，以及雙拱間的斜吊桿。這個角度看得見車道及護欄，側邊人行帶的紅色鋪面仍只在較早的步道視點確認。
+
 民生二路 201 號附近朝西南的[街景](https://www.google.com/maps/@?api=1&map_action=pano&pano=0VE5R60lOW32HoosVwtXgg&heading=252)顯示拍攝於 2026-06。將樹島與服務車道分開，以地圖上臨街的兩段建築外框接出騎樓。店內陳設與施工中的對街建物未據此推定。

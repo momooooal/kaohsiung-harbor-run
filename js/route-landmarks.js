@@ -59,17 +59,40 @@ export function routeLandmarks(parent,points,precinctOnly=false) {
       for(let i=0;i<n;i++){const p=mix(a,b,i/n);beam(P(p,base),P(p,base+h),.053,0x727f7f);}
     }
     for(const k of ['visionDeck','boaiDeck','cityBridge','swingDeck'])slab(f[k],.13,k==='swingDeck'?0xaeaaa0:0x727778);
+    // The June 2026 view along the road shows two carriageways between
+    // the arched pedestrian decks, a yellow divider and white crash rails.
+    const bridgeAxis=[mix(f.visionWest[0],f.visionEast[1],.5),mix(f.visionWest[1],f.visionEast[0],.5)];
+    const roadLength=Math.hypot(bridgeAxis[1][0]-bridgeAxis[0][0],bridgeAxis[1][1]-bridgeAxis[0][1]);
+    function carriagewayPoint(m,side){
+      const p=mix(...bridgeAxis,m/roadLength);
+      return [p[0]+side*(bridgeAxis[1][1]-bridgeAxis[0][1])/roadLength,p[1]-side*(bridgeAxis[1][0]-bridgeAxis[0][0])/roadLength];
+    }
+    panel(carriagewayPoint(3,0),carriagewayPoint(roadLength-3,0),.148,.018,26,0x62625f);
+    for(let m=4;m<roadLength-5;m+=2.2){
+      panel(carriagewayPoint(m,0),carriagewayPoint(m+2.18,0),.20,.09,.45,0xdbac45);
+      panel(carriagewayPoint(m+.26,0),carriagewayPoint(m+1.25,0),.251,.013,.35,0x5c5750);
+    }
+    for(const side of [-8,-4,4,8])for(let m=4;m<roadLength-6;m+=8.6){
+      panel(carriagewayPoint(m,side),carriagewayPoint(m+3,side),.166,.008,.13,0xe3dfce);
+    }
     for(const [line,interior] of [[f.visionEast,-1],[f.visionWest,1]]){
       const [a,b]=line;
       function lane(t,side){const p=mix(a,b,t);return [p[0]+side*interior,p[1]];}
       panel(lane(.025,0),lane(.975,0),.151,.036,3.6,0xc8bfaf);
       panel(lane(.025,.98),lane(.975,.98),.177,.018,1.23,0xad7168);
+      panel(lane(.038,2.55),lane(.960,2.55),.169,.016,.13,0x995653);
+      for(const y of [.46,.64,.81])panel(lane(.038,2.27),lane(.960,2.27),y,.15,.16,0xedece5);
+      for(let bay=1;bay<20;bay++){
+        const p=lane(.01+bay*.049,2.22);
+        beam(P(p,.17),P(p,.85),.074,0xd5d8d3);
+      }
       for(const side of [-1.98,1.98]){
         let last=P(lane(.025,side),.23);
         for(let i=1;i<=30;i++){
           const t=i/30,y=.23+13.9*Math.sin(t*Math.PI),p=lane(.025+.95*t,side);
           beam(last,P(p,y),.35,0xe0e1d9,.48);
           if(i%3===0&&i<30)beam(P(p,.27),P(p,y),.054,0xa1afad);
+          if(i%4===0&&i>=4&&i<=24)beam(P(lane(t+.091,side),1.23),P(p,y-.24),.047,0xb0b8b6);
           if(side>0&&i%5===0&&i<30)beam(P(p,y-.33),P(lane(.025+.95*t,-side),y-.33),.17,0xd9dfd8);
           last=P(p,y);
         }
