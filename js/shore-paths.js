@@ -1,4 +1,4 @@
-import {quayEdge} from '../data/exhibition-quay.js';
+import {quayEdge,coralBank} from '../data/exhibition-quay.js';
 // Positive offsets follow the alignment's east/south normal. These three
 // short sections use different surfaces and shore treatments.
 export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
@@ -45,10 +45,15 @@ export function shorePath(kind,{length,at,band,panel,beam,P,planting}){
   }
   band(apron?'hex':'quayPaving',edge,apron?6.4:9,.113,1.46,.78);
   if(apron){
-    for(let d=0;d<length;d+=2.2){
-      const p=at(d,-4.12),q=at(Math.min(length,d+2.2),-4.12);
-      beam(P(p,.12),P(p,1.04),.041,0xa8b4b3);
-      for(const y of [.40,.72,1.04])beam(P(p,y),P(q,y),y===1.04?.052:.027,0xbac5c3);
+    // The walking line cuts across the open forecourt. Put the rail on the
+    // quay, including its landward bend, leaving the crossing free.
+    for(let i=1;i<coralBank.length;i++){
+      const a=coralBank[i-1],b=coralBank[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),n=Math.ceil(len/2.4);
+      for(let j=0;j<n;j++){
+        const p=[a[0]+dx*j/n,a[1]+dz*j/n],q=[a[0]+dx*(j+1)/n,a[1]+dz*(j+1)/n];
+        beam(P(p,.12),P(p,1.04),.041,0xa8b4b3);
+        for(const y of [.40,.72,1.04])beam(P(p,y),P(q,y),y===1.04?.052:.027,0xbac5c3);
+      }
     }
     return;
   }

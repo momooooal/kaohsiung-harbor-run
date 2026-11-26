@@ -30,7 +30,7 @@ const lerp=(a,b,t)=>a+(b-a)*t;
 
 // West/east doors share the boulevard axis. Work in transverse sections so
 // the roof, both long sides and the scalloped ends meet at identical heights.
-export function exhibitionHall({panel,beam,P,group,tree}){
+export function exhibitionHall({panel,beam,P,group,tree,mix,slab}){
   const mesh=envelope(group,westDoor),ux=.9434,uz=-.3317;
   const site=(u,v)=>[westDoor[0]+u*ux-v*uz,westDoor[1]+u*uz+v*ux];
   const local=([x,z])=>[(x-westDoor[0])*ux+(z-westDoor[1])*uz,-(x-westDoor[0])*uz+(z-westDoor[1])*ux];
@@ -64,6 +64,36 @@ export function exhibitionHall({panel,beam,P,group,tree}){
     }
     for(let j=0;j<count;j++){
       const lo=j/count,hi=(j+1)/count,v=lerp(a[1],b[1],(lo+hi)/2),portal=Math.abs(v)<10.5;
+      // The ends of both halls are glazed from the plinth to the wave roof.
+      // A deep open truss projects past the glass, seen from the park and East Lobby.
+      if(Math.abs(normal[0])>.55){
+        const p=point(lo,-5.4),q=point(hi,-5.4),e=point(lo),f=point(hi);
+        const upper=t=>roof(lerp(a[1],b[1],t));
+        const hl=upper(lo),hr=upper(hi);
+        for(let r=0;r<7;r++){
+          const low=r/7,top=(r+1)/7;
+          const tones=[0x6d888d,0x516e77,0x557580,0x7b9b9e,0x829da2,0x738e94,0x637e87];
+          const color=r<3&&((j+2*k)%7)<2?0x53696a:tones[r];
+          mesh.quad(xyz(p,lerp(.32,hl-.8,low)),xyz(q,lerp(.32,hr-.8,low)),xyz(q,lerp(.32,hr-.8,top)),xyz(p,lerp(.32,hl-.8,top)),color);
+          beam(P(p,lerp(.32,hl-.8,low)),P(q,lerp(.32,hr-.8,low)),.037,0xb1bfbc);
+        }
+        beam(P(p,.18),P(p,hl-.8),.062,0xb3bfba);
+        mesh.quad(xyz(e,hl),xyz(f,hr),xyz(q,hr-.72),xyz(p,hl-.72),0x859293);
+        beam(P(e,hl+.03),P(f,hr+.03),.17,0xd9dcd4);
+        beam(P(e,hl-.78),P(f,hr-.78),.091,0x9aa5a2);
+        beam(P(e,hl-.78),P(q,hr-.13),.094,0xb6bdb4);
+        beam(P(e,hl-.1),P(p,hl-.78),.075,0xa8b1a9);
+        if(portal){
+          panel(p,q,1.27,2.42,.16,0x465b60);
+          for(const h of [.16,2.46])panel(p,q,h,.095,.24,0xc6ccc5);
+          if(j%3===1){
+            const foot=point((lo+hi)/2,-2.3),fork=P(foot,hl*.66);
+            beam(P(foot,.1),fork,.21,0xe2e1d5);
+            beam(fork,P(e,hl-.8),.14,0xe2e1d5);beam(fork,P(q,hr-.7),.14,0xe2e1d5);
+          }
+        }
+        continue;
+      }
       const p=point(lo,portal?-3:-1.75),q=point(hi,portal?-3:-1.75);
       if(portal){
         panel(p,q,3.7,7.36,.18,0x435d62);
@@ -107,6 +137,25 @@ export function exhibitionHall({panel,beam,P,group,tree}){
         if(Math.round((d-8)/4.2)%3===0)tree(...point(t,11.15),.9,1.15);
       }
     }
+  }
+  // Approach from the park, along the mapped walk rather than through the play area.
+  const approach=[[765.9,390.1],[768.2,373.5],[772.7,362.5],[778.3,349.9],[787.8,342.8],[795.3,341.4]];
+  for(let i=1;i<approach.length;i++){
+    const a=approach[i-1],b=approach[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);
+    const side=(p,t)=>[p[0]-dz/len*t,p[1]+dx/len*t];
+    slab([side(a,-2.1),side(b,-2.1),side(b,2.8),side(a,2.8),side(a,-2.1)],.128,0xb6b8ac);
+    if(i<=3)slab([side(a,2.8),side(b,2.8),side(b,10.5),side(a,10.5),side(a,2.8)],.118,0xa6ada7);
+  }
+  for(const p of [[758,383],[756,367],[760,348],[769,336],[787,382],[797,367]])tree(...p,1.19,1.18);
+  for(const [x,z] of [[775,383],[782,369]]){
+    beam(P([x,z],.12),P([x,z],2.35),.065,0xd98542);
+    beam(P([x+2.5,z-.7],.12),P([x+2.5,z-.7],2.35),.065,0x528eb0);
+    beam(P([x,z],2.35),P([x+2.5,z-.7],2.35),.067,0x679eb0);
+  }
+  for(const [x,z] of [[757,372],[768,341]]){
+    beam(P([x,z],.12),P([x,z],4.5),.072,0x9a9f98);
+    beam(P([x,z],4.5),P([x+.45,z-.16],4.94),.06,0x939a96);
+    panel([x+.38,z-.16],[x+1.05,z-.39],4.95,.10,.17,0xaeb6b0);
   }
   mesh.finish();
 }
