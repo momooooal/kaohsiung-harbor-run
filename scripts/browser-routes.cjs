@@ -9,7 +9,7 @@ for(const [key,hash,selector] of [['home','/','.hero'],['community','/community'
    assert.deepEqual(await p.locator('#nav-links a').allTextContents(),['首頁','友善地圖','3D 探索','公民共創','計畫介紹']);
    if(mobile){await p.locator('#menu-toggle').click();assert(await p.locator('#nav-links').isVisible());await p.locator('#menu-toggle').click();}
  }
- if(key==='community'){await p.locator('.gallery-card').first().click();await p.locator('#gallery-next').click();assert(await p.locator('#gallery-large').isVisible());await p.locator('#gallery-close').click();await p.evaluate(()=>scrollTo(0,0));}
+ if(key==='community'){await p.locator('.gallery-card').first().click();await p.locator('#gallery-next').click();await p.waitForFunction(()=>{const image=document.querySelector('#gallery-large');return image?.complete && image.naturalWidth>0 && image.closest('dialog').open;});await p.locator('#gallery-close').click();await p.evaluate(()=>scrollTo(0,0));}
  if(key==='contact'){assert(await p.locator('#contact textarea').isDisabled());await p.locator('#contact').scrollIntoViewIfNeeded();}
  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
  await p.screenshot({path:out+'/'+(mobile?'mobile':'desktop')+'-'+key+'.png',fullPage:key!=='contact'});
