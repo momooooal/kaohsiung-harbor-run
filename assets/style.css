@@ -841,9 +841,10 @@ a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visib
   padding:0
 }
 .gallery-card img {
-  aspect-ratio:4/3;
-  object-fit:cover;
-  width:100%
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain
 }
 .gallery-card strong,.gallery-card span {
   display:block;
@@ -888,6 +889,8 @@ a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visib
   background:#07283dda
 }
 .dialog img {
+  max-width:100%;
+  object-fit:contain;
   max-height:65vh;
   margin:auto
 }
