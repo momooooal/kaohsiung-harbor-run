@@ -1,0 +1,142 @@
+[
+ {
+  "id": "r7",
+  "route": "south",
+  "position": [
+   22.60555,
+   120.30817
+  ],
+  "heading": 325,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60555,120.30817&heading=325"
+ },
+ {
+  "id": "r6",
+  "route": "south",
+  "position": [
+   22.59684,
+   120.31533
+  ],
+  "heading": 250,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.59684,120.31533&heading=250"
+ },
+ {
+  "id": "store",
+  "route": "south",
+  "position": [
+   22.59729,
+   120.30853
+  ],
+  "heading": 250,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.59729,120.30853&heading=250"
+ },
+ {
+  "id": "times-turn",
+  "route": "south",
+  "position": [
+   22.59563,
+   120.30492
+  ],
+  "heading": 340,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.59563,120.30492&heading=340"
+ },
+ {
+  "id": "chenggong",
+  "route": "south",
+  "position": [
+   22.60069,
+   120.30292
+  ],
+  "heading": 340,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60069,120.30292&heading=340"
+ },
+ {
+  "id": "tech-quay",
+  "route": "waterfront",
+  "position": [
+   22.6051,
+   120.2998
+  ],
+  "heading": 325,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6051,120.2998&heading=325"
+ },
+ {
+  "id": "expo",
+  "route": "waterfront",
+  "position": [
+   22.60727,
+   120.29951
+  ],
+  "heading": 15,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.60727,120.29951&heading=15"
+ },
+ {
+  "id": "gym",
+  "route": "waterfront",
+  "position": [
+   22.6125,
+   120.30245
+  ],
+  "heading": 25,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.6125,120.30245&heading=25"
+ },
+ {
+  "id": "music",
+  "route": "waterfront",
+  "position": [
+   22.61652,
+   120.29255
+  ],
+  "heading": 330,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61652,120.29255&heading=330"
+ },
+ {
+  "id": "dayi",
+  "route": "north",
+  "position": [
+   22.61821,
+   120.28511
+  ],
+  "heading": 295,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61821,120.28511&heading=295"
+ },
+ {
+  "id": "ice",
+  "route": "north",
+  "position": [
+   22.61975,
+   120.2709
+  ],
+  "heading": 270,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61975,120.2709&heading=270"
+ },
+ {
+  "id": "ferry",
+  "route": "north",
+  "position": [
+   22.61975,
+   120.27035
+  ],
+  "heading": 330,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.61975,120.27035&heading=330"
+ },
+ {
+  "id": "tunnel",
+  "route": "north",
+  "position": [
+   22.62375,
+   120.26984
+  ],
+  "heading": 100,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62375,120.26984&heading=100"
+ },
+ {
+  "id": "hamasen",
+  "route": "north",
+  "position": [
+   22.62155,
+   120.27538
+  ],
+  "heading": 80,
+  "url": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=22.62155,120.27538&heading=80"
+ }
+]
