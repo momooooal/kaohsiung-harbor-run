@@ -17,6 +17,8 @@ function placeActions(p){
  }).join('')+(p.exits?'<details><summary>各出口位置</summary>'+p.exits.map(e=>external(mapsUrl({coordinates:e.coordinates},true),e.number+' 號出口')).join('')+'</details>':'');
 }
 export const serviceKnown=s=>s.existenceVerified===true||s.status==='verified';
+export const serviceNeedsInquiry=s=>s.runnerAccessConfirmed!==true && s.type!=='transit';
+export const openingHours=(p,res)=>p.googleHours?.text||res?.display?.hours||p.venueHours||'未列固定時段，請查看地點資訊';
 const external=(url,label)=>url?`<a class="btn outline" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} ↗</a>`:'';
 export function groupResources(data,route){
  const groups=new Map();for(const item of data.resources){if(!route.stopIds.includes(item.poiId)&&!item.nearPoiIds?.some(id=>route.stopIds.includes(id))&&!(route.variantId==='harbor-108'&&['gym','qianjin'].includes(item.poiId)))continue;
@@ -52,10 +54,10 @@ export function mountRecommendations(id,initialResources=false){
  host.removeAttribute('aria-busy');
  const message=t=>host.querySelector('#run-message').textContent=t;
  const filtered=()=>resources.filter(p=>filter==='all'||p.services.some(s=>s.type===filter));
- const displayHours=(p,res)=>res?.display?.hours||p.venueHours||'時間未公布，使用前請先詢問';
- const serviceLabel=s=>esc(d.serviceTypes[s.type])+(!serviceKnown(s)||s.type==='water'?'（使用前請先詢問）':'');
+ const displayHours=openingHours;
+ const serviceLabel=s=>esc(d.serviceTypes[s.type])+(serviceNeedsInquiry(s)?'（使用條件待確認）':'');
  function selectPoi(pid){const p=pois.get(pid);if(!p)return;selected=pid;const resource=byResource.get(pid)||resources.find(x=>x.records.some(y=>y.poiId===pid));const copy=resource?.display;
- host.querySelector('#run-selection').innerHTML=`<h2>${esc(p.name)}</h2>${resource?`<p class="run-service-types">${resource.services.map(serviceLabel).join(' · ')}</p>`:''}<p>${esc(copy?.entrance||p.address)}</p><dl><dt>開放時間</dt><dd>${esc(displayHours(p,resource))}</dd><dt>費用與條件</dt><dd>${esc(copy?.fee||'費用未公布，使用前請先詢問。')} ${esc(copy?.condition||'依現場開放情形前往。')}</dd></dl>${placeActions(p)}${p.phone?`<a class="btn outline" href="tel:${esc(p.phone)}">電話詢問</a>`:''}`;
+ host.querySelector('#run-selection').innerHTML=`<h2>${esc(p.name)}</h2>${resource?`<p class="run-service-types">${resource.services.map(serviceLabel).join(' · ')}</p>`:''}<p>${esc(copy?.entrance||p.address)}</p><dl><dt>開放時間</dt><dd>${esc(displayHours(p,resource))}</dd><dt>費用與條件</dt><dd>${esc(copy?.fee||'費用未公布，使用前請先詢問。')} ${esc(copy?.condition||'依現場開放情形前往。')}</dd></dl>${resource?.services?.some(s=>s.runnerAccessConfirmed)?`<ul class="run-service-details">${resource.services.filter(s=>s.runnerAccessConfirmed).map(s=>`<li><strong>${esc(d.serviceTypes[s.type])}</strong>：${esc(s.fee)}${s.restrictions?'；'+esc(s.restrictions):''}</li>`).join('')}</ul>`:''}${(resource?.serviceLinks||[]).map(link=>external(link.url,link.label)).join('')}${placeActions(p)}${p.phone?`<a class="btn outline" href="tel:${esc(p.phone)}">電話詢問</a>`:''}`;
  host.querySelectorAll('.run-resource').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.poi===(resource?.poiId||pid))));map?.focus(pid);host.querySelector('#run-resource-dialog').showModal();}
  function draw(){const list=filtered();host.querySelectorAll('[data-filter]').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.filter===filter)));host.querySelector('#run-resources').innerHTML=list.length?list.map(x=>{const p=pois.get(x.poiId);return `<button class="run-resource" data-poi="${esc(x.poiId)}" aria-pressed="${selected===x.poiId}"><strong>${esc(p.name)}</strong><span>${x.services.map(s=>esc(d.serviceTypes[s.type])).join(' · ')}</span><small>${esc(p.venueHours||x.display?.condition||'使用前請先詢問')}</small></button>`}).join(''):'<p class="empty-box">這條路線目前沒有此類資源紀錄。可切換其他條件。</p>';map?.update([...(filter==='all'?r.stopIds:[]),...list.map(x=>x.poiId)]);}
  async function initMap(){const attempt=++mapAttempt;host.querySelector('#run-map-failure').hidden=true;host.querySelector('#run-map').hidden=false;host.querySelector('#run-map').innerHTML='<p role="status">正在載入地圖…</p>';try{map?.destroy();const instance=await createRouteMap(host.querySelector('#run-map'),r,pois,selectPoi);if(stopped||attempt!==mapAttempt){instance.destroy();return;}map=instance;draw();}catch{if(stopped||attempt!==mapAttempt)return;host.querySelector('#run-map').hidden=true;host.querySelector('#run-map-failure').hidden=false;}}

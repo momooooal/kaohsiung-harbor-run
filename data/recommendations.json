@@ -580,7 +580,12 @@
           "address": "806高雄市前鎮區興邦里凱旋四路21-15號號 No",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "googleHoursCheck": {
+        "checkedAt": "2026-11-27",
+        "status": "not-listed",
+        "note": "Google Maps 凱旋地鐵站未列每週營業時間；依車站開站時間。"
+      }
     },
     {
       "poiId": "decathlon",
@@ -595,11 +600,11 @@
       "checkedAt": "2026-11-25",
       "entranceVerified": false,
       "venueHours": "每日 10:00–22:00",
-      "venueSource": "https://www.google.com/maps/search/?api=1&query=%E8%BF%AA%E5%8D%A1%E5%84%82%20%E4%BA%9E%E7%81%A3%E5%BA%97%20%E6%99%82%E4%BB%A3%E5%A4%A7%E9%81%9333%E8%99%9F",
-      "venueSourceType": "Google Maps 商家時段（非店家逐項服務承諾）",
-      "venueCheckedAt": "2026-11-25",
+      "venueSource": "https://www.google.com/maps/place/%E8%BF%AA%E5%8D%A1%E5%84%82+%E9%AB%98%E9%9B%84+%E4%BA%9E%E7%81%A3%E5%BA%97/@22.5974723,120.3089344,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03ef2a880b03:0xca62ea27cf3e33e!8m2!3d22.5974723!4d120.3089344!16s%2Fg%2F11rc4n5j2_",
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "venueCheckedAt": "2026-11-27",
       "phone": "07-262-1292",
-      "venueNote": "已核對指定地址與分店。營業時間可能臨時異動；圖卡所列服務之收費與是否需消費並未在此商家資料中公布。",
+      "venueNote": "店面營業時間與廁所使用條件分別記錄。",
       "placeNames": [
         "夢時代購物中心",
         "迪卡儂高雄亞灣店"
@@ -627,7 +632,13 @@
           "address": "806高雄市前鎮區時代大道33號",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "googleHours": {
+        "text": "每日 10:00–22:00",
+        "url": "https://www.google.com/maps/place/%E8%BF%AA%E5%8D%A1%E5%84%82+%E9%AB%98%E9%9B%84+%E4%BA%9E%E7%81%A3%E5%BA%97/@22.5974723,120.3089344,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03ef2a880b03:0xca62ea27cf3e33e!8m2!3d22.5974723!4d120.3089344!16s%2Fg%2F11rc4n5j2_",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "exhibition",
@@ -661,7 +672,17 @@
           "address": "806高雄市前鎮區鎮北里成功二路39號",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "venueHours": "每日 10:00–18:00",
+      "venueSource": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B1%95%E8%A6%BD%E9%A4%A8/@22.607874,120.2983319,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03785bbda15f:0x159de9d70633312e!8m2!3d22.607874!4d120.2983319!16s%2Fm%2F010fcgw5",
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "venueCheckedAt": "2026-11-27",
+      "googleHours": {
+        "text": "每日 10:00–18:00",
+        "url": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B1%95%E8%A6%BD%E9%A4%A8/@22.607874,120.2983319,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03785bbda15f:0x159de9d70633312e!8m2!3d22.607874!4d120.2983319!16s%2Fm%2F010fcgw5",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "music",
@@ -687,7 +708,12 @@
           "address": "803高雄市鹽埕區真愛路1號",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "googleHoursCheck": {
+        "checkedAt": "2026-11-27",
+        "status": "not-listed",
+        "note": "已開啟指定地點頁，未見每週營業時間；保留官方園區／館內區別。"
+      }
     },
     {
       "poiId": "ruh5",
@@ -702,10 +728,10 @@
       "checkedAt": "2026-11-25",
       "entranceVerified": false,
       "venueHours": "週一至五 13:00–18:00；週六、日 11:00–19:00",
-      "venueSource": "https://www.ruhcafe.com/pages/ruhcafe-no5",
+      "venueSource": "https://www.google.com/maps/place/%E9%A7%81%E4%BA%8C%E8%97%9D%E8%A1%93%E7%89%B9%E5%8D%80/@22.6199803,120.2815287,17z/data=!3m1!4b1!4m6!3m5!1s0x346e047620e1c45b:0xe6d6d1bd1c764df2!8m2!3d22.6199803!4d120.2815287!16s%2Fm%2F010glgxt",
       "phone": "07-521-4325",
       "venueNote": "店家營業時間，不等於免費補水承諾。大義倉庫 C8-20，確認為五號店。",
-      "venueCheckedAt": "2026-11-25",
+      "venueCheckedAt": "2026-11-27",
       "placeNames": [
         "駁二藝術特區",
         "路人咖啡五號店 大義街2-2號"
@@ -733,7 +759,14 @@
           "address": "803高雄市鹽埕區南端里大義街2-2號C8-2",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "googleHours": {
+        "text": "週一至五 13:00–18:00；週六、日 11:00–19:00",
+        "url": "https://www.google.com/maps/place/%E9%A7%81%E4%BA%8C%E8%97%9D%E8%A1%93%E7%89%B9%E5%8D%80/@22.6199803,120.2815287,17z/data=!3m1!4b1!4m6!3m5!1s0x346e047620e1c45b:0xe6d6d1bd1c764df2!8m2!3d22.6199803!4d120.2815287!16s%2Fm%2F010glgxt",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "ice",
@@ -748,9 +781,9 @@
       "checkedAt": "2026-11-25",
       "entranceVerified": false,
       "venueHours": "週一、二、四至日 10:30–22:30；週三休息",
-      "venueSource": "https://www.google.com/maps/search/?api=1&query=%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97%20%E6%BF%B1%E6%B5%B7%E4%B8%80%E8%B7%AF91%E8%99%9F%20%E9%AB%98%E9%9B%84",
-      "venueSourceType": "Google Maps 商家時段（非店家逐項服務承諾）",
-      "venueCheckedAt": "2026-11-25",
+      "venueSource": "https://www.google.com/maps/place/%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97..%E5%B8%83%E4%B8%81%E8%B1%86%E8%8A%B1.%E9%9B%AA%E8%8A%B1%E5%86%B0/@22.619745,120.2709025,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03f5ad2d134d:0x95bde83e86e32315!8m2!3d22.619745!4d120.2709025!16s%2Fg%2F1vm785x2",
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "venueCheckedAt": "2026-11-27",
       "phone": "07-521-4206",
       "venueNote": "已核對指定地址與分店。營業時間可能臨時異動；圖卡所列服務之收費與是否需消費並未在此商家資料中公布。",
       "placeNames": [
@@ -772,7 +805,13 @@
           "address": "804高雄市鼓山區維生里濱海一路91號",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "googleHours": {
+        "text": "週一、二、四至日 10:30–22:30；週三休息",
+        "url": "https://www.google.com/maps/place/%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97..%E5%B8%83%E4%B8%81%E8%B1%86%E8%8A%B1.%E9%9B%AA%E8%8A%B1%E5%86%B0/@22.619745,120.2709025,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03f5ad2d134d:0x95bde83e86e32315!8m2!3d22.619745!4d120.2709025!16s%2Fg%2F1vm785x2",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "ferry",
@@ -882,11 +921,11 @@
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
       "entranceVerified": false,
-      "venueHours": "每日 09:00–23:00（中心服務時段）",
-      "venueSource": "https://www.cianjin-sc.com/toll.html",
+      "venueHours": "每日 09:00–23:00",
+      "venueSource": "https://www.google.com/maps/place/%E5%89%8D%E9%87%91%E9%81%8B%E5%8B%95%E4%B8%AD%E5%BF%83/@22.625564,120.294857,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0500103af98f:0xe359c1ca696ca60!8m2!3d22.625564!4d120.294857!16s%2Fg%2F11vrsc03x7",
       "phone": "07-281-8566",
       "venueNote": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
-      "venueCheckedAt": "2026-11-25",
+      "venueCheckedAt": "2026-11-27",
       "mapPlaces": [
         {
           "name": "前金運動中心",
@@ -899,7 +938,14 @@
           "address": "801高雄市前金區大同二路61號三樓 出入口位於自強二路與民生二路交叉口前金運動中心 (主櫃台位於",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "googleHours": {
+        "text": "每日 09:00–23:00",
+        "url": "https://www.google.com/maps/place/%E5%89%8D%E9%87%91%E9%81%8B%E5%8B%95%E4%B8%AD%E5%BF%83/@22.625564,120.294857,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0500103af98f:0xe359c1ca696ca60!8m2!3d22.625564!4d120.294857!16s%2Fg%2F11vrsc03x7",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "gym",
@@ -914,8 +960,8 @@
       "checkedAt": "2026-11-25",
       "entranceVerified": false,
       "phone": "07-338-9103",
-      "venueSource": "https://honhuangpower.wixsite.com/honhuangpower",
-      "venueCheckedAt": "2026-11-25",
+      "venueSource": "https://www.google.com/maps/place/%E6%B3%93%E8%8D%92%E4%B9%8B%E5%8A%9BFitness+Studio%EF%BD%9C%E9%AB%98%E9%9B%84%E5%81%A5%E8%BA%AB%EF%BD%9C%E5%99%A8%E6%A2%B0%E7%9A%AE%E6%8B%89%E6%8F%90%E6%96%AF%EF%BD%9C%E7%91%9C%E7%8F%88/@22.6124977,120.3027174,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03c498fef7b7:0x70f57b0e77513938!8m2!3d22.6124977!4d120.3027174!16s%2Fg%2F11z2blhyqt",
+      "venueCheckedAt": "2026-11-27",
       "mapPlaces": [
         {
           "name": "泓荒之力健身房",
@@ -928,7 +974,15 @@
           "address": "802高雄市苓雅區意誠里中華四路38號",
           "checkedAt": "2026-11-27"
         }
-      ]
+      ],
+      "venueHours": "週一至五 08:00–23:00；週六 08:00–20:00；週日休息",
+      "venueSourceType": "Google Maps 地點頁每週營業時間",
+      "googleHours": {
+        "text": "週一至五 08:00–23:00；週六 08:00–20:00；週日休息",
+        "url": "https://www.google.com/maps/place/%E6%B3%93%E8%8D%92%E4%B9%8B%E5%8A%9BFitness+Studio%EF%BD%9C%E9%AB%98%E9%9B%84%E5%81%A5%E8%BA%AB%EF%BD%9C%E5%99%A8%E6%A2%B0%E7%9A%AE%E6%8B%89%E6%8F%90%E6%96%AF%EF%BD%9C%E7%91%9C%E7%8F%88/@22.6124977,120.3027174,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03c498fef7b7:0x70f57b0e77513938!8m2!3d22.6124977!4d120.3027174!16s%2Fg%2F11z2blhyqt",
+        "checkedAt": "2026-11-27",
+        "scope": "場館營業時間；服務開放限制另列"
+      }
     },
     {
       "poiId": "library",
@@ -10394,16 +10448,28 @@
               "note": "官方車站資訊列出廁所；公園內設施與各服務使用條件仍須分別確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06",
+              "checkedAt": "2026-11-27",
+              "note": "官方置物櫃紅線／橘線列表與速查表；不同櫃型計費單位不同。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "每小時 10 元起",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "依櫃型計費；部分櫃型最低以 2 小時計費，請看櫃體公告。",
+          "operator": "捷運獅甲站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "water",
@@ -10418,16 +10484,22 @@
               "note": "官方車站資訊列出廁所；公園內設施與各服務使用條件仍須分別確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "免費",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "飲水台位於捷運站內，請自備水壺。",
+          "operator": "捷運獅甲站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "toilet",
@@ -10442,16 +10514,22 @@
               "note": "官方車站資訊列出廁所；公園內設施與各服務使用條件仍須分別確認。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "免費",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "依站內廁所指標前往。",
+          "operator": "捷運獅甲站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "transit",
@@ -10482,10 +10560,17 @@
       "referenceUrl": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
       "reviewedAt": "2026-11-25",
       "display": {
-        "entrance": "獅甲站 1 號出口集合；公園廁所另見下方據點",
-        "condition": "補水與寄物使用前請先詢問站務人員。",
-        "hours": "依車站開站時間"
-      }
+        "entrance": "獅甲站 1 號出口集合；公園廁所另見下方據點；置物櫃在地下 1 樓近 4 號出口及 1、4 號出口之間。",
+        "condition": "飲水及寄物在捷運站內，不是旁邊的公園或輕軌站。部分置物櫃最低以 2 小時計費，依櫃體公告。",
+        "hours": "依車站開站時間",
+        "fee": "飲水免費；寄物每小時 10 元起。"
+      },
+      "serviceLinks": [
+        {
+          "label": "高雄捷運寄物資訊",
+          "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06"
+        }
+      ]
     },
     {
       "poiId": "kaixuan",
@@ -10499,16 +10584,28 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06",
+              "checkedAt": "2026-11-27",
+              "note": "官方置物櫃紅線／橘線列表與速查表；不同櫃型計費單位不同。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "每小時 10 元起",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "依櫃型計費；部分櫃型最低以 2 小時計費，請看櫃體公告。",
+          "operator": "捷運凱旋站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "water",
@@ -10517,16 +10614,22 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "免費",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "飲水台位於捷運站內，請自備水壺。",
+          "operator": "捷運凱旋站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "transit",
@@ -10548,10 +10651,17 @@
         }
       ],
       "display": {
-        "entrance": "凱旋站／輕軌前鎮之星",
-        "condition": "補水與寄物使用前請先詢問站務人員。",
-        "hours": "依車站開站時間"
-      }
+        "entrance": "凱旋站／輕軌前鎮之星；飲水與寄物請進捷運站，置物櫃在地下 1 樓近 1、2 號出口。",
+        "condition": "飲水及寄物在捷運站內，不是旁邊的公園或輕軌站。部分置物櫃最低以 2 小時計費，依櫃體公告。",
+        "hours": "依車站開站時間",
+        "fee": "飲水免費；寄物每小時 10 元起。"
+      },
+      "serviceLinks": [
+        {
+          "label": "高雄捷運寄物資訊",
+          "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06"
+        }
+      ]
     },
     {
       "poiId": "decathlon",
@@ -10571,23 +10681,30 @@
               "url": "https://www.google.com/maps/search/?api=1&query=%E8%BF%AA%E5%8D%A1%E5%84%82%20%E4%BA%9E%E7%81%A3%E5%BA%97%20%E6%99%82%E4%BB%A3%E5%A4%A7%E9%81%9333%E8%99%9F",
               "scope": "僅核對指定店家營業時段，不證明免費或不需消費",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "免費",
           "hours": "店面營業：每日 10:00–22:00；個別服務的提供時段未公布",
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": "複合地點標籤，設施所屬場館待核對",
-          "lastCheckedAt": "2026-11-25",
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "入門後左手邊，不需進入賣場、不需消費或事先詢問。",
+          "operator": "迪卡儂高雄亞灣店",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
-      "verificationNote": "原圖同列夢時代與迪卡儂；已另建夢時代官方公廁紀錄，不能因此確認迪卡儂店內也有相同設施。",
+      "verificationNote": "廁所位置與免費使用條件由網站維護者於 2026-11-27 提供。",
       "display": {
-        "entrance": "前鎮區時代大道 33 號",
-        "condition": "店內廁所使用前請先詢問；夢時代公廁另列。",
-        "hours": null
+        "entrance": "前鎮區時代大道 33 號；廁所在入門後左手邊。",
+        "condition": "不用進賣場，也不需事先詢問。",
+        "hours": "每日 10:00–22:00",
+        "fee": "廁所免費，不需消費。"
       }
     },
     {
@@ -10639,16 +10756,22 @@
               "note": "官網飲水設備說明涉及主辦單位工作空間，不能據此宣稱一般跑者可使用。",
               "kind": "scope-check",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "廁所不另收費",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
+          "purchaseRequired": false,
+          "restrictions": "展會與管制區仍依活動入場規定。",
           "operator": null,
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "transit",
@@ -10680,8 +10803,9 @@
       "reviewedAt": "2026-11-25",
       "display": {
         "entrance": "服務中心在一樓東門",
-        "condition": "飲水是否開放借用，請先洽服務中心；部分設備供工作人員使用。",
-        "hours": null
+        "condition": "館內設施依展會及區域開放；飲水設備不一定對一般跑者開放。",
+        "hours": "每日 10:00–18:00",
+        "fee": "展會入場依活動規定；一般公廁不另收使用費。"
       }
     },
     {
@@ -10714,17 +10838,23 @@
               "url": "https://kpmc.com.tw/faq/",
               "scope": "戶外全天候開放；音浪塔大廳週二至日 10:00–22:00，週一休館",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "partial",
-          "fee": "官方未另列公廁使用費",
+          "fee": "免費",
           "hours": "戶外園區全天候開放；不代表所有館內廁所 24 小時開放",
-          "purchaseRequired": "戶外場域與館內活動管制不同，館內依現場規定",
-          "restrictions": "官方列珊瑚礁群、鯨魚堤岸、海豚步道、音浪塔等有廁所。本點位為珊瑚礁群參考位置，請依現地標示尋找入口。",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25",
+          "lastCheckedAt": "2026-11-27",
           "existenceVerified": true,
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "verificationNote": "場館開放資訊不能直接套用到個別廁所的開放時間。",
@@ -10733,7 +10863,8 @@
       "display": {
         "entrance": "珊瑚礁群一帶，依現場廁所指標",
         "condition": "戶外園區全天開放；館內廁所依場館開放。",
-        "hours": "戶外全天開放；廁所依所在場館開放"
+        "hours": "戶外全天開放；廁所依所在場館開放",
+        "fee": "公廁免費。"
       },
       "canonicalPoiId": "coral"
     },
@@ -10779,7 +10910,7 @@
       "display": {
         "entrance": "大義街 2-2 號，大義倉庫 C8-20",
         "condition": "補水使用前請先詢問店員。",
-        "hours": null
+        "hours": "週一至五 13:00–18:00；週六、日 11:00–19:00"
       }
     },
     {
@@ -10815,7 +10946,7 @@
       "display": {
         "entrance": "鼓山區濱海一路 89、91 號",
         "condition": "補水使用前請先詢問店員。",
-        "hours": null
+        "hours": "週一、二、四至日 10:30–22:30；週三休息"
       }
     },
     {
@@ -10836,24 +10967,31 @@
               "url": "https://www.tbkc.gov.tw/Achievement/MayorAchievement/Construction?id=67ea10f5-8571-4cd5-acde-60449ea7552f",
               "scope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "partial",
-          "fee": "來源未公布公廁使用費",
+          "fee": "免費",
           "hours": "來源未公布公廁獨立開放時段",
-          "purchaseRequired": null,
-          "restrictions": "鼓山輪渡站公廁，含親子設備；交通局建設紀錄日期 2020-09-25，開放時段與收費未另列，不能用船班時刻推定。",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
           "operator": null,
-          "lastCheckedAt": "2026-11-25",
+          "lastCheckedAt": "2026-11-27",
           "existenceVerified": true,
           "verificationScope": "官方 2020 年建設紀錄確認公廁；非今日現場稽核",
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "鼓山輪渡站，依站內公廁指標",
         "condition": "親子廁所；開放情形請依現場指示。",
-        "hours": null
+        "hours": null,
+        "fee": "公廁免費。"
       }
     },
     {
@@ -10868,16 +11006,28 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06",
+              "checkedAt": "2026-11-27",
+              "note": "官方置物櫃紅線／橘線列表與速查表；不同櫃型計費單位不同。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "每小時 10 元起",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": null,
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "依櫃型計費；部分櫃型最低以 2 小時計費，請看櫃體公告。",
+          "operator": "捷運哈瑪星站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "water",
@@ -10886,16 +11036,22 @@
               "sourceId": "card-0",
               "kind": "card-claim",
               "publishedAt": null
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
           "status": "pending",
-          "fee": null,
+          "fee": "免費",
           "hours": null,
-          "purchaseRequired": null,
-          "restrictions": null,
-          "operator": null,
-          "lastCheckedAt": null,
-          "runnerAccessConfirmed": false
+          "purchaseRequired": false,
+          "restrictions": "飲水台位於捷運站內，請自備水壺。",
+          "operator": "捷運哈瑪星站",
+          "lastCheckedAt": "2026-11-27",
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "transit",
@@ -10917,10 +11073,17 @@
         }
       ],
       "display": {
-        "entrance": "哈瑪星站 2 號出口，往輕軌方向",
-        "condition": "補水與寄物使用前請先詢問站務人員。",
-        "hours": "依車站開站時間"
-      }
+        "entrance": "哈瑪星站 2 號出口，往輕軌方向；置物櫃在地下 1 樓近 1、2 號出口。",
+        "condition": "飲水及寄物在捷運站內，不是旁邊的公園或輕軌站。部分置物櫃最低以 2 小時計費，依櫃體公告。",
+        "hours": "依車站開站時間",
+        "fee": "飲水免費；寄物每小時 10 元起。"
+      },
+      "serviceLinks": [
+        {
+          "label": "高雄捷運寄物資訊",
+          "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06"
+        }
+      ]
     },
     {
       "poiId": "qianjin",
@@ -11054,7 +11217,7 @@
       "display": {
         "entrance": "前金區大同二路 61 號",
         "condition": "單獨借用淋浴、更衣或補水，請先洽櫃台。",
-        "hours": null,
+        "hours": "每日 09:00–23:00",
         "fee": "健身房 50 元／小時、泳池 100 元／次；單獨淋浴費未公布。"
       },
       "nearPoiIds": [
@@ -11162,7 +11325,7 @@
       "display": {
         "entrance": "苓雅區中華四路 38 號",
         "condition": "補水、廁所、寄物及盥洗使用前請先詢問。",
-        "hours": null
+        "hours": "週一至五 08:00–23:00；週六 08:00–20:00；週日休息"
       }
     },
     {
@@ -11177,26 +11340,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "園區戶外全年開放；未另公布公廁逐日時段，非 24 小時承諾",
-          "purchaseRequired": "官方明列供市民朋友使用",
-          "restrictions": "日月私饗旁（間數較多）。請走園區步道；不得騎乘自行車進入，牽行可。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://www.formosawangbrotherspark.com/參觀須知",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "台塑公園日月私饗旁",
         "condition": "供市民使用；進園自行車請牽行。",
-        "hours": "園區全年開放；廁所時段未公布"
+        "hours": "園區全年開放；廁所時段未公布",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11211,26 +11381,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "園區戶外全年開放；未另公布公廁逐日時段，非 24 小時承諾",
-          "purchaseRequired": "官方明列供市民朋友使用",
-          "restrictions": "王創辦人辦公室旁。請走園區步道；不得騎乘自行車進入，牽行可。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://www.formosawangbrotherspark.com/參觀須知",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "台塑公園王創辦人辦公室旁",
         "condition": "供市民使用；進園自行車請牽行。",
-        "hours": "園區全年開放；廁所時段未公布"
+        "hours": "園區全年開放；廁所時段未公布",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11245,26 +11422,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "戶外全天候開放；館內廁所是否隨活動管制請洽高流 07-5218012",
-          "purchaseRequired": "官方未另列是否需消費",
-          "restrictions": "高流官方列有無障礙廁所；入口依現場標示，本定位為場域參考點。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://kpmc.com.tw/newslist/accessible_facilities/",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "珊瑚礁群，依廁所指標",
         "condition": "設有無障礙廁所；開放情形依現場指示。",
-        "hours": "戶外全天開放；廁所依所在場館開放"
+        "hours": "戶外全天開放；廁所依所在場館開放",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11279,26 +11463,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "戶外全天候開放；館內廁所是否隨活動管制請洽高流 07-5218012",
-          "purchaseRequired": "官方未另列是否需消費",
-          "restrictions": "高流官方列有無障礙廁所；入口依現場標示，本定位為場域參考點。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://kpmc.com.tw/newslist/accessible_facilities/",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "鯨魚堤岸，依廁所指標",
         "condition": "設有無障礙廁所；開放情形依現場指示。",
-        "hours": "戶外全天開放；廁所依所在場館開放"
+        "hours": "戶外全天開放；廁所依所在場館開放",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11313,11 +11504,11 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "週二至日 10:00–22:00；國定假日 10:00–17:00；週一例行休館，特殊開休館依當日公告",
-          "purchaseRequired": "官方未另列是否需消費",
-          "restrictions": "高雄旅遊網列有公廁。一般開館時間已核對；廁所樓層、臨時維護及借用條件以館方指示為準。導覽費 100 元不是廁所費。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
@@ -11330,15 +11521,22 @@
               "url": "https://www.ksml.edu.tw/content/index.aspx?Parser=1,3,45,27",
               "scope": "總館開館時段；不是廁所逐間保證",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "新光路 61 號，館內依廁所指標",
         "condition": "週一休館；國定假日與特別開休館依公告。",
-        "hours": null
+        "hours": null,
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11353,26 +11551,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "依車站實際開站時間；官方此頁未列公廁獨立時間",
-          "purchaseRequired": "官方出入口頁未說明閘門內外與借用條件，請洽站務人員",
-          "restrictions": "官方 1 號出口資訊附廁所圖示；進入站內依指標尋找，不將地面出口當廁所門口。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://www.krtc.com.tw/Guide/station_info?id=e667c52c74cc4b0db9f7ad4b2ce53cdb",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "凹子底站 1 號出口方向，站內依廁所指標",
-        "condition": "使用前可向站務人員詢問。",
-        "hours": "依車站開站時間"
+        "condition": "依站內廁所指標前往。",
+        "hours": "依車站開站時間",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11387,26 +11592,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "依車站開站及現場開放情形；未另公布公廁時段",
-          "purchaseRequired": "官方未另列是否需消費",
-          "restrictions": "官方 4 號出口資訊附廁所圖示；與建議集合的 1 號出口不同。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "獅甲站 4 號出口方向，站內依廁所指標",
         "condition": "與集合的 1 號出口不同；依站內指示前往。",
-        "hours": "依車站開站時間"
+        "hours": "依車站開站時間",
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11421,26 +11633,33 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "官方未另列此服務使用費",
+          "fee": "免費",
           "hours": "週一至四 11:00–22:00；週五／假日前一天 11:00–22:30；週六／連續假日 10:30–22:30；週日／假日 10:30–22:00",
-          "purchaseRequired": "官方未另列是否需消費",
-          "restrictions": "多功能廁所：B1–7F 近停車場出入口通道、8F 顧客服務中心通道、RF 恐龍探索樂園旁。此為夢時代設施，並非迪卡儂店內廁所。",
-          "lastCheckedAt": "2026-11-25",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
+          "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
               "kind": "official",
               "url": "https://www.dreammall.com.tw/service/service",
               "scope": "設施設置及位置",
               "checkedAt": "2026-11-25"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
           ],
-          "runnerAccessConfirmed": false
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ],
       "display": {
         "entrance": "中華五路 789 號；B1–7F 停車通道旁、8F 服務中心通道",
         "condition": "另有 RF 多功能廁所；與迪卡儂為不同場地。",
-        "hours": null
+        "hours": null,
+        "fee": "公廁免費。"
       }
     },
     {
@@ -11524,18 +11743,18 @@
       "display": {
         "entrance": "前金區中山一路11號地下1樓。廁所在 1 號出口，置物櫃在地下 1 樓近 1、3 號出口。",
         "hours": "車站營運時段",
-        "fee": "寄物依櫃型每小時 10 或 20 元，不足一小時以一小時計。",
-        "condition": "上述置物櫃在閘門外，依現場公告收費。"
+        "fee": "廁所免費；寄物每小時 10 元起。",
+        "condition": "置物櫃依櫃型計費，部分最低以 2 小時計費；依現場公告。"
       },
       "services": [
         {
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "未公布單獨使用費用",
+          "fee": "免費",
           "hours": "車站營運時段",
-          "purchaseRequired": "依場館規定",
-          "restrictions": "上述置物櫃在閘門外，依現場公告收費。",
+          "purchaseRequired": false,
+          "restrictions": "依站內廁所指標前往。",
           "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
@@ -11545,17 +11764,25 @@
             {
               "kind": "official",
               "url": "https://data.gov.tw/dataset/34868"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": true,
+          "operator": "捷運中央公園站",
+          "accessEvidenceType": "project-owner-correction"
         },
         {
           "type": "storage",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "寄物依櫃型每小時 10 或 20 元，不足一小時以一小時計。",
+          "fee": "每小時 10 元起",
           "hours": "車站營運時段",
-          "purchaseRequired": "依場館規定",
-          "restrictions": "上述置物櫃在閘門外，依現場公告收費。",
+          "purchaseRequired": false,
+          "restrictions": "依櫃型計費；部分櫃型最低以 2 小時計費，請看櫃體公告。",
           "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
@@ -11565,8 +11792,28 @@
             {
               "kind": "official",
               "url": "https://data.gov.tw/dataset/34868"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
+            },
+            {
+              "kind": "official",
+              "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06",
+              "checkedAt": "2026-11-27",
+              "note": "官方置物櫃紅線／橘線列表與速查表；不同櫃型計費單位不同。"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": true,
+          "operator": "捷運中央公園站",
+          "accessEvidenceType": "project-owner-correction"
+        }
+      ],
+      "serviceLinks": [
+        {
+          "label": "高雄捷運寄物資訊",
+          "url": "https://www.krtc.com.tw/Service/convenient_service_more?id=6351b132e7144cebbc23ddf0fd2bbc06"
         }
       ]
     },
@@ -11579,7 +11826,7 @@
       "display": {
         "entrance": "前金區民生二路39號。館內 1、2 樓設有廁所。",
         "hours": "週二至六 09:00–21:00，週日 09:00–17:00，週一休館。",
-        "fee": "免費參觀。",
+        "fee": "公廁免費。",
         "condition": "請在開館時入內。"
       },
       "services": [
@@ -11587,10 +11834,10 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "免費參觀。",
+          "fee": "免費",
           "hours": "週二至六 09:00–21:00，週日 09:00–17:00，週一休館。",
-          "purchaseRequired": "依場館規定",
-          "restrictions": "請在開館時入內。",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
           "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
@@ -11600,8 +11847,15 @@
             {
               "kind": "official",
               "url": "https://data.gov.tw/dataset/34868"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ]
     },
@@ -11614,7 +11868,7 @@
       "display": {
         "entrance": "三民區同盟二路215號。光之塔附近的新客家文化園區，館內 1 樓與地下 1 樓有廁所。",
         "hours": "週一至六 09:00–17:00，週日休館。",
-        "fee": "單獨借用條件請洽館方。",
+        "fee": "公廁免費。",
         "condition": "請於館舍開放時入內。"
       },
       "services": [
@@ -11622,10 +11876,10 @@
           "type": "toilet",
           "status": "partial",
           "existenceVerified": true,
-          "fee": "單獨借用條件請洽館方。",
+          "fee": "免費",
           "hours": "週一至六 09:00–17:00，週日休館。",
-          "purchaseRequired": "依場館規定",
-          "restrictions": "請於館舍開放時入內。",
+          "purchaseRequired": false,
+          "restrictions": "請於所在場館開放時使用；不包含付費展演或其他收費設施。",
           "lastCheckedAt": "2026-11-27",
           "evidence": [
             {
@@ -11635,8 +11889,15 @@
             {
               "kind": "official",
               "url": "https://data.gov.tw/dataset/34868"
+            },
+            {
+              "kind": "project-owner-correction",
+              "checkedAt": "2026-11-27",
+              "note": "網站維護者提供：捷運飲水免費；迪卡儂亞灣店廁所在入門左手邊，不需進入賣場或消費；公共場所公廁免費。非本次實地查核。"
             }
-          ]
+          ],
+          "runnerAccessConfirmed": true,
+          "accessEvidenceType": "project-owner-correction"
         }
       ]
     }

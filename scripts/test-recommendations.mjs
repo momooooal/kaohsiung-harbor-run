@@ -22,3 +22,26 @@ assert.equal(poi.get('dreammall').coordinates,null);
 assert.equal(d.resources.find(r=>r.poiId==='ruh5').services[0].status,'pending');
 assert.equal(d.qr.find(q=>q.id==='qr-2').distanceObservation.km,3.2);
 assert.equal(d.routes.find(r=>r.variantId==='love-21').sourceDistance.label,'圖卡整體 5–6 公里');
+
+// Service access corrections must not inherit the old blanket water warning.
+const {serviceNeedsInquiry,openingHours}=await import('../js/recommendations.js');
+const resources=new Map(d.resources.map(r=>[r.poiId,r]));
+for(const id of ['shihjia','kaixuan','hamasen']){
+ const r=resources.get(id);
+ assert(r.serviceLinks.some(l=>l.url.includes('6351b132')));
+ for(const type of ['water','storage']){
+  const s=r.services.find(s=>s.type===type);
+  assert.equal(serviceNeedsInquiry(s),false);
+  assert.equal(s.purchaseRequired,false);
+  assert(s.operator.startsWith('捷運'));
+ }
+ assert.equal(r.services.find(s=>s.type==='water').fee,'免費');
+ assert.match(r.display.condition,/2 小時/);
+}
+assert.equal(serviceNeedsInquiry(resources.get('decathlon').services[0]),false);
+assert.match(resources.get('decathlon').display.entrance,/左手邊/);
+assert.match(resources.get('decathlon').display.condition,/不用進賣場/);
+assert.equal(serviceNeedsInquiry(resources.get('ruh5').services[0]),true);
+assert.equal(openingHours(poi.get('exhibition'),{display:{hours:'過期時段'}}),'每日 10:00–18:00');
+assert.match(poi.get('gym').googleHours.text,/週日休息/);
+console.log('Service access / MRT pricing scope / Google hours precedence PASS');
