@@ -842,7 +842,10 @@ a:focus-visible,button:focus-visible,select:focus-visible,[tabindex]:focus-visib
 }
 .gallery-card img {
   display:block;
-  width:100%;
+  width:calc(100% - 32px);
+  max-width:360px;
+  margin:16px auto;
+  border-radius:6px;
   height:auto;
   object-fit:contain
 }
