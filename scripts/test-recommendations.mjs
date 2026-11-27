@@ -10,7 +10,7 @@ assert(!d.routes.find(r=>r.variantId==='love-21').stopIds.includes('greatbridge'
 for(const c of d.cards){assert.equal(c.publishedAt,null);for(const h of c.hotspots){assert(poi.has(h.poiId));assert(h.x>=0&&h.x<=100&&h.y>=0&&h.y<=100);}}
 for(const q of d.qr){assert(q.rawUrl.startsWith('https://reurl.cc/'));assert(q.finalUrl.startsWith('https://www.google.com/maps/dir/'));assert(q.finalUrl.includes('!3e2'));}
 for(const p of d.resources){assert(poi.has(p.poiId));for(const s of p.services){assert(s.evidence.length);assert(Object.hasOwn(s,'fee'));assert(Object.hasOwn(s,'hours'));assert(Object.hasOwn(s,'purchaseRequired'));assert(Object.hasOwn(s,'lastCheckedAt'));}}
-assert.equal(mapsUrl({coordinates:null}),null);assert(mapsUrl(poi.get('ruh5'),true).includes('travelmode=walking'));assert(mapsUrl(poi.get('ruh5')).includes('/search/'));assert.notEqual(mapsUrl(poi.get('ruh5')),mapsUrl(poi.get('ruh5'),true));
+assert.equal(mapsUrl({coordinates:null}),null);assert(mapsUrl(poi.get('ruh5'),true).includes('travelmode=walking'));assert(mapsUrl(poi.get('ruh5')).includes('/maps/place/'));assert.notEqual(mapsUrl(poi.get('ruh5')),mapsUrl(poi.get('ruh5'),true));
 assert.equal(JSON.parse(fs.readFileSync(new URL('../data/routes.json',import.meta.url))).find(r=>r.id==='bay').activityDistanceLabel,'活動路線約 4.5 公里');
 console.log('6 variants / 5 original cards / 6 source QR / services / URLs / historical separation PASS');
 

@@ -4,86 +4,88 @@
   "cards": [
     {
       "id": "card-0",
-      "file": "messageImage_1795508547281.jpg",
-      "asset": "assets/routes/card-0.jpg",
+      "file": "messageImage_1795744753925.jpg",
+      "asset": "assets/routes/harbor-12.jpg",
       "credit": "高雄市政府運動發展局（使用者提供原圖）",
       "publishedAt": null,
-      "receivedAt": "2026-11-25",
+      "receivedAt": "2026-11-27",
       "license": "原圖權利歸原發布單位；公開重製授權範圍待確認",
       "hotspots": [
         {
           "poiId": "shihjia",
           "x": 67,
-          "y": 68,
+          "y": 67.911,
           "label": "1"
         },
         {
           "poiId": "kaixuan",
           "x": 75.6,
-          "y": 85,
+          "y": 84.978,
           "label": "2"
         },
         {
           "poiId": "decathlon",
-          "x": 68.1,
-          "y": 84.6,
+          "x": 68.133,
+          "y": 84.622,
           "label": "3"
         },
         {
           "poiId": "exhibition",
-          "x": 54.5,
-          "y": 62,
+          "x": 54.6,
+          "y": 62.044,
           "label": "4"
         },
         {
           "poiId": "music",
           "x": 40.6,
-          "y": 43.6,
+          "y": 43.556,
           "label": "5"
         },
         {
           "poiId": "ruh5",
-          "x": 36.1,
-          "y": 44.3,
+          "x": 36.133,
+          "y": 44.267,
           "label": "6"
         },
         {
           "poiId": "ice",
-          "x": 21.3,
-          "y": 42,
+          "x": 21.333,
+          "y": 42.044,
           "label": "7"
         },
         {
           "poiId": "ferry",
           "x": 16,
-          "y": 41.1,
+          "y": 41.156,
           "label": "8"
         },
         {
           "poiId": "tunnel",
-          "x": 15.7,
-          "y": 33.3,
+          "x": 15.733,
+          "y": 33.333,
           "label": "9"
         },
         {
           "poiId": "hamasen",
           "x": 22.2,
-          "y": 38.1,
+          "y": 38.044,
           "label": "10"
         },
         {
           "poiId": "qianjin",
-          "x": 48.7,
-          "y": 30.1,
+          "x": 48.667,
+          "y": 30.133,
           "label": "＋"
         },
         {
           "poiId": "gym",
           "x": 59.4,
-          "y": 55,
+          "y": 55.022,
           "label": "＋"
         }
-      ]
+      ],
+      "width": 1500,
+      "height": 1125
     },
     {
       "id": "card-1",
@@ -441,6 +443,30 @@
       "placeNames": [
         "捷運獅甲站",
         "台塑王氏昆仲公園"
+      ],
+      "mapPlaces": [
+        {
+          "name": "捷運獅甲站",
+          "infoUrl": "https://www.google.com/maps/place/%E7%8D%85%E7%94%B2%E7%AB%99/@22.6060459,120.308084,17z/data=!3m1!4b1!4m6!3m5!1s0x346e037ada83c725:0xace2d18b922e657e!8m2!3d22.6060459!4d120.308084!16s%2Fg%2F11b62q0n53",
+          "coordinates": [
+            22.6060459,
+            120.308084
+          ],
+          "matchedName": "獅甲站",
+          "address": "806高雄市前鎮區中山三路150號",
+          "checkedAt": "2026-11-27"
+        },
+        {
+          "name": "台塑王氏昆仲公園",
+          "infoUrl": "https://www.google.com/maps/place/%E5%8F%B0%E5%A1%91%E7%8E%8B%E6%B0%8F%E6%98%86%E4%BB%B2%E5%85%AC%E5%9C%92/@22.6035556,120.3096196,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0394e462d065:0xeee5f938191c0b92!8m2!3d22.6035556!4d120.3096196!16s%2Fg%2F11sw_wmy74",
+          "coordinates": [
+            22.6035556,
+            120.3096196
+          ],
+          "matchedName": "台塑王氏昆仲公園",
+          "address": "806高雄市前鎮區建隆里中山三路39號",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -458,6 +484,30 @@
       "placeNames": [
         "捷運凱旋站",
         "輕軌前鎮之星站"
+      ],
+      "mapPlaces": [
+        {
+          "name": "捷運凱旋站",
+          "infoUrl": "https://www.google.com/maps/place/%E5%87%B1%E6%97%8B/@22.5967915,120.3154363,17z/data=!3m1!4b1!4m6!3m5!1s0x346e036bfd6e413d:0x5428eefc1a65f255!8m2!3d22.5967915!4d120.3154363!16s%2Fm%2F0dgsbvf",
+          "coordinates": [
+            22.5967915,
+            120.3154363
+          ],
+          "matchedName": "凱旋",
+          "address": "806高雄市前鎮區中山三路1號",
+          "checkedAt": "2026-11-27"
+        },
+        {
+          "name": "輕軌前鎮之星站",
+          "infoUrl": "https://www.google.com/maps/place/%E5%89%8D%E9%8E%AE%E4%B9%8B%E6%98%9F%E7%AB%99/@22.5954778,120.3153333,17z/data=!3m1!4b1!4m6!3m5!1s0x346e036bec6df729:0xd2ebd50f4ee85eb!8m2!3d22.5954778!4d120.3153333!16s%2Fm%2F0131jqv6",
+          "coordinates": [
+            22.5954778,
+            120.3153333
+          ],
+          "matchedName": "前鎮之星站",
+          "address": "806高雄市前鎮區興邦里凱旋四路21-15號號 No",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -481,6 +531,30 @@
       "placeNames": [
         "夢時代購物中心",
         "迪卡儂高雄亞灣店"
+      ],
+      "mapPlaces": [
+        {
+          "name": "夢時代購物中心",
+          "infoUrl": "https://www.google.com/maps/place/%E5%A4%A2%E6%99%82%E4%BB%A3%E8%B3%BC%E7%89%A9%E4%B8%AD%E5%BF%83%2F%E7%B5%B1%E4%B8%80%E6%99%82%E4%BB%A3%E7%99%BE%E8%B2%A8%E9%AB%98%E9%9B%84%E5%BA%97/@22.5948656,120.3057541,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0372ebc9d327:0x92317d11de68daf9!8m2!3d22.5948656!4d120.3057541!16s%2Fm%2F02wwjrz",
+          "coordinates": [
+            22.5948656,
+            120.3057541
+          ],
+          "matchedName": "夢時代購物中心/統一時代百貨高雄店",
+          "address": "806高雄市前鎮區興邦里中華五路789號",
+          "checkedAt": "2026-11-27"
+        },
+        {
+          "name": "迪卡儂高雄亞灣店",
+          "infoUrl": "https://www.google.com/maps/place/%E8%BF%AA%E5%8D%A1%E5%84%82+%E9%AB%98%E9%9B%84+%E4%BA%9E%E7%81%A3%E5%BA%97/@22.5974723,120.3089344,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03ef2a880b03:0xca62ea27cf3e33e!8m2!3d22.5974723!4d120.3089344!16s%2Fg%2F11rc4n5j2_",
+          "coordinates": [
+            22.5974723,
+            120.3089344
+          ],
+          "matchedName": "迪卡儂 高雄 亞灣店",
+          "address": "806高雄市前鎮區時代大道33號",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -502,7 +576,20 @@
         "checkedAt": "2026-11-25",
         "precision": "入口名稱已確認，座標仍為場館",
         "coordinates": null
-      }
+      },
+      "mapPlaces": [
+        {
+          "name": "高雄展覽館",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B1%95%E8%A6%BD%E9%A4%A8/@22.607874,120.2983319,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03785bbda15f:0x159de9d70633312e!8m2!3d22.607874!4d120.2983319!16s%2Fm%2F010fcgw5",
+          "coordinates": [
+            22.607874,
+            120.2983319
+          ],
+          "matchedName": "高雄展覽館",
+          "address": "806高雄市前鎮區鎮北里成功二路39號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "music",
@@ -515,7 +602,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-0：珊瑚礁群參考點，非主館入口",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "高雄流行音樂中心",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E6%B5%81%E8%A1%8C%E9%9F%B3%E6%A8%82%E4%B8%AD%E5%BF%83/@22.6181461,120.2885805,17z/data=!3m1!4b1!4m6!3m5!1s0x346e05db76331e51:0x76a8d809253dfaa!8m2!3d22.6181461!4d120.2885805!16s%2Fg%2F155srhtw",
+          "coordinates": [
+            22.6181461,
+            120.2885805
+          ],
+          "matchedName": "高雄流行音樂中心",
+          "address": "803高雄市鹽埕區真愛路1號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "ruh5",
@@ -537,6 +637,30 @@
       "placeNames": [
         "駁二藝術特區",
         "路人咖啡五號店 大義街2-2號"
+      ],
+      "mapPlaces": [
+        {
+          "name": "駁二藝術特區",
+          "infoUrl": "https://www.google.com/maps/place/%E9%A7%81%E4%BA%8C%E8%97%9D%E8%A1%93%E7%89%B9%E5%8D%80/@22.6199803,120.2815287,17z/data=!3m1!4b1!4m6!3m5!1s0x346e047620e1c45b:0xe6d6d1bd1c764df2!8m2!3d22.6199803!4d120.2815287!16s%2Fm%2F010glgxt",
+          "coordinates": [
+            22.6199803,
+            120.2815287
+          ],
+          "matchedName": "駁二藝術特區",
+          "address": "803高雄市鹽埕區新化里大勇路1號",
+          "checkedAt": "2026-11-27"
+        },
+        {
+          "name": "路人咖啡五號店 大義街2-2號",
+          "infoUrl": "https://www.google.com/maps/place/%E8%B7%AF%E4%BA%BA%E5%92%96%E5%95%A15%E8%99%9F%E5%BA%97/@22.6182141,120.2853366,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03c72fbb5a71:0xd434b3efd29c7856!8m2!3d22.6182141!4d120.2853366!16s%2Fg%2F11tc7grsdv",
+          "coordinates": [
+            22.6182141,
+            120.2853366
+          ],
+          "matchedName": "路人咖啡5號店",
+          "address": "803高雄市鹽埕區南端里大義街2-2號C8-2",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -560,6 +684,22 @@
       "placeNames": [
         "哈瑪星",
         "福泉冰店 濱海一路89號"
+      ],
+      "mapPlaces": [
+        {
+          "name": "哈瑪星"
+        },
+        {
+          "name": "福泉冰店 濱海一路89號",
+          "infoUrl": "https://www.google.com/maps/place/%E7%A6%8F%E6%B3%89%E5%86%B0%E5%BA%97..%E5%B8%83%E4%B8%81%E8%B1%86%E8%8A%B1.%E9%9B%AA%E8%8A%B1%E5%86%B0/@22.619745,120.2709025,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03f5ad2d134d:0x95bde83e86e32315!8m2!3d22.619745!4d120.2709025!16s%2Fg%2F1vm785x2",
+          "coordinates": [
+            22.619745,
+            120.2709025
+          ],
+          "matchedName": "福泉冰店..布丁豆花.雪花冰",
+          "address": "804高雄市鼓山區維生里濱海一路91號",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -573,7 +713,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "既有專案 Google Maps 地點紀錄",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "鼓山渡輪站",
+          "infoUrl": "https://www.google.com/maps/place/%E9%BC%93%E5%B1%B1%E8%BC%AA%E6%B8%A1%E7%AB%99/@22.6197524,120.2703408,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03f5b4a4daef:0xd9d2083dca500ac5!8m2!3d22.6197524!4d120.2703408!16s%2Fg%2F155sjfd1",
+          "coordinates": [
+            22.6197524,
+            120.2703408
+          ],
+          "matchedName": "鼓山輪渡站",
+          "address": "804高雄市鼓山區",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "tunnel",
@@ -590,6 +743,22 @@
       "placeNames": [
         "西子灣",
         "中山大學西子灣隧道口"
+      ],
+      "mapPlaces": [
+        {
+          "name": "西子灣",
+          "infoUrl": "https://www.google.com/maps/place/804%E9%AB%98%E9%9B%84%E5%B8%82%E9%BC%93%E5%B1%B1%E5%8D%80%E6%A1%83%E6%BA%90%E9%87%8C%E8%A5%BF%E5%AD%90%E7%81%A3/@22.6280727,120.2639093,16z/data=!3m1!4b1!4m6!3m5!1s0x346e0408c6285e2b:0x3292efc2b042dec!8m2!3d22.6281882!4d120.2644851!16s%2Fm%2F09glp7n",
+          "coordinates": [
+            22.6281882,
+            120.2644851
+          ],
+          "matchedName": "西子灣",
+          "address": null,
+          "checkedAt": "2026-11-27"
+        },
+        {
+          "name": "中山大學西子灣隧道口"
+        }
       ]
     },
     {
@@ -614,7 +783,20 @@
           22.6215501,
           120.2753859
         ]
-      }
+      },
+      "mapPlaces": [
+        {
+          "name": "哈瑪星站",
+          "infoUrl": "https://www.google.com/maps/place/%E5%93%88%E7%91%AA%E6%98%9F/@22.621704,120.275892,17z/data=!3m1!4b1!4m6!3m5!1s0x346e04755e64797b:0xa1dc1df34374ec34!8m2!3d22.621704!4d120.275892!16s%2Fg%2F11f1597467",
+          "coordinates": [
+            22.621704,
+            120.275892
+          ],
+          "matchedName": "哈瑪星",
+          "address": "804高雄市鼓山區",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "qianjin",
@@ -632,7 +814,20 @@
       "venueSource": "https://www.cianjin-sc.com/toll.html",
       "phone": "07-281-8566",
       "venueNote": "健身房全票 50 元／小時；泳池全票 100 元／次，另有泳池時段。這些不是單獨淋浴費，場館未公布跑者單獨借用浴廁的條件。",
-      "venueCheckedAt": "2026-11-25"
+      "venueCheckedAt": "2026-11-25",
+      "mapPlaces": [
+        {
+          "name": "前金運動中心",
+          "infoUrl": "https://www.google.com/maps/place/%E5%89%8D%E9%87%91%E9%81%8B%E5%8B%95%E4%B8%AD%E5%BF%83/@22.625564,120.294857,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0500103af98f:0xe359c1ca696ca60!8m2!3d22.625564!4d120.294857!16s%2Fg%2F11vrsc03x7",
+          "coordinates": [
+            22.625564,
+            120.294857
+          ],
+          "matchedName": "前金運動中心",
+          "address": "801高雄市前金區大同二路61號三樓 出入口位於自強二路與民生二路交叉口前金運動中心 (主櫃台位於",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "gym",
@@ -648,7 +843,20 @@
       "entranceVerified": false,
       "phone": "07-338-9103",
       "venueSource": "https://honhuangpower.wixsite.com/honhuangpower",
-      "venueCheckedAt": "2026-11-25"
+      "venueCheckedAt": "2026-11-25",
+      "mapPlaces": [
+        {
+          "name": "泓荒之力健身房",
+          "infoUrl": "https://www.google.com/maps/place/%E6%B3%93%E8%8D%92%E4%B9%8B%E5%8A%9BFitness+Studio%EF%BD%9C%E9%AB%98%E9%9B%84%E5%81%A5%E8%BA%AB%EF%BD%9C%E5%99%A8%E6%A2%B0%E7%9A%AE%E6%8B%89%E6%8F%90%E6%96%AF%EF%BD%9C%E7%91%9C%E7%8F%88/@22.6124977,120.3027174,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03c498fef7b7:0x70f57b0e77513938!8m2!3d22.6124977!4d120.3027174!16s%2Fg%2F11z2blhyqt",
+          "coordinates": [
+            22.6124977,
+            120.3027174
+          ],
+          "matchedName": "泓荒之力Fitness Studio｜高雄健身｜器械皮拉提斯｜瑜珈",
+          "address": "802高雄市苓雅區意誠里中華四路38號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "library",
@@ -681,7 +889,20 @@
         "checkedAt": "2026-11-25",
         "precision": "場館地址；廣場集合區",
         "coordinates": null
-      }
+      },
+      "mapPlaces": [
+        {
+          "name": "高雄市立圖書館總館",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B8%82%E7%AB%8B%E5%9C%96%E6%9B%B8%E9%A4%A8%E7%B8%BD%E9%A4%A8/@22.6104438,120.3017989,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0c995f8dcfb3:0x62d29ce2a4f9e568!8m2!3d22.6104438!4d120.3017989!16s%2Fg%2F155q42hx",
+          "coordinates": [
+            22.6104438,
+            120.3017989
+          ],
+          "matchedName": "高雄市立圖書館總館",
+          "address": "806高雄市前鎮區振興里新光路61號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "starlight",
@@ -699,7 +920,20 @@
       "venueHours": "戲水區：4/1–10/31，每週五至日 10:00–12:00、14:00–19:00；週一至四休園",
       "venueSource": "https://khh.travel/zh-tw/attractions/detail/1334/",
       "venueCheckedAt": "2026-11-25",
-      "venueNote": "園內有更衣間、公廁與戶外沖洗區。此時段為戲水園區公告，不保證區外步道或廁所全年可借用；11 月至隔年 3 月不在公告開放季。"
+      "venueNote": "園內有更衣間、公廁與戶外沖洗區。此時段為戲水園區公告，不保證區外步道或廁所全年可借用；11 月至隔年 3 月不在公告開放季。",
+      "mapPlaces": [
+        {
+          "name": "星光水岸公園",
+          "infoUrl": "https://www.google.com/maps/place/%E6%98%9F%E5%85%89%E6%B0%B4%E5%B2%B8%E5%85%AC%E5%9C%92/@22.6089486,120.2974096,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0382a6cdd183:0x6df45a1fe318cca4!8m2!3d22.6089486!4d120.2974096!16s%2Fg%2F11h0h7snn",
+          "coordinates": [
+            22.6089486,
+            120.2974096
+          ],
+          "matchedName": "星光水岸公園",
+          "address": "806高雄市前鎮區鎮北里成功二路",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "terminal",
@@ -712,7 +946,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-1",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "高雄港旅運中心",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E6%B8%AF%E6%97%85%E9%81%8B%E4%B8%AD%E5%BF%83/@22.6110431,120.2935234,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0383c7389177:0x79ae6c819df018fc!8m2!3d22.6110431!4d120.2935234!16s%2Fg%2F11mvrrgdn",
+          "coordinates": [
+            22.6110431,
+            120.2935234
+          ],
+          "matchedName": "高雄港旅運中心",
+          "address": "802高雄市苓雅區苓中里海邊路5號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "whale",
@@ -725,7 +972,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-0",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "鯨魚堤岸",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AF%A8%E9%AD%9A%E5%A0%A4%E5%B2%B8/@22.6159666,120.2920764,17z/data=!3m1!4b1!4m6!3m5!1s0x346e03afcd2e5363:0x9f31bb6488d2171e!8m2!3d22.6159666!4d120.2920764!16s%2Fg%2F11s56hkv4g",
+          "coordinates": [
+            22.6159666,
+            120.2920764
+          ],
+          "matchedName": "鯨魚堤岸",
+          "address": "802高雄市苓雅區苓東里海邊路15號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "coral",
@@ -738,7 +998,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-0",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "珊瑚礁群",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E6%B5%81%E8%A1%8C%E9%9F%B3%E6%A8%82%E4%B8%AD%E5%BF%83+%E7%8F%8A%E7%91%9A%E7%A4%81%E7%BE%A4/@22.6184221,120.2919319,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0478ac8337a3:0x26ece851772c7420!8m2!3d22.6184221!4d120.2919319!16s%2Fg%2F11hchttrrx",
+          "coordinates": [
+            22.6184221,
+            120.2919319
+          ],
+          "matchedName": "高雄流行音樂中心 珊瑚礁群",
+          "address": "802高雄市苓雅區博仁里海邊路110號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "bridge",
@@ -751,7 +1024,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-1",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "高雄橋分岔",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B8%82%E9%AB%98%E9%9B%84%E6%A9%8B/@22.6206527,120.2899223,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0478de1de16d:0x485df3780f916c41!8m2!3d22.6206527!4d120.2899223!16s%2Fg%2F1vf992t3",
+          "coordinates": [
+            22.6206527,
+            120.2899223
+          ],
+          "matchedName": "高雄市高雄橋",
+          "address": null,
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "hedong",
@@ -764,7 +1050,12 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-2 明示途經座標",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "河東路綠園道／中正橋方向"
+        }
+      ]
     },
     {
       "poiId": "pier",
@@ -777,7 +1068,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-3 駁二大義",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "駁二藝術特區",
+          "infoUrl": "https://www.google.com/maps/place/%E9%A7%81%E4%BA%8C%E8%97%9D%E8%A1%93%E7%89%B9%E5%8D%80/@22.6199803,120.2815287,17z/data=!3m1!4b1!4m6!3m5!1s0x346e047620e1c45b:0xe6d6d1bd1c764df2!8m2!3d22.6199803!4d120.2815287!16s%2Fm%2F010glgxt",
+          "coordinates": [
+            22.6199803,
+            120.2815287
+          ],
+          "matchedName": "駁二藝術特區",
+          "address": "803高雄市鹽埕區新化里大勇路1號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "greatbridge",
@@ -790,7 +1094,12 @@
       "precision": "觀光署景點參考位置，非已核對入口",
       "locationSource": "https://www.tad.gov.tw/m1.aspx?id=A12-00474&sNo=0001016",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "大港橋"
+        }
+      ]
     },
     {
       "poiId": "love",
@@ -803,7 +1112,12 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-4",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "愛河沿岸"
+        }
+      ]
     },
     {
       "poiId": "central",
@@ -816,7 +1130,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-4",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "中央公園",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E4%B8%AD%E5%A4%AE%E5%85%AC%E5%9C%92/@22.6249002,120.3008984,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0487a6961a53:0x8c3f9620fe144c21!8m2!3d22.6249002!4d120.3008984!16s%2Fm%2F0100bkf6",
+          "coordinates": [
+            22.6249002,
+            120.3008984
+          ],
+          "matchedName": "高雄中央公園",
+          "address": "801高雄市前金區榮治里中山一路11號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "aozihdi",
@@ -878,6 +1205,19 @@
           ],
           "source": "https://www.openstreetmap.org/node/1272674316"
         }
+      ],
+      "mapPlaces": [
+        {
+          "name": "捷運凹子底站 R13",
+          "infoUrl": "https://www.google.com/maps/place/%E5%87%B9%E5%AD%90%E5%BA%95/@22.6570745,120.3032583,17z/data=!3m1!4b1!4m6!3m5!1s0x346e04fe0acac2b3:0x21fad7ae686b2ddd!8m2!3d22.6570745!4d120.3032583!16s%2Fm%2F0dgpfj8",
+          "coordinates": [
+            22.6570745,
+            120.3032583
+          ],
+          "matchedName": "凹子底",
+          "address": "804高雄市鼓山區",
+          "checkedAt": "2026-11-27"
+        }
       ]
     },
     {
@@ -891,7 +1231,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-5",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "愛河之心",
+          "infoUrl": "https://www.google.com/maps/place/%E6%84%9B%E6%B2%B3%E4%B9%8B%E5%BF%83/@22.6526835,120.3031609,17z/data=!3m1!4b1!4m6!3m5!1s0x346e04fbf8f2c8b5:0x73152b08ce5a4a9a!8m2!3d22.6526835!4d120.3031609!16s%2Fg%2F11bxb8rmyl",
+          "coordinates": [
+            22.6526835,
+            120.3031609
+          ],
+          "matchedName": "愛河之心",
+          "address": "804高雄市鼓山區安泰里龍德路2號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "vision",
@@ -904,7 +1257,20 @@
       "precision": "地點參考位置，非已核對入口",
       "locationSource": "qr-5",
       "checkedAt": "2026-11-25",
-      "entranceVerified": false
+      "entranceVerified": false,
+      "mapPlaces": [
+        {
+          "name": "願景橋",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B8%82%E9%A1%98%E6%99%AF%E6%A9%8B/@22.6503808,120.2879795,17z/data=!3m1!4b1!4m6!3m5!1s0x346e045a9ad55f5b:0x42f9c275e2b699db!8m2!3d22.6503808!4d120.2879795!16s%2Fg%2F11h08lvg3",
+          "coordinates": [
+            22.6503808,
+            120.2879795
+          ],
+          "matchedName": "高雄市願景橋",
+          "address": null,
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "address": "台塑王氏昆仲公園，日月私饗旁（間數較多）",
@@ -918,7 +1284,20 @@
         120.3095295
       ],
       "locationSource": "https://www.formosawangbrotherspark.com/參觀須知",
-      "mapsLink": "https://maps.app.goo.gl/MSo23mcoeJdqg9qX8"
+      "mapsLink": "https://maps.app.goo.gl/MSo23mcoeJdqg9qX8",
+      "mapPlaces": [
+        {
+          "name": "台塑公園 G 棟公廁",
+          "infoUrl": "https://www.google.com/maps/place/%E5%8F%B0%E5%A1%91%E7%8E%8B%E6%B0%8F%E6%98%86%E4%BB%B2%E5%85%AC%E5%9C%92G%E6%A3%9F%E5%85%AC%E5%BB%81/@22.6032322,120.3091755,20.96z/data=!4m6!3m5!1s0x346e039e06e8d3c1:0x37d4a07b1ae43dff!8m2!3d22.6032925!4d120.3095295!16s%2Fg%2F11vl4t8n70",
+          "coordinates": [
+            22.6032925,
+            120.3095295
+          ],
+          "matchedName": "台塑王氏昆仲公園G棟公廁",
+          "address": "806高雄市前鎮區",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "address": "台塑王氏昆仲公園，王創辦人辦公室旁",
@@ -932,7 +1311,12 @@
         120.3081062
       ],
       "locationSource": "https://www.formosawangbrotherspark.com/參觀須知",
-      "mapsLink": "https://maps.app.goo.gl/MVpj494QFwBH8Wwz7"
+      "mapsLink": "https://maps.app.goo.gl/MVpj494QFwBH8Wwz7",
+      "mapPlaces": [
+        {
+          "name": "台塑公園公廁（創辦人辦公室旁）"
+        }
+      ]
     },
     {
       "address": "中山三路 150 號地下一層，依站內指標",
@@ -945,7 +1329,12 @@
         22.6064106,
         120.3074988
       ],
-      "locationSource": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66"
+      "locationSource": "https://www.krtc.com.tw/Guide/station_info?id=e21de89ebb0149b59f63a0f0bf627e66",
+      "mapPlaces": [
+        {
+          "name": "獅甲站廁所（4 號出口資訊）"
+        }
+      ]
     },
     {
       "address": "前鎮區中華五路 789 號",
@@ -962,7 +1351,12 @@
       "phone": "07-813-5678",
       "venueNote": "商場與迪卡儂亞灣店為不同場地，不能互套設施。",
       "venueCheckedAt": "2026-11-25",
-      "addressVerified": true
+      "addressVerified": true,
+      "mapPlaces": [
+        {
+          "name": "夢時代購物中心公廁"
+        }
+      ]
     },
     {
       "poiId": "r9",
@@ -975,7 +1369,20 @@
       "addressVerified": true,
       "precision": "館內廁所參考點",
       "locationSource": "https://data.gov.tw/dataset/34868",
-      "checkedAt": "2026-11-27"
+      "checkedAt": "2026-11-27",
+      "mapPlaces": [
+        {
+          "name": "捷運中央公園站",
+          "infoUrl": "https://www.google.com/maps/place/%E4%B8%AD%E5%A4%AE%E5%85%AC%E5%9C%92/@22.6248174,120.3011362,17z/data=!3m1!4b1!4m6!3m5!1s0x346e04865adc0a93:0xf02dc5196f9eb28e!8m2!3d22.6248174!4d120.3011362!16s%2Fm%2F0ch4tqb",
+          "coordinates": [
+            22.6248174,
+            120.3011362
+          ],
+          "matchedName": "中央公園",
+          "address": "800高雄市前金區中山一路11號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "literature",
@@ -988,7 +1395,20 @@
       "addressVerified": true,
       "precision": "館內廁所參考點",
       "locationSource": "https://data.gov.tw/dataset/34868",
-      "checkedAt": "2026-11-27"
+      "checkedAt": "2026-11-27",
+      "mapPlaces": [
+        {
+          "name": "高雄文學館",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E6%96%87%E5%AD%B8%E9%A4%A8+Kaohsiung+Literature+Library/@22.6254997,120.2979812,17z/data=!3m1!4b1!4m6!3m5!1s0x346e04878fb3027d:0x1fc67fbf860a2435!8m2!3d22.6254997!4d120.2979812!16s%2Fg%2F155qd6zr",
+          "coordinates": [
+            22.6254997,
+            120.2979812
+          ],
+          "matchedName": "高雄文學館 Kaohsiung Literature Library",
+          "address": "801高雄市前金區長生里民生二路39號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     },
     {
       "poiId": "hakka",
@@ -1001,7 +1421,20 @@
       "addressVerified": true,
       "precision": "館內廁所參考點",
       "locationSource": "https://data.gov.tw/dataset/34868",
-      "checkedAt": "2026-11-27"
+      "checkedAt": "2026-11-27",
+      "mapPlaces": [
+        {
+          "name": "高雄市客家文物館",
+          "infoUrl": "https://www.google.com/maps/place/%E9%AB%98%E9%9B%84%E5%B8%82%E5%AE%A2%E5%AE%B6%E6%96%87%E7%89%A9%E9%A4%A8/@22.6503171,120.2957956,17z/data=!3m1!4b1!4m6!3m5!1s0x346e0457959b8743:0x405c6f81ba66a091!8m2!3d22.6503171!4d120.2957956!16s%2Fm%2F0406yph",
+          "coordinates": [
+            22.6503171,
+            120.2957956
+          ],
+          "matchedName": "高雄市客家文物館",
+          "address": "807高雄市三民區安宜里同盟二路215號",
+          "checkedAt": "2026-11-27"
+        }
+      ]
     }
   ],
   "routes": [
@@ -1011,7 +1444,7 @@
       "name": "「公民參與討論」最推薦的跑步路線",
       "number": "成果圖卡",
       "sourceDistance": {
-        "label": "10.8 公里",
+        "label": "12 公里",
         "source": "card-0"
       },
       "calculatedDistanceKm": 10.9,
@@ -2839,20 +3272,28 @@
       "routeAudit": {
         "outbound": "依 1→10 編號：獅甲→凱旋→夢時代／迪卡儂→展覽館→高流→駁二→福泉冰店→鼓山輪渡站→中山大學隧道口→哈瑪星。",
         "inbound": "本線為單程，沒有圖卡指定回程；可由哈瑪星站搭捷運接駁。",
-        "turn": "無折返點；前金運動中心、泓荒之力是周邊資源，不是必經節點。",
-        "finding": "圖卡 10.8 公里；沒有 QR 原始完整軌跡，不以候選路網替換。",
-        "checkedAt": "2026-11-25",
+        "turn": "主線依 1 至 10 號行進；新版另畫出往泓荒之力的支線。",
+        "finding": "新版圖卡標示 12 公里；舊步行路網的計算距離並非新版里程。",
+        "checkedAt": "2026-11-27",
         "sourceIds": [
           "card-0"
         ],
         "status": "圖卡動線與 QR 涵蓋範圍已比對，未實地丈量"
       },
       "display": {
-        "distance": "10.8 公里",
+        "distance": "12 公里",
         "journey": "獅甲出發，哈瑪星結束",
         "description": "沿著港灣，經過高流、駁二與西子灣。",
         "services": "沿途可找廁所、補水與交通"
-      }
+      },
+      "mapNote": "夢時代到展覽館的走法，以及展覽館往泓荒之力的支線，請對照路線圖卡；地理地圖僅顯示可沿用的路段。",
+      "mapOmissions": [
+        {
+          "segmentId": "harbor-108-out",
+          "from": 58,
+          "to": 155
+        }
+      ]
     },
     {
       "routeId": "harbor-5",

@@ -4,7 +4,7 @@ export async function createRouteMap(element,route,pois,onSelect){
  const map=L.map(element,{scrollWheelZoom:false}),markers=L.layerGroup().addTo(map);
  const tiles=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'}).addTo(map);
  let position,disposed=false;const bounds=L.latLngBounds([]);
- for(const segment of route.geometry||[]){L.polyline(segment.coordinates,{color:segment.direction==='return'?'#c66936':'#187f79',weight:4,opacity:.85}).addTo(map);segment.coordinates.forEach(p=>bounds.extend(p));}
+ for(const segment of route.geometry||[]){const omission=route.mapOmissions?.find(o=>o.segmentId===segment.segmentId);const path=omission?[segment.coordinates.slice(0,omission.from+1),segment.coordinates.slice(omission.to)]:segment.coordinates;L.polyline(path,{color:segment.direction==='return'?'#c66936':'#187f79',weight:4,opacity:.85}).addTo(map);segment.coordinates.forEach(p=>bounds.extend(p));}
  for(const id of route.stopIds){const p=pois.get(id);if(p?.coordinates)bounds.extend(p.coordinates);}
  const resize=()=>{if(disposed)return;map.stop();map.invalidateSize({pan:false});if(bounds.isValid())map.fitBounds(bounds,{padding:[30,30],animate:false});else map.setView([22.62,120.3],13);};resize();
  const notice=document.createElement('p');notice.className='run-tile-notice';notice.hidden=true;notice.textContent='地圖暫時無法載入 ';const retry=document.createElement('button');retry.className='btn outline';retry.textContent='重試';retry.onclick=()=>tiles.redraw();notice.append(retry); element.after(notice);

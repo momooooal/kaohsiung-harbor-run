@@ -23,3 +23,6 @@
 #contact{background:#edf5f3;padding:clamp(1.2rem,4vw,3rem);max-width:52rem;scroll-margin-top:6rem}#contact fieldset{border:0;padding:0}#contact label{display:block;margin:.8rem 0}#contact input,#contact textarea{display:block;width:100%;border:1px solid #91aaa5;border-radius:5px;background:white;padding:.65rem}
 .needs-table{border-collapse:collapse;width:100%;max-width:50rem}.needs-table th,.needs-table td{text-align:left;padding:.7rem;border-bottom:1px solid #bdceca}.needs-table thead{background:#edf6f4}
 @media(max-width:650px){.route-picks,.route-others{grid-template-columns:1fr}.route-picks article:first-child{display:block}.route-picks article:first-child img{height:12rem}.route-others .run-route-card{display:grid;grid-template-columns:30% 1fr}.route-others img{height:100%}.story-list li{display:block}.story-list strong{display:block;margin-bottom:.4rem}}
+
+/* Keep adjacent numbered stops independently selectable on the printed map. */
+.harbor-card .run-hotspot{width:clamp(10px,3.2%,44px);height:auto;aspect-ratio:1;padding:0;border:0;background:transparent;color:transparent}.harbor-card .run-hotspot:is(:hover,:focus-visible){outline:3px solid #fff;box-shadow:0 0 0 5px #0b3451}
