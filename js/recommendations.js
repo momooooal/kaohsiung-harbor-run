@@ -5,8 +5,19 @@ export function mapsUrl(poi,directions=false){
  if(!directions&&poi.mapsLink)return poi.mapsLink;
  if(!poi.coordinates&&!poi.addressVerified)return null;
  const point=poi.arrival?.coordinates||poi.coordinates;
- const params=new URLSearchParams({api:'1',[directions?'destination':'query']:point?point.join(','):poi.address});if(directions)params.set('travelmode','walking');
+ const params=new URLSearchParams({api:'1',[directions?'destination':'query']:directions?(point?point.join(','):poi.address):'高雄 '+(poi.name||poi.address)});if(directions)params.set('travelmode','walking');
  return 'https://www.google.com/maps/'+(directions?'dir/':'search/')+'?'+params;
+}
+function placeActions(p){
+ const places=p.placeNames||[p.name];
+ return places.map(name=>{
+   const compound=places.length>1;
+   const query=encodeURIComponent('高雄 '+name);
+   const info=compound?'https://www.google.com/maps/search/?api=1&query='+query:mapsUrl(p);
+   const nav=compound?'https://www.google.com/maps/dir/?api=1&travelmode=walking&destination='+query:mapsUrl(p,true);
+   const label=p.mapsLink&&!compound&&!info?.includes('/search/')?'Google 地圖資訊':'在 Google 地圖搜尋';
+   return '<div class="place-actions">'+(compound?'<strong>'+esc(name)+'</strong>':'')+external(info,label)+external(nav,'導航前往')+'</div>';
+ }).join('')+(p.exits?'<details><summary>各出口位置</summary>'+p.exits.map(e=>external(mapsUrl({coordinates:e.coordinates},true),e.number+' 號出口')).join('')+'</details>':'');
 }
 export const serviceKnown=s=>s.existenceVerified===true||s.status==='verified';
 const external=(url,label)=>url?`<a class="btn outline" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)} ↗</a>`:'';
@@ -21,9 +32,10 @@ export function mountRecommendations(id,initialResources=false){
  const dispose=()=>{stopped=true;mapAttempt++;map?.destroy();abort.abort();};
  (async()=>{
  const response=await fetch(new URL('../data/recommendations.json',import.meta.url),{signal:abort.signal});if(!response.ok)throw Error();const d=await response.json();if(stopped)return;
- const pois=new Map(d.pois.map(p=>[p.poiId,p])),r=d.routes.find(r=>r.variantId===id),label=p=>pois.get(p)?.name||p;
- const routeCard=route=>`<article class="run-route-card"><h2><a href="${routeLink(route.variantId)}">${esc(route.name)}</a></h2><strong class="run-distance">${esc(route.display.distance)}</strong><p>${esc(route.display.journey)}</p><p>${esc(route.display.description)}</p><p class="run-service-summary">${esc(route.display.services)}</p><div class="run-actions"><a class="btn dark" href="${routeLink(route.variantId)}">看路線</a>${external(mapsUrl(pois.get(route.stopIds[0]),true),'前往起點')}</div></article>`;
- if(!r){document.title='友善地圖｜跑出你的高雄';host.innerHTML=`<div class="run-heading"><p class="breadcrumbs"><a href="#/">首頁</a> / 友善地圖</p><h1>找跑步路線，<br>也找沿途的廁所與補水。</h1><p>選一條喜歡的路線，準備出發。</p></div>${id?'<p role="status">找不到這條路線，請重新選擇。</p>':''}<div class="run-route-grid">${d.routes.map(routeCard).join('')}</div>`;host.removeAttribute('aria-busy');return;}
+ const pois=new Map(d.pois.map(p=>[p.poiId,p.stationCoordinates?{...p,coordinates:p.stationCoordinates}:p])),r=d.routes.find(r=>r.variantId===id),label=p=>pois.get(p)?.name||p;
+ const featured=['harbor-108','central-52','heart-5'];
+ const routeCard=route=>`<article class="run-route-card"><img alt="" loading="lazy" src="${route.variantId==='harbor-108'?'assets/kaohsiung-pier.jpg':'assets/routes/photo-'+route.variantId+'.jpg'}"><div><h2>${esc(route.name)}</h2><p>${esc(route.display.description)}</p><a class="btn dark" href="${routeLink(route.variantId)}" aria-label="看路線：${esc(route.name)}">看路線</a></div></article>`;
+ if(!r){document.title='友善地圖｜跑出你的高雄';host.innerHTML=`<div class="run-heading"><p class="breadcrumbs"><a href="#/">首頁</a> / 友善地圖</p><h1>友善地圖</h1><p>選一條喜歡的路線，準備出發。</p></div>${id?'<p role="status">找不到這條路線，請重新選擇。</p>':''}<div class="route-picks">${featured.map(id=>routeCard(d.routes.find(r=>r.variantId===id))).join('')}</div><h2>其他路線</h2><div class="route-others">${d.routes.filter(r=>!featured.includes(r.variantId)).map(routeCard).join('')}</div>`;host.removeAttribute('aria-busy');return;}
  document.title=r.name+'｜跑出你的高雄';const card=d.cards.find(c=>c.id===r.cardId),resources=groupResources(d,r),byResource=new Map(resources.map(x=>[x.poiId,x]));
  const turn=r.turnaroundIds?.[0],turnIndex=turn?r.stopIds.indexOf(turn):-1;
  const stopList=ids=>`<ol class="run-stops">${ids.map((pid,i)=>`<li><button data-poi="${esc(pid)}"><span>${i+1}</span>${esc(label(pid))}</button></li>`).join('')}</ol>`;
@@ -42,7 +54,7 @@ export function mountRecommendations(id,initialResources=false){
  const displayHours=(p,res)=>res?.display?.hours||p.venueHours||'時間未公布，使用前請先詢問';
  const serviceLabel=s=>esc(d.serviceTypes[s.type])+(!serviceKnown(s)||s.type==='water'?'（使用前請先詢問）':'');
  function selectPoi(pid){const p=pois.get(pid);if(!p)return;selected=pid;const resource=byResource.get(pid)||resources.find(x=>x.records.some(y=>y.poiId===pid));const copy=resource?.display;
- host.querySelector('#run-selection').innerHTML=`<h2>${esc(p.name)}</h2>${resource?`<p class="run-service-types">${resource.services.map(serviceLabel).join(' · ')}</p>`:''}<p>${esc(copy?.entrance||p.address)}</p><dl><dt>開放時間</dt><dd>${esc(displayHours(p,resource))}</dd><dt>費用與條件</dt><dd>${esc(copy?.fee||'費用未公布，使用前請先詢問。')} ${esc(copy?.condition||'依現場開放情形前往。')}</dd></dl>${external(mapsUrl(p,true),'前往這裡')}${p.phone?`<a class="btn outline" href="tel:${esc(p.phone)}">電話詢問</a>`:''}`;
+ host.querySelector('#run-selection').innerHTML=`<h2>${esc(p.name)}</h2>${resource?`<p class="run-service-types">${resource.services.map(serviceLabel).join(' · ')}</p>`:''}<p>${esc(copy?.entrance||p.address)}</p><dl><dt>開放時間</dt><dd>${esc(displayHours(p,resource))}</dd><dt>費用與條件</dt><dd>${esc(copy?.fee||'費用未公布，使用前請先詢問。')} ${esc(copy?.condition||'依現場開放情形前往。')}</dd></dl>${placeActions(p)}${p.phone?`<a class="btn outline" href="tel:${esc(p.phone)}">電話詢問</a>`:''}`;
  host.querySelectorAll('.run-resource').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.poi===(resource?.poiId||pid))));map?.focus(resource?.poiId||pid);host.querySelector('#run-resource-dialog').showModal();}
  function draw(){const list=filtered();host.querySelectorAll('[data-filter]').forEach(e=>e.setAttribute('aria-pressed',String(e.dataset.filter===filter)));host.querySelector('#run-resources').innerHTML=list.length?list.map(x=>{const p=pois.get(x.poiId);return `<button class="run-resource" data-poi="${esc(x.poiId)}" aria-pressed="${selected===x.poiId}"><strong>${esc(p.name)}</strong><span>${x.services.map(s=>esc(d.serviceTypes[s.type])).join(' · ')}</span><small>${esc(p.venueHours||x.display?.condition||'使用前請先詢問')}</small></button>`}).join(''):'<p class="empty-box">這條路線目前沒有此類資源紀錄。可切換其他條件。</p>';map?.update([...(filter==='all'?r.stopIds.map(id=>d.resources.find(x=>x.poiId===id)?.canonicalPoiId||id):[]),...list.map(x=>x.poiId)]);}
  async function initMap(){const attempt=++mapAttempt;host.querySelector('#run-map-failure').hidden=true;host.querySelector('#run-map').hidden=false;host.querySelector('#run-map').innerHTML='<p role="status">正在載入地圖…</p>';try{map?.destroy();const instance=await createRouteMap(host.querySelector('#run-map'),r,pois,selectPoi);if(stopped||attempt!==mapAttempt){instance.destroy();return;}map=instance;draw();}catch{if(stopped||attempt!==mapAttempt)return;host.querySelector('#run-map').hidden=true;host.querySelector('#run-map-failure').hidden=false;}}
