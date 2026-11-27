@@ -26,3 +26,5 @@
 
 /* Keep adjacent numbered stops independently selectable on the printed map. */
 .harbor-card .run-hotspot{width:clamp(10px,3.2%,44px);height:auto;aspect-ratio:1;padding:0;border:0;background:transparent;color:transparent}.harbor-card .run-hotspot:is(:hover,:focus-visible){outline:3px solid #fff;box-shadow:0 0 0 5px #0b3451}
+
+.harbor-card .run-hotspot{overflow:hidden}.card-label-target{position:absolute;padding:0;border:0;background:transparent;cursor:pointer}.card-label-target:hover{outline:2px solid white;outline-offset:-2px}
