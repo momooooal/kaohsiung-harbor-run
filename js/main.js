@@ -1,6 +1,6 @@
 import {previewPage,mountPreview} from './route-preview.js';
 let catalog;
-import {recommendationsPage,mountRecommendations} from './recommendations.js';
+import {recommendationsPage,mountRecommendations} from './recommendations.js?v=services-20261127';
 import { friendlyDirectory } from './friendly-directory.js';
 import {notesSection} from './field-notes.js';
 import {reportMap,ride} from './report.js';
@@ -182,7 +182,7 @@ function render() {
 }
 
 try {
-  [data,catalog]=await Promise.all([loadData(),fetch('data/recommendations.json').then(r=>r.json())]);
+  [data,catalog]=await Promise.all([loadData(),fetch('data/recommendations.json?v=services-20261127').then(r=>r.json())]);
   if (!data.routes.some(route => route.id === 'bay')) throw new Error('缺少駁二示範場域');
   addEventListener('hashchange', render);
   render();

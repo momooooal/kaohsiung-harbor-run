@@ -30,7 +30,7 @@ export function mountRecommendations(id,initialResources=false){
  const host=document.getElementById('run-app');let stopped=false,map=null,selected=null,filter=initialResources?'toilet':'all',mapAttempt=0;const abort=new AbortController();
  const dispose=()=>{stopped=true;mapAttempt++;map?.destroy();abort.abort();};
  (async()=>{
- const response=await fetch(new URL('../data/recommendations.json',import.meta.url),{signal:abort.signal});if(!response.ok)throw Error();const d=await response.json();if(stopped)return;
+ const response=await fetch(new URL('../data/recommendations.json?v=services-20261127',import.meta.url),{signal:abort.signal});if(!response.ok)throw Error();const d=await response.json();if(stopped)return;
  const pois=new Map(d.pois.map(p=>[p.poiId,p.stationCoordinates?{...p,coordinates:p.stationCoordinates}:p])),r=d.routes.find(r=>r.variantId===id),label=p=>pois.get(p)?.name||p;
  const featured=['harbor-108','central-52','heart-5'];
  const routeCard=route=>`<article class="run-route-card"><img alt="" loading="lazy" src="${route.variantId==='harbor-108'?'assets/kaohsiung-pier.jpg':'assets/routes/photo-'+route.variantId+'.jpg'}"><div><h2>${esc(route.name)}</h2><p>${esc(route.display.description)}</p><a class="btn dark" href="${routeLink(route.variantId)}" aria-label="看路線：${esc(route.name)}">看路線</a></div></article>`;
